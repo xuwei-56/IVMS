@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.IVMS.dao.CheckingFormDao" >
+  <resultMap id="BaseResultMap" type="com.IVMS.model.CheckingForm" >
+    <id column="CFId" property="cfid" jdbcType="VARCHAR" />
+    <result column="LId" property="lid" jdbcType="INTEGER" />
+    <result column="CId" property="cid" jdbcType="INTEGER" />
+    <result column="PId" property="pid" jdbcType="INTEGER" />
+    <result column="WId" property="wid" jdbcType="VARCHAR" />
+    <result column="ClaId" property="claid" jdbcType="INTEGER" />
+    <result column="CCId" property="ccid" jdbcType="INTEGER" />
+    <result column="CFMoveP" property="cfmovep" jdbcType="INTEGER" />
+    <result column="CFPhoneNum" property="cfphonenum" jdbcType="VARCHAR" />
+    <result column="CFEMail" property="cfemail" jdbcType="VARCHAR" />
+    <result column="CFComponentName" property="cfcomponentname" jdbcType="VARCHAR" />
+    <result column="CFComponentId" property="cfcomponentid" jdbcType="VARCHAR" />
+    <result column="CFComponentNum" property="cfcomponentnum" jdbcType="INTEGER" />
+    <result column="CFRemark" property="cfremark" jdbcType="VARCHAR" />
+    <result column="CFStatus" property="cfstatus" jdbcType="INTEGER" />
+    <result column="CFUrgentStatus" property="cfurgentstatus" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CFId, LId, CId, PId, WId, ClaId, CCId, CFMoveP, CFPhoneNum, CFEMail, CFComponentName, 
+    CFComponentId, CFComponentNum, CFRemark, CFStatus, CFUrgentStatus
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from checkingform
+    where CFId = #{cfid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from checkingform
+    where CFId = #{cfid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.IVMS.model.CheckingForm" >
+    insert into checkingform (CFId, LId, CId, 
+      PId, WId, ClaId, CCId, 
+      CFMoveP, CFPhoneNum, CFEMail, 
+      CFComponentName, CFComponentId, CFComponentNum, 
+      CFRemark, CFStatus, CFUrgentStatus
+      )
+    values (#{cfid,jdbcType=VARCHAR}, #{lid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, 
+      #{pid,jdbcType=INTEGER}, #{wid,jdbcType=VARCHAR}, #{claid,jdbcType=INTEGER}, #{ccid,jdbcType=INTEGER}, 
+      #{cfmovep,jdbcType=INTEGER}, #{cfphonenum,jdbcType=VARCHAR}, #{cfemail,jdbcType=VARCHAR}, 
+      #{cfcomponentname,jdbcType=VARCHAR}, #{cfcomponentid,jdbcType=VARCHAR}, #{cfcomponentnum,jdbcType=INTEGER}, 
+      #{cfremark,jdbcType=VARCHAR}, #{cfstatus,jdbcType=INTEGER}, #{cfurgentstatus,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.IVMS.model.CheckingForm" >
+    insert into checkingform
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cfid != null" >
+        CFId,
+      </if>
+      <if test="lid != null" >
+        LId,
+      </if>
+      <if test="cid != null" >
+        CId,
+      </if>
+      <if test="pid != null" >
+        PId,
+      </if>
+      <if test="wid != null" >
+        WId,
+      </if>
+      <if test="claid != null" >
+        ClaId,
+      </if>
+      <if test="ccid != null" >
+        CCId,
+      </if>
+      <if test="cfmovep != null" >
+        CFMoveP,
+      </if>
+      <if test="cfphonenum != null" >
+        CFPhoneNum,
+      </if>
+      <if test="cfemail != null" >
+        CFEMail,
+      </if>
+      <if test="cfcomponentname != null" >
+        CFComponentName,
+      </if>
+      <if test="cfcomponentid != null" >
+        CFComponentId,
+      </if>
+      <if test="cfcomponentnum != null" >
+        CFComponentNum,
+      </if>
+      <if test="cfremark != null" >
+        CFRemark,
+      </if>
+      <if test="cfstatus != null" >
+        CFStatus,
+      </if>
+      <if test="cfurgentstatus != null" >
+        CFUrgentStatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cfid != null" >
+        #{cfid,jdbcType=VARCHAR},
+      </if>
+      <if test="lid != null" >
+        #{lid,jdbcType=INTEGER},
+      </if>
+      <if test="cid != null" >
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="wid != null" >
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="claid != null" >
+        #{claid,jdbcType=INTEGER},
+      </if>
+      <if test="ccid != null" >
+        #{ccid,jdbcType=INTEGER},
+      </if>
+      <if test="cfmovep != null" >
+        #{cfmovep,jdbcType=INTEGER},
+      </if>
+      <if test="cfphonenum != null" >
+        #{cfphonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="cfemail != null" >
+        #{cfemail,jdbcType=VARCHAR},
+      </if>
+      <if test="cfcomponentname != null" >
+        #{cfcomponentname,jdbcType=VARCHAR},
+      </if>
+      <if test="cfcomponentid != null" >
+        #{cfcomponentid,jdbcType=VARCHAR},
+      </if>
+      <if test="cfcomponentnum != null" >
+        #{cfcomponentnum,jdbcType=INTEGER},
+      </if>
+      <if test="cfremark != null" >
+        #{cfremark,jdbcType=VARCHAR},
+      </if>
+      <if test="cfstatus != null" >
+        #{cfstatus,jdbcType=INTEGER},
+      </if>
+      <if test="cfurgentstatus != null" >
+        #{cfurgentstatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.IVMS.model.CheckingForm" >
+    update checkingform
+    <set >
+      <if test="lid != null" >
+        LId = #{lid,jdbcType=INTEGER},
+      </if>
+      <if test="cid != null" >
+        CId = #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="pid != null" >
+        PId = #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="wid != null" >
+        WId = #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="claid != null" >
+        ClaId = #{claid,jdbcType=INTEGER},
+      </if>
+      <if test="ccid != null" >
+        CCId = #{ccid,jdbcType=INTEGER},
+      </if>
+      <if test="cfmovep != null" >
+        CFMoveP = #{cfmovep,jdbcType=INTEGER},
+      </if>
+      <if test="cfphonenum != null" >
+        CFPhoneNum = #{cfphonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="cfemail != null" >
+        CFEMail = #{cfemail,jdbcType=VARCHAR},
+      </if>
+      <if test="cfcomponentname != null" >
+        CFComponentName = #{cfcomponentname,jdbcType=VARCHAR},
+      </if>
+      <if test="cfcomponentid != null" >
+        CFComponentId = #{cfcomponentid,jdbcType=VARCHAR},
+      </if>
+      <if test="cfcomponentnum != null" >
+        CFComponentNum = #{cfcomponentnum,jdbcType=INTEGER},
+      </if>
+      <if test="cfremark != null" >
+        CFRemark = #{cfremark,jdbcType=VARCHAR},
+      </if>
+      <if test="cfstatus != null" >
+        CFStatus = #{cfstatus,jdbcType=INTEGER},
+      </if>
+      <if test="cfurgentstatus != null" >
+        CFUrgentStatus = #{cfurgentstatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where CFId = #{cfid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.IVMS.model.CheckingForm" >
+    update checkingform
+    set LId = #{lid,jdbcType=INTEGER},
+      CId = #{cid,jdbcType=INTEGER},
+      PId = #{pid,jdbcType=INTEGER},
+      WId = #{wid,jdbcType=VARCHAR},
+      ClaId = #{claid,jdbcType=INTEGER},
+      CCId = #{ccid,jdbcType=INTEGER},
+      CFMoveP = #{cfmovep,jdbcType=INTEGER},
+      CFPhoneNum = #{cfphonenum,jdbcType=VARCHAR},
+      CFEMail = #{cfemail,jdbcType=VARCHAR},
+      CFComponentName = #{cfcomponentname,jdbcType=VARCHAR},
+      CFComponentId = #{cfcomponentid,jdbcType=VARCHAR},
+      CFComponentNum = #{cfcomponentnum,jdbcType=INTEGER},
+      CFRemark = #{cfremark,jdbcType=VARCHAR},
+      CFStatus = #{cfstatus,jdbcType=INTEGER},
+      CFUrgentStatus = #{cfurgentstatus,jdbcType=INTEGER}
+    where CFId = #{cfid,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.IVMS.dao.CheckingToolsDao" >
+  <resultMap id="BaseResultMap" type="com.IVMS.model.CheckingTools" >
+    <id column="CTId" property="ctid" jdbcType="INTEGER" />
+    <result column="CTUseItem" property="ctuseitem" jdbcType="VARCHAR" />
+    <result column="CTCheckProgram" property="ctcheckprogram" jdbcType="VARCHAR" />
+    <result column="CTName" property="ctname" jdbcType="VARCHAR" />
+    <result column="CTProducer" property="ctproducer" jdbcType="VARCHAR" />
+    <result column="CTProductionNum" property="ctproductionnum" jdbcType="VARCHAR" />
+    <result column="CTNorms" property="ctnorms" jdbcType="VARCHAR" />
+    <result column="CTProcision" property="ctprocision" jdbcType="VARCHAR" />
+    <result column="CTResolation" property="ctresolation" jdbcType="VARCHAR" />
+    <result column="CTAssetNum" property="ctassetnum" jdbcType="VARCHAR" />
+    <result column="CTUseLine" property="ctuseline" jdbcType="VARCHAR" />
+    <result column="CTUseStation" property="ctusestation" jdbcType="VARCHAR" />
+    <result column="CTUseTime" property="ctusetime" jdbcType="DATE" />
+    <result column="CTCheckWay" property="ctcheckway" jdbcType="INTEGER" />
+    <result column="CTCheckCycle" property="ctcheckcycle" jdbcType="INTEGER" />
+    <result column="CTMSA" property="ctmsa" jdbcType="INTEGER" />
+    <result column="CTOriginalNum" property="ctoriginalnum" jdbcType="VARCHAR" />
+    <result column="CTSize" property="ctsize" jdbcType="INTEGER" />
+    <result column="CTCheckTemperature" property="ctchecktemperature" jdbcType="VARCHAR" />
+    <result column="CTCheckHumidiry" property="ctcheckhumidiry" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CTId, CTUseItem, CTCheckProgram, CTName, CTProducer, CTProductionNum, CTNorms, CTProcision, 
+    CTResolation, CTAssetNum, CTUseLine, CTUseStation, CTUseTime, CTCheckWay, CTCheckCycle, 
+    CTMSA, CTOriginalNum, CTSize, CTCheckTemperature, CTCheckHumidiry
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from checkingtools
+    where CTId = #{ctid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from checkingtools
+    where CTId = #{ctid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.IVMS.model.CheckingTools" >
+    insert into checkingtools (CTId, CTUseItem, CTCheckProgram, 
+      CTName, CTProducer, CTProductionNum, 
+      CTNorms, CTProcision, CTResolation, 
+      CTAssetNum, CTUseLine, CTUseStation, 
+      CTUseTime, CTCheckWay, CTCheckCycle, 
+      CTMSA, CTOriginalNum, CTSize, 
+      CTCheckTemperature, CTCheckHumidiry)
+    values (#{ctid,jdbcType=INTEGER}, #{ctuseitem,jdbcType=VARCHAR}, #{ctcheckprogram,jdbcType=VARCHAR}, 
+      #{ctname,jdbcType=VARCHAR}, #{ctproducer,jdbcType=VARCHAR}, #{ctproductionnum,jdbcType=VARCHAR}, 
+      #{ctnorms,jdbcType=VARCHAR}, #{ctprocision,jdbcType=VARCHAR}, #{ctresolation,jdbcType=VARCHAR}, 
+      #{ctassetnum,jdbcType=VARCHAR}, #{ctuseline,jdbcType=VARCHAR}, #{ctusestation,jdbcType=VARCHAR}, 
+      #{ctusetime,jdbcType=DATE}, #{ctcheckway,jdbcType=INTEGER}, #{ctcheckcycle,jdbcType=INTEGER}, 
+      #{ctmsa,jdbcType=INTEGER}, #{ctoriginalnum,jdbcType=VARCHAR}, #{ctsize,jdbcType=INTEGER}, 
+      #{ctchecktemperature,jdbcType=VARCHAR}, #{ctcheckhumidiry,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.IVMS.model.CheckingTools" >
+    insert into checkingtools
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ctid != null" >
+        CTId,
+      </if>
+      <if test="ctuseitem != null" >
+        CTUseItem,
+      </if>
+      <if test="ctcheckprogram != null" >
+        CTCheckProgram,
+      </if>
+      <if test="ctname != null" >
+        CTName,
+      </if>
+      <if test="ctproducer != null" >
+        CTProducer,
+      </if>
+      <if test="ctproductionnum != null" >
+        CTProductionNum,
+      </if>
+      <if test="ctnorms != null" >
+        CTNorms,
+      </if>
+      <if test="ctprocision != null" >
+        CTProcision,
+      </if>
+      <if test="ctresolation != null" >
+        CTResolation,
+      </if>
+      <if test="ctassetnum != null" >
+        CTAssetNum,
+      </if>
+      <if test="ctuseline != null" >
+        CTUseLine,
+      </if>
+      <if test="ctusestation != null" >
+        CTUseStation,
+      </if>
+      <if test="ctusetime != null" >
+        CTUseTime,
+      </if>
+      <if test="ctcheckway != null" >
+        CTCheckWay,
+      </if>
+      <if test="ctcheckcycle != null" >
+        CTCheckCycle,
+      </if>
+      <if test="ctmsa != null" >
+        CTMSA,
+      </if>
+      <if test="ctoriginalnum != null" >
+        CTOriginalNum,
+      </if>
+      <if test="ctsize != null" >
+        CTSize,
+      </if>
+      <if test="ctchecktemperature != null" >
+        CTCheckTemperature,
+      </if>
+      <if test="ctcheckhumidiry != null" >
+        CTCheckHumidiry,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ctid != null" >
+        #{ctid,jdbcType=INTEGER},
+      </if>
+      <if test="ctuseitem != null" >
+        #{ctuseitem,jdbcType=VARCHAR},
+      </if>
+      <if test="ctcheckprogram != null" >
+        #{ctcheckprogram,jdbcType=VARCHAR},
+      </if>
+      <if test="ctname != null" >
+        #{ctname,jdbcType=VARCHAR},
+      </if>
+      <if test="ctproducer != null" >
+        #{ctproducer,jdbcType=VARCHAR},
+      </if>
+      <if test="ctproductionnum != null" >
+        #{ctproductionnum,jdbcType=VARCHAR},
+      </if>
+      <if test="ctnorms != null" >
+        #{ctnorms,jdbcType=VARCHAR},
+      </if>
+      <if test="ctprocision != null" >
+        #{ctprocision,jdbcType=VARCHAR},
+      </if>
+      <if test="ctresolation != null" >
+        #{ctresolation,jdbcType=VARCHAR},
+      </if>
+      <if test="ctassetnum != null" >
+        #{ctassetnum,jdbcType=VARCHAR},
+      </if>
+      <if test="ctuseline != null" >
+        #{ctuseline,jdbcType=VARCHAR},
+      </if>
+      <if test="ctusestation != null" >
+        #{ctusestation,jdbcType=VARCHAR},
+      </if>
+      <if test="ctusetime != null" >
+        #{ctusetime,jdbcType=DATE},
+      </if>
+      <if test="ctcheckway != null" >
+        #{ctcheckway,jdbcType=INTEGER},
+      </if>
+      <if test="ctcheckcycle != null" >
+        #{ctcheckcycle,jdbcType=INTEGER},
+      </if>
+      <if test="ctmsa != null" >
+        #{ctmsa,jdbcType=INTEGER},
+      </if>
+      <if test="ctoriginalnum != null" >
+        #{ctoriginalnum,jdbcType=VARCHAR},
+      </if>
+      <if test="ctsize != null" >
+        #{ctsize,jdbcType=INTEGER},
+      </if>
+      <if test="ctchecktemperature != null" >
+        #{ctchecktemperature,jdbcType=VARCHAR},
+      </if>
+      <if test="ctcheckhumidiry != null" >
+        #{ctcheckhumidiry,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.IVMS.model.CheckingTools" >
+    update checkingtools
+    <set >
+      <if test="ctuseitem != null" >
+        CTUseItem = #{ctuseitem,jdbcType=VARCHAR},
+      </if>
+      <if test="ctcheckprogram != null" >
+        CTCheckProgram = #{ctcheckprogram,jdbcType=VARCHAR},
+      </if>
+      <if test="ctname != null" >
+        CTName = #{ctname,jdbcType=VARCHAR},
+      </if>
+      <if test="ctproducer != null" >
+        CTProducer = #{ctproducer,jdbcType=VARCHAR},
+      </if>
+      <if test="ctproductionnum != null" >
+        CTProductionNum = #{ctproductionnum,jdbcType=VARCHAR},
+      </if>
+      <if test="ctnorms != null" >
+        CTNorms = #{ctnorms,jdbcType=VARCHAR},
+      </if>
+      <if test="ctprocision != null" >
+        CTProcision = #{ctprocision,jdbcType=VARCHAR},
+      </if>
+      <if test="ctresolation != null" >
+        CTResolation = #{ctresolation,jdbcType=VARCHAR},
+      </if>
+      <if test="ctassetnum != null" >
+        CTAssetNum = #{ctassetnum,jdbcType=VARCHAR},
+      </if>
+      <if test="ctuseline != null" >
+        CTUseLine = #{ctuseline,jdbcType=VARCHAR},
+      </if>
+      <if test="ctusestation != null" >
+        CTUseStation = #{ctusestation,jdbcType=VARCHAR},
+      </if>
+      <if test="ctusetime != null" >
+        CTUseTime = #{ctusetime,jdbcType=DATE},
+      </if>
+      <if test="ctcheckway != null" >
+        CTCheckWay = #{ctcheckway,jdbcType=INTEGER},
+      </if>
+      <if test="ctcheckcycle != null" >
+        CTCheckCycle = #{ctcheckcycle,jdbcType=INTEGER},
+      </if>
+      <if test="ctmsa != null" >
+        CTMSA = #{ctmsa,jdbcType=INTEGER},
+      </if>
+      <if test="ctoriginalnum != null" >
+        CTOriginalNum = #{ctoriginalnum,jdbcType=VARCHAR},
+      </if>
+      <if test="ctsize != null" >
+        CTSize = #{ctsize,jdbcType=INTEGER},
+      </if>
+      <if test="ctchecktemperature != null" >
+        CTCheckTemperature = #{ctchecktemperature,jdbcType=VARCHAR},
+      </if>
+      <if test="ctcheckhumidiry != null" >
+        CTCheckHumidiry = #{ctcheckhumidiry,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CTId = #{ctid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.IVMS.model.CheckingTools" >
+    update checkingtools
+    set CTUseItem = #{ctuseitem,jdbcType=VARCHAR},
+      CTCheckProgram = #{ctcheckprogram,jdbcType=VARCHAR},
+      CTName = #{ctname,jdbcType=VARCHAR},
+      CTProducer = #{ctproducer,jdbcType=VARCHAR},
+      CTProductionNum = #{ctproductionnum,jdbcType=VARCHAR},
+      CTNorms = #{ctnorms,jdbcType=VARCHAR},
+      CTProcision = #{ctprocision,jdbcType=VARCHAR},
+      CTResolation = #{ctresolation,jdbcType=VARCHAR},
+      CTAssetNum = #{ctassetnum,jdbcType=VARCHAR},
+      CTUseLine = #{ctuseline,jdbcType=VARCHAR},
+      CTUseStation = #{ctusestation,jdbcType=VARCHAR},
+      CTUseTime = #{ctusetime,jdbcType=DATE},
+      CTCheckWay = #{ctcheckway,jdbcType=INTEGER},
+      CTCheckCycle = #{ctcheckcycle,jdbcType=INTEGER},
+      CTMSA = #{ctmsa,jdbcType=INTEGER},
+      CTOriginalNum = #{ctoriginalnum,jdbcType=VARCHAR},
+      CTSize = #{ctsize,jdbcType=INTEGER},
+      CTCheckTemperature = #{ctchecktemperature,jdbcType=VARCHAR},
+      CTCheckHumidiry = #{ctcheckhumidiry,jdbcType=VARCHAR}
+    where CTId = #{ctid,jdbcType=INTEGER}
+  </update>
+</mapper>

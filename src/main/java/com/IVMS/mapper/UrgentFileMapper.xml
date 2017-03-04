@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.IVMS.dao.UrgentFileDao" >
+  <resultMap id="BaseResultMap" type="com.IVMS.model.UrgentFile" >
+    <id column="UFId" property="ufid" jdbcType="INTEGER" />
+    <result column="CFId" property="cfid" jdbcType="VARCHAR" />
+    <result column="UFName" property="ufname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UFId, CFId, UFName
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from urgentfile
+    where UFId = #{ufid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from urgentfile
+    where UFId = #{ufid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.IVMS.model.UrgentFile" >
+    insert into urgentfile (UFId, CFId, UFName
+      )
+    values (#{ufid,jdbcType=INTEGER}, #{cfid,jdbcType=VARCHAR}, #{ufname,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.IVMS.model.UrgentFile" >
+    insert into urgentfile
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ufid != null" >
+        UFId,
+      </if>
+      <if test="cfid != null" >
+        CFId,
+      </if>
+      <if test="ufname != null" >
+        UFName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ufid != null" >
+        #{ufid,jdbcType=INTEGER},
+      </if>
+      <if test="cfid != null" >
+        #{cfid,jdbcType=VARCHAR},
+      </if>
+      <if test="ufname != null" >
+        #{ufname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.IVMS.model.UrgentFile" >
+    update urgentfile
+    <set >
+      <if test="cfid != null" >
+        CFId = #{cfid,jdbcType=VARCHAR},
+      </if>
+      <if test="ufname != null" >
+        UFName = #{ufname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UFId = #{ufid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.IVMS.model.UrgentFile" >
+    update urgentfile
+    set CFId = #{cfid,jdbcType=VARCHAR},
+      UFName = #{ufname,jdbcType=VARCHAR}
+    where UFId = #{ufid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.IVMS.dao.CheckingClassifyDao" >
+  <resultMap id="BaseResultMap" type="com.IVMS.model.CheckingClassify" >
+    <id column="CCId" property="ccid" jdbcType="INTEGER" />
+    <result column="ClaId" property="claid" jdbcType="INTEGER" />
+    <result column="CCName" property="ccname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CCId, ClaId, CCName
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from checkingclassify
+    where CCId = #{ccid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from checkingclassify
+    where CCId = #{ccid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.IVMS.model.CheckingClassify" >
+    insert into checkingclassify (CCId, ClaId, CCName
+      )
+    values (#{ccid,jdbcType=INTEGER}, #{claid,jdbcType=INTEGER}, #{ccname,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.IVMS.model.CheckingClassify" >
+    insert into checkingclassify
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ccid != null" >
+        CCId,
+      </if>
+      <if test="claid != null" >
+        ClaId,
+      </if>
+      <if test="ccname != null" >
+        CCName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ccid != null" >
+        #{ccid,jdbcType=INTEGER},
+      </if>
+      <if test="claid != null" >
+        #{claid,jdbcType=INTEGER},
+      </if>
+      <if test="ccname != null" >
+        #{ccname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.IVMS.model.CheckingClassify" >
+    update checkingclassify
+    <set >
+      <if test="claid != null" >
+        ClaId = #{claid,jdbcType=INTEGER},
+      </if>
+      <if test="ccname != null" >
+        CCName = #{ccname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CCId = #{ccid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.IVMS.model.CheckingClassify" >
+    update checkingclassify
+    set ClaId = #{claid,jdbcType=INTEGER},
+      CCName = #{ccname,jdbcType=VARCHAR}
+    where CCId = #{ccid,jdbcType=INTEGER}
+  </update>
+</mapper>

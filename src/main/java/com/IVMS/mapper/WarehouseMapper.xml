@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.IVMS.dao.WarehouseDao" >
+  <resultMap id="BaseResultMap" type="com.IVMS.model.Warehouse" >
+    <id column="WId" property="wid" jdbcType="VARCHAR" />
+    <result column="WClassify" property="wclassify" jdbcType="VARCHAR" />
+    <result column="WStatus" property="wstatus" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WId, WClassify, WStatus
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from warehouse
+    where WId = #{wid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from warehouse
+    where WId = #{wid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.IVMS.model.Warehouse" >
+    insert into warehouse (WId, WClassify, WStatus
+      )
+    values (#{wid,jdbcType=VARCHAR}, #{wclassify,jdbcType=VARCHAR}, #{wstatus,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.IVMS.model.Warehouse" >
+    insert into warehouse
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        WId,
+      </if>
+      <if test="wclassify != null" >
+        WClassify,
+      </if>
+      <if test="wstatus != null" >
+        WStatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="wclassify != null" >
+        #{wclassify,jdbcType=VARCHAR},
+      </if>
+      <if test="wstatus != null" >
+        #{wstatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.IVMS.model.Warehouse" >
+    update warehouse
+    <set >
+      <if test="wclassify != null" >
+        WClassify = #{wclassify,jdbcType=VARCHAR},
+      </if>
+      <if test="wstatus != null" >
+        WStatus = #{wstatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where WId = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.IVMS.model.Warehouse" >
+    update warehouse
+    set WClassify = #{wclassify,jdbcType=VARCHAR},
+      WStatus = #{wstatus,jdbcType=INTEGER}
+    where WId = #{wid,jdbcType=VARCHAR}
+  </update>
+</mapper>

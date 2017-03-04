@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.IVMS.dao.EquipmentCheckTimeDao" >
+  <resultMap id="BaseResultMap" type="com.IVMS.model.EquipmentCheckTime" >
+    <id column="ECTId" property="ectid" jdbcType="INTEGER" />
+    <result column="EId" property="eid" jdbcType="INTEGER" />
+    <result column="ECTime" property="ectime" jdbcType="DATE" />
+    <result column="ECNextTime" property="ecnexttime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ECTId, EId, ECTime, ECNextTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from equipmentchecktime
+    where ECTId = #{ectid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from equipmentchecktime
+    where ECTId = #{ectid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.IVMS.model.EquipmentCheckTime" >
+    insert into equipmentchecktime (ECTId, EId, ECTime, 
+      ECNextTime)
+    values (#{ectid,jdbcType=INTEGER}, #{eid,jdbcType=INTEGER}, #{ectime,jdbcType=DATE}, 
+      #{ecnexttime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.IVMS.model.EquipmentCheckTime" >
+    insert into equipmentchecktime
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ectid != null" >
+        ECTId,
+      </if>
+      <if test="eid != null" >
+        EId,
+      </if>
+      <if test="ectime != null" >
+        ECTime,
+      </if>
+      <if test="ecnexttime != null" >
+        ECNextTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ectid != null" >
+        #{ectid,jdbcType=INTEGER},
+      </if>
+      <if test="eid != null" >
+        #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="ectime != null" >
+        #{ectime,jdbcType=DATE},
+      </if>
+      <if test="ecnexttime != null" >
+        #{ecnexttime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.IVMS.model.EquipmentCheckTime" >
+    update equipmentchecktime
+    <set >
+      <if test="eid != null" >
+        EId = #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="ectime != null" >
+        ECTime = #{ectime,jdbcType=DATE},
+      </if>
+      <if test="ecnexttime != null" >
+        ECNextTime = #{ecnexttime,jdbcType=DATE},
+      </if>
+    </set>
+    where ECTId = #{ectid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.IVMS.model.EquipmentCheckTime" >
+    update equipmentchecktime
+    set EId = #{eid,jdbcType=INTEGER},
+      ECTime = #{ectime,jdbcType=DATE},
+      ECNextTime = #{ecnexttime,jdbcType=DATE}
+    where ECTId = #{ectid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.IVMS.dao.CellDao" >
+  <resultMap id="BaseResultMap" type="com.IVMS.model.Cell" >
+    <id column="CId" property="cid" jdbcType="INTEGER" />
+    <result column="CName" property="cname" jdbcType="VARCHAR" />
+    <result column="LId" property="lid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CId, CName, LId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from cell
+    where CId = #{cid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cell
+    where CId = #{cid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.IVMS.model.Cell" >
+    insert into cell (CId, CName, LId
+      )
+    values (#{cid,jdbcType=INTEGER}, #{cname,jdbcType=VARCHAR}, #{lid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.IVMS.model.Cell" >
+    insert into cell
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cid != null" >
+        CId,
+      </if>
+      <if test="cname != null" >
+        CName,
+      </if>
+      <if test="lid != null" >
+        LId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cid != null" >
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="cname != null" >
+        #{cname,jdbcType=VARCHAR},
+      </if>
+      <if test="lid != null" >
+        #{lid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.IVMS.model.Cell" >
+    update cell
+    <set >
+      <if test="cname != null" >
+        CName = #{cname,jdbcType=VARCHAR},
+      </if>
+      <if test="lid != null" >
+        LId = #{lid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where CId = #{cid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.IVMS.model.Cell" >
+    update cell
+    set CName = #{cname,jdbcType=VARCHAR},
+      LId = #{lid,jdbcType=INTEGER}
+    where CId = #{cid,jdbcType=INTEGER}
+  </update>
+</mapper>

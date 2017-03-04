@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.IVMS.dao.ClassifyDao" >
+  <resultMap id="BaseResultMap" type="com.IVMS.model.Classify" >
+    <id column="ClaId" property="claid" jdbcType="INTEGER" />
+    <result column="CName" property="cname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ClaId, CName
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from classify
+    where ClaId = #{claid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from classify
+    where ClaId = #{claid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.IVMS.model.Classify" >
+    insert into classify (ClaId, CName)
+    values (#{claid,jdbcType=INTEGER}, #{cname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.IVMS.model.Classify" >
+    insert into classify
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="claid != null" >
+        ClaId,
+      </if>
+      <if test="cname != null" >
+        CName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="claid != null" >
+        #{claid,jdbcType=INTEGER},
+      </if>
+      <if test="cname != null" >
+        #{cname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.IVMS.model.Classify" >
+    update classify
+    <set >
+      <if test="cname != null" >
+        CName = #{cname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ClaId = #{claid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.IVMS.model.Classify" >
+    update classify
+    set CName = #{cname,jdbcType=VARCHAR}
+    where ClaId = #{claid,jdbcType=INTEGER}
+  </update>
+</mapper>
