@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.IVMS.dao.CheckingFormMapper" >
+<mapper namespace="com.IVMS.dao.CheckingFormDao" >
   <resultMap id="BaseResultMap" type="com.IVMS.model.CheckingForm" >
     <id column="CFId" property="cfid" jdbcType="VARCHAR" />
     <result column="LId" property="lid" jdbcType="INTEGER" />

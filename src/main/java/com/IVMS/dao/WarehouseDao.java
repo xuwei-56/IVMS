@@ -2,7 +2,7 @@ package com.IVMS.dao;
 
 import com.IVMS.model.Warehouse;
 
-public interface WarehouseMapper {
+public interface WarehouseDao {
     int deleteByPrimaryKey(String wid);
 
     int insert(Warehouse record);

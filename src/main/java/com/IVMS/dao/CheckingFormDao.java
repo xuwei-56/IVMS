@@ -2,7 +2,7 @@ package com.IVMS.dao;
 
 import com.IVMS.model.CheckingForm;
 
-public interface CheckingFormMapper {
+public interface CheckingFormDao {
     int deleteByPrimaryKey(String cfid);
 
     int insert(CheckingForm record);
