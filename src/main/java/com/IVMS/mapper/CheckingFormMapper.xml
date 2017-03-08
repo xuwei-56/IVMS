@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.IVMS.dao.CheckingFormDao" >
+<mapper namespace="com.IVMS.dao.CheckingFormMapper" >
   <resultMap id="BaseResultMap" type="com.IVMS.model.CheckingForm" >
     <id column="CFId" property="cfid" jdbcType="VARCHAR" />
     <result column="LId" property="lid" jdbcType="INTEGER" />
@@ -15,13 +15,17 @@
     <result column="CFComponentName" property="cfcomponentname" jdbcType="VARCHAR" />
     <result column="CFComponentId" property="cfcomponentid" jdbcType="VARCHAR" />
     <result column="CFComponentNum" property="cfcomponentnum" jdbcType="INTEGER" />
+    <result column="CFCheckNum" property="cfchecknum" jdbcType="INTEGER" />
     <result column="CFRemark" property="cfremark" jdbcType="VARCHAR" />
     <result column="CFStatus" property="cfstatus" jdbcType="INTEGER" />
     <result column="CFUrgentStatus" property="cfurgentstatus" jdbcType="INTEGER" />
+    <result column="CFRemarkFile" property="cfremarkfile" jdbcType="VARCHAR" />
+    <result column="CFReportFile" property="cfreportfile" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     CFId, LId, CId, PId, WId, ClaId, CCId, CFMoveP, CFPhoneNum, CFEMail, CFComponentName, 
-    CFComponentId, CFComponentNum, CFRemark, CFStatus, CFUrgentStatus
+    CFComponentId, CFComponentNum, CFCheckNum, CFRemark, CFStatus, CFUrgentStatus, CFRemarkFile, 
+    CFReportFile
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -38,13 +42,15 @@
       PId, WId, ClaId, CCId, 
       CFMoveP, CFPhoneNum, CFEMail, 
       CFComponentName, CFComponentId, CFComponentNum, 
-      CFRemark, CFStatus, CFUrgentStatus
+      CFCheckNum, CFRemark, CFStatus, 
+      CFUrgentStatus, CFRemarkFile, CFReportFile
       )
     values (#{cfid,jdbcType=VARCHAR}, #{lid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, 
       #{pid,jdbcType=INTEGER}, #{wid,jdbcType=VARCHAR}, #{claid,jdbcType=INTEGER}, #{ccid,jdbcType=INTEGER}, 
       #{cfmovep,jdbcType=INTEGER}, #{cfphonenum,jdbcType=VARCHAR}, #{cfemail,jdbcType=VARCHAR}, 
       #{cfcomponentname,jdbcType=VARCHAR}, #{cfcomponentid,jdbcType=VARCHAR}, #{cfcomponentnum,jdbcType=INTEGER}, 
-      #{cfremark,jdbcType=VARCHAR}, #{cfstatus,jdbcType=INTEGER}, #{cfurgentstatus,jdbcType=INTEGER}
+      #{cfchecknum,jdbcType=INTEGER}, #{cfremark,jdbcType=VARCHAR}, #{cfstatus,jdbcType=INTEGER}, 
+      #{cfurgentstatus,jdbcType=INTEGER}, #{cfremarkfile,jdbcType=VARCHAR}, #{cfreportfile,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.IVMS.model.CheckingForm" >
@@ -89,6 +95,9 @@
       <if test="cfcomponentnum != null" >
         CFComponentNum,
       </if>
+      <if test="cfchecknum != null" >
+        CFCheckNum,
+      </if>
       <if test="cfremark != null" >
         CFRemark,
       </if>
@@ -97,6 +106,12 @@
       </if>
       <if test="cfurgentstatus != null" >
         CFUrgentStatus,
+      </if>
+      <if test="cfremarkfile != null" >
+        CFRemarkFile,
+      </if>
+      <if test="cfreportfile != null" >
+        CFReportFile,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -139,6 +154,9 @@
       <if test="cfcomponentnum != null" >
         #{cfcomponentnum,jdbcType=INTEGER},
       </if>
+      <if test="cfchecknum != null" >
+        #{cfchecknum,jdbcType=INTEGER},
+      </if>
       <if test="cfremark != null" >
         #{cfremark,jdbcType=VARCHAR},
       </if>
@@ -147,6 +165,12 @@
       </if>
       <if test="cfurgentstatus != null" >
         #{cfurgentstatus,jdbcType=INTEGER},
+      </if>
+      <if test="cfremarkfile != null" >
+        #{cfremarkfile,jdbcType=VARCHAR},
+      </if>
+      <if test="cfreportfile != null" >
+        #{cfreportfile,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -189,6 +213,9 @@
       <if test="cfcomponentnum != null" >
         CFComponentNum = #{cfcomponentnum,jdbcType=INTEGER},
       </if>
+      <if test="cfchecknum != null" >
+        CFCheckNum = #{cfchecknum,jdbcType=INTEGER},
+      </if>
       <if test="cfremark != null" >
         CFRemark = #{cfremark,jdbcType=VARCHAR},
       </if>
@@ -197,6 +224,12 @@
       </if>
       <if test="cfurgentstatus != null" >
         CFUrgentStatus = #{cfurgentstatus,jdbcType=INTEGER},
+      </if>
+      <if test="cfremarkfile != null" >
+        CFRemarkFile = #{cfremarkfile,jdbcType=VARCHAR},
+      </if>
+      <if test="cfreportfile != null" >
+        CFReportFile = #{cfreportfile,jdbcType=VARCHAR},
       </if>
     </set>
     where CFId = #{cfid,jdbcType=VARCHAR}
@@ -215,9 +248,12 @@
       CFComponentName = #{cfcomponentname,jdbcType=VARCHAR},
       CFComponentId = #{cfcomponentid,jdbcType=VARCHAR},
       CFComponentNum = #{cfcomponentnum,jdbcType=INTEGER},
+      CFCheckNum = #{cfchecknum,jdbcType=INTEGER},
       CFRemark = #{cfremark,jdbcType=VARCHAR},
       CFStatus = #{cfstatus,jdbcType=INTEGER},
-      CFUrgentStatus = #{cfurgentstatus,jdbcType=INTEGER}
+      CFUrgentStatus = #{cfurgentstatus,jdbcType=INTEGER},
+      CFRemarkFile = #{cfremarkfile,jdbcType=VARCHAR},
+      CFReportFile = #{cfreportfile,jdbcType=VARCHAR}
     where CFId = #{cfid,jdbcType=VARCHAR}
   </update>
 </mapper>

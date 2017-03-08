@@ -12,9 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 
 
 
-/**
- * Created by 猫养鱼 on 2016/5/1.
- */
 //@WebFilter(filterName = "dd",dispatcherTypes ={ DispatcherType.REQUEST},servletNames = "dd" ,value = {"/*"})
 public class XssFilter  implements Filter {
 

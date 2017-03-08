@@ -27,11 +27,17 @@ public class CheckingForm {
 
     private Integer cfcomponentnum;
 
+    private Integer cfchecknum;
+
     private String cfremark;
 
     private Integer cfstatus;
 
     private Integer cfurgentstatus;
+
+    private String cfremarkfile;
+
+    private String cfreportfile;
 
     public String getCfid() {
         return cfid;
@@ -137,6 +143,14 @@ public class CheckingForm {
         this.cfcomponentnum = cfcomponentnum;
     }
 
+    public Integer getCfchecknum() {
+        return cfchecknum;
+    }
+
+    public void setCfchecknum(Integer cfchecknum) {
+        this.cfchecknum = cfchecknum;
+    }
+
     public String getCfremark() {
         return cfremark;
     }
@@ -159,5 +173,21 @@ public class CheckingForm {
 
     public void setCfurgentstatus(Integer cfurgentstatus) {
         this.cfurgentstatus = cfurgentstatus;
+    }
+
+    public String getCfremarkfile() {
+        return cfremarkfile;
+    }
+
+    public void setCfremarkfile(String cfremarkfile) {
+        this.cfremarkfile = cfremarkfile == null ? null : cfremarkfile.trim();
+    }
+
+    public String getCfreportfile() {
+        return cfreportfile;
+    }
+
+    public void setCfreportfile(String cfreportfile) {
+        this.cfreportfile = cfreportfile == null ? null : cfreportfile.trim();
     }
 }

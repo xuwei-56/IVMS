@@ -3,7 +3,7 @@ package com.IVMS.model;
 public class Warehouse {
     private String wid;
 
-    private String wclassify;
+    private Integer claid;
 
     private Integer wstatus;
 
@@ -15,12 +15,12 @@ public class Warehouse {
         this.wid = wid == null ? null : wid.trim();
     }
 
-    public String getWclassify() {
-        return wclassify;
+    public Integer getClaid() {
+        return claid;
     }
 
-    public void setWclassify(String wclassify) {
-        this.wclassify = wclassify == null ? null : wclassify.trim();
+    public void setClaid(Integer claid) {
+        this.claid = claid;
     }
 
     public Integer getWstatus() {
