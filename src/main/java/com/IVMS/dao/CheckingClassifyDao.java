@@ -1,5 +1,7 @@
 package com.IVMS.dao;
 
+import java.util.List;
+
 import com.IVMS.model.CheckingClassify;
 
 public interface CheckingClassifyDao {
@@ -14,4 +16,6 @@ public interface CheckingClassifyDao {
     int updateByPrimaryKeySelective(CheckingClassify record);
 
     int updateByPrimaryKey(CheckingClassify record);
+    
+    List<CheckingClassify> selectCheckClassifyNameByClassifyId(Integer claid);
 }

@@ -1,5 +1,7 @@
 package com.IVMS.dao;
 
+import java.util.List;
+
 import com.IVMS.model.Classify;
 
 public interface ClassifyDao {
@@ -14,4 +16,6 @@ public interface ClassifyDao {
     int updateByPrimaryKeySelective(Classify record);
 
     int updateByPrimaryKey(Classify record);
+    
+    List<Classify> selectClassify();
 }

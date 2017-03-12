@@ -1,5 +1,7 @@
 package com.IVMS.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -13,10 +15,10 @@ public class CellServiceImpl implements CellService{
 	
 	@Resource
 	private CellDao cellDao;
-
-	public Cell getCell(int CId) {
-		// TODO Auto-generated method stub
-		return cellDao.selectByPrimaryKey(CId);
+	
+	public List<Cell> selectCellNameByLineId(Integer lid) {
+		return cellDao.selectCellNameByLineId(lid);
 	}
+
 
 }

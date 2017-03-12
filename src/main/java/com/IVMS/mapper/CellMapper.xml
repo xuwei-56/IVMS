@@ -15,6 +15,9 @@
     from cell
     where CId = #{cid,jdbcType=INTEGER}
   </select>
+  <select id="selectCellNameByLineId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  SELECT CName FROM cell WHERE LId=#{LID,jdbcType=INTEGER};
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from cell
     where CId = #{cid,jdbcType=INTEGER}

@@ -1,5 +1,7 @@
 package com.IVMS.dao;
 
+import java.util.List;
+
 import com.IVMS.model.Cell;
 
 public interface CellDao {
@@ -14,4 +16,6 @@ public interface CellDao {
     int updateByPrimaryKeySelective(Cell record);
 
     int updateByPrimaryKey(Cell record);
+    
+    List<Cell>selectCellNameByLineId(Integer lid);
 }

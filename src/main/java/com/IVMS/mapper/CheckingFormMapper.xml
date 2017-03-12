@@ -9,7 +9,7 @@
     <result column="WId" property="wid" jdbcType="VARCHAR" />
     <result column="ClaId" property="claid" jdbcType="INTEGER" />
     <result column="CCId" property="ccid" jdbcType="INTEGER" />
-    <result column="CFMoveP" property="cfmovep" jdbcType="INTEGER" />
+    <result column="CFMoveP" property="cfmovep" jdbcType="VARCHAR" />
     <result column="CFPhoneNum" property="cfphonenum" jdbcType="VARCHAR" />
     <result column="CFEMail" property="cfemail" jdbcType="VARCHAR" />
     <result column="CFComponentName" property="cfcomponentname" jdbcType="VARCHAR" />
@@ -47,7 +47,7 @@
       )
     values (#{cfid,jdbcType=VARCHAR}, #{lid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, 
       #{pid,jdbcType=INTEGER}, #{wid,jdbcType=VARCHAR}, #{claid,jdbcType=INTEGER}, #{ccid,jdbcType=INTEGER}, 
-      #{cfmovep,jdbcType=INTEGER}, #{cfphonenum,jdbcType=VARCHAR}, #{cfemail,jdbcType=VARCHAR}, 
+      #{cfmovep,jdbcType=VARCHAR}, #{cfphonenum,jdbcType=VARCHAR}, #{cfemail,jdbcType=VARCHAR}, 
       #{cfcomponentname,jdbcType=VARCHAR}, #{cfcomponentid,jdbcType=VARCHAR}, #{cfcomponentnum,jdbcType=INTEGER}, 
       #{cfchecknum,jdbcType=INTEGER}, #{cfremark,jdbcType=VARCHAR}, #{cfstatus,jdbcType=INTEGER}, 
       #{cfurgentstatus,jdbcType=INTEGER}, #{cfremarkfile,jdbcType=VARCHAR}, #{cfreportfile,jdbcType=VARCHAR}
@@ -137,7 +137,7 @@
         #{ccid,jdbcType=INTEGER},
       </if>
       <if test="cfmovep != null" >
-        #{cfmovep,jdbcType=INTEGER},
+        #{cfmovep,jdbcType=VARCHAR},
       </if>
       <if test="cfphonenum != null" >
         #{cfphonenum,jdbcType=VARCHAR},
@@ -196,7 +196,7 @@
         CCId = #{ccid,jdbcType=INTEGER},
       </if>
       <if test="cfmovep != null" >
-        CFMoveP = #{cfmovep,jdbcType=INTEGER},
+        CFMoveP = #{cfmovep,jdbcType=VARCHAR},
       </if>
       <if test="cfphonenum != null" >
         CFPhoneNum = #{cfphonenum,jdbcType=VARCHAR},
@@ -242,7 +242,7 @@
       WId = #{wid,jdbcType=VARCHAR},
       ClaId = #{claid,jdbcType=INTEGER},
       CCId = #{ccid,jdbcType=INTEGER},
-      CFMoveP = #{cfmovep,jdbcType=INTEGER},
+      CFMoveP = #{cfmovep,jdbcType=VARCHAR},
       CFPhoneNum = #{cfphonenum,jdbcType=VARCHAR},
       CFEMail = #{cfemail,jdbcType=VARCHAR},
       CFComponentName = #{cfcomponentname,jdbcType=VARCHAR},
