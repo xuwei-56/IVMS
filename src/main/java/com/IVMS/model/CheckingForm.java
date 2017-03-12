@@ -15,7 +15,7 @@ public class CheckingForm {
 
     private Integer ccid;
 
-    private Integer cfmovep;
+    private String cfmovep;
 
     private String cfphonenum;
 
@@ -39,155 +39,157 @@ public class CheckingForm {
 
     private String cfreportfile;
 
-    public String getCfid() {
-        return cfid;
-    }
+	public String getCfid() {
+		return cfid;
+	}
 
-    public void setCfid(String cfid) {
-        this.cfid = cfid == null ? null : cfid.trim();
-    }
+	public void setCfid(String cfid) {
+		this.cfid = cfid;
+	}
 
-    public Integer getLid() {
-        return lid;
-    }
+	public Integer getLid() {
+		return lid;
+	}
 
-    public void setLid(Integer lid) {
-        this.lid = lid;
-    }
+	public void setLid(Integer lid) {
+		this.lid = lid;
+	}
 
-    public Integer getCid() {
-        return cid;
-    }
+	public Integer getCid() {
+		return cid;
+	}
 
-    public void setCid(Integer cid) {
-        this.cid = cid;
-    }
+	public void setCid(Integer cid) {
+		this.cid = cid;
+	}
 
-    public Integer getPid() {
-        return pid;
-    }
+	public Integer getPid() {
+		return pid;
+	}
 
-    public void setPid(Integer pid) {
-        this.pid = pid;
-    }
+	public void setPid(Integer pid) {
+		this.pid = pid;
+	}
 
-    public String getWid() {
-        return wid;
-    }
+	public String getWid() {
+		return wid;
+	}
 
-    public void setWid(String wid) {
-        this.wid = wid == null ? null : wid.trim();
-    }
+	public void setWid(String wid) {
+		this.wid = wid;
+	}
 
-    public Integer getClaid() {
-        return claid;
-    }
+	public Integer getClaid() {
+		return claid;
+	}
 
-    public void setClaid(Integer claid) {
-        this.claid = claid;
-    }
+	public void setClaid(Integer claid) {
+		this.claid = claid;
+	}
 
-    public Integer getCcid() {
-        return ccid;
-    }
+	public Integer getCcid() {
+		return ccid;
+	}
 
-    public void setCcid(Integer ccid) {
-        this.ccid = ccid;
-    }
+	public void setCcid(Integer ccid) {
+		this.ccid = ccid;
+	}
 
-    public Integer getCfmovep() {
-        return cfmovep;
-    }
+	public String getCfmovep() {
+		return cfmovep;
+	}
 
-    public void setCfmovep(Integer cfmovep) {
-        this.cfmovep = cfmovep;
-    }
+	public void setCfmovep(String cfmovep) {
+		this.cfmovep = cfmovep;
+	}
 
-    public String getCfphonenum() {
-        return cfphonenum;
-    }
+	public String getCfphonenum() {
+		return cfphonenum;
+	}
 
-    public void setCfphonenum(String cfphonenum) {
-        this.cfphonenum = cfphonenum == null ? null : cfphonenum.trim();
-    }
+	public void setCfphonenum(String cfphonenum) {
+		this.cfphonenum = cfphonenum;
+	}
 
-    public String getCfemail() {
-        return cfemail;
-    }
+	public String getCfemail() {
+		return cfemail;
+	}
 
-    public void setCfemail(String cfemail) {
-        this.cfemail = cfemail == null ? null : cfemail.trim();
-    }
+	public void setCfemail(String cfemail) {
+		this.cfemail = cfemail;
+	}
 
-    public String getCfcomponentname() {
-        return cfcomponentname;
-    }
+	public String getCfcomponentname() {
+		return cfcomponentname;
+	}
 
-    public void setCfcomponentname(String cfcomponentname) {
-        this.cfcomponentname = cfcomponentname == null ? null : cfcomponentname.trim();
-    }
+	public void setCfcomponentname(String cfcomponentname) {
+		this.cfcomponentname = cfcomponentname;
+	}
 
-    public String getCfcomponentid() {
-        return cfcomponentid;
-    }
+	public String getCfcomponentid() {
+		return cfcomponentid;
+	}
 
-    public void setCfcomponentid(String cfcomponentid) {
-        this.cfcomponentid = cfcomponentid == null ? null : cfcomponentid.trim();
-    }
+	public void setCfcomponentid(String cfcomponentid) {
+		this.cfcomponentid = cfcomponentid;
+	}
 
-    public Integer getCfcomponentnum() {
-        return cfcomponentnum;
-    }
+	public Integer getCfcomponentnum() {
+		return cfcomponentnum;
+	}
 
-    public void setCfcomponentnum(Integer cfcomponentnum) {
-        this.cfcomponentnum = cfcomponentnum;
-    }
+	public void setCfcomponentnum(Integer cfcomponentnum) {
+		this.cfcomponentnum = cfcomponentnum;
+	}
 
-    public Integer getCfchecknum() {
-        return cfchecknum;
-    }
+	public Integer getCfchecknum() {
+		return cfchecknum;
+	}
 
-    public void setCfchecknum(Integer cfchecknum) {
-        this.cfchecknum = cfchecknum;
-    }
+	public void setCfchecknum(Integer cfchecknum) {
+		this.cfchecknum = cfchecknum;
+	}
 
-    public String getCfremark() {
-        return cfremark;
-    }
+	public String getCfremark() {
+		return cfremark;
+	}
 
-    public void setCfremark(String cfremark) {
-        this.cfremark = cfremark == null ? null : cfremark.trim();
-    }
+	public void setCfremark(String cfremark) {
+		this.cfremark = cfremark;
+	}
 
-    public Integer getCfstatus() {
-        return cfstatus;
-    }
+	public Integer getCfstatus() {
+		return cfstatus;
+	}
 
-    public void setCfstatus(Integer cfstatus) {
-        this.cfstatus = cfstatus;
-    }
+	public void setCfstatus(Integer cfstatus) {
+		this.cfstatus = cfstatus;
+	}
 
-    public Integer getCfurgentstatus() {
-        return cfurgentstatus;
-    }
+	public Integer getCfurgentstatus() {
+		return cfurgentstatus;
+	}
 
-    public void setCfurgentstatus(Integer cfurgentstatus) {
-        this.cfurgentstatus = cfurgentstatus;
-    }
+	public void setCfurgentstatus(Integer cfurgentstatus) {
+		this.cfurgentstatus = cfurgentstatus;
+	}
 
-    public String getCfremarkfile() {
-        return cfremarkfile;
-    }
+	public String getCfremarkfile() {
+		return cfremarkfile;
+	}
 
-    public void setCfremarkfile(String cfremarkfile) {
-        this.cfremarkfile = cfremarkfile == null ? null : cfremarkfile.trim();
-    }
+	public void setCfremarkfile(String cfremarkfile) {
+		this.cfremarkfile = cfremarkfile;
+	}
 
-    public String getCfreportfile() {
-        return cfreportfile;
-    }
+	public String getCfreportfile() {
+		return cfreportfile;
+	}
 
-    public void setCfreportfile(String cfreportfile) {
-        this.cfreportfile = cfreportfile == null ? null : cfreportfile.trim();
-    }
+	public void setCfreportfile(String cfreportfile) {
+		this.cfreportfile = cfreportfile;
+	}
+    
+    
 }

@@ -1,5 +1,7 @@
 package com.IVMS.dao;
 
+import java.util.List;
+
 import com.IVMS.model.Project;
 
 public interface ProjectDao {
@@ -14,4 +16,6 @@ public interface ProjectDao {
     int updateByPrimaryKeySelective(Project record);
 
     int updateByPrimaryKey(Project record);
+    
+    List<Project>selectProjects();
 }

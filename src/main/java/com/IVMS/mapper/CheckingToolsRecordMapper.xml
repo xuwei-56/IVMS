@@ -5,7 +5,7 @@
     <id column="CTRId" property="ctrid" jdbcType="INTEGER" />
     <result column="CTId" property="ctid" jdbcType="INTEGER" />
     <result column="CTRNum" property="ctrnum" jdbcType="INTEGER" />
-    <result column="CTRMoveCP" property="ctrmovecp" jdbcType="INTEGER" />
+    <result column="CTRMoveCP" property="ctrmovecp" jdbcType="VARCHAR" />
     <result column="CTRMoveTime" property="ctrmovetime" jdbcType="DATE" />
     <result column="CTRCheckTIme" property="ctrchecktime" jdbcType="DATE" />
     <result column="CTRCheckNextTime" property="ctrchecknexttime" jdbcType="DATE" />
@@ -37,7 +37,7 @@
       CTRCkeckTools, CTRCkeckResult, CTRAcceptResult, 
       CTRRemark)
     values (#{ctrid,jdbcType=INTEGER}, #{ctid,jdbcType=INTEGER}, #{ctrnum,jdbcType=INTEGER}, 
-      #{ctrmovecp,jdbcType=INTEGER}, #{ctrmovetime,jdbcType=DATE}, #{ctrchecktime,jdbcType=DATE}, 
+      #{ctrmovecp,jdbcType=VARCHAR}, #{ctrmovetime,jdbcType=DATE}, #{ctrchecktime,jdbcType=DATE}, 
       #{ctrchecknexttime,jdbcType=DATE}, #{ctrcheckcontent,jdbcType=VARCHAR}, #{ctrckeckvalue,jdbcType=VARCHAR}, 
       #{ctrckecktools,jdbcType=VARCHAR}, #{ctrckeckresult,jdbcType=INTEGER}, #{ctracceptresult,jdbcType=INTEGER}, 
       #{ctrremark,jdbcType=INTEGER})
@@ -96,7 +96,7 @@
         #{ctrnum,jdbcType=INTEGER},
       </if>
       <if test="ctrmovecp != null" >
-        #{ctrmovecp,jdbcType=INTEGER},
+        #{ctrmovecp,jdbcType=VARCHAR},
       </if>
       <if test="ctrmovetime != null" >
         #{ctrmovetime,jdbcType=DATE},
@@ -137,7 +137,7 @@
         CTRNum = #{ctrnum,jdbcType=INTEGER},
       </if>
       <if test="ctrmovecp != null" >
-        CTRMoveCP = #{ctrmovecp,jdbcType=INTEGER},
+        CTRMoveCP = #{ctrmovecp,jdbcType=VARCHAR},
       </if>
       <if test="ctrmovetime != null" >
         CTRMoveTime = #{ctrmovetime,jdbcType=DATE},
@@ -173,7 +173,7 @@
     update checkingtoolsrecord
     set CTId = #{ctid,jdbcType=INTEGER},
       CTRNum = #{ctrnum,jdbcType=INTEGER},
-      CTRMoveCP = #{ctrmovecp,jdbcType=INTEGER},
+      CTRMoveCP = #{ctrmovecp,jdbcType=VARCHAR},
       CTRMoveTime = #{ctrmovetime,jdbcType=DATE},
       CTRCheckTIme = #{ctrchecktime,jdbcType=DATE},
       CTRCheckNextTime = #{ctrchecknexttime,jdbcType=DATE},

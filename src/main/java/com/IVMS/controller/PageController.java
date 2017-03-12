@@ -1,9 +1,10 @@
 package com.IVMS.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.IVMS.util.AuthCodeUtil;
 import com.IVMS.util.CommonUtil;
 import com.IVMS.util.EnumUtil;
+
+import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,6 +49,7 @@ public class PageController {
 	 * @return 图片流
 	 */
 	@RequestMapping(value="code/getAuthCode")
+	@ResponseBody
 	public JSONObject getPictureVerificationCode(HttpServletResponse response, HttpSession session,String type)throws Exception{
 		if (type == null){
 			return CommonUtil.constructResponse(EnumUtil.ERROR, "非法请求", null);

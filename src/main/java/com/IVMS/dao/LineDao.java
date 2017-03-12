@@ -1,5 +1,7 @@
 package com.IVMS.dao;
 
+import java.util.List;
+
 import com.IVMS.model.Line;
 
 public interface LineDao {
@@ -14,4 +16,7 @@ public interface LineDao {
     int updateByPrimaryKeySelective(Line record);
 
     int updateByPrimaryKey(Line record);
+    
+    List<Line> selectLines();
+    
 }

@@ -9,7 +9,7 @@ public class CheckingToolsRecord {
 
     private Integer ctrnum;
 
-    private Integer ctrmovecp;
+    private String ctrmovecp;
 
     private Date ctrmovetime;
 
@@ -29,107 +29,109 @@ public class CheckingToolsRecord {
 
     private Integer ctrremark;
 
-    public Integer getCtrid() {
-        return ctrid;
-    }
+	public Integer getCtrid() {
+		return ctrid;
+	}
 
-    public void setCtrid(Integer ctrid) {
-        this.ctrid = ctrid;
-    }
+	public void setCtrid(Integer ctrid) {
+		this.ctrid = ctrid;
+	}
 
-    public Integer getCtid() {
-        return ctid;
-    }
+	public Integer getCtid() {
+		return ctid;
+	}
 
-    public void setCtid(Integer ctid) {
-        this.ctid = ctid;
-    }
+	public void setCtid(Integer ctid) {
+		this.ctid = ctid;
+	}
 
-    public Integer getCtrnum() {
-        return ctrnum;
-    }
+	public Integer getCtrnum() {
+		return ctrnum;
+	}
 
-    public void setCtrnum(Integer ctrnum) {
-        this.ctrnum = ctrnum;
-    }
+	public void setCtrnum(Integer ctrnum) {
+		this.ctrnum = ctrnum;
+	}
 
-    public Integer getCtrmovecp() {
-        return ctrmovecp;
-    }
+	public String getCtrmovecp() {
+		return ctrmovecp;
+	}
 
-    public void setCtrmovecp(Integer ctrmovecp) {
-        this.ctrmovecp = ctrmovecp;
-    }
+	public void setCtrmovecp(String ctrmovecp) {
+		this.ctrmovecp = ctrmovecp;
+	}
 
-    public Date getCtrmovetime() {
-        return ctrmovetime;
-    }
+	public Date getCtrmovetime() {
+		return ctrmovetime;
+	}
 
-    public void setCtrmovetime(Date ctrmovetime) {
-        this.ctrmovetime = ctrmovetime;
-    }
+	public void setCtrmovetime(Date ctrmovetime) {
+		this.ctrmovetime = ctrmovetime;
+	}
 
-    public Date getCtrchecktime() {
-        return ctrchecktime;
-    }
+	public Date getCtrchecktime() {
+		return ctrchecktime;
+	}
 
-    public void setCtrchecktime(Date ctrchecktime) {
-        this.ctrchecktime = ctrchecktime;
-    }
+	public void setCtrchecktime(Date ctrchecktime) {
+		this.ctrchecktime = ctrchecktime;
+	}
 
-    public Date getCtrchecknexttime() {
-        return ctrchecknexttime;
-    }
+	public Date getCtrchecknexttime() {
+		return ctrchecknexttime;
+	}
 
-    public void setCtrchecknexttime(Date ctrchecknexttime) {
-        this.ctrchecknexttime = ctrchecknexttime;
-    }
+	public void setCtrchecknexttime(Date ctrchecknexttime) {
+		this.ctrchecknexttime = ctrchecknexttime;
+	}
 
-    public String getCtrcheckcontent() {
-        return ctrcheckcontent;
-    }
+	public String getCtrcheckcontent() {
+		return ctrcheckcontent;
+	}
 
-    public void setCtrcheckcontent(String ctrcheckcontent) {
-        this.ctrcheckcontent = ctrcheckcontent == null ? null : ctrcheckcontent.trim();
-    }
+	public void setCtrcheckcontent(String ctrcheckcontent) {
+		this.ctrcheckcontent = ctrcheckcontent;
+	}
 
-    public String getCtrckeckvalue() {
-        return ctrckeckvalue;
-    }
+	public String getCtrckeckvalue() {
+		return ctrckeckvalue;
+	}
 
-    public void setCtrckeckvalue(String ctrckeckvalue) {
-        this.ctrckeckvalue = ctrckeckvalue == null ? null : ctrckeckvalue.trim();
-    }
+	public void setCtrckeckvalue(String ctrckeckvalue) {
+		this.ctrckeckvalue = ctrckeckvalue;
+	}
 
-    public String getCtrckecktools() {
-        return ctrckecktools;
-    }
+	public String getCtrckecktools() {
+		return ctrckecktools;
+	}
 
-    public void setCtrckecktools(String ctrckecktools) {
-        this.ctrckecktools = ctrckecktools == null ? null : ctrckecktools.trim();
-    }
+	public void setCtrckecktools(String ctrckecktools) {
+		this.ctrckecktools = ctrckecktools;
+	}
 
-    public Integer getCtrckeckresult() {
-        return ctrckeckresult;
-    }
+	public Integer getCtrckeckresult() {
+		return ctrckeckresult;
+	}
 
-    public void setCtrckeckresult(Integer ctrckeckresult) {
-        this.ctrckeckresult = ctrckeckresult;
-    }
+	public void setCtrckeckresult(Integer ctrckeckresult) {
+		this.ctrckeckresult = ctrckeckresult;
+	}
 
-    public Integer getCtracceptresult() {
-        return ctracceptresult;
-    }
+	public Integer getCtracceptresult() {
+		return ctracceptresult;
+	}
 
-    public void setCtracceptresult(Integer ctracceptresult) {
-        this.ctracceptresult = ctracceptresult;
-    }
+	public void setCtracceptresult(Integer ctracceptresult) {
+		this.ctracceptresult = ctracceptresult;
+	}
 
-    public Integer getCtrremark() {
-        return ctrremark;
-    }
+	public Integer getCtrremark() {
+		return ctrremark;
+	}
 
-    public void setCtrremark(Integer ctrremark) {
-        this.ctrremark = ctrremark;
-    }
+	public void setCtrremark(Integer ctrremark) {
+		this.ctrremark = ctrremark;
+	}
+
+    
 }
