@@ -21,6 +21,7 @@ import com.IVMS.service.CheckingClassifyService;
 import com.IVMS.service.ClassifyService;
 import com.IVMS.service.LineService;
 import com.IVMS.service.ProjectService;
+import com.IVMS.util.CommonUtil;
 import com.IVMS.util.LdapUtil;
 
 import net.sf.json.JSONArray;
@@ -51,9 +52,9 @@ public class UserController {
 		User user=LdapUtil.getUserInfo(username,password);
 		JSONObject ja=JSONObject.fromObject(user);//把ui对象转换为JSONObject对象
 		if(user==null){
-			jo.put("userInfo",1);
+			jo=CommonUtil.constructResponse(-1, "账号或密码错误!", null);
 		}else{
-			jo.put("userInfo",ja.toString());
+			jo=CommonUtil.constructResponse(1, "登录用户信息", ja);
 		}
 		pw.write(jo.toString());
 		pw.flush();
@@ -65,8 +66,13 @@ public class UserController {
 		PrintWriter pw=response.getWriter();
 		JSONObject jo=new JSONObject();
 		List<Classify> classify=classifyservice.selectClassify();
-		JSONArray ja=JSONArray.fromObject(classify);
-		jo.put("classifyInfo",ja.toString());
+		if(classify.isEmpty()){
+			jo=CommonUtil.constructResponse(0,"没有数据！",null);
+		}
+		else{
+			JSONArray ja=JSONArray.fromObject(classify);
+			jo=CommonUtil.constructResponse(1,"送检分类信息", ja);
+		}
 		pw.write(jo.toString());
 		pw.flush();
 		pw.close();
@@ -77,8 +83,13 @@ public class UserController {
 		PrintWriter pw=response.getWriter();
 		JSONObject jo=new JSONObject();
 		List<CheckingClassify> checkingClassify=checkingClassifyService.selectCheckClassifyNameByClassifyId(ClassifyId);
-		JSONArray ja=JSONArray.fromObject(checkingClassify);
-		jo.put("checkingClassifyInfo",ja.toString());
+		if(checkingClassify.isEmpty()){
+			jo=CommonUtil.constructResponse(0,"没有数据！",null);
+		}
+		else{
+			JSONArray ja=JSONArray.fromObject(checkingClassify);
+			jo=CommonUtil.constructResponse(1,"检测分类信息", ja);
+		}
 		pw.write(jo.toString());
 		pw.flush();
 		pw.close();
@@ -89,8 +100,13 @@ public class UserController {
 		PrintWriter pw=response.getWriter();
 		JSONObject jo=new JSONObject();
 		List<Line>lines=lineService.selectLines();
-		JSONArray ja=JSONArray.fromObject(lines);
-		jo.put("linesInfo",ja.toString());
+		if(lines.isEmpty()){
+			jo=CommonUtil.constructResponse(0,"没有数据！",null);
+		}
+		else{
+			JSONArray ja=JSONArray.fromObject(lines);
+			jo=CommonUtil.constructResponse(1,"生产线信息", ja);
+		}
 		pw.write(jo.toString());
 		pw.flush();
 		pw.close();
@@ -102,8 +118,13 @@ public class UserController {
 		PrintWriter pw=response.getWriter();
 		JSONObject jo=new JSONObject();
 		List<Cell>cellNames=cellService.selectCellNameByLineId(LineId);
-		JSONArray ja=JSONArray.fromObject(cellNames);
-		jo.put("cellNames",ja.toString());
+		if(cellNames.isEmpty()){
+			jo=CommonUtil.constructResponse(0,"没有数据！",null);
+		}
+		else{
+			JSONArray ja=JSONArray.fromObject(cellNames);
+			jo=CommonUtil.constructResponse(1,"单元信息", ja);
+		}
 		pw.write(jo.toString());
 		pw.flush();
 		pw.close();
@@ -114,8 +135,13 @@ public class UserController {
 		PrintWriter pw=response.getWriter();
 		JSONObject jo=new JSONObject();
 		List<Project>projects=projectService.selectProjects();
-		JSONArray ja=JSONArray.fromObject(projects);
-		jo.put("projectsInfo",ja.toString());
+		if(projects.isEmpty()){
+			jo=CommonUtil.constructResponse(0,"没有数据！",null);
+		}
+		else{
+			JSONArray ja=JSONArray.fromObject(projects);
+			jo=CommonUtil.constructResponse(1,"项目信息", ja);
+		}
 		pw.write(jo.toString());
 		pw.flush();
 		pw.close();
