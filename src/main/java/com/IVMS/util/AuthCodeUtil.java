@@ -34,7 +34,7 @@ import java.util.Random;
 	    
 	private void init() {      
 	// 在内存中创建图象      
-		int width=85, height=20;      
+		int width=65, height=20;      
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);      
 		// 获取图形上下文      
 		Graphics g = image.getGraphics();      

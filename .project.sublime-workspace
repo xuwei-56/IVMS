@@ -1,0 +1,197 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "pcip",
+		"selected_items":
+		[
+			[
+				"pcip",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control",
+				"Preferences: Package Control Settings – Default"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 528.0
+	},
+	"console":
+	{
+		"height": 421.0,
+		"history":
+		[
+			"import urllib.request,os; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), 'wb').write(urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ','%20')).read())"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/87175/Desktop/DeathGhost/js/Particleground.js",
+		"/D/安装/Sublime Text 3/Data/Packages/User/Preferences.sublime-settings",
+		"/D/安装/Sublime Text 3/Data/Packages/Package Control/Package Control.sublime-settings",
+		"/D/安装/Sublime Text 3/Data/Packages/User/Package Control.sublime-settings",
+		"/D/安装/Sublime Text 3/Data/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/87175/Desktop/DeathGhost/index - 副本.html",
+		"/C/Users/87175/Desktop/DoubanDemo-master/app/src/main/java/com/demo/rye/app/API/MovieApi.java",
+		"/C/Users/87175/Desktop/DoubanDemo-master/app/src/main/java/com/demo/rye/app/RequetManagerVideo.java",
+		"/C/Users/87175/Desktop/DoubanDemo-master/app/src/main/java/com/demo/rye/app/API/Api.java",
+		"/C/Users/87175/Desktop/DoubanDemo-master/app/src/main/java/com/demo/rye/app/MainActivity.java",
+		"/C/Users/87175/Desktop/DoubanDemo-master/LICENSE",
+		"/C/Users/87175/Desktop/Android第一行代码源码/第1章/HelloWorld/src/com/test/helloworld/HelloWorldActivity.java",
+		"/C/Users/87175/Desktop/DoubanDemo-master/README.md",
+		"/C/Users/87175/Desktop/DoubanDemo-master/app/src/main/java/com/demo/rye/app/Adapter/MyFragAdapter.java",
+		"/C/Users/87175/Desktop/DoubanDemo-master/app/src/main/java/com/demo/rye/app/Fragment/IbookFragment.java"
+	],
+	"find":
+	{
+		"height": 32.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"php"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 32.0
+	},
+	"input":
+	{
+		"height": 40.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": ".project.sublime-project",
+	"replace":
+	{
+		"height": 60.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 247.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
