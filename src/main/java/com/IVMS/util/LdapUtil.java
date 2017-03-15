@@ -16,7 +16,6 @@ import javax.naming.ldap.LdapContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.IVMS.controller.UserController;
 import com.IVMS.model.User;
 
 /**
@@ -25,7 +24,7 @@ import com.IVMS.model.User;
  *
  */
 public class LdapUtil{
-	private static Logger logger= LoggerFactory.getLogger(UserController.class);
+	private static Logger logger= LoggerFactory.getLogger(LdapUtil.class);
 	private static Properties props = null;
 	
 	public static User getUserInfo(String sAMAccountName,String password) throws NamingException{
