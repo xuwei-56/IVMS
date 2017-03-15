@@ -26,7 +26,6 @@ public class PageController {
 	 */
 	@RequestMapping("/")
 	public String login() {
-		System.out.println("hhhhh");
 		return "login";
 	}
 	/**

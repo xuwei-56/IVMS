@@ -17,6 +17,9 @@ import javax.naming.directory.SearchResult;
 import javax.naming.ldap.InitialLdapContext;
 import javax.naming.ldap.LdapContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.IVMS.model.User;
 
 /**
@@ -26,6 +29,7 @@ import com.IVMS.model.User;
  *
  */
 public class LdapUtil{
+	private static Logger logger= LoggerFactory.getLogger(LdapUtil.class);
 	private static Properties props = null;
 	
 	public static LdapContext getLdapContext(String sAMAccountName,String password){
@@ -46,7 +50,6 @@ public class LdapUtil{
 	    env.put(Context.SECURITY_PRINCIPAL, adminName);  
 	    env.put(Context.SECURITY_CREDENTIALS, adminPassword);  
 	    env.put(Context.PROVIDER_URL, ldapURL);  
-	    User user=null; 
 	    LdapContext ctx=null;
 		try {
 			ctx = new InitialLdapContext(env, null);
@@ -59,6 +62,7 @@ public class LdapUtil{
 	}
 	
 	public static User getLoginUserInfo(LdapContext ctx,String sAMAccountName){
+		logger.info("LDAP 获取登录的个人信息");
 		User user = null;
 		SearchControls searchCtls = new SearchControls();  
 	    searchCtls.setSearchScope(SearchControls.SUBTREE_SCOPE);  
@@ -88,9 +92,9 @@ public class LdapUtil{
 				
 				if (attributes.get("description") != null){
 					user.setDescription((String)attributes.get("description").get());
-				}
-				
+				}				
 		    } 
+			logger.info("user:"+user); //写入日志文件
 		    System.out.println("user:"+user);
 		} catch (NamingException e) {
 			e.printStackTrace();

@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.naming.ldap.LdapContext;
+import javax.naming.NamingException;
 
 import org.springframework.stereotype.Service;
 

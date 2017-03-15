@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,25 +31,42 @@ import net.sf.json.JSONObject;
 public class SendCheckUserController {
 	@Autowired
 	SendCheckUserService sendCheckUserService;
+	
+	//获取日志类
+	 private static Logger logger= LoggerFactory.getLogger(SendCheckUserController.class);
+	 
 	/**
 	 * 前端页面路径:登录页
 	 */
 	@RequestMapping("/login")//默认post和get请求方式都可以
 	@ResponseBody
-	public JSONObject login(HttpServletResponse response, HttpServletRequest request,
-			String username,String password) throws Exception {
-		HttpSession session=request.getSession();
-		session.setAttribute("username", username);
-		session.setAttribute("password", password);
-		User user=sendCheckUserService.getLoginUserInfo(username, password);
-		if(user==null){
-			return CommonUtil.constructResponse(-1, "账号或密码错误 ", null);
-		}else{
-			return CommonUtil.constructResponse(1, "登录用户信息", user);
+	public JSONObject login(HttpSession session, String username,String password, String verifyCode) throws Exception {
+		try {
+			if(username == null || password == null||verifyCode ==null){
+				logger.info("用户名密码验证码不能为空");
+				return CommonUtil.constructResponse(EnumUtil.CAN_NOT_NULL, "请输入有效信息", null);
+			}
+			if(!verifyCode.equals(session.getAttribute("verifyCode"))){
+				return CommonUtil.constructResponse(0, "验证码错误", null);
+			}
+			logger.info("开始验证用户 "+ username +" 是否存在");
+			User user=sendCheckUserService.getLoginUserInfo(username, password);
+			if(user==null){
+				return CommonUtil.constructResponse(EnumUtil.PASSWORD_ERROR, "账号或密码错误 ", null);
+			}else{
+				session.setAttribute("username", username);
+				session.setAttribute("password", password);
+				session.setAttribute("user", user); //存入session保持登录信息
+				return CommonUtil.constructResponse(EnumUtil.OK, "登录用户信息", user);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.info(e.getMessage());
+			return CommonUtil.constructExceptionJSON(EnumUtil.UNKOWN_ERROR, "未知错误，请联系管理员", null);
 		}
 	}
 	
-	@RequestMapping("/getDepartments")//默认post和get请求方式都可以
+	@RequestMapping("/getDepartments")
 	@ResponseBody
 	public JSONObject getDepartments(HttpServletResponse response, HttpServletRequest request) 
 			throws Exception {
@@ -62,7 +81,7 @@ public class SendCheckUserController {
 		}
 	}
 	
-	@RequestMapping("/getUserInfoByDepartment")//默认post和get请求方式都可以
+	@RequestMapping("/getUserInfoByDepartment")
 	@ResponseBody
 	public JSONObject getUserInfoByDepartment(HttpServletResponse response, HttpServletRequest request,
 			String department) 

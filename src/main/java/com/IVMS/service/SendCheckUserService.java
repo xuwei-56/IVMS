@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.naming.ldap.LdapContext;
 
+import javax.naming.NamingException;
+
 import com.IVMS.model.Cell;
 import com.IVMS.model.CheckingClassify;
 import com.IVMS.model.Classify;
@@ -23,7 +25,7 @@ public interface SendCheckUserService {
 	Set<String> getDepartmentsInfo(String username, String password);
 	
 	List<User> getUserInfoByDepartment(String username, String password,String department);
-	
+		
 	List<Cell>selectCellNameByLineId(Integer lid);
 	
 	List<CheckingClassify> selectCheckClassifyNameByClassifyId(Integer claid);
