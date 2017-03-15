@@ -1,8 +1,10 @@
 package com.IVMS.service.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
+import javax.naming.ldap.LdapContext;
 
 import org.springframework.stereotype.Service;
 
@@ -34,9 +36,33 @@ public class SendCheckUserServiceImpl implements SendCheckUserService{
 	@Resource
 	private ProjectDao projectDao;
 
-	public User getUserInfo(String username, String password) {
-		return LdapUtil.getUserInfo(username,password);
+	public User getLoginUserInfo(String username, String password) {
+		LdapContext ctx=LdapUtil.getLdapContext(username, password);
+    	User user=null;
+    	if(ctx!=null){
+    		user=LdapUtil.getLoginUserInfo(ctx,username);
+    	}
+    	return user;
 	}
+	
+	public Set<String> getDepartmentsInfo(String username, String password) {
+		LdapContext ctx=LdapUtil.getLdapContext(username, password);
+		Set<String>departmentsInfo=null;
+		if(ctx!=null){
+			 departmentsInfo=LdapUtil.getDepartmentsInfo(ctx);
+		}
+		return departmentsInfo;
+	}
+	
+	public List<User> getUserInfoByDepartment(String username, String password,String department) {
+		LdapContext ctx=LdapUtil.getLdapContext(username, password);
+		List<User>userInfoByDepartment=null;
+		if(ctx!=null){
+			userInfoByDepartment=LdapUtil.getUserInfoByDepartment(ctx, department);
+		}
+		return userInfoByDepartment;
+	}
+	
 	public List<Cell> selectCellNameByLineId(Integer lid) {
 		return cellDao.selectCellNameByLineId(lid);
 	}
@@ -56,5 +82,5 @@ public class SendCheckUserServiceImpl implements SendCheckUserService{
 	public List<Project> selectProjects() {
 		return projectDao.selectProjects();
 	}
-
+	
 }

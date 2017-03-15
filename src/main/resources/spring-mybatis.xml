@@ -58,35 +58,32 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	<!-- 邮件系统 -->
-	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="protocol" value="smtp" />
-		<property name="host" value="smtp.126.com" />
-		<property name="port" value="25" /><!-- Gmail的SMTP端口居然是这个，去google网站上了解吧 -->
-		<property name="username" value="xxxxx" />
-		<property name="password" value="xxxxxx" />
-		<property name="javaMailProperties">
-			<props>
-				<prop key="mail.smtp.auth">true</prop>
-				<prop key="mail.smtp.starttls.enable">true</prop>
-			</props>
-		</property>
-	</bean>
+<!-- 	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> -->
+<!-- 		<property name="protocol" value="smtp" /> -->
+<!-- 		<property name="host" value="smtp.163.com" /> -->
+<!-- 		<property name="port" value="25" />Gmail的SMTP端口居然是这个，去google网站上了解吧 -->
+<!-- 		<property name="username" value="13628327481@163.com" /> -->
+<!-- 		<property name="password" value="A792045914" /> -->
+<!-- 		<property name="javaMailProperties"> -->
+<!-- 			<props> -->
+<!-- 				<prop key="mail.smtp.auth">true</prop> -->
+<!-- 				<prop key="mail.smtp.starttls.enable">true</prop> -->
+<!-- 			</props> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
 
-	<bean id="test" class="com.IVMS.util.MailSender">
-		<property name="javaMailSender" ref="javaMailSender"></property>
-	</bean>
+<!-- 	<bean id="test" class="com.IVMS.util.MailSender"> -->
+<!-- 		<property name="javaMailSender" ref="javaMailSender"></property> -->
+<!-- 	</bean> -->
 
 
 	<!-- 添加定时任务 -->
-	<bean id="DailyTaskQtzJob" class="com.IVMS.util.SpringQtz"></bean>
-
 	<bean id="DailyTaskQtzJobMethod1"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
  
 		<!-- 指定任务类 -->
 		<property name="targetObject">
-			<ref bean="DailyTaskQtzJob" />
-			<!-- 指定任务执行的方法 -->
+			<bean class="com.IVMS.util.SpringQtz" />
 		</property>
 		<property name="targetMethod">  
 			<!-- 要执行的方法名称 -->
@@ -97,12 +94,21 @@
 
 
 	<!-- ======================== 调度触发器 ======================== -->
-	<!-- cronExpression 中0 0/20 * * * ? 代表 秒，分，时，天 -->
+	<!-- cronExpression 中0 0/20 * * * ? 代表 秒，分，时，日，月，周几，年 -->
 	<bean id="DailyTaskCronTriggerBean1"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="DailyTaskQtzJobMethod1"></property>
-		<property name="cronExpression" value="0 0 0/1 * * ?"></property>
+		<property name="cronExpression" value="0/10 * * * * ?"></property>
 	</bean>
+	
+	<!-- 启动工作 -->
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+	   <property name="triggers">
+	     <list>
+	       <ref bean="DailyTaskCronTriggerBean1"/>
+	     </list>
+	   </property>
+    </bean>
 	
 
 </beans>  

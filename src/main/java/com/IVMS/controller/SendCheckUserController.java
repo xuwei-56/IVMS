@@ -1,9 +1,11 @@
 ﻿package com.IVMS.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +20,7 @@ import com.IVMS.model.Project;
 import com.IVMS.model.User;
 import com.IVMS.service.SendCheckUserService;
 import com.IVMS.util.CommonUtil;
-import com.IVMS.util.LdapUtil;
+import com.IVMS.util.EnumUtil;
 
 import net.sf.json.JSONObject;
 
@@ -34,11 +36,45 @@ public class SendCheckUserController {
 	@ResponseBody
 	public JSONObject login(HttpServletResponse response, HttpServletRequest request,
 			String username,String password) throws Exception {
-		User user=sendCheckUserService.getUserInfo(username, password);
+		HttpSession session=request.getSession();
+		session.setAttribute("username", username);
+		session.setAttribute("password", password);
+		User user=sendCheckUserService.getLoginUserInfo(username, password);
 		if(user==null){
-			return CommonUtil.constructResponse(-1, "账号或密码错误!", null);
+			return CommonUtil.constructResponse(-1, "账号或密码错误 ", null);
 		}else{
 			return CommonUtil.constructResponse(1, "登录用户信息", user);
+		}
+	}
+	
+	@RequestMapping("/getDepartments")//默认post和get请求方式都可以
+	@ResponseBody
+	public JSONObject getDepartments(HttpServletResponse response, HttpServletRequest request) 
+			throws Exception {
+		HttpSession session=request.getSession();
+		String username=(String) session.getAttribute("username");
+		String password=(String) session.getAttribute("password");
+		Set<String>departmentsInfo=sendCheckUserService.getDepartmentsInfo(username, password);
+		if(departmentsInfo==null){
+			return CommonUtil.constructResponse(EnumUtil.CAN_NOT_NULL,"没有部门信息", null);
+		}else{
+			return CommonUtil.constructResponse(EnumUtil.OK, "公司部门信息", departmentsInfo);
+		}
+	}
+	
+	@RequestMapping("/getUserInfoByDepartment")//默认post和get请求方式都可以
+	@ResponseBody
+	public JSONObject getUserInfoByDepartment(HttpServletResponse response, HttpServletRequest request,
+			String department) 
+			throws Exception {
+		HttpSession session=request.getSession();
+		String username=(String) session.getAttribute("username");
+		String password=(String) session.getAttribute("password");
+		List<User>userInfoByDepartment=sendCheckUserService.getUserInfoByDepartment(username, password, department);
+		if(userInfoByDepartment==null){
+			return CommonUtil.constructResponse(EnumUtil.CAN_NOT_NULL,"该部门没有人员信息", null);
+		}else{
+			return CommonUtil.constructResponse(EnumUtil.OK, "部门人员信息", userInfoByDepartment);
 		}
 	}
 	

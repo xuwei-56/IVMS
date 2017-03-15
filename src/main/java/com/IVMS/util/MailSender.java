@@ -1,32 +1,79 @@
 package com.IVMS.util;
 
-import com.IVMS.model.Mail;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
+import javax.mail.Address;
+import javax.mail.Authenticator;
+import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import com.IVMS.model.Mail;
+
+
 public class MailSender {
-
-	private static JavaMailSender javaMailSender;
-
-	public static void send(Mail mail) throws MessagingException {
-		MimeMessage mime = MailSender.javaMailSender.createMimeMessage();
-		MimeMessageHelper helper = new MimeMessageHelper(mime, true, "utf-8");
-		helper.setFrom(mail.getFormMail());//发件人
-		helper.setTo(mail.getToMail());//收件人
-		helper.setReplyTo(mail.getReplyMail());//回复到
-		helper.setSubject(mail.getMailTitle());//邮件主题
-		helper.setText(mail.getMailContent(), mail.isHtmlMail());//true表示设定html格式
-		MailSender.javaMailSender.send(mime);
-	}
-
-	public JavaMailSender getJavaMailSender() {
-		return javaMailSender;
-	}
-
-	public void setJavaMailSender(JavaMailSender javaMailSender) {
-		MailSender.javaMailSender = javaMailSender;
+	
+	private static Properties props = null;
+	
+	/**
+	 * 发送邮件
+	 */
+	public static void sendMail(Mail mail){
+		InputStream in =MailSender.class.getClassLoader()
+				.getResourceAsStream("mail.properties");
+		props = new Properties();
+		try {
+			props.load(in);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		Properties mailProps = new Properties();
+		mailProps.setProperty("mail.host", props.getProperty("host"));
+		mailProps.setProperty("mail.smtp.auth",props.getProperty("auth"));
+		
+		Authenticator auth = new Authenticator() {
+			@Override
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(props.getProperty("username"),
+						props.getProperty("password"));
+			}
+		};
+		Session session = Session.getInstance(mailProps, auth);
+		
+		/*
+		 * 2. 创建MimeMessage
+		 */
+		MimeMessage msg = new MimeMessage(session);
+		try {
+			msg.setFrom(new InternetAddress(props.getProperty("mailSender")));//设置发件人
+			msg.setRecipients(RecipientType.TO,mail.getToMail());//设置收件人
+			msg.setSubject(mail.getMailTitle());
+			msg.setContent(mail.getMailContent(), "text/html;charset=utf-8");
+			/*
+			 * 设置多人抄送
+			 */
+			String[]ccs=mail.getCCs();
+			if(ccs!=null){
+				Address[]ccAddress=new InternetAddress[ccs.length];
+				for(int i=0;i<ccs.length;i++){
+					ccAddress[i]=new InternetAddress(ccs[i]);
+				}
+				msg.setRecipients(RecipientType.CC,ccAddress);
+			}
+//			msg.setRecipients(RecipientType.BCC, "itcast_cxf@sina.com");//设置暗送
+			
+			/*
+			 * 3. 发
+			 */
+			Transport.send(msg);
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
 	}
 }

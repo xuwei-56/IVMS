@@ -1,6 +1,9 @@
 package com.IVMS.service;
 
 import java.util.List;
+import java.util.Set;
+
+import javax.naming.ldap.LdapContext;
 
 import com.IVMS.model.Cell;
 import com.IVMS.model.CheckingClassify;
@@ -15,7 +18,11 @@ import com.IVMS.model.User;
  */
 public interface SendCheckUserService {
 
-	User getUserInfo(String username,String password);
+	User getLoginUserInfo(String username,String password);
+	
+	Set<String> getDepartmentsInfo(String username, String password);
+	
+	List<User> getUserInfoByDepartment(String username, String password,String department);
 	
 	List<Cell>selectCellNameByLineId(Integer lid);
 	

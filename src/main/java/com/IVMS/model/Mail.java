@@ -1,70 +1,50 @@
 package com.IVMS.model;
 
-/**
- * Created by wangwenxiang on 15-12-11.
- */
+
 public class Mail {
-    private String formMail; //发件人
     private String toMail; //收件人
-    private String replyMail; //回复至
     private String mailTitle; //邮件标题
     private String mailContent; //邮件内容
-    private boolean isHtmlMail; //是否以html格式展示
+    private String[]CCs;//设置抄送人
+    
+	public Mail(String toMail, String mailTitle, String mailContent, String[] cCs) {
+		super();
+		this.toMail = toMail;
+		this.mailTitle = mailTitle;
+		this.mailContent = mailContent;
+		CCs = cCs;
+	}
 
-    public Mail(String mailTitle,String toMail, String mailContent) {
-        this.formMail = "joecqupt@126.com";
-        this.replyMail = "joecqupt@126.com";
-        this.mailTitle = mailTitle;
-        this.isHtmlMail = false;
-        this.toMail = toMail;
-        this.mailContent = mailContent;
-    }
+	public String getToMail() {
+		return toMail;
+	}
 
-    public String getFormMail() {
-        return formMail;
-    }
+	public void setToMail(String toMail) {
+		this.toMail = toMail;
+	}
 
-    public void setFormMail(String formMail) {
-        this.formMail = formMail;
-    }
+	public String getMailTitle() {
+		return mailTitle;
+	}
 
-    public String getToMail() {
-        return toMail;
-    }
+	public void setMailTitle(String mailTitle) {
+		this.mailTitle = mailTitle;
+	}
 
-    public void setToMail(String toMail) {
-        this.toMail = toMail;
-    }
+	public String getMailContent() {
+		return mailContent;
+	}
 
-    public String getReplyMail() {
-        return replyMail;
-    }
+	public void setMailContent(String mailContent) {
+		this.mailContent = mailContent;
+	}
 
-    public void setReplyMail(String replyMail) {
-        this.replyMail = replyMail;
-    }
+	public String[] getCCs() {
+		return CCs;
+	}
 
-    public String getMailTitle() {
-        return mailTitle;
-    }
-
-    public void setMailTitle(String mailTitle) {
-        this.mailTitle = mailTitle;
-    }
-
-    public String getMailContent() {
-        return mailContent;
-    }
-
-    public void setMailContent(String mailContent) {
-        this.mailContent = mailContent;
-    }
-
-    public boolean isHtmlMail() {
-        return isHtmlMail;
-    }
-
-    public void setHtmlMail(boolean htmlMail) {
-        isHtmlMail = htmlMail;
-    }
+	public void setCCs(String[] cCs) {
+		CCs = cCs;
+	}
+    
 }

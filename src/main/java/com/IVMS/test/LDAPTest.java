@@ -1,14 +1,7 @@
 package com.IVMS.test;
 
-import java.util.Properties;
+import java.util.List;
 
-import javax.naming.Context;
-import javax.naming.NamingEnumeration;
-import javax.naming.NamingException;
-import javax.naming.directory.Attributes;
-import javax.naming.directory.SearchControls;
-import javax.naming.directory.SearchResult;
-import javax.naming.ldap.InitialLdapContext;
 import javax.naming.ldap.LdapContext;
 
 import com.IVMS.model.User;
@@ -20,7 +13,14 @@ import com.IVMS.util.LdapUtil;
  */
 public class LDAPTest {  
     public static void main(String[] args) {  
-    	User user=LdapUtil.getUserInfo("nancy.he", "nancy.");
-    	System.out.println(user);
+    	LdapContext ctx=LdapUtil.getLdapContext("nancy.he", "nancy.");
+//    	System.out.println(ctx);//ctx=null,可能是未用工具连接vpn，也有可能是账号或密码错误
+//    	User user=null;
+//    	if(ctx!=null){
+//    		user=LdapUtil.getLoginUserInfo(ctx,"nancy.he");
+//    	}
+//    	Set<String>departments=LdapUtil.getDepartmentsInfo(ctx);
+//    	System.out.println(departments);
+    	List<User>userInfo=LdapUtil.getUserInfoByDepartment(ctx, "IT");
     }
 }

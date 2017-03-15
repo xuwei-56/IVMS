@@ -2,6 +2,8 @@ package com.IVMS.util;
 
 
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -20,6 +22,4 @@ public class SpringQtz {
 		System.out.println("测试定时");
 //		orderQuartzService.UpdateNotPayOrder();
 	}
-	
-   
 }
