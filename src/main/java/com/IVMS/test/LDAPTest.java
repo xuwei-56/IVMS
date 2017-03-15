@@ -19,7 +19,7 @@ import com.IVMS.util.LdapUtil;
  *
  */
 public class LDAPTest {  
-    public static void main(String[] args) {  
+    public static void main(String[] args) throws NamingException {  
     	User user=LdapUtil.getUserInfo("nancy.he", "nancy.");
     	System.out.println(user);
     }

@@ -13,6 +13,10 @@ import javax.naming.directory.SearchResult;
 import javax.naming.ldap.InitialLdapContext;
 import javax.naming.ldap.LdapContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.IVMS.controller.UserController;
 import com.IVMS.model.User;
 
 /**
@@ -21,9 +25,11 @@ import com.IVMS.model.User;
  *
  */
 public class LdapUtil{
+	private static Logger logger= LoggerFactory.getLogger(UserController.class);
 	private static Properties props = null;
 	
-	public static User getUserInfo(String sAMAccountName,String password){
+	public static User getUserInfo(String sAMAccountName,String password) throws NamingException{
+		logger.info("LDAP 获取登录的个人信息");
 		InputStream in =LdapUtil.class.getClassLoader()
 				.getResourceAsStream("ldap.properties");
 		props = new Properties();
@@ -72,11 +78,13 @@ public class LdapUtil{
 					user.setDescription((String)attributes.get("description").get());
 				}
             } 
-            System.out.println("user:"+user);
+            logger.info("user:"+user); //写入日志文件
+            //System.out.println("user:"+user);
             ctx.close(); 
 	    }catch (NamingException e) {  
-	        e.printStackTrace();  
-	        System.out.println("账号或密码错误！");
+	    	throw e; //向上抛出错误
+	        /*e.printStackTrace();  
+	        System.out.println("账号或密码错误！");*/
 	    }  
 	    return user;
 	}

@@ -5,10 +5,14 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.IVMS.model.Cell;
 import com.IVMS.model.CheckingClassify;
@@ -23,6 +27,7 @@ import com.IVMS.service.LineService;
 import com.IVMS.service.ProjectService;
 import com.IVMS.util.CommonUtil;
 import com.IVMS.util.LdapUtil;
+import com.IVMS.util.EnumUtil;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -40,25 +45,37 @@ public class UserController {
 	CellService cellService;
 	@Autowired
 	ProjectService projectService;
+	
+	//获取日志类
+	 private static Logger logger= LoggerFactory.getLogger(UserController.class);
 	/**
 	 * 前端页面路径:登录页
 	 */
 	@RequestMapping("/login")//默认post和get请求方式都可以
-	public void login(HttpServletResponse response, HttpServletRequest request,
-			String username,String password) throws Exception {
-		response.setContentType("text/html;charset=utf-8");
-		PrintWriter pw=response.getWriter();
-		JSONObject jo=new JSONObject();
-		User user=LdapUtil.getUserInfo(username,password);
-		JSONObject ja=JSONObject.fromObject(user);//把ui对象转换为JSONObject对象
-		if(user==null){
-			jo=CommonUtil.constructResponse(-1, "账号或密码错误!", null);
-		}else{
-			jo=CommonUtil.constructResponse(1, "登录用户信息", ja);
+	@ResponseBody
+	public JSONObject login(HttpSession session, String username,String password, String verifyCode) throws Exception {
+		
+		try {
+			if(username == null || password == null||verifyCode ==null){
+				logger.info("用户名密码验证码不能为空");
+				return CommonUtil.constructResponse(EnumUtil.CAN_NOT_NULL, "请输入有效信息", null);
+			}
+			if(!verifyCode.equals(session.getAttribute("verifyCode"))){
+				return CommonUtil.constructResponse(0, "验证码错误", null);
+			}
+			logger.info("开始验证用户 "+ username +" 是否存在");
+			User user=LdapUtil.getUserInfo(username,password);
+			if(user==null){
+				return CommonUtil.constructResponse(EnumUtil.PASSWORD_ERROR, "账号或密码错误!", null);
+			}else{
+				session.setAttribute("user", user); //存入session保持登录信息
+				return CommonUtil.constructResponse(EnumUtil.OK, "登录用户信息", user);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.info(e.getMessage());
+			return CommonUtil.constructExceptionJSON(EnumUtil.UNKOWN_ERROR, "未知错误，请联系管理员", null);
 		}
-		pw.write(jo.toString());
-		pw.flush();
-		pw.close();
 	}
 	@RequestMapping("/getClassify")
 	public void getClassify(HttpServletResponse response, HttpServletRequest request) throws Exception {
