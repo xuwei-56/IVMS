@@ -25,7 +25,7 @@
     values (#{ufid,jdbcType=INTEGER}, #{cfid,jdbcType=VARCHAR}, #{ufname,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.IVMS.model.UrgentFile" >
+  <insert id="insertUrgentFile" parameterType="com.IVMS.model.UrgentFile" >
     insert into urgentfile
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="ufid != null" >

@@ -5,7 +5,7 @@ import com.IVMS.model.CheckingForm;
 public interface CheckingFormDao {
     int deleteByPrimaryKey(String cfid);
 
-    int insert(CheckingForm record);
+    int insert(CheckingForm checkingForm);
 
     int insertSelective(CheckingForm record);
 

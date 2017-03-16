@@ -7,7 +7,7 @@ public interface UrgentFileDao {
 
     int insert(UrgentFile record);
 
-    int insertSelective(UrgentFile record);
+    int insertUrgentFile(UrgentFile urgentFile);
 
     UrgentFile selectByPrimaryKey(Integer ufid);
 

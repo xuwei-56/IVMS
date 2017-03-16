@@ -5,20 +5,25 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.naming.ldap.LdapContext;
-import javax.naming.NamingException;
 
 import org.springframework.stereotype.Service;
 
 import com.IVMS.dao.CellDao;
 import com.IVMS.dao.CheckingClassifyDao;
+import com.IVMS.dao.CheckingFormDao;
 import com.IVMS.dao.ClassifyDao;
 import com.IVMS.dao.LineDao;
+import com.IVMS.dao.NotifyPersonnelEmailDao;
 import com.IVMS.dao.ProjectDao;
+import com.IVMS.dao.UrgentFileDao;
 import com.IVMS.model.Cell;
 import com.IVMS.model.CheckingClassify;
+import com.IVMS.model.CheckingForm;
 import com.IVMS.model.Classify;
 import com.IVMS.model.Line;
+import com.IVMS.model.NotifyPersonnelEmail;
 import com.IVMS.model.Project;
+import com.IVMS.model.UrgentFile;
 import com.IVMS.model.User;
 import com.IVMS.service.SendCheckUserService;
 import com.IVMS.util.LdapUtil;
@@ -36,7 +41,13 @@ public class SendCheckUserServiceImpl implements SendCheckUserService{
 	private LineDao lineDao;
 	@Resource
 	private ProjectDao projectDao;
-
+	@Resource
+	private NotifyPersonnelEmailDao notifyPersonnelEmailDao;
+	@Resource
+	private CheckingFormDao checkingFormDao;
+	@Resource
+	private UrgentFileDao urgentFileDao;
+	
 	public User getLoginUserInfo(String username, String password) {
 		LdapContext ctx=LdapUtil.getLdapContext(username, password);
     	User user=null;
@@ -82,6 +93,18 @@ public class SendCheckUserServiceImpl implements SendCheckUserService{
 
 	public List<Project> selectProjects() {
 		return projectDao.selectProjects();
+	}
+
+	public int insertCopySendEmail(NotifyPersonnelEmail email) {
+		return notifyPersonnelEmailDao.insertCopySendEmail(email);
+	}
+
+	public int insert(CheckingForm checkingForm) {
+		return checkingFormDao.insert(checkingForm);
+	}
+
+	public int insertUrgentFile(UrgentFile urgentFile) {
+		return urgentFileDao.insertUrgentFile(urgentFile);
 	}
 	
 }

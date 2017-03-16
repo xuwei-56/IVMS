@@ -6,6 +6,7 @@ public class User {
 	private String mail;
 	private String mobile;
 	private String sAMAccountName;
+	private String department;
 	
 	public String getCn() {
 		return cn;
@@ -37,10 +38,16 @@ public class User {
 	public void setsAMAccountName(String sAMAccountName) {
 		this.sAMAccountName = sAMAccountName;
 	}
+	public String getDepartment() {
+		return department;
+	}
+	public void setDepartment(String department) {
+		this.department = department;
+	}
 	
 	public String toString() {
 		return "User [cn=" + cn + ", description=" + description + ", mail=" + mail + ", mobile=" + mobile
-				+ ", sAMAccountName=" + sAMAccountName + "]";
+				+ ", sAMAccountName=" + sAMAccountName + ", department=" + department + "]";
 	}
 	
 }
