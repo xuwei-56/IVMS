@@ -1,5 +1,7 @@
 package com.IVMS.model;
 
+import java.util.Date;
+
 public class CheckingForm {
     private String cfid;
 
@@ -38,6 +40,9 @@ public class CheckingForm {
     private String cfremarkfile;
 
     private String cfreportfile;
+    
+    private Date cftime;
+    
 
 	public String getCfid() {
 		return cfid;
@@ -190,6 +195,14 @@ public class CheckingForm {
 	public void setCfreportfile(String cfreportfile) {
 		this.cfreportfile = cfreportfile;
 	}
-    
+
+	public Date getCftime() {
+		return cftime;
+	}
+
+	public void setCftime(Date cftime) {
+		this.cftime = cftime;
+	}
+
     
 }

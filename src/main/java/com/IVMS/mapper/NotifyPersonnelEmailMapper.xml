@@ -26,7 +26,7 @@
     values (#{npeid,jdbcType=INTEGER}, #{cfid,jdbcType=VARCHAR}, #{npenotifyemail,jdbcType=VARCHAR}, 
       #{npenotifytime,jdbcType=DATE})
   </insert>
-  <insert id="insertSelective" parameterType="com.IVMS.model.NotifyPersonnelEmail" >
+  <insert id="insertCopySendEmail" parameterType="com.IVMS.model.NotifyPersonnelEmail" >
     insert into notifypersonnelemail
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="npeid != null" >
@@ -38,9 +38,6 @@
       <if test="npenotifyemail != null" >
         NPENotifyEmail,
       </if>
-      <if test="npenotifytime != null" >
-        NPENotifyTime,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="npeid != null" >
@@ -51,9 +48,6 @@
       </if>
       <if test="npenotifyemail != null" >
         #{npenotifyemail,jdbcType=VARCHAR},
-      </if>
-      <if test="npenotifytime != null" >
-        #{npenotifytime,jdbcType=DATE},
       </if>
     </trim>
   </insert>

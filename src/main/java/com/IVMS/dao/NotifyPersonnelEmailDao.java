@@ -7,7 +7,7 @@ public interface NotifyPersonnelEmailDao {
 
     int insert(NotifyPersonnelEmail record);
 
-    int insertSelective(NotifyPersonnelEmail record);
+    int insertCopySendEmail(NotifyPersonnelEmail email);
 
     NotifyPersonnelEmail selectByPrimaryKey(Integer npeid);
 

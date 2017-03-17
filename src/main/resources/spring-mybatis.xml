@@ -98,17 +98,17 @@
 	<bean id="DailyTaskCronTriggerBean1"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="DailyTaskQtzJobMethod1"></property>
-		<property name="cronExpression" value="0/10 * * * * ?"></property>
+		<property name="cronExpression" value="*0 0 12 * * ?"></property>
 	</bean>
 	
 	<!-- 启动工作 -->
-    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-	   <property name="triggers">
-	     <list>
-	       <ref bean="DailyTaskCronTriggerBean1"/>
-	     </list>
-	   </property>
-    </bean>
+<!--     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean"> -->
+<!-- 	   <property name="triggers"> -->
+<!-- 	     <list> -->
+<!-- 	       <ref bean="DailyTaskCronTriggerBean1"/> -->
+<!-- 	     </list> -->
+<!-- 	   </property> -->
+<!--     </bean> -->
 	
 
 </beans>  

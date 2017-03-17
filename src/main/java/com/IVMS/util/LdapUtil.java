@@ -92,7 +92,10 @@ public class LdapUtil{
 				
 				if (attributes.get("description") != null){
 					user.setDescription((String)attributes.get("description").get());
-				}				
+				}	
+				if (attributes.get("department") != null){
+					user.setDepartment((String)attributes.get("department").get());
+				}
 		    } 
 			logger.info("user:"+user); //写入日志文件
 		    System.out.println("user:"+user);
@@ -111,6 +114,7 @@ public class LdapUtil{
 		return user;
 	}
 	public static Set<String> getDepartmentsInfo(LdapContext ctx){
+		logger.info("LDAP 获取整个部门信息");
 		SearchControls searchCtls = new SearchControls();  
 	    searchCtls.setSearchScope(SearchControls.SUBTREE_SCOPE);  
 //	    String searchFilter = "(&(objectCategory=person)(objectClass=user)(name=*))";
@@ -130,6 +134,7 @@ public class LdapUtil{
 					departments.add((String)attributes.get("department").get());
 				}	
 		    } 
+			logger.info("departments:"+departments); //写入日志文件
 		    System.out.println("departments:"+departments);
 		} catch (NamingException e) {
 			e.printStackTrace();
@@ -146,6 +151,7 @@ public class LdapUtil{
 		return departments;
 	}
 	public static List<User> getUserInfoByDepartment(LdapContext ctx,String department){
+		logger.info("LDAP 通过指定部门获取员工信息");
 		User user=null;
 		SearchControls searchCtls = new SearchControls();  
 	    searchCtls.setSearchScope(SearchControls.SUBTREE_SCOPE);  
@@ -174,6 +180,7 @@ public class LdapUtil{
 				}
 				userInfo.add(user);
 		    } 
+			logger.info("userInfoByDepartment:"+userInfo); //写入日志文件
 			System.out.println("userInfoByDepartment:"+userInfo);
 		} catch (NamingException e) {
 			e.printStackTrace();

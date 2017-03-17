@@ -9,9 +9,12 @@ import javax.naming.NamingException;
 
 import com.IVMS.model.Cell;
 import com.IVMS.model.CheckingClassify;
+import com.IVMS.model.CheckingForm;
 import com.IVMS.model.Classify;
 import com.IVMS.model.Line;
+import com.IVMS.model.NotifyPersonnelEmail;
 import com.IVMS.model.Project;
+import com.IVMS.model.UrgentFile;
 import com.IVMS.model.User;
 /**
  * 送检人提交送检单
@@ -35,4 +38,10 @@ public interface SendCheckUserService {
 	List<Line> selectLines();
 	
 	List<Project>selectProjects();
+	
+	int insertCopySendEmail(NotifyPersonnelEmail email);
+	
+	int insert(CheckingForm checkingForm);
+	
+	int insertUrgentFile(UrgentFile urgentFile);
 }

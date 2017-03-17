@@ -21,11 +21,12 @@
     <result column="CFUrgentStatus" property="cfurgentstatus" jdbcType="INTEGER" />
     <result column="CFRemarkFile" property="cfremarkfile" jdbcType="VARCHAR" />
     <result column="CFReportFile" property="cfreportfile" jdbcType="VARCHAR" />
+    <result column="CFTime" property="cftime" jdbcType="DATE" />
   </resultMap>
   <sql id="Base_Column_List" >
     CFId, LId, CId, PId, WId, ClaId, CCId, CFMoveP, CFPhoneNum, CFEMail, CFComponentName, 
     CFComponentId, CFComponentNum, CFCheckNum, CFRemark, CFStatus, CFUrgentStatus, CFRemarkFile, 
-    CFReportFile
+    CFReportFile,CFTime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -43,14 +44,15 @@
       CFMoveP, CFPhoneNum, CFEMail, 
       CFComponentName, CFComponentId, CFComponentNum, 
       CFCheckNum, CFRemark, CFStatus, 
-      CFUrgentStatus, CFRemarkFile, CFReportFile
+      CFUrgentStatus, CFRemarkFile, CFReportFile,CFTime
       )
     values (#{cfid,jdbcType=VARCHAR}, #{lid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, 
       #{pid,jdbcType=INTEGER}, #{wid,jdbcType=VARCHAR}, #{claid,jdbcType=INTEGER}, #{ccid,jdbcType=INTEGER}, 
       #{cfmovep,jdbcType=VARCHAR}, #{cfphonenum,jdbcType=VARCHAR}, #{cfemail,jdbcType=VARCHAR}, 
       #{cfcomponentname,jdbcType=VARCHAR}, #{cfcomponentid,jdbcType=VARCHAR}, #{cfcomponentnum,jdbcType=INTEGER}, 
       #{cfchecknum,jdbcType=INTEGER}, #{cfremark,jdbcType=VARCHAR}, #{cfstatus,jdbcType=INTEGER}, 
-      #{cfurgentstatus,jdbcType=INTEGER}, #{cfremarkfile,jdbcType=VARCHAR}, #{cfreportfile,jdbcType=VARCHAR}
+      #{cfurgentstatus,jdbcType=INTEGER}, #{cfremarkfile,jdbcType=VARCHAR}, #{cfreportfile,jdbcType=VARCHAR},
+      #{cftime,jdbcType=DATE}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.IVMS.model.CheckingForm" >
@@ -113,6 +115,9 @@
       <if test="cfreportfile != null" >
         CFReportFile,
       </if>
+      <if test="cftime != null" >
+        CFTime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="cfid != null" >
@@ -171,6 +176,9 @@
       </if>
       <if test="cfreportfile != null" >
         #{cfreportfile,jdbcType=VARCHAR},
+      </if>
+      <if test="cftime != null" >
+        #{cftime,jdbcType=DATE},
       </if>
     </trim>
   </insert>
@@ -231,6 +239,9 @@
       <if test="cfreportfile != null" >
         CFReportFile = #{cfreportfile,jdbcType=VARCHAR},
       </if>
+      <if test="cftime != null" >
+        CFTime = #{cftime,jdbcType=DATE},
+      </if>
     </set>
     where CFId = #{cfid,jdbcType=VARCHAR}
   </update>
@@ -254,6 +265,7 @@
       CFUrgentStatus = #{cfurgentstatus,jdbcType=INTEGER},
       CFRemarkFile = #{cfremarkfile,jdbcType=VARCHAR},
       CFReportFile = #{cfreportfile,jdbcType=VARCHAR}
+      CFTime = #{cftime,jdbcType=DATE}
     where CFId = #{cfid,jdbcType=VARCHAR}
   </update>
 </mapper>
