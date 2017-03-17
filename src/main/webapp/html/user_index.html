@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>检测校验管理系统</title>
+<meta name="author" content="DeathGhost" />
+<link rel="stylesheet" type="text/css" href="./css/style.css" />
+<!--[if lt IE 9]>
+<script src="js/html5.js"></script>
+<![endif]-->
+<script src="./js/jquery.js"></script>
+<script src="./js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script type="text/javascript" src="./js/userPage.js"></script>
+<script>
+	(function($){
+		$(window).load(function(){
+			
+			$("a[rel='load-content']").click(function(e){
+				e.preventDefault();
+				var url=$(this).attr("href");
+				$.get(url,function(data){
+					$(".content .mCSB_container").append(data); //load new content inside .mCSB_container
+					//scroll-to appended content 
+					$(".content").mCustomScrollbar("scrollTo","h2:last");
+				});
+			});
+			
+			$(".content").delegate("a[href='top']","click",function(e){
+				e.preventDefault();
+				$(".content").mCustomScrollbar("scrollTo",$(this).attr("href"));
+			});
+			
+		});
+	})(jQuery);
+</script>
+</head>
+<body>
+<!--header-->
+<header>
+ <h1><img src="images/admin_logo.png"/></h1>
+ <ul class="rt_nav">
+  <!-- <li><a href="#" class="admin_icon">登陆</a></li> -->
+  <li><a href="" class="quit_icon">安全退出</a></li>
+ </ul>
+</header>
+
+<aside class="lt_aside_nav content mCustomScrollbar">
+ <h2><a href="./index">首页</a></h2>
+ <ul>
+  <li class="user_index_li">
+   <dl>
+    <dt>送检管理</dt>
+    <!--当前链接则添加class:active-->
+    <dd><a href="#" class="active">送检登记</a></dd>
+    <dd><a href="#">我的送检</a></dd>
+   </dl>
+  </li>
+  
+  <li>
+   <p class="btm_infor">© 重庆施耐特 版权所有</p>
+  </li>
+ </ul>
+</aside>
+
+<section class="rt_wrap content mCustomScrollbar">
+ <div class="rt_content">
+     <!--点击加载-->
+     <script>
+     $(document).ready(function(){
+		$("#loading").click(function(){
+			$(".loading_area").fadeIn();
+             $(".loading_area").fadeOut(1500);
+			});
+		 });
+     </script>
+     <section class="loading_area">
+      <div class="loading_cont">
+       <div class="loading_icon"><i></i><i></i><i></i><i></i><i></i></div>
+       <div class="loading_txt"><mark>数据正在加载，请稍后！</mark></div>
+      </div>
+     </section>
+     <!--结束加载-->   
+     <section>
+      <h2><strong style="color:#d10529;font-size: 1.5em;border: 2px solid #d10529;padding: 5px;">送检登记</strong></h2>
+      <ul class="ulColumn2">
+       <li>
+       	<h2><strong style="color:#d10529;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;送检人信息</strong></h2>
+        <span class="item_name" style="width:120px;">姓名：</span>
+        <input type="text" class="textbox textbox_100" id="moveP" />
+        <span class="item_name" style="width:100px;">联系电话：</span>
+        <input type="text" class="textbox" id="phoneNum" />
+        <span class="item_name" style="width:70px;">邮箱：</span>
+        <input type="text" class="textbox textbox_225" id="mail" /><!-- 
+        <span class="item_name" style="width:150px;">通知邮箱抄送人：</span>
+        <input type="text" class="textbox textbox_225" placeholder="可添加多个"/> -->
+        <span class="errorTips">错误提示</span>
+       </li>
+       <li id="notifyLi">
+       	<span class="item_name" style="width:120px;">通知邮箱抄送人：</span>
+       	<select class="select textbox_150" id="departmentName" >
+         <option>&nbsp;&nbsp;&nbsp;加载中</option>
+        <option>&nbsp;&nbsp;&nbsp;加载中11</option>
+        </select>
+        <select class="select textbox_150" id="userName">
+         <option>请先选择部门</option>
+        </select>
+        <span class="errorTips">错误提示</span>
+        <div class="userNameList" id="userNameList">
+         <span class="userNameDel">谁谁<a href="" class="deleteMail">X</a></span>
+        </div>
+        <!-- <input type="text" class="textbox textbox_225" placeholder="可添加多个"/> -->
+       </li>
+       <li>
+       	<h2><strong style="color:#d10529;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;送检品信息</strong></h2>
+        <span class="item_name" style="width:120px;">送检类型：</span>
+        <select class="select textbox_100" id="claId">
+         <option>&nbsp;&nbsp;&nbsp;加载中</option>
+        </select>
+        <span class="errorTips">错误提示</span>
+        <span class="item_name" style="width:120px;">紧急程度：</span>
+        <select class="select textbox_100" id="ugrentStatus">
+         <option value="1">&nbsp;&nbsp;&nbsp;正常</option>
+         <option value="2">&nbsp;&nbsp;&nbsp;加急</option>
+        </select>
+        <span class="errorTips">错误提示</span>
+       </li>
+       <li>
+        <span class="item_name" style="width:120px;">检测类型：</span>
+        <select class="select textbox_150" id="cCId">
+         <option value="1">请先选择送检类型</option>
+        </select>
+        <span class="item_name" style="width:100px;">所属产线：</span>
+        <select class="select textbox_150" id="lId">
+         <option value="1">请先选择类型</option>
+        </select>
+        <span class="item_name" style="width:100px;">所属单元：</span>
+        <select class="select textbox_150" id="cId">
+         <option value="1">请先选择产线</option>
+        </select>
+        <span class="item_name" style="width:100px;">所属项目：</span>
+        <select class="select textbox_150" id="pId">
+         <option value="1">请先选择单元</option>
+        </select>
+        <span class="errorTips">错误提示</span>
+       </li>
+       <li>
+       	<span class="item_name" style="width:120px;">零件编号：</span>
+       	<input type="text" class="textbox textbox_225"/ id="componentId">
+       	<span class="item_name" style="width:120px;">零件名称：</span>
+       	<input type="text" class="textbox textbox_225" id="componentName" />
+       	<span class="item_name" style="width:120px;">零件数量：</span>
+       	<input type="text" class="textbox textbox_100" value="1" id="componentNum" />
+       </li>
+       <li class="user_index_project">
+       	<span class="item_name" style="width:120px;">放置库位：</span>
+        <select class="select textbox_150" id="wId">
+         <option value="1">请先选择送检类型</option>
+        </select>
+        <span class="item_name" style="width:120px;">送检次数：</span>
+        <select class="select" id="checkNum">
+         <option value="1">首次</option>
+         <option value="2">二次</option>
+        </select>
+       </li>
+       <li>
+        <span class="item_name" style="width:120px;">备注信息：</span>
+        <textarea placeholder="备注信息" class="textarea" style="width:500px;height:50px;" id="remark"></textarea>
+       </li>
+       <li>
+        <span class="item_name" style="width:120px;"><!-- 上传附件： --></span>
+        <label class="uploadImg">
+         <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,text/plain" />
+         <span>上传附件</span>
+        </label>
+       </li>
+       <li>
+        <span class="item_name" style="width:120px;"></span>
+        <input type="submit" class="link_btn"/>
+       </li>
+      </ul>
+     </section>
+     <!--tabStyle-->   
+ </div>
+</section>
+</body>
+</html>

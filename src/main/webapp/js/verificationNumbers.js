@@ -18,7 +18,6 @@ function createCode(){
         data = JSON.parse(data);
         if (data.code == 1) {
           code = data.data
-          console.log(code);
           showCheck(code);
         }else{
           createCode();
@@ -40,11 +39,6 @@ function validate () {
       document.getElementById("Vcode").setAttribute("placeholder","验证码错误");
       createCode();
       return false;
-    }
-    else {
-      document.getElementById("Vcode").value="";
-      createCode();
-      return true;
     }
 
 }

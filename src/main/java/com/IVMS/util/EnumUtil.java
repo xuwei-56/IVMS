@@ -44,6 +44,16 @@ public class EnumUtil {
    public static final int ERROR = 0;
    
    /**
+    * 	测试人员登录
+    */
+   public static final int ADMIN_LOGIN = 101;
+   
+   /**
+    * 	普通人员登录
+    */
+   public static final int USER_LOGIN = 102;
+   
+   /**
     * 用户密码错误
     */
    public static final int PASSWORD_ERROR = 100018;

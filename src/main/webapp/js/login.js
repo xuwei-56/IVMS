@@ -13,7 +13,6 @@ $(document).ready(function(){
 		var userId = removeAllSpace($('#user').val());
 		var password = removeAllSpace($('#password').val());
 		var verifyCode = removeAllSpace($('#Vcode').val());
-		
 		if (userId == "" || password == "" || verifyCode == "") {
 			if (userId == "") {
 				alert("请输入管理员帐号");
@@ -24,7 +23,7 @@ $(document).ready(function(){
 				return false;
 			}
 			if (verifyCode == "") {
-				alert("请输入管理员密码");
+				alert("请输入验证码");
 				return false;
 			}
 		}else{
@@ -35,12 +34,14 @@ $(document).ready(function(){
 				datatype:"json",
 				success:function(data){
 					data = JSON.parse(data);
-					if(data.code == 1){
-						location.href="./index";
+					if(data.code == 102){
+						location.href="./user_index";
+					}else if (data.code == 101) {
+						location.href="./admin_index";
 					}else{
-						//refresh(this);
+						createCode()
 						alert(data.msg)
-				}
+					}
 				}
 			});
 		}

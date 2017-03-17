@@ -57,7 +57,7 @@ public class SendCheckUserController {
 				session.setAttribute("username", username);
 				session.setAttribute("password", password);
 				session.setAttribute("user", user); //存入session保持登录信息
-				return CommonUtil.constructResponse(EnumUtil.OK, "登录用户信息", user);
+				return CommonUtil.constructResponse(EnumUtil.USER_LOGIN, "登录用户信息", user);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -65,6 +65,18 @@ public class SendCheckUserController {
 			return CommonUtil.constructExceptionJSON(EnumUtil.UNKOWN_ERROR, "未知错误，请联系管理员", null);
 		}
 	}
+	
+	@RequestMapping("/getSessionUser")
+	@ResponseBody
+	public JSONObject getSessionUser(HttpSession session){
+		User user = (User)session.getAttribute("user");
+		if (user == null) {
+			return CommonUtil.constructResponse(EnumUtil.NOT_LOGIN, "未登录", null);
+		} else {
+			return CommonUtil.constructResponse(EnumUtil.OK, "返回登录人信息成功", user);
+		}
+	}
+	
 	
 	@RequestMapping("/getDepartments")
 	@ResponseBody

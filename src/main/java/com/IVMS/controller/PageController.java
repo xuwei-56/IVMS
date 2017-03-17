@@ -26,6 +26,13 @@ public class PageController {
 	 */
 	@RequestMapping("/")
 	public String login() {
+		return "index";
+	}
+	/**
+	 * 前端页面路径:登录页
+	 */
+	@RequestMapping("/login")
+	public String login1() {
 		return "login";
 	}
 	/**
@@ -38,9 +45,9 @@ public class PageController {
 	/**
 	 * 前端页面路径:数据展示页
 	 */
-	@RequestMapping("/data")
-	public String data(){
-		return "data";
+	@RequestMapping("/user_index")
+	public String userIndex(){
+		return "user_index";
 	}
 
 	/**
