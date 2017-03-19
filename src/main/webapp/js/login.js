@@ -46,4 +46,11 @@ $(document).ready(function(){
 			});
 		}
 	})
+	//回车提交事件
+	$("body").keydown(function() {
+	    if (event.keyCode == "13") {//keyCode=13是回车键
+	        $('#button_login').click();
+	    }
+	});
+	//--------回车提交事件完毕---------------------//
 })

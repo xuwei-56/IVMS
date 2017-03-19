@@ -7,6 +7,8 @@ import javax.annotation.Resource;
 import javax.naming.ldap.LdapContext;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.IVMS.dao.CellDao;
 import com.IVMS.dao.CheckingClassifyDao;
@@ -94,17 +96,33 @@ public class SendCheckUserServiceImpl implements SendCheckUserService{
 	public List<Project> selectProjects() {
 		return projectDao.selectProjects();
 	}
-
+	
+	@Transactional(propagation = Propagation.REQUIRED)
 	public int insertCopySendEmail(NotifyPersonnelEmail email) {
-		return notifyPersonnelEmailDao.insertCopySendEmail(email);
+		try {
+			return notifyPersonnelEmailDao.insertCopySendEmail(email);
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new RuntimeException(e);
+		}
 	}
-
+	@Transactional(propagation = Propagation.REQUIRED)
 	public int insert(CheckingForm checkingForm) {
-		return checkingFormDao.insert(checkingForm);
+		try {
+			return checkingFormDao.insertSelective(checkingForm);
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new RuntimeException(e);
+		}
 	}
-
+	@Transactional(propagation = Propagation.REQUIRED)
 	public int insertUrgentFile(UrgentFile urgentFile) {
-		return urgentFileDao.insertUrgentFile(urgentFile);
+		try {
+			return urgentFileDao.insertUrgentFile(urgentFile);
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new RuntimeException(e);
+		}
 	}
 	
 }

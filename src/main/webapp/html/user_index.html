@@ -10,7 +10,9 @@
 <![endif]-->
 <script src="./js/jquery.js"></script>
 <script src="./js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script type="text/javascript" src="./js/publicFunction.js"></script>
 <script type="text/javascript" src="./js/userPage.js"></script>
+
 <script>
 	(function($){
 		$(window).load(function(){
@@ -90,10 +92,7 @@
         <span class="item_name" style="width:100px;">联系电话：</span>
         <input type="text" class="textbox" id="phoneNum" />
         <span class="item_name" style="width:70px;">邮箱：</span>
-        <input type="text" class="textbox textbox_225" id="mail" /><!-- 
-        <span class="item_name" style="width:150px;">通知邮箱抄送人：</span>
-        <input type="text" class="textbox textbox_225" placeholder="可添加多个"/> -->
-        <span class="errorTips">错误提示</span>
+        <input type="text" class="textbox textbox_225" id="mail" />
        </li>
        <li id="notifyLi">
        	<span class="item_name" style="width:120px;">通知邮箱抄送人：</span>
@@ -104,9 +103,8 @@
         <select class="select textbox_150" id="userName">
          <option>请先选择部门</option>
         </select>
-        <span class="errorTips">错误提示</span>
         <div class="userNameList" id="userNameList">
-         <span class="userNameDel">谁谁<a href="" class="deleteMail">X</a></span>
+         <span class="userNameDel">默认<a href="" class="deleteMail">X</a></span>
         </div>
         <!-- <input type="text" class="textbox textbox_225" placeholder="可添加多个"/> -->
        </li>
@@ -116,13 +114,11 @@
         <select class="select textbox_100" id="claId">
          <option>&nbsp;&nbsp;&nbsp;加载中</option>
         </select>
-        <span class="errorTips">错误提示</span>
         <span class="item_name" style="width:120px;">紧急程度：</span>
-        <select class="select textbox_100" id="ugrentStatus">
+        <select class="select textbox_100" id="urgentStatus">
          <option value="1">&nbsp;&nbsp;&nbsp;正常</option>
          <option value="2">&nbsp;&nbsp;&nbsp;加急</option>
         </select>
-        <span class="errorTips">错误提示</span>
        </li>
        <li>
         <span class="item_name" style="width:120px;">检测类型：</span>
@@ -141,7 +137,6 @@
         <select class="select textbox_150" id="pId">
          <option value="1">请先选择单元</option>
         </select>
-        <span class="errorTips">错误提示</span>
        </li>
        <li>
        	<span class="item_name" style="width:120px;">零件编号：</span>
@@ -153,11 +148,12 @@
        </li>
        <li class="user_index_project">
        	<span class="item_name" style="width:120px;">放置库位：</span>
-        <select class="select textbox_150" id="wId">
-         <option value="1">请先选择送检类型</option>
+        <select class="select textbox_100" id="wId">
+         <option value="0">默认</option>
         </select>
         <span class="item_name" style="width:120px;">送检次数：</span>
-        <select class="select" id="checkNum">
+        <select class="select textbox_100" id="checkNum">
+         <option value="1">默认</option>
          <option value="1">首次</option>
          <option value="2">二次</option>
         </select>
@@ -169,13 +165,13 @@
        <li>
         <span class="item_name" style="width:120px;"><!-- 上传附件： --></span>
         <label class="uploadImg">
-         <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,text/plain" />
-         <span>上传附件</span>
+         <input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,text/plain" id="urgentfile" />
+         <!-- <span>上传附件</span> -->
         </label>
        </li>
        <li>
         <span class="item_name" style="width:120px;"></span>
-        <input type="submit" class="link_btn"/>
+        <input type="submit" class="link_btn" id="userCheckformInput" />
        </li>
       </ul>
      </section>

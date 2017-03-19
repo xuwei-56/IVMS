@@ -239,7 +239,7 @@ public class SendCheckUserController {
 	        Integer currentTime=Integer.parseInt(time);
 	        StringBuilder checkFormId=new StringBuilder();
 	        Integer urgentstatu=checkingForm.getCfurgentstatus();
-	        if(urgentstatu==0){//正常送检，不加急
+	        if( urgentstatu == 1){//正常送检，不加急
 	        	checkFormId=checkFormId.append(time).append("01");
 	        }else{
 	        	checkFormId=checkFormId.append(time).append("02");
@@ -248,12 +248,12 @@ public class SendCheckUserController {
 	        	startNumber=1;
 	        	checkFormId.append(nf.format(startNumber));
 	        	lastTime=currentTime;
-	        	System.out.println(lastTime);
+	        	/*System.out.println(lastTime);*/
 	        }else{
 	        	checkFormId.append(nf.format(startNumber));
 	        }
 	    	startNumber++;
-	        System.out.println(checkFormId);
+	        /*System.out.println(checkFormId);*/
 	        /**
 	         * 把数据添加进数据库
 	         */
@@ -274,36 +274,35 @@ public class SendCheckUserController {
 	        /**
 	         * 把文件传输到指定路径，并设置对象参数，添加到数据库
 	         */
-	        String root =request.getServletContext().getRealPath("/urgentfile/");
 	        String filename = urgentfile.getOriginalFilename();  
-	        UrgentFile urgentFile=null;
-	        if(filename!=null&&!filename.isEmpty()){
+	        if( filename!=null && !filename.isEmpty() && urgentstatu == 2){
+	        	UrgentFile urgentFile=null;
+	        	String root =request.getSession().getServletContext().getRealPath("/urgentfile/");
 	        	int index = filename.lastIndexOf("\\");
 	    		if(index != -1) {
 	    			filename = filename.substring(index+1);
 	    		}
-	    		sdf=new SimpleDateFormat("yyyy-MM-dd HH时mm分ss秒");
+	    		sdf=new SimpleDateFormat("yyyyMMddHHmmss");
 	            time=sdf.format(new Date());
-	            System.out.println(time);
-	            filename=time.substring(11,17)+"_"+filename;
-	            File dirFile = new File(root,time.substring(0,4) + "/" +time.substring(5,7)+ "/" +time.substring(8,10));
-	            File destFile = new File(dirFile,filename);
-	            System.out.println(destFile);//文件路径
-	            if(!destFile.exists()){
+	            /*System.out.println(time);*/
+	            filename=time+"_"+filename;
+	            File destFile = new File(root,filename);
+	            /*System.out.println(destFile);//文件路径
+*/	            if(!destFile.exists()){
 	            	destFile.mkdirs();
 	            }  
-	            try {  
-	            	urgentfile.transferTo(destFile);  
-	            } catch (Exception e) {  
-	                e.printStackTrace();  
-	            }
-	            String path=destFile.toString();//文件路径
+	            urgentfile.transferTo(destFile);  
+	          /*  String path=destFile.toString();//文件路径
 				System.out.println("path:"+path);
-				String strOfPath=path.replace("\\","/");//  \\对\转义，把\换成/
-				String itemName=request.getContextPath();
+				String strOfPath=path;//  \\对\转义，把\换成/
+				String itemName=request.getSession().getServletContext().getRealPath("/");
+				logger.info(itemName);
 				int index1=strOfPath.indexOf(itemName);
+				logger.info(" "+index1);
+				strOfPath=path.replace("\\","/");//  \\对\转义，把\换成/
 				path=strOfPath.substring(index1);
-				System.out.println("文件路径："+path);
+				System.out.println("文件路径："+path);*/
+	            String path = "/urgentfile/"+ filename;
 				urgentFile=new UrgentFile();
 				urgentFile.setCfid(sendCheckId);
 				urgentFile.setUfname(path);
@@ -325,6 +324,7 @@ public class SendCheckUserController {
 	        }
 		}catch(Exception e){
 			logger.info(e.getMessage());
+			new RuntimeException(e);
 			return CommonUtil.constructExceptionJSON(EnumUtil.UNKOWN_ERROR, "未知错误，请联系管理员", null);
 		}
 	}
