@@ -1,6 +1,9 @@
 package com.IVMS.model;
 
 import java.util.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class CheckingForm {
     private String cfid;
@@ -41,9 +44,30 @@ public class CheckingForm {
 
     private String cfreportfile;
     
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")  
     private Date cftime;
     
+    private String cfreply;
+    
+    private String cfreplyreport;
+    
+    private Line line;
+    
+    private Cell cell;
+    
+    private Project project;
+    
+    private Classify classify;
+    
+    private CheckingClassify checkingClassify;
+    
+    private List<NotifyPersonnelEmail>notifyPersonnelEmail;
+    
+    private UrgentFile urgentFile;
+    
+    private Warehouse warehouse;
 
+    
 	public String getCfid() {
 		return cfid;
 	}
@@ -204,5 +228,85 @@ public class CheckingForm {
 		this.cftime = cftime;
 	}
 
-    
+	public String getCfreply() {
+		return cfreply;
+	}
+
+	public void setCfreply(String cfreply) {
+		this.cfreply = cfreply;
+	}
+
+	public String getCfreplyreport() {
+		return cfreplyreport;
+	}
+
+	public void setCfreplyreport(String cfreplyreport) {
+		this.cfreplyreport = cfreplyreport;
+	}
+
+	public Line getLine() {
+		return line;
+	}
+
+	public void setLine(Line line) {
+		this.line = line;
+	}
+
+	public Cell getCell() {
+		return cell;
+	}
+
+	public void setCell(Cell cell) {
+		this.cell = cell;
+	}
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
+	public Classify getClassify() {
+		return classify;
+	}
+
+	public void setClassify(Classify classify) {
+		this.classify = classify;
+	}
+
+	public CheckingClassify getCheckingClassify() {
+		return checkingClassify;
+	}
+
+	public void setCheckingClassify(CheckingClassify checkingClassify) {
+		this.checkingClassify = checkingClassify;
+	}
+
+	public List<NotifyPersonnelEmail> getNotifyPersonnelEmail() {
+		return notifyPersonnelEmail;
+	}
+
+	public void setNotifyPersonnelEmail(List<NotifyPersonnelEmail> notifyPersonnelEmail) {
+		this.notifyPersonnelEmail = notifyPersonnelEmail;
+	}
+
+	public UrgentFile getUrgentFile() {
+		return urgentFile;
+	}
+
+	public void setUrgentFile(UrgentFile urgentFile) {
+		this.urgentFile = urgentFile;
+	}
+
+	public Warehouse getWarehouse() {
+		return warehouse;
+	}
+
+	public void setWarehouse(Warehouse warehouse) {
+		this.warehouse = warehouse;
+	}
+
+	
 }

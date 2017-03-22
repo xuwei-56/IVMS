@@ -23,17 +23,20 @@ import org.springframework.web.multipart.MultipartFile;
 import com.IVMS.model.Cell;
 import com.IVMS.model.CheckingClassify;
 import com.IVMS.model.CheckingForm;
+import com.IVMS.model.CheckingFormCustom;
+import com.IVMS.model.CheckingTools;
 import com.IVMS.model.Classify;
 import com.IVMS.model.Line;
 import com.IVMS.model.NotifyPersonnelEmail;
 import com.IVMS.model.Project;
 import com.IVMS.model.UrgentFile;
 import com.IVMS.model.User;
+import com.IVMS.model.Warehouse;
 import com.IVMS.service.SendCheckUserService;
 import com.IVMS.util.CommonUtil;
 import com.IVMS.util.EnumUtil;
+import com.alibaba.fastjson.JSONObject;
 
-import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("/user")
@@ -68,7 +71,12 @@ public class SendCheckUserController {
 				session.setAttribute("username", username);
 				session.setAttribute("password", password);
 				session.setAttribute("user", user); //存入session保持登录信息
-				return CommonUtil.constructResponse(EnumUtil.USER_LOGIN, "登录用户信息", user);
+				String department=user.getDepartment();
+				if(department.equals("QA")){
+					return CommonUtil.constructResponse(EnumUtil.ADMIN_LOGIN, "登录用户信息", user);
+				}else{
+					return CommonUtil.constructResponse(EnumUtil.USER_LOGIN, "登录用户信息", user);
+				}
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -165,6 +173,24 @@ public class SendCheckUserController {
 		}
 	}
 	
+	@RequestMapping("/getWareHouse")
+	@ResponseBody
+	public JSONObject getWareHouse(HttpServletResponse response, HttpServletRequest request,
+			Integer ClassifyId) throws Exception {
+		try{
+			List<Warehouse> warehouses=sendCheckUserService.selectWareHouseByClaid(ClassifyId);
+			if(warehouses.isEmpty()){
+				return CommonUtil.constructResponse(0,"没有数据！",null);
+			}
+			else{
+				return CommonUtil.constructResponse(EnumUtil.OK,"库位信息", warehouses);
+			}
+		}catch(Exception e){
+			logger.info(e.getMessage());
+			return CommonUtil.constructExceptionJSON(EnumUtil.UNKOWN_ERROR, "未知错误，请联系管理员", null);
+		}
+	}
+	
 	@RequestMapping("/getLines")
 	@ResponseBody
 	public JSONObject getLines(HttpServletResponse response, HttpServletRequest request) throws Exception {
@@ -217,13 +243,81 @@ public class SendCheckUserController {
 		}
 	}
 	
+	@RequestMapping("/exit")
+	@ResponseBody
+	public JSONObject exit(HttpSession session) throws Exception {
+		session.removeAttribute("user");
+		return CommonUtil.constructResponse(EnumUtil.OK,"退出成功", null);
+	}
+	
+	@RequestMapping("/myCheckingForm")
+	@ResponseBody
+	public JSONObject myCheckingForm(HttpSession session,Integer requestPageNum,Integer claId,
+			Integer pid,String cfid) throws Exception {
+		User user=(User) session.getAttribute("user");
+		String userName=user.getCn();
+		int allPageNum=sendCheckUserService.countMySendCheck(userName,claId,pid,cfid);
+		List<CheckingFormCustom>myCheckingForm=sendCheckUserService.selectByUserName(userName,requestPageNum,
+				claId,pid,cfid);
+		if(myCheckingForm.isEmpty()){
+			return CommonUtil.constructResponse(0,"没有数据！",null);
+		}else{
+			return CommonUtil.constructResponse(EnumUtil.OK,String.valueOf(allPageNum), myCheckingForm);
+		}
+	}
+	
+	@RequestMapping("/myCheckingFormDetails")
+	@ResponseBody
+	public JSONObject myCheckingFormDetails(String cfid) throws Exception {
+		//修改
+		CheckingForm checkingForm=sendCheckUserService.selectWidAndUrgentStatusByCfid(cfid);
+		int urgentStatus=checkingForm.getCfurgentstatus();
+		String isHaveWareHouse=checkingForm.getWid();
+		/**
+		 * 如果urgentStaus==1，为正常送检，不联合urgentfile表进行查询
+		 * 如果isHaveWareHouse==“0”，不联系和warehouse表进行查询
+		 */
+		List<CheckingForm> mySendCheckDetails=sendCheckUserService.mySendCheckDetails(isHaveWareHouse, urgentStatus,cfid);
+		if(mySendCheckDetails.isEmpty()){
+			return CommonUtil.constructResponse(0,"没有数据！",null);
+		}else{
+			return CommonUtil.constructResponse(EnumUtil.OK,"我的送检详情", mySendCheckDetails);
+		}
+	}
+	
+	@RequestMapping("/myCheckingTools")
+	@ResponseBody
+	public JSONObject myCheckingTools(HttpSession session) throws Exception {
+		User user=(User) session.getAttribute("user");
+		String userName=user.getCn();
+		List<CheckingTools>myCheckingTools=sendCheckUserService.selectByReceiver(userName);
+		if(myCheckingTools.isEmpty()){
+			return CommonUtil.constructResponse(0,"没有数据！",null);
+		}else{
+			return CommonUtil.constructResponse(EnumUtil.OK,"我的检具信息",myCheckingTools);
+		}
+	}
+	
+	@RequestMapping("/deleteMyCheckingForm")
+	@ResponseBody
+	public JSONObject deleteMyCheckingForm(HttpSession session,String cfid) throws Exception {
+		int resultOfDeleteMyCheckingForm=sendCheckUserService.deleteCheckingFormByPrimaryKey(cfid);
+		if(resultOfDeleteMyCheckingForm>0){
+			sendCheckUserService.deleteCopyEmailsByCfid(cfid);
+			sendCheckUserService.deleteUrgentFileByCfid(cfid);
+			return CommonUtil.constructResponse(EnumUtil.OK,"删除成功",null);
+		}
+		else{
+			return CommonUtil.constructResponse(EnumUtil.UNKOWN_ERROR,"删除失败！",null);
+		}
+	}
+	
 	@RequestMapping("/addSendCheckInfo")
 	@ResponseBody
 	public JSONObject addSendCheckInfo(HttpServletResponse response, HttpServletRequest request,
 			CheckingForm checkingForm,String[]copySendEmails,@RequestParam(value = "urgentfile", 
 			required = false) MultipartFile urgentfile) 
 			throws Exception {
-		try{
 			/**
 			 * 根据时间推移生成不同检验单编号(时间每过一天尾号又从001开始)
 			 */
@@ -248,84 +342,120 @@ public class SendCheckUserController {
 	        	startNumber=1;
 	        	checkFormId.append(nf.format(startNumber));
 	        	lastTime=currentTime;
-	        	/*System.out.println(lastTime);*/
 	        }else{
 	        	checkFormId.append(nf.format(startNumber));
 	        }
 	    	startNumber++;
-	        /*System.out.println(checkFormId);*/
-	        /**
-	         * 把数据添加进数据库
-	         */
 	        NotifyPersonnelEmail personnelEmail=null;
 	        String sendCheckId=checkFormId.toString();//得到送检单号
 	        boolean flag=true;
-	        if(copySendEmails!=null){//有抄送邮箱就添加进数据库，没有就不加
-	        	for(String email:copySendEmails){
-	            	personnelEmail=new NotifyPersonnelEmail();
-	            	personnelEmail.setCfid(sendCheckId);
-	            	personnelEmail.setNpenotifyemail(email);
-	            	int result=sendCheckUserService.insertCopySendEmail(personnelEmail);
-	            	if(result<=0){
-	            		flag=false;
-	            	}
-	            }
-	        }
-	        /**
-	         * 把文件传输到指定路径，并设置对象参数，添加到数据库
-	         */
-	        String filename = urgentfile.getOriginalFilename();  
-	        if( filename!=null && !filename.isEmpty() && urgentstatu == 2){
-	        	UrgentFile urgentFile=null;
-	        	String root =request.getSession().getServletContext().getRealPath("/urgentfile/");
-	        	int index = filename.lastIndexOf("\\");
-	    		if(index != -1) {
-	    			filename = filename.substring(index+1);
-	    		}
-	    		sdf=new SimpleDateFormat("yyyyMMddHHmmss");
-	            time=sdf.format(new Date());
-	            /*System.out.println(time);*/
-	            filename=time+"_"+filename;
-	            File destFile = new File(root,filename);
-	            /*System.out.println(destFile);//文件路径
-*/	            if(!destFile.exists()){
-	            	destFile.mkdirs();
-	            }  
-	            urgentfile.transferTo(destFile);  
-	          /*  String path=destFile.toString();//文件路径
-				System.out.println("path:"+path);
-				String strOfPath=path;//  \\对\转义，把\换成/
-				String itemName=request.getSession().getServletContext().getRealPath("/");
-				logger.info(itemName);
-				int index1=strOfPath.indexOf(itemName);
-				logger.info(" "+index1);
-				strOfPath=path.replace("\\","/");//  \\对\转义，把\换成/
-				path=strOfPath.substring(index1);
-				System.out.println("文件路径："+path);*/
-	            String path = "/urgentfile/"+ filename;
-				urgentFile=new UrgentFile();
-				urgentFile.setCfid(sendCheckId);
-				urgentFile.setUfname(path);
-				int result=sendCheckUserService.insertUrgentFile(urgentFile);
-				if(result<0){
-					flag=false;
-				}
-	        }
-	        checkingForm.setCfid(sendCheckId);
 	        checkingForm.setCftime(new Date());
-	        int result=sendCheckUserService.insert(checkingForm);
-	        if(result<=0){
-	        	flag=false;
+	        CheckingForm isAlreadyInsert=sendCheckUserService.selectByPrimaryKey(sendCheckId);
+	        int result=0;
+	        if(isAlreadyInsert==null){
+		        checkingForm.setCfid(sendCheckId);
+	        	result=sendCheckUserService.insertCheckingForm(checkingForm);
+	        	/**
+	        	 * 把邮箱插进数据库
+	        	 */
+	        	  if(copySendEmails!=null){//有抄送邮箱就添加进数据库，没有就不加
+	  	        	for(String email:copySendEmails){
+	  	            	personnelEmail=new NotifyPersonnelEmail();
+	  	            	personnelEmail.setCfid(sendCheckId);
+	  	            	personnelEmail.setNpenotifyemail(email);
+	  	            	int result1=sendCheckUserService.insertCopySendEmail(personnelEmail);
+	  	            	if(result1<=0){
+	  	            		flag=false;
+	  	            	}
+	  	            }
+	  	        }
+	        	  /**
+	  	         * 把文件传输到指定路径，并设置对象参数，添加到数据库
+	  	         */
+	  	        if(urgentfile!=null){
+	  	        	 String filename = urgentfile.getOriginalFilename();  
+	  	 	        if(filename!=null && !filename.isEmpty() && urgentstatu == 2){
+	  	 	        	UrgentFile urgentFile=null;
+	  	 	        	String root =request.getSession().getServletContext().getRealPath("/urgentFile/");
+	  	 	        	int index = filename.lastIndexOf("\\");
+	  	 	    		if(index != -1) {
+	  	 	    			filename = filename.substring(index+1);
+	  	 	    		}
+	  	 	    		sdf=new SimpleDateFormat("yyyyMMddHHmmss");
+	  	 	            time=sdf.format(new Date());
+	  	 	            filename=time+"_"+filename;
+	  	 	            File destFile = new File(root,filename);
+	  	 	            if(!destFile.exists()){
+	  	 	            	destFile.mkdirs();
+	  	 	            }  
+	  	 	            urgentfile.transferTo(destFile);  
+	  	 	            String path = "/urgentFile/"+ filename;
+	  	 				urgentFile=new UrgentFile();
+	  	 				urgentFile.setCfid(sendCheckId);
+	  	 				urgentFile.setUfname(path);
+	  	 				result=sendCheckUserService.insertUrgentFile(urgentFile);
+	  	 				if(result<0){
+	  	 					flag=false;
+	  	 				}
+	  	 	        }
+	  	        }
+	        }else{
+	        		String maxCfidForm=sendCheckUserService.selectMaxCfid("________0"+
+	        urgentstatu+"___");
+	        		System.out.println(maxCfidForm);
+	        		Integer last3Number=Integer.valueOf(maxCfidForm.substring(10, 13));
+	        		sendCheckId=maxCfidForm.substring(0,10)+nf.format(last3Number+1);
+	        		checkingForm.setCfid(sendCheckId);
+		        	result=sendCheckUserService.insertCheckingForm(checkingForm);
+		        	/**
+		        	 * 把邮箱插进数据库
+		        	 */
+		        	  if(copySendEmails!=null){//有抄送邮箱就添加进数据库，没有就不加
+		  	        	for(String email:copySendEmails){
+		  	            	personnelEmail=new NotifyPersonnelEmail();
+		  	            	personnelEmail.setCfid(sendCheckId);
+		  	            	personnelEmail.setNpenotifyemail(email);
+		  	            	int result1=sendCheckUserService.insertCopySendEmail(personnelEmail);
+		  	            	if(result1<=0){
+		  	            		flag=false;
+		  	            	}
+		  	            }
+		  	        }
+		        	  if(urgentfile!=null){
+			  	        	 String filename = urgentfile.getOriginalFilename();  
+			  	 	        if(filename!=null && !filename.isEmpty() && urgentstatu == 2){
+			  	 	        	UrgentFile urgentFile=null;
+			  	 	        	String root =request.getSession().getServletContext().getRealPath("/urgentFile/");
+			  	 	        	int index = filename.lastIndexOf("\\");
+			  	 	    		if(index != -1) {
+			  	 	    			filename = filename.substring(index+1);
+			  	 	    		}
+			  	 	    		sdf=new SimpleDateFormat("yyyyMMddHHmmss");
+			  	 	            time=sdf.format(new Date());
+			  	 	            filename=time+"_"+filename;
+			  	 	            File destFile = new File(root,filename);
+			  	 	            if(!destFile.exists()){
+			  	 	            	destFile.mkdirs();
+			  	 	            }  
+			  	 	            urgentfile.transferTo(destFile);  
+			  	 	            String path = "/urgentFile/"+ filename;
+			  	 				urgentFile=new UrgentFile();
+			  	 				urgentFile.setCfid(sendCheckId);
+			  	 				urgentFile.setUfname(path);
+			  	 				result=sendCheckUserService.insertUrgentFile(urgentFile);
+			  	 				if(result<0){
+			  	 					flag=false;
+			  	 				}
+			  	 	        }
+			  	        }
 	        }
+  	        if(result<=0){
+  	        	flag=false;
+  	        }
 	        if(flag==false){
 	        	return CommonUtil.constructResponse(EnumUtil.SYSTEM_ERROR,"提交信息失败！",null);
 	        }else{
 	        	return CommonUtil.constructResponse(EnumUtil.OK,"提交信息成功！",null);
 	        }
-		}catch(Exception e){
-			logger.info(e.getMessage());
-			new RuntimeException(e);
-			return CommonUtil.constructExceptionJSON(EnumUtil.UNKOWN_ERROR, "未知错误，请联系管理员", null);
-		}
 	}
 }

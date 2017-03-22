@@ -22,17 +22,26 @@
     <result column="CTSize" property="ctsize" jdbcType="INTEGER" />
     <result column="CTCheckTemperature" property="ctchecktemperature" jdbcType="VARCHAR" />
     <result column="CTCheckHumidiry" property="ctcheckhumidiry" jdbcType="VARCHAR" />
+    <result column="CTReceiver" property="ctreceiver" jdbcType="VARCHAR" />
+    <result column="CTRemark" property="ctremark" jdbcType="VARCHAR" />
+    <result column="CTStatus" property="ctstatus" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     CTId, CTUseItem, CTCheckProgram, CTName, CTProducer, CTProductionNum, CTNorms, CTProcision, 
     CTResolation, CTAssetNum, CTUseLine, CTUseStation, CTUseTime, CTCheckWay, CTCheckCycle, 
-    CTMSA, CTOriginalNum, CTSize, CTCheckTemperature, CTCheckHumidiry
+    CTMSA, CTOriginalNum, CTSize, CTCheckTemperature, CTCheckHumidiry,CTReceiver,CTRemark,CTStatus
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from checkingtools
     where CTId = #{ctid,jdbcType=INTEGER}
+  </select>
+  <select id="selectByReceiver" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from checkingtools
+    where CTReceiver = #{CTReceiver,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from checkingtools
@@ -45,14 +54,15 @@
       CTAssetNum, CTUseLine, CTUseStation, 
       CTUseTime, CTCheckWay, CTCheckCycle, 
       CTMSA, CTOriginalNum, CTSize, 
-      CTCheckTemperature, CTCheckHumidiry)
+      CTCheckTemperature, CTCheckHumidiry, CTReceiver,CTRemark,CTStatus)
     values (#{ctid,jdbcType=INTEGER}, #{ctuseitem,jdbcType=VARCHAR}, #{ctcheckprogram,jdbcType=VARCHAR}, 
       #{ctname,jdbcType=VARCHAR}, #{ctproducer,jdbcType=VARCHAR}, #{ctproductionnum,jdbcType=VARCHAR}, 
       #{ctnorms,jdbcType=VARCHAR}, #{ctprocision,jdbcType=VARCHAR}, #{ctresolation,jdbcType=VARCHAR}, 
       #{ctassetnum,jdbcType=VARCHAR}, #{ctuseline,jdbcType=VARCHAR}, #{ctusestation,jdbcType=VARCHAR}, 
       #{ctusetime,jdbcType=DATE}, #{ctcheckway,jdbcType=INTEGER}, #{ctcheckcycle,jdbcType=INTEGER}, 
       #{ctmsa,jdbcType=INTEGER}, #{ctoriginalnum,jdbcType=VARCHAR}, #{ctsize,jdbcType=INTEGER}, 
-      #{ctchecktemperature,jdbcType=VARCHAR}, #{ctcheckhumidiry,jdbcType=VARCHAR})
+      #{ctchecktemperature,jdbcType=VARCHAR}, #{ctcheckhumidiry,jdbcType=VARCHAR}, #{ctreceiver,jdbcType=VARCHAR},
+      #{ctremark,jdbcType=VARCHAR},#{ctstatus,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.IVMS.model.CheckingTools" >
     insert into checkingtools
@@ -117,6 +127,15 @@
       <if test="ctcheckhumidiry != null" >
         CTCheckHumidiry,
       </if>
+      <if test="ctreceiver != null" >
+        CTReceiver,
+      </if>
+      <if test="ctremark != null" >
+        CTRemark,
+      </if>
+      <if test="ctstatus != null" >
+        CTStatus,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="ctid != null" >
@@ -178,6 +197,15 @@
       </if>
       <if test="ctcheckhumidiry != null" >
         #{ctcheckhumidiry,jdbcType=VARCHAR},
+      </if>
+      <if test="ctreceiver != null" >
+        #{ctreceiver,jdbcType=VARCHAR},
+      </if>
+      <if test="ctremark != null" >
+        #{ctremark,jdbcType=VARCHAR},
+      </if>
+      <if test="ctstatus != null" >
+        #{ctstatus,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -241,6 +269,15 @@
       <if test="ctcheckhumidiry != null" >
         CTCheckHumidiry = #{ctcheckhumidiry,jdbcType=VARCHAR},
       </if>
+      <if test="ctreceiver != null" >
+        CTReceiver = #{ctreceiver,jdbcType=VARCHAR},
+      </if>
+      <if test="ctremark != null" >
+        CTRemark = #{ctremark,jdbcType=VARCHAR},
+      </if>
+      <if test="ctstatus != null" >
+        CTStatus = #{ctstatus,jdbcType=INTEGER},
+      </if>
     </set>
     where CTId = #{ctid,jdbcType=INTEGER}
   </update>
@@ -264,7 +301,10 @@
       CTOriginalNum = #{ctoriginalnum,jdbcType=VARCHAR},
       CTSize = #{ctsize,jdbcType=INTEGER},
       CTCheckTemperature = #{ctchecktemperature,jdbcType=VARCHAR},
-      CTCheckHumidiry = #{ctcheckhumidiry,jdbcType=VARCHAR}
+      CTCheckHumidiry = #{ctcheckhumidiry,jdbcType=VARCHAR},
+      CTReceiver = #{ctreceiver,jdbcType=VARCHAR}
+      CTRemark = #{ctremark,jdbcType=VARCHAR}
+      CTStatus = #{ctstatus,jdbcType=INTEGER}
     where CTId = #{ctid,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -1,21 +1,17 @@
 package com.IVMS.controller;
 
-import com.IVMS.util.AuthCodeUtil;
-import com.IVMS.util.CommonUtil;
-import com.IVMS.util.EnumUtil;
+import java.util.Random;
 
-import net.sf.json.JSONObject;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import java.io.ByteArrayInputStream;
-import java.io.OutputStream;
-import java.util.Random;
+import com.IVMS.util.CommonUtil;
+import com.IVMS.util.EnumUtil;
+import com.alibaba.fastjson.JSONObject;
 
 @Controller
 public class PageController {

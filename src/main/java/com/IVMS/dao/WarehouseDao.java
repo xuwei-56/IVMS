@@ -1,5 +1,7 @@
 package com.IVMS.dao;
 
+import java.util.List;
+
 import com.IVMS.model.Warehouse;
 
 public interface WarehouseDao {
@@ -10,6 +12,8 @@ public interface WarehouseDao {
     int insertSelective(Warehouse record);
 
     Warehouse selectByPrimaryKey(String wid);
+    
+    List<Warehouse> selectWareHouseByClaid(Integer classifyid);
 
     int updateByPrimaryKeySelective(Warehouse record);
 
