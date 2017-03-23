@@ -21,12 +21,96 @@
     <result column="CFUrgentStatus" property="cfurgentstatus" jdbcType="INTEGER" />
     <result column="CFRemarkFile" property="cfremarkfile" jdbcType="VARCHAR" />
     <result column="CFReportFile" property="cfreportfile" jdbcType="VARCHAR" />
-    <result column="CFTime" property="cftime" jdbcType="DATE" />
+    <result column="CFTime" property="cftime" jdbcType="TIMESTAMP" />
+    <result column="CFReply" property="cfreply" jdbcType="VARCHAR" />
+    <result column="CFReplyReport" property="cfreplyreport" jdbcType="VARCHAR" />
+  </resultMap>
+    <resultMap id="BaseResultMap1" type="com.IVMS.model.CheckingFormCustom" >
+    <id column="CFId" property="cfid" jdbcType="VARCHAR" />
+    <result column="LId" property="lid" jdbcType="INTEGER" />
+    <result column="CId" property="cid" jdbcType="INTEGER" />
+    <result column="PId" property="pid" jdbcType="INTEGER" />
+    <result column="WId" property="wid" jdbcType="VARCHAR" />
+    <result column="ClaId" property="claid" jdbcType="INTEGER" />
+    <result column="CCId" property="ccid" jdbcType="INTEGER" />
+    <result column="CFMoveP" property="cfmovep" jdbcType="VARCHAR" />
+    <result column="CFPhoneNum" property="cfphonenum" jdbcType="VARCHAR" />
+    <result column="CFEMail" property="cfemail" jdbcType="VARCHAR" />
+    <result column="CFComponentName" property="cfcomponentname" jdbcType="VARCHAR" />
+    <result column="CFComponentId" property="cfcomponentid" jdbcType="VARCHAR" />
+    <result column="CFComponentNum" property="cfcomponentnum" jdbcType="INTEGER" />
+    <result column="CFCheckNum" property="cfchecknum" jdbcType="INTEGER" />
+    <result column="CFRemark" property="cfremark" jdbcType="VARCHAR" />
+    <result column="CFStatus" property="cfstatus" jdbcType="INTEGER" />
+    <result column="CFUrgentStatus" property="cfurgentstatus" jdbcType="INTEGER" />
+    <result column="CFRemarkFile" property="cfremarkfile" jdbcType="VARCHAR" />
+    <result column="CFReportFile" property="cfreportfile" jdbcType="VARCHAR" />
+    <result column="CFTime" property="cftime" jdbcType="TIMESTAMP" />
+    <result column="CFReply" property="cfreply" jdbcType="VARCHAR" />
+    <result column="CFReplyReport" property="cfreplyreport" jdbcType="VARCHAR" />
+    <result column="CName" property="cname" jdbcType="VARCHAR" />
+  </resultMap>
+  <!-- 送检详情resultmap -->
+  <resultMap id="mysendcheckdetailsMap" type="com.IVMS.model.CheckingForm" >
+    <id column="CFId" property="cfid" jdbcType="VARCHAR" />
+    <result column="CFMoveP" property="cfmovep" jdbcType="VARCHAR" />
+    <result column="CFPhoneNum" property="cfphonenum" jdbcType="VARCHAR" />
+    <result column="CFEMail" property="cfemail" jdbcType="VARCHAR" />
+    <result column="CFComponentName" property="cfcomponentname" jdbcType="VARCHAR" />
+    <result column="CFComponentId" property="cfcomponentid" jdbcType="VARCHAR" />
+    <result column="CFComponentNum" property="cfcomponentnum" jdbcType="INTEGER" />
+    <result column="CFCheckNum" property="cfchecknum" jdbcType="INTEGER" />
+    <result column="CFRemark" property="cfremark" jdbcType="VARCHAR" />
+    <result column="CFStatus" property="cfstatus" jdbcType="INTEGER" />
+    <result column="CFUrgentStatus" property="cfurgentstatus" jdbcType="INTEGER" />
+    <result column="CFReportFile" property="cfreportfile" jdbcType="VARCHAR" />
+    <result column="CFTime" property="cftime" jdbcType="TIMESTAMP" />
+    <result column="CFReply" property="cfreply" jdbcType="VARCHAR" />
+    <result column="CFReplyReport" property="cfreplyreport" jdbcType="VARCHAR" />
+    <association property="line" javaType="com.IVMS.model.Line">
+    <id property="lid" column="LId"/>
+    <result property="lname" column="LName"/>
+    </association>
+    <association property="cell" javaType="com.IVMS.model.Cell">
+    <id property="cid" column="CId"/>
+    <result property="cname" column="CName"/>
+    <result property="lid" column="LId"/>
+    </association>
+    <association property="project" javaType="com.IVMS.model.Project">
+    <id property="pid" column="PId"/>
+    <result property="pname" column="PName"/>
+    </association>
+    <association property="classify" javaType="com.IVMS.model.Classify">
+    <id property="claid" column="ClaId"/>
+    <result property="cname" column="CName"/>
+    </association>
+    <association property="checkingClassify" javaType="com.IVMS.model.CheckingClassify">
+    <id property="ccid" column="CCId"/>
+    <result property="claid" column="ClaId"/>
+    <result property="ccname" column="CCName"/>
+    </association>
+    <association property="warehouse" javaType="com.IVMS.model.Warehouse">
+    <id property="wid" column="WId"/>
+    <result property="claid" column="ClaId"/>
+    <result property="wstatus" column="WStatus"/>
+    </association>
+    <association property="urgentFile" javaType="com.IVMS.model.UrgentFile">
+    <id property="ufid" column="UFId"/>
+    <result property="cfid" column="CFId"/>
+    <result property="ufname" column="UFName"/>
+    </association>
+    <collection property="notifyPersonnelEmail" ofType="com.IVMS.model.NotifyPersonnelEmail">
+	<id property="npeid" column="NPEId"/>
+	<result property="cfid" column="CFId"/>
+	<result property="npenotifyemail" column="NPENotifyEmail"/>
+	<result property="npenotifytime" column="NPENotifyTime"/>
+    </collection>
+    
   </resultMap>
   <sql id="Base_Column_List" >
     CFId, LId, CId, PId, WId, ClaId, CCId, CFMoveP, CFPhoneNum, CFEMail, CFComponentName, 
     CFComponentId, CFComponentNum, CFCheckNum, CFRemark, CFStatus, CFUrgentStatus, CFRemarkFile, 
-    CFReportFile,CFTime
+    CFReportFile,CFTime,CFReply,CFReplyReport
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -34,7 +118,76 @@
     from checkingform
     where CFId = #{cfid,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <select id="selectWidAndUrgentStatusByCfid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select WId,CFUrgentStatus
+    from checkingform
+    where CFId = #{cfid,jdbcType=VARCHAR}
+  </select>
+  <select id="mySendCheckDetails" resultMap="mysendcheckdetailsMap">
+ SELECT 
+ cf.CFId,cf.CFMoveP,cf.CFPhoneNum,cf.CFEMail,cf.CFComponentName,cf.CFComponentId,cf.CFComponentNum,
+ cf.CFCheckNum,cf.CFRemark,cf.CFStatus,cf.CFUrgentStatus,cf.CFReportFile,cf.CFTime,cf.CFReply,
+ cf.CFReplyReport,LName,c.CName CName,PName,cla.CName ClaName,cc.CCName CCName,
+ npe.NPENotifyEmail
+ <if test='isHaveWareHouse!="0"'>
+  ,wh.WId,WStatus
+ </if>
+ <if test="urgentStatus!= 1">
+  ,ur.UFName UFName
+ </if>
+ FROM 
+ checkingform cf,line l,cell c,project p,classify cla,checkingclassify cc,
+ notifypersonnelemail npe
+ <if test='isHaveWareHouse!="0"'>
+  ,warehouse wh
+ </if>
+ <if test="urgentStatus!= 1">
+  ,urgentfile ur
+ </if>
+ WHERE 
+ cf.LId=l.LId AND cf.CFId=#{cfid,jdbcType=VARCHAR} AND cf.CFId=npe.CFId AND c.CId=cf.CId AND p.PId=cf.PId 
+ AND cla.ClaId=cf.ClaId AND cc.CCId=cf.CCId
+ <if test='isHaveWareHouse!="0"'>
+ AND wh.WId=cf.WId 
+ </if>
+ <if test="urgentStatus!= 1">
+ AND ur.CFId=cf.CFId 
+ </if> 
+  </select>
+  <select id="selectByUserName" resultMap="BaseResultMap1">
+   SELECT CFId,CFTime,CName,CFComponentId,CFComponentName,CFStatus
+   FROM checkingform cf,classify cla
+   WHERE cf.ClaId=cla.ClaId AND CFMoveP=#{CFMoveP,jdbcType=VARCHAR} 
+   <if test="ClaId != 0" >
+         AND cf.ClaId=#{ClaId,jdbcType=INTEGER}
+   </if>
+   <if test="Pid != 0" >
+         AND Pid=#{Pid，jdbcType=INTEGER}
+   </if>
+   <if test='CFId !="0" ' >
+          AND CFId LIKE '${CFId}%'
+   </if>
+   ORDER BY CFTime DESC 
+   LIMIT #{startRow,jdbcType=INTEGER},#{numberOfPerPage,jdbcType=INTEGER};
+  </select>
+   <select id="countMySendCheck" resultType="java.lang.Integer">
+   SELECT COUNT(*)
+   FROM checkingform cf,classify cla
+   WHERE cf.ClaId=cla.ClaId AND CFMoveP=#{CFMoveP,jdbcType=VARCHAR}
+   <if test="ClaId != 0" >
+         AND cf.ClaId=#{ClaId,jdbcType=INTEGER}
+   </if>
+   <if test="Pid != 0" >
+         AND Pid=#{Pid,jdbcType=INTEGER}
+   </if>
+   <if test='CFId !="0" ' >
+         AND CFId LIKE '${CFId}%'
+   </if>
+  </select>
+  <select id="selectMaxCfid" resultType="java.lang.String" parameterType="java.lang.String" >
+    SELECT MAX(CFId) FROM checkingform WHERE CFId LIKE '${value}';
+  </select>
+  <delete id="deleteCheckingFormByPrimaryKey" parameterType="java.lang.String" >
     delete from checkingform
     where CFId = #{cfid,jdbcType=VARCHAR}
   </delete>
@@ -44,7 +197,7 @@
       CFMoveP, CFPhoneNum, CFEMail, 
       CFComponentName, CFComponentId, CFComponentNum, 
       CFCheckNum, CFRemark, CFStatus, 
-      CFUrgentStatus, CFRemarkFile, CFReportFile,CFTime
+      CFUrgentStatus, CFRemarkFile, CFReportFile,CFTime,CFReply,CFReplyReport
       )
     values (#{cfid,jdbcType=VARCHAR}, #{lid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, 
       #{pid,jdbcType=INTEGER}, #{wid,jdbcType=VARCHAR}, #{claid,jdbcType=INTEGER}, #{ccid,jdbcType=INTEGER}, 
@@ -52,10 +205,10 @@
       #{cfcomponentname,jdbcType=VARCHAR}, #{cfcomponentid,jdbcType=VARCHAR}, #{cfcomponentnum,jdbcType=INTEGER}, 
       #{cfchecknum,jdbcType=INTEGER}, #{cfremark,jdbcType=VARCHAR}, #{cfstatus,jdbcType=INTEGER}, 
       #{cfurgentstatus,jdbcType=INTEGER}, #{cfremarkfile,jdbcType=VARCHAR}, #{cfreportfile,jdbcType=VARCHAR},
-      #{cftime,jdbcType=DATE}
+      #{cftime,jdbcType=TIMESTAMP},#{cfreply,jdbcType=VARCHAR},#{cfreplyreport,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.IVMS.model.CheckingForm" >
+  <insert id="insertCheckingForm" parameterType="com.IVMS.model.CheckingForm" >
     insert into checkingform
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="cfid != null" >
@@ -118,6 +271,13 @@
       <if test="cftime != null" >
         CFTime,
       </if>
+      <if test="cfreply != null" >
+        CFReply,
+      </if>
+      <if test="cfreplyreport != null" >
+        CFReplyReport,
+      </if>
+      
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="cfid != null" >
@@ -178,8 +338,15 @@
         #{cfreportfile,jdbcType=VARCHAR},
       </if>
       <if test="cftime != null" >
-        #{cftime,jdbcType=DATE},
+        #{cftime,jdbcType=TIMESTAMP},
       </if>
+      <if test="cfreply != null" >
+        #{cfreply,jdbcType=VARCHAR},
+      </if>
+      <if test="cfreplyreport != null" >
+        #{cfreplyreport,jdbcType=VARCHAR},
+      </if>
+  
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.IVMS.model.CheckingForm" >
@@ -240,8 +407,15 @@
         CFReportFile = #{cfreportfile,jdbcType=VARCHAR},
       </if>
       <if test="cftime != null" >
-        CFTime = #{cftime,jdbcType=DATE},
+        CFTime = #{cftime,jdbcType=TIMESTAMP},
       </if>
+      <if test="cfreply != null" >
+        CFReply = #{cfreply,jdbcType=VARCHAR},
+      </if>
+      <if test="cfreplyreport != null" >
+        CFReplyreport = #{cfreplyreport,jdbcType=VARCHAR},
+      </if>
+      
     </set>
     where CFId = #{cfid,jdbcType=VARCHAR}
   </update>
@@ -265,7 +439,9 @@
       CFUrgentStatus = #{cfurgentstatus,jdbcType=INTEGER},
       CFRemarkFile = #{cfremarkfile,jdbcType=VARCHAR},
       CFReportFile = #{cfreportfile,jdbcType=VARCHAR}
-      CFTime = #{cftime,jdbcType=DATE}
+      CFTime = #{cftime,jdbcType=TIMESTAMP}
+      CFReply=#{cfreply,jdbcType=VARCHAR}
+      CFReplyreport=#{cfreplyreport,jdbcType=VARCHAR}
     where CFId = #{cfid,jdbcType=VARCHAR}
   </update>
 </mapper>

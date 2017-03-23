@@ -4,6 +4,8 @@ import com.IVMS.model.UrgentFile;
 
 public interface UrgentFileDao {
     int deleteByPrimaryKey(Integer ufid);
+    
+    int deleteUrgentFileByCfid(String cfid);
 
     int insert(UrgentFile record);
 

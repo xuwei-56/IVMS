@@ -19,6 +19,10 @@
     delete from urgentfile
     where UFId = #{ufid,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteUrgentFileByCfid" parameterType="java.lang.String" >
+    delete from urgentfile
+    where CFId = #{CFId,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="com.IVMS.model.UrgentFile" >
     insert into urgentfile (UFId, CFId, UFName
       )

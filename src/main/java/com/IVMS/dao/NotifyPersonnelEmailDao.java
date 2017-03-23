@@ -14,4 +14,6 @@ public interface NotifyPersonnelEmailDao {
     int updateByPrimaryKeySelective(NotifyPersonnelEmail record);
 
     int updateByPrimaryKey(NotifyPersonnelEmail record);
+    
+    int deleteCopyEmailsByCfid(String cfid);
 }

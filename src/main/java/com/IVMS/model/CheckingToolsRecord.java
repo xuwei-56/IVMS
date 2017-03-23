@@ -31,6 +31,7 @@ public class CheckingToolsRecord {
     
     private String ctrcheckman;
 
+    
 	public Integer getCtrid() {
 		return ctrid;
 	}
@@ -135,7 +136,6 @@ public class CheckingToolsRecord {
 		this.ctrremark = ctrremark;
 	}
 
-
 	public String getCtrcheckman() {
 		return ctrcheckman;
 	}
@@ -143,5 +143,6 @@ public class CheckingToolsRecord {
 	public void setCtrcheckman(String ctrcheckman) {
 		this.ctrcheckman = ctrcheckman;
 	}
+
 	
 }

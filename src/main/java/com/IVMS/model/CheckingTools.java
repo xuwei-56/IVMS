@@ -1,6 +1,7 @@
 package com.IVMS.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class CheckingTools {
     private Integer ctid;
@@ -42,164 +43,217 @@ public class CheckingTools {
     private String ctchecktemperature;
 
     private String ctcheckhumidiry;
+    
+    private String ctreceiver;
+    
+    private String ctremark;
+    
+    private Integer ctstatus;
 
-    public Integer getCtid() {
-        return ctid;
-    }
+    private List<CheckingToolsFile> checkingToolsFile;
+    
+    private CheckingToolsRecord checkingToolsRecord;
+    
 
-    public void setCtid(Integer ctid) {
-        this.ctid = ctid;
-    }
+	public Integer getCtid() {
+		return ctid;
+	}
 
-    public String getCtuseitem() {
-        return ctuseitem;
-    }
+	public void setCtid(Integer ctid) {
+		this.ctid = ctid;
+	}
 
-    public void setCtuseitem(String ctuseitem) {
-        this.ctuseitem = ctuseitem == null ? null : ctuseitem.trim();
-    }
+	public String getCtuseitem() {
+		return ctuseitem;
+	}
 
-    public String getCtcheckprogram() {
-        return ctcheckprogram;
-    }
+	public void setCtuseitem(String ctuseitem) {
+		this.ctuseitem = ctuseitem;
+	}
 
-    public void setCtcheckprogram(String ctcheckprogram) {
-        this.ctcheckprogram = ctcheckprogram == null ? null : ctcheckprogram.trim();
-    }
+	public String getCtcheckprogram() {
+		return ctcheckprogram;
+	}
 
-    public String getCtname() {
-        return ctname;
-    }
+	public void setCtcheckprogram(String ctcheckprogram) {
+		this.ctcheckprogram = ctcheckprogram;
+	}
 
-    public void setCtname(String ctname) {
-        this.ctname = ctname == null ? null : ctname.trim();
-    }
+	public String getCtname() {
+		return ctname;
+	}
 
-    public String getCtproducer() {
-        return ctproducer;
-    }
+	public void setCtname(String ctname) {
+		this.ctname = ctname;
+	}
 
-    public void setCtproducer(String ctproducer) {
-        this.ctproducer = ctproducer == null ? null : ctproducer.trim();
-    }
+	public String getCtproducer() {
+		return ctproducer;
+	}
 
-    public String getCtproductionnum() {
-        return ctproductionnum;
-    }
+	public void setCtproducer(String ctproducer) {
+		this.ctproducer = ctproducer;
+	}
 
-    public void setCtproductionnum(String ctproductionnum) {
-        this.ctproductionnum = ctproductionnum == null ? null : ctproductionnum.trim();
-    }
+	public String getCtproductionnum() {
+		return ctproductionnum;
+	}
 
-    public String getCtnorms() {
-        return ctnorms;
-    }
+	public void setCtproductionnum(String ctproductionnum) {
+		this.ctproductionnum = ctproductionnum;
+	}
 
-    public void setCtnorms(String ctnorms) {
-        this.ctnorms = ctnorms == null ? null : ctnorms.trim();
-    }
+	public String getCtnorms() {
+		return ctnorms;
+	}
 
-    public String getCtprocision() {
-        return ctprocision;
-    }
+	public void setCtnorms(String ctnorms) {
+		this.ctnorms = ctnorms;
+	}
 
-    public void setCtprocision(String ctprocision) {
-        this.ctprocision = ctprocision == null ? null : ctprocision.trim();
-    }
+	public String getCtprocision() {
+		return ctprocision;
+	}
 
-    public String getCtresolation() {
-        return ctresolation;
-    }
+	public void setCtprocision(String ctprocision) {
+		this.ctprocision = ctprocision;
+	}
 
-    public void setCtresolation(String ctresolation) {
-        this.ctresolation = ctresolation == null ? null : ctresolation.trim();
-    }
+	public String getCtresolation() {
+		return ctresolation;
+	}
 
-    public String getCtassetnum() {
-        return ctassetnum;
-    }
+	public void setCtresolation(String ctresolation) {
+		this.ctresolation = ctresolation;
+	}
 
-    public void setCtassetnum(String ctassetnum) {
-        this.ctassetnum = ctassetnum == null ? null : ctassetnum.trim();
-    }
+	public String getCtassetnum() {
+		return ctassetnum;
+	}
 
-    public String getCtuseline() {
-        return ctuseline;
-    }
+	public void setCtassetnum(String ctassetnum) {
+		this.ctassetnum = ctassetnum;
+	}
 
-    public void setCtuseline(String ctuseline) {
-        this.ctuseline = ctuseline == null ? null : ctuseline.trim();
-    }
+	public String getCtuseline() {
+		return ctuseline;
+	}
 
-    public String getCtusestation() {
-        return ctusestation;
-    }
+	public void setCtuseline(String ctuseline) {
+		this.ctuseline = ctuseline;
+	}
 
-    public void setCtusestation(String ctusestation) {
-        this.ctusestation = ctusestation == null ? null : ctusestation.trim();
-    }
+	public String getCtusestation() {
+		return ctusestation;
+	}
 
-    public Date getCtusetime() {
-        return ctusetime;
-    }
+	public void setCtusestation(String ctusestation) {
+		this.ctusestation = ctusestation;
+	}
 
-    public void setCtusetime(Date ctusetime) {
-        this.ctusetime = ctusetime;
-    }
+	public Date getCtusetime() {
+		return ctusetime;
+	}
 
-    public Integer getCtcheckway() {
-        return ctcheckway;
-    }
+	public void setCtusetime(Date ctusetime) {
+		this.ctusetime = ctusetime;
+	}
 
-    public void setCtcheckway(Integer ctcheckway) {
-        this.ctcheckway = ctcheckway;
-    }
+	public Integer getCtcheckway() {
+		return ctcheckway;
+	}
 
-    public Integer getCtcheckcycle() {
-        return ctcheckcycle;
-    }
+	public void setCtcheckway(Integer ctcheckway) {
+		this.ctcheckway = ctcheckway;
+	}
 
-    public void setCtcheckcycle(Integer ctcheckcycle) {
-        this.ctcheckcycle = ctcheckcycle;
-    }
+	public Integer getCtcheckcycle() {
+		return ctcheckcycle;
+	}
 
-    public Integer getCtmsa() {
-        return ctmsa;
-    }
+	public void setCtcheckcycle(Integer ctcheckcycle) {
+		this.ctcheckcycle = ctcheckcycle;
+	}
 
-    public void setCtmsa(Integer ctmsa) {
-        this.ctmsa = ctmsa;
-    }
+	public Integer getCtmsa() {
+		return ctmsa;
+	}
 
-    public String getCtoriginalnum() {
-        return ctoriginalnum;
-    }
+	public void setCtmsa(Integer ctmsa) {
+		this.ctmsa = ctmsa;
+	}
 
-    public void setCtoriginalnum(String ctoriginalnum) {
-        this.ctoriginalnum = ctoriginalnum == null ? null : ctoriginalnum.trim();
-    }
+	public String getCtoriginalnum() {
+		return ctoriginalnum;
+	}
 
-    public Integer getCtsize() {
-        return ctsize;
-    }
+	public void setCtoriginalnum(String ctoriginalnum) {
+		this.ctoriginalnum = ctoriginalnum;
+	}
 
-    public void setCtsize(Integer ctsize) {
-        this.ctsize = ctsize;
-    }
+	public Integer getCtsize() {
+		return ctsize;
+	}
 
-    public String getCtchecktemperature() {
-        return ctchecktemperature;
-    }
+	public void setCtsize(Integer ctsize) {
+		this.ctsize = ctsize;
+	}
 
-    public void setCtchecktemperature(String ctchecktemperature) {
-        this.ctchecktemperature = ctchecktemperature == null ? null : ctchecktemperature.trim();
-    }
+	public String getCtchecktemperature() {
+		return ctchecktemperature;
+	}
 
-    public String getCtcheckhumidiry() {
-        return ctcheckhumidiry;
-    }
+	public void setCtchecktemperature(String ctchecktemperature) {
+		this.ctchecktemperature = ctchecktemperature;
+	}
 
-    public void setCtcheckhumidiry(String ctcheckhumidiry) {
-        this.ctcheckhumidiry = ctcheckhumidiry == null ? null : ctcheckhumidiry.trim();
-    }
+	public String getCtcheckhumidiry() {
+		return ctcheckhumidiry;
+	}
+
+	public void setCtcheckhumidiry(String ctcheckhumidiry) {
+		this.ctcheckhumidiry = ctcheckhumidiry;
+	}
+
+	public String getCtreceiver() {
+		return ctreceiver;
+	}
+
+	public void setCtreceiver(String ctreceiver) {
+		this.ctreceiver = ctreceiver;
+	}
+
+	public String getCtremark() {
+		return ctremark;
+	}
+
+	public void setCtremark(String ctremark) {
+		this.ctremark = ctremark;
+	}
+
+	public Integer getCtstatus() {
+		return ctstatus;
+	}
+
+	public void setCtstatus(Integer ctstatus) {
+		this.ctstatus = ctstatus;
+	}
+
+	public List<CheckingToolsFile> getCheckingToolsFile() {
+		return checkingToolsFile;
+	}
+
+	public void setCheckingToolsFile(List<CheckingToolsFile> checkingToolsFile) {
+		this.checkingToolsFile = checkingToolsFile;
+	}
+
+	public CheckingToolsRecord getCheckingToolsRecord() {
+		return checkingToolsRecord;
+	}
+
+	public void setCheckingToolsRecord(CheckingToolsRecord checkingToolsRecord) {
+		this.checkingToolsRecord = checkingToolsRecord;
+	}
+	
+    
 }

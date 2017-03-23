@@ -1,5 +1,9 @@
 package com.IVMS.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.IVMS.model.CheckingTools;
 
 public interface CheckingToolsDao {
@@ -14,4 +18,9 @@ public interface CheckingToolsDao {
     int updateByPrimaryKeySelective(CheckingTools record);
 
     int updateByPrimaryKey(CheckingTools record);
+    
+    List<CheckingTools> selectByReceiver(String receiver);
+    
+    List<CheckingTools> myCheckingToolsDetails(@Param("ctid")Integer ctid,
+    		@Param("isHaveCheckingToolsFile")Integer isHaveCheckingToolsFile);
 }

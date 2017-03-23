@@ -41,7 +41,7 @@
       #{ctrmovecp,jdbcType=VARCHAR}, #{ctrmovetime,jdbcType=DATE}, #{ctrchecktime,jdbcType=DATE}, 
       #{ctrchecknexttime,jdbcType=DATE}, #{ctrcheckcontent,jdbcType=VARCHAR}, #{ctrcheckvalue,jdbcType=VARCHAR}, 
       #{ctrchecktools,jdbcType=VARCHAR}, #{ctrcheckresult,jdbcType=INTEGER}, #{ctracceptresult,jdbcType=INTEGER}, 
-      #{ctrremark,jdbcType=INTEGER}, #{ctrcheckman,jdbcType=VARCHAR})
+      #{ctrremark,jdbcType=INTEGER},#{ctrcheckman,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.IVMS.model.CheckingToolsRecord" >
     insert into checkingtoolsrecord
@@ -174,7 +174,7 @@
         CTRRemark = #{ctrremark,jdbcType=INTEGER},
       </if>
       <if test="ctrcheckman != null" >
-        CTRCheckMan = #{ctrcheckman,jdbcType=VARCHAR},
+        CTRCheckman = #{ctrcheckman,jdbcType=VARCHAR},
       </if>
     </set>
     where CTRId = #{ctrid,jdbcType=INTEGER}
@@ -192,8 +192,8 @@
       CTRCheckTools = #{ctrchecktools,jdbcType=VARCHAR},
       CTRCheckResult = #{ctrcheckresult,jdbcType=INTEGER},
       CTRAcceptResult = #{ctracceptresult,jdbcType=INTEGER},
-      CTRRemark = #{ctrremark,jdbcType=INTEGER},
-      CTRCheckMan = #{ctrcheckMan,jdbcType=VARCHAR},
+      CTRRemark = #{ctrremark,jdbcType=INTEGER}
+      CTRCheckman = #{ctrcheckman,jdbcType=VARCHAR}
     where CTRId = #{ctrid,jdbcType=INTEGER}
   </update>
 </mapper>

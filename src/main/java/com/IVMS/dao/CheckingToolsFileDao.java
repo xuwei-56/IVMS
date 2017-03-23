@@ -1,5 +1,7 @@
 package com.IVMS.dao;
 
+import java.util.List;
+
 import com.IVMS.model.CheckingToolsFile;
 
 public interface CheckingToolsFileDao {
@@ -10,6 +12,8 @@ public interface CheckingToolsFileDao {
     int insertSelective(CheckingToolsFile record);
 
     CheckingToolsFile selectByPrimaryKey(Integer ctfid);
+    
+    List<CheckingToolsFile>selectByCtid(Integer ctid);
 
     int updateByPrimaryKeySelective(CheckingToolsFile record);
 

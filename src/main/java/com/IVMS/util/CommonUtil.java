@@ -1,15 +1,6 @@
 package com.IVMS.util;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
-import javax.servlet.http.HttpServletRequest;
-
 import java.io.File;
 import java.net.InetAddress;
 import java.net.URI;
@@ -20,6 +11,15 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
 public class CommonUtil {
 	private static Logger log = LoggerFactory.getLogger(CommonUtil.class);
