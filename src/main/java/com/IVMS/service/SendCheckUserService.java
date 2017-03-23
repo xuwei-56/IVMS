@@ -14,6 +14,7 @@ import com.IVMS.model.CheckingClassify;
 import com.IVMS.model.CheckingForm;
 import com.IVMS.model.CheckingFormCustom;
 import com.IVMS.model.CheckingTools;
+import com.IVMS.model.CheckingToolsFile;
 import com.IVMS.model.Classify;
 import com.IVMS.model.Line;
 import com.IVMS.model.NotifyPersonnelEmail;
@@ -71,4 +72,8 @@ public interface SendCheckUserService {
 	CheckingForm selectWidAndUrgentStatusByCfid(String cfid);
 	
 	List<CheckingForm>mySendCheckDetails(String isHaveWareHouse,Integer urgentStatus,String cfid);
+	
+	List<CheckingToolsFile>selectByCtid(Integer ctid);
+	
+	List<CheckingTools> myCheckingToolsDetails(Integer ctid,Integer isHaveCheckingToolsFile);
 }

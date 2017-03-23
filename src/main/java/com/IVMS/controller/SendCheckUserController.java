@@ -25,6 +25,7 @@ import com.IVMS.model.CheckingClassify;
 import com.IVMS.model.CheckingForm;
 import com.IVMS.model.CheckingFormCustom;
 import com.IVMS.model.CheckingTools;
+import com.IVMS.model.CheckingToolsFile;
 import com.IVMS.model.Classify;
 import com.IVMS.model.Line;
 import com.IVMS.model.NotifyPersonnelEmail;
@@ -295,6 +296,23 @@ public class SendCheckUserController {
 			return CommonUtil.constructResponse(0,"没有数据！",null);
 		}else{
 			return CommonUtil.constructResponse(EnumUtil.OK,"我的检具信息",myCheckingTools);
+		}
+	}
+	
+	@RequestMapping("/myCheckingToolsDetails")
+	@ResponseBody
+	public JSONObject myCheckingToolsDetails(Integer ctid) throws Exception {
+		Integer isHaveCheckingToolsFile=1;
+		List<CheckingToolsFile>myCheckingToolsFile=sendCheckUserService.selectByCtid(ctid);
+		if(myCheckingToolsFile==null||myCheckingToolsFile.isEmpty()){
+			isHaveCheckingToolsFile=0;
+		}
+		List<CheckingTools>myCheckingToolsDetails=sendCheckUserService.myCheckingToolsDetails(ctid, 
+				isHaveCheckingToolsFile);
+		if(myCheckingToolsDetails.isEmpty()){
+			return CommonUtil.constructResponse(0,"没有数据！",null);
+		}else{
+			return CommonUtil.constructResponse(EnumUtil.OK,"我的检具详情",myCheckingToolsDetails);
 		}
 	}
 	

@@ -25,6 +25,31 @@
     <result column="CTReceiver" property="ctreceiver" jdbcType="VARCHAR" />
     <result column="CTRemark" property="ctremark" jdbcType="VARCHAR" />
     <result column="CTStatus" property="ctstatus" jdbcType="INTEGER" />
+    <!-- 我的检具详情resultmap -->
+  </resultMap>
+    <resultMap id="mycheckingtoolsdetailsMap" type="com.IVMS.model.CheckingTools"
+    extends="BaseResultMap" >
+    <association property="checkingToolsRecord" javaType="com.IVMS.model.CheckingToolsRecord">
+    <id column="CTRId" property="ctrid" jdbcType="INTEGER" />
+    <result column="CTId" property="ctid" jdbcType="INTEGER" />
+    <result column="CTRNum" property="ctrnum" jdbcType="INTEGER" />
+    <result column="CTRMoveCP" property="ctrmovecp" jdbcType="VARCHAR" />
+    <result column="CTRMoveTime" property="ctrmovetime" jdbcType="DATE" />
+    <result column="CTRCheckTIme" property="ctrchecktime" jdbcType="DATE" />
+    <result column="CTRCheckNextTime" property="ctrchecknexttime" jdbcType="DATE" />
+    <result column="CTRCheckContent" property="ctrcheckcontent" jdbcType="VARCHAR" />
+    <result column="CTRCheckValue" property="ctrcheckvalue" jdbcType="VARCHAR" />
+    <result column="CTRCheckTools" property="ctrchecktools" jdbcType="VARCHAR" />
+    <result column="CTRCheckResult" property="ctrcheckresult" jdbcType="INTEGER" />
+    <result column="CTRAcceptResult" property="ctracceptresult" jdbcType="INTEGER" />
+    <result column="CTRRemark" property="ctrremark" jdbcType="INTEGER" />
+    <result column="CTRCheckMan" property="ctrcheckman" jdbcType="VARCHAR" />
+    </association>
+    <collection property="checkingToolsFile" ofType="com.IVMS.model.CheckingToolsFile">
+	<id column="CTFId" property="ctfid" jdbcType="INTEGER" />
+    <result column="CTId" property="ctid" jdbcType="INTEGER" />
+    <result column="CTFName" property="ctfname" jdbcType="VARCHAR" />
+    </collection>
   </resultMap>
   <sql id="Base_Column_List" >
     CTId, CTUseItem, CTCheckProgram, CTName, CTProducer, CTProductionNum, CTNorms, CTProcision, 
@@ -36,6 +61,22 @@
     <include refid="Base_Column_List" />
     from checkingtools
     where CTId = #{ctid,jdbcType=INTEGER}
+  </select>
+  <select id="myCheckingToolsDetails" resultMap="mycheckingtoolsdetailsMap" >
+  SELECT 
+  ct.*,ctr.*
+  <if test="isHaveCheckingToolsFile != 0" >
+  ,ctf.CTFName 
+  </if>
+  FROM 
+  checkingtools ct,checkingtoolsrecord  ctr
+  <if test="isHaveCheckingToolsFile != 0" >
+  ,checkingtoolsfile ctf 
+  </if>
+  WHERE ct.CTId=#{ctid,jdbcType=INTEGER} AND ct.CTId=ctr.CTId 
+  <if test="isHaveCheckingToolsFile != 0" >
+  AND ctf.CTId=ct.CTId; 
+  </if>
   </select>
   <select id="selectByReceiver" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

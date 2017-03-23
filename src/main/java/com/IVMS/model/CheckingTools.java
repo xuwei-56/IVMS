@@ -1,6 +1,7 @@
 package com.IVMS.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class CheckingTools {
     private Integer ctid;
@@ -49,7 +50,11 @@ public class CheckingTools {
     
     private Integer ctstatus;
 
+    private List<CheckingToolsFile> checkingToolsFile;
     
+    private CheckingToolsRecord checkingToolsRecord;
+    
+
 	public Integer getCtid() {
 		return ctid;
 	}
@@ -232,8 +237,23 @@ public class CheckingTools {
 
 	public void setCtstatus(Integer ctstatus) {
 		this.ctstatus = ctstatus;
-	} 
+	}
 
-    
+	public List<CheckingToolsFile> getCheckingToolsFile() {
+		return checkingToolsFile;
+	}
+
+	public void setCheckingToolsFile(List<CheckingToolsFile> checkingToolsFile) {
+		this.checkingToolsFile = checkingToolsFile;
+	}
+
+	public CheckingToolsRecord getCheckingToolsRecord() {
+		return checkingToolsRecord;
+	}
+
+	public void setCheckingToolsRecord(CheckingToolsRecord checkingToolsRecord) {
+		this.checkingToolsRecord = checkingToolsRecord;
+	}
+	
     
 }

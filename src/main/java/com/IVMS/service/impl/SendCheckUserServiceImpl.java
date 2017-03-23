@@ -15,6 +15,7 @@ import com.IVMS.dao.CellDao;
 import com.IVMS.dao.CheckingClassifyDao;
 import com.IVMS.dao.CheckingFormDao;
 import com.IVMS.dao.CheckingToolsDao;
+import com.IVMS.dao.CheckingToolsFileDao;
 import com.IVMS.dao.ClassifyDao;
 import com.IVMS.dao.LineDao;
 import com.IVMS.dao.NotifyPersonnelEmailDao;
@@ -26,6 +27,7 @@ import com.IVMS.model.CheckingClassify;
 import com.IVMS.model.CheckingForm;
 import com.IVMS.model.CheckingFormCustom;
 import com.IVMS.model.CheckingTools;
+import com.IVMS.model.CheckingToolsFile;
 import com.IVMS.model.Classify;
 import com.IVMS.model.Line;
 import com.IVMS.model.NotifyPersonnelEmail;
@@ -62,6 +64,9 @@ public class SendCheckUserServiceImpl implements SendCheckUserService{
 	private CheckingToolsDao checkingToolsDao;
 	@Resource
 	private WarehouseDao warehouseDao;
+	@Resource
+	private CheckingToolsFileDao checkingToolsFileDao;
+
 	
 	public User getLoginUserInfo(String username, String password) {
 		LdapContext ctx=LdapUtil.getLdapContext(username, password);
@@ -187,6 +192,14 @@ public class SendCheckUserServiceImpl implements SendCheckUserService{
 
 	public List<CheckingForm> mySendCheckDetails(String isHaveWareHouse, Integer urgentStatus, String cfid) {
 		return checkingFormDao.mySendCheckDetails(isHaveWareHouse, urgentStatus, cfid);
+	}
+
+	public List<CheckingToolsFile> selectByCtid(Integer ctid) {
+		return checkingToolsFileDao.selectByCtid(ctid);
+	}
+
+	public List<CheckingTools> myCheckingToolsDetails(Integer ctid, Integer isHaveCheckingToolsFile) {
+		return checkingToolsDao.myCheckingToolsDetails(ctid, isHaveCheckingToolsFile);
 	}
 	
 }
