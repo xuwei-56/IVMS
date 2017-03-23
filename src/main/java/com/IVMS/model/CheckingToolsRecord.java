@@ -19,15 +19,17 @@ public class CheckingToolsRecord {
 
     private String ctrcheckcontent;
 
-    private String ctrckeckvalue;
+    private String ctrcheckvalue;
 
-    private String ctrckecktools;
+    private String ctrchecktools;
 
-    private Integer ctrckeckresult;
+    private Integer ctrcheckresult;
 
     private Integer ctracceptresult;
 
     private Integer ctrremark;
+    
+    private String ctrcheckman;
 
 	public Integer getCtrid() {
 		return ctrid;
@@ -93,28 +95,28 @@ public class CheckingToolsRecord {
 		this.ctrcheckcontent = ctrcheckcontent;
 	}
 
-	public String getCtrckeckvalue() {
-		return ctrckeckvalue;
+	public String getCtrcheckvalue() {
+		return ctrcheckvalue;
 	}
 
-	public void setCtrckeckvalue(String ctrckeckvalue) {
-		this.ctrckeckvalue = ctrckeckvalue;
+	public void setCtrcheckvalue(String ctrcheckvalue) {
+		this.ctrcheckvalue = ctrcheckvalue;
 	}
 
-	public String getCtrckecktools() {
-		return ctrckecktools;
+	public String getCtrchecktools() {
+		return ctrchecktools;
 	}
 
-	public void setCtrckecktools(String ctrckecktools) {
-		this.ctrckecktools = ctrckecktools;
+	public void setCtrchecktools(String ctrchecktools) {
+		this.ctrchecktools = ctrchecktools;
 	}
 
-	public Integer getCtrckeckresult() {
-		return ctrckeckresult;
+	public Integer getCtrcheckresult() {
+		return ctrcheckresult;
 	}
 
-	public void setCtrckeckresult(Integer ctrckeckresult) {
-		this.ctrckeckresult = ctrckeckresult;
+	public void setCtrcheckresult(Integer ctrcheckresult) {
+		this.ctrcheckresult = ctrcheckresult;
 	}
 
 	public Integer getCtracceptresult() {
@@ -133,5 +135,13 @@ public class CheckingToolsRecord {
 		this.ctrremark = ctrremark;
 	}
 
-    
+
+	public String getCtrcheckman() {
+		return ctrcheckman;
+	}
+
+	public void setCtrcheckman(String ctrcheckman) {
+		this.ctrcheckman = ctrcheckman;
+	}
+	
 }

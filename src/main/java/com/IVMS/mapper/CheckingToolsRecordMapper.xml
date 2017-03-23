@@ -10,15 +10,16 @@
     <result column="CTRCheckTIme" property="ctrchecktime" jdbcType="DATE" />
     <result column="CTRCheckNextTime" property="ctrchecknexttime" jdbcType="DATE" />
     <result column="CTRCheckContent" property="ctrcheckcontent" jdbcType="VARCHAR" />
-    <result column="CTRCkeckValue" property="ctrckeckvalue" jdbcType="VARCHAR" />
-    <result column="CTRCkeckTools" property="ctrckecktools" jdbcType="VARCHAR" />
-    <result column="CTRCkeckResult" property="ctrckeckresult" jdbcType="INTEGER" />
+    <result column="CTRCheckValue" property="ctrcheckvalue" jdbcType="VARCHAR" />
+    <result column="CTRCheckTools" property="ctrchecktools" jdbcType="VARCHAR" />
+    <result column="CTRCheckResult" property="ctrcheckresult" jdbcType="INTEGER" />
     <result column="CTRAcceptResult" property="ctracceptresult" jdbcType="INTEGER" />
     <result column="CTRRemark" property="ctrremark" jdbcType="INTEGER" />
+    <result column="CTRCheckMan" property="ctrcheckman" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     CTRId, CTId, CTRNum, CTRMoveCP, CTRMoveTime, CTRCheckTIme, CTRCheckNextTime, CTRCheckContent, 
-    CTRCkeckValue, CTRCkeckTools, CTRCkeckResult, CTRAcceptResult, CTRRemark
+    CTRCheckValue, CTRCheckTools, CTRCheckResult, CTRAcceptResult, CTRRemark,CTRCheckMan
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -33,14 +34,14 @@
   <insert id="insert" parameterType="com.IVMS.model.CheckingToolsRecord" >
     insert into checkingtoolsrecord (CTRId, CTId, CTRNum, 
       CTRMoveCP, CTRMoveTime, CTRCheckTIme, 
-      CTRCheckNextTime, CTRCheckContent, CTRCkeckValue, 
-      CTRCkeckTools, CTRCkeckResult, CTRAcceptResult, 
-      CTRRemark)
+      CTRCheckNextTime, CTRCheckContent, CTRCheckValue, 
+      CTRCheckTools, CTRCheckResult, CTRAcceptResult, 
+      CTRRemark,CTRCheckMan)
     values (#{ctrid,jdbcType=INTEGER}, #{ctid,jdbcType=INTEGER}, #{ctrnum,jdbcType=INTEGER}, 
       #{ctrmovecp,jdbcType=VARCHAR}, #{ctrmovetime,jdbcType=DATE}, #{ctrchecktime,jdbcType=DATE}, 
-      #{ctrchecknexttime,jdbcType=DATE}, #{ctrcheckcontent,jdbcType=VARCHAR}, #{ctrckeckvalue,jdbcType=VARCHAR}, 
-      #{ctrckecktools,jdbcType=VARCHAR}, #{ctrckeckresult,jdbcType=INTEGER}, #{ctracceptresult,jdbcType=INTEGER}, 
-      #{ctrremark,jdbcType=INTEGER})
+      #{ctrchecknexttime,jdbcType=DATE}, #{ctrcheckcontent,jdbcType=VARCHAR}, #{ctrcheckvalue,jdbcType=VARCHAR}, 
+      #{ctrchecktools,jdbcType=VARCHAR}, #{ctrcheckresult,jdbcType=INTEGER}, #{ctracceptresult,jdbcType=INTEGER}, 
+      #{ctrremark,jdbcType=INTEGER}, #{ctrcheckman,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.IVMS.model.CheckingToolsRecord" >
     insert into checkingtoolsrecord
@@ -69,20 +70,23 @@
       <if test="ctrcheckcontent != null" >
         CTRCheckContent,
       </if>
-      <if test="ctrckeckvalue != null" >
-        CTRCkeckValue,
+      <if test="ctrcheckvalue != null" >
+        CTRCheckValue,
       </if>
-      <if test="ctrckecktools != null" >
-        CTRCkeckTools,
+      <if test="ctrchecktools != null" >
+        CTRCheckTools,
       </if>
-      <if test="ctrckeckresult != null" >
-        CTRCkeckResult,
+      <if test="ctrcheckresult != null" >
+        CTRCheckResult,
       </if>
       <if test="ctracceptresult != null" >
         CTRAcceptResult,
       </if>
       <if test="ctrremark != null" >
         CTRRemark,
+      </if>
+      <if test="ctrcheckman != null" >
+        CTRCheckMan,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -110,20 +114,23 @@
       <if test="ctrcheckcontent != null" >
         #{ctrcheckcontent,jdbcType=VARCHAR},
       </if>
-      <if test="ctrckeckvalue != null" >
-        #{ctrckeckvalue,jdbcType=VARCHAR},
+      <if test="ctrcheckvalue != null" >
+        #{ctrcheckvalue,jdbcType=VARCHAR},
       </if>
-      <if test="ctrckecktools != null" >
-        #{ctrckecktools,jdbcType=VARCHAR},
+      <if test="ctrchecktools != null" >
+        #{ctrchecktools,jdbcType=VARCHAR},
       </if>
-      <if test="ctrckeckresult != null" >
-        #{ctrckeckresult,jdbcType=INTEGER},
+      <if test="ctrcheckresult != null" >
+        #{ctrcheckresult,jdbcType=INTEGER},
       </if>
       <if test="ctracceptresult != null" >
         #{ctracceptresult,jdbcType=INTEGER},
       </if>
       <if test="ctrremark != null" >
         #{ctrremark,jdbcType=INTEGER},
+      </if>
+      <if test="ctrcheckman != null" >
+        #{ctrcheckman,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -151,20 +158,23 @@
       <if test="ctrcheckcontent != null" >
         CTRCheckContent = #{ctrcheckcontent,jdbcType=VARCHAR},
       </if>
-      <if test="ctrckeckvalue != null" >
-        CTRCkeckValue = #{ctrckeckvalue,jdbcType=VARCHAR},
+      <if test="ctrcheckvalue != null" >
+        CTRCheckValue = #{ctrcheckvalue,jdbcType=VARCHAR},
       </if>
-      <if test="ctrckecktools != null" >
-        CTRCkeckTools = #{ctrckecktools,jdbcType=VARCHAR},
+      <if test="ctrchecktools != null" >
+        CTRCheckTools = #{ctrchecktools,jdbcType=VARCHAR},
       </if>
-      <if test="ctrckeckresult != null" >
-        CTRCkeckResult = #{ctrckeckresult,jdbcType=INTEGER},
+      <if test="ctrcheckresult != null" >
+        CTRCheckResult = #{ctrcheckresult,jdbcType=INTEGER},
       </if>
       <if test="ctracceptresult != null" >
         CTRAcceptResult = #{ctracceptresult,jdbcType=INTEGER},
       </if>
       <if test="ctrremark != null" >
         CTRRemark = #{ctrremark,jdbcType=INTEGER},
+      </if>
+      <if test="ctrcheckman != null" >
+        CTRCheckMan = #{ctrcheckman,jdbcType=VARCHAR},
       </if>
     </set>
     where CTRId = #{ctrid,jdbcType=INTEGER}
@@ -178,11 +188,12 @@
       CTRCheckTIme = #{ctrchecktime,jdbcType=DATE},
       CTRCheckNextTime = #{ctrchecknexttime,jdbcType=DATE},
       CTRCheckContent = #{ctrcheckcontent,jdbcType=VARCHAR},
-      CTRCkeckValue = #{ctrckeckvalue,jdbcType=VARCHAR},
-      CTRCkeckTools = #{ctrckecktools,jdbcType=VARCHAR},
-      CTRCkeckResult = #{ctrckeckresult,jdbcType=INTEGER},
+      CTRCheckValue = #{ctrcheckvalue,jdbcType=VARCHAR},
+      CTRCheckTools = #{ctrchecktools,jdbcType=VARCHAR},
+      CTRCheckResult = #{ctrcheckresult,jdbcType=INTEGER},
       CTRAcceptResult = #{ctracceptresult,jdbcType=INTEGER},
-      CTRRemark = #{ctrremark,jdbcType=INTEGER}
+      CTRRemark = #{ctrremark,jdbcType=INTEGER},
+      CTRCheckMan = #{ctrcheckMan,jdbcType=VARCHAR},
     where CTRId = #{ctrid,jdbcType=INTEGER}
   </update>
 </mapper>
