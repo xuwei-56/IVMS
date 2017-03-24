@@ -1,9 +1,7 @@
 package com.IVMS.test;
 
-import java.io.File;
-import java.text.NumberFormat;
-
-import com.IVMS.model.NotifyPersonnelEmail;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NumberTest {
 	public static void main(String[] args) {
@@ -25,5 +23,19 @@ public class NumberTest {
 //	        	personnelEmail.setNpenotifyemail(email);
 //	        	System.out.println(personnelEmail);
 //		 }
+		System.out.println(1);
+		List<String>list1=new ArrayList<String>();
+		list1.add("hello");
+		list1.add("world");
+		list1.add("java");
+		
+		List<String>list2=new ArrayList<String>();
+		list2.add("123");
+		list2.add("456");
+		
+		list1.addAll(list2);
+		for(String str:list1){
+			System.out.println(str);
+		}
 	}
 }

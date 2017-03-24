@@ -23,7 +23,7 @@ import com.IVMS.model.UrgentFile;
 import com.IVMS.model.User;
 import com.IVMS.model.Warehouse;
 /**
- * 送检人提交送检单
+ * 送检人提交送检单,我的送检，我的检具
  * @author as PiscesTong
  *
  */
@@ -76,4 +76,7 @@ public interface SendCheckUserService {
 	List<CheckingToolsFile>selectByCtid(Integer ctid);
 	
 	CheckingTools myCheckingToolsDetails(Integer ctid,Integer isHaveCheckingToolsFile);
+	
+	int updateWStatusByWidAndClaid(String wid,Integer claid);
+	
 }

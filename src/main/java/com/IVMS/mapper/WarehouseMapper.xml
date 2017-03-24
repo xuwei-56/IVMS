@@ -16,7 +16,7 @@
     where WId = #{wid,jdbcType=VARCHAR}
   </select>
   <select id="selectWareHouseByClaid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-  SELECT WID,WStatus FROM warehouse WHERE CLaId=#{CLaId,jdbcType=INTEGER} AND WStatus>0;
+  SELECT WID,WStatus FROM warehouse WHERE CLaId=#{CLaId,jdbcType=INTEGER} AND WStatus=0;
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from warehouse
@@ -70,5 +70,8 @@
     set ClaId = #{claid,jdbcType=INTEGER},
       WStatus = #{wstatus,jdbcType=INTEGER}
     where WId = #{wid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateWStatusByWidAndClaid" >
+  UPDATE warehouse SET WStatus=1 WHERE WId=#{wid,jdbcType=VARCHAR} AND ClaId=#{claid,jdbcType=INTEGER};
   </update>
 </mapper>

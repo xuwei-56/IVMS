@@ -170,6 +170,47 @@
    ORDER BY CFTime DESC 
    LIMIT #{startRow,jdbcType=INTEGER},#{numberOfPerPage,jdbcType=INTEGER};
   </select>
+   <select id="historyCheckingForm" resultMap="BaseResultMap1">
+   SELECT CFId,CFTime,CName,CFComponentId,CFComponentName,CFStatus
+   FROM checkingform cf,classify cla
+   WHERE cf.ClaId=cla.ClaId AND CFStatus IN(3,4,5) 
+   <if test="ClaId != null" >
+         AND cf.ClaId=#{ClaId,jdbcType=INTEGER}
+   </if>
+   <if test="Pid != null" >
+         AND Pid=#{Pid，jdbcType=INTEGER}
+   </if>
+   <if test="CFId != null " >
+          AND CFId LIKE '${CFId}%'
+   </if>
+   ORDER BY CFTime DESC 
+   LIMIT #{startRow,jdbcType=INTEGER},#{numberOfPerPage,jdbcType=INTEGER};
+  </select>
+  <select id="notPrintCheckingForm" resultMap="BaseResultMap1">
+    SELECT
+    CFId,CFTime,CName,CFComponentId,CFComponentName,CFStatus 
+    FROM checkingform cf,Classify cla
+    WHERE cf.ClaId=cla.ClaId AND CFStatus=0 AND CFUrgentStatus=#{urgentStatus,jdbcType=INTEGER}
+    ORDER BY CFTime ASC;
+  </select>
+  <select id="normalCheckingForm" resultMap="BaseResultMap1">
+    SELECT
+	CFId,CFTime,CName,CFComponentId,CFComponentName,CFStatus 
+	FROM checkingform cf,Classify cla
+	WHERE cf.ClaId=cla.ClaId AND CFStatus=1 AND cf.ClaId=
+	(SELECT ClaId FROM classify WHERE CName='正常过程送检') AND 
+	CFUrgentStatus=#{urgentStatus,jdbcType=INTEGER}
+	ORDER BY CFTime ASC;
+  </select>
+  <select id="othersCheckingForm" resultMap="BaseResultMap1">
+    SELECT
+	CFId,CFTime,CName,CFComponentId,CFComponentName,CFStatus 
+	FROM checkingform cf,Classify cla
+	WHERE cf.ClaId=cla.ClaId AND CFStatus=1 AND cf.ClaId!=
+	(SELECT ClaId FROM classify WHERE CName='正常过程送检') AND 
+	CFUrgentStatus=#{urgentStatus,jdbcType=INTEGER}
+	ORDER BY CFTime ASC;
+  </select>
    <select id="countMySendCheck" resultType="java.lang.Integer">
    SELECT COUNT(*)
    FROM checkingform cf,classify cla
@@ -181,6 +222,20 @@
          AND Pid=#{Pid,jdbcType=INTEGER}
    </if>
    <if test='CFId !="0" ' >
+         AND CFId LIKE '${CFId}%'
+   </if>
+  </select>
+   <select id="countMyHistoryCheck" resultType="java.lang.Integer">
+   SELECT COUNT(*)
+   FROM checkingform cf,classify cla
+   WHERE cf.ClaId=cla.ClaId AND CFStatus IN(3,4,5)
+   <if test="ClaId != null" >
+         AND cf.ClaId=#{ClaId,jdbcType=INTEGER}
+   </if>
+   <if test="Pid != null" >
+         AND Pid=#{Pid,jdbcType=INTEGER}
+   </if>
+   <if test="CFId != null" >
          AND CFId LIKE '${CFId}%'
    </if>
   </select>
