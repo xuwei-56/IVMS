@@ -34,7 +34,7 @@ $(document).ready(function(){
 							data = JSON.parse(data);
 							if(data.code == 1){
 								//getPage(data.data[0].count,1,pageSize);
-								count = data.msg;
+								count = parseInt(data.msg);
 								checkformdata = data.data;
 								var mycheckformdata = "<tr><th>检测单号</th><th>检测日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
 								data.data.forEach(function(checkform){
@@ -268,6 +268,7 @@ $(document).ready(function(){
 						$('#cfreply').val(data.data.cfreply)
 						$('#cfreplyreport').val(data.data.cfreplyreport)
 					} 
+					$('#cfreportfile').val(data.data.cfreportfile);
 					$('#pop_bg_user').fadeIn();
 				}else{
 					alert(data.msg)
