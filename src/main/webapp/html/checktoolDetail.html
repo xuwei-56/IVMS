@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>检测校验管理系统</title>
+<meta name="author" content="DeathGhost" />
+<link rel="stylesheet" type="text/css" href="./css/style.css" />
+<!--[if lt IE 9]>
+<script src="js/html5.js"></script>
+<![endif]-->
+<script src="./js/jquery.js"></script>
+<script src="./js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script type="text/javascript" src="./js/publicFunction.js"></script>
+<script type="text/javascript" src="./js/checktoolDetail.js"></script>
+<script type="text/javascript" src="./js/jquery.metadata.js"></script>
+<script type="text/javascript" src="./js/jquery.media.js"></script>
+<script>
+	
+</script>
+</head>
+<body>
+<!--header-->
+<header>
+ <h1><img src="images/admin_logo.png"/></h1>
+ <!-- <ul class="rt_nav">
+  <li><a href="#" class="admin_icon">登陆</a></li>
+ </ul> -->
+</header>
+
+
+
+<section class="rt_wrap content mCustomScrollbar rt_wrap_index">
+ <div class="rt_content rt_content_index">
+ <section class="CTFileList_pop_bg mouseleave">
+ <div class="CTFileList_bg">
+  <ul id="CTFileList_ul">
+   <li><a href="#" id="fileUrlA">个人简历</a></li>
+  </ul>
+ </div>
+ </section>
+ <section class="pop_bg">
+ <div class="CTFileDetail_bg">
+  <div>
+  	<a href="#" class="fr CTFileDetail_close">关闭</a>
+  </div>
+  <!-- <div><a class="media" href="个人简历.pdf" id="mediafile"></a></div> -->
+  
+ </div>
+ </section>
+  <section>
+  <div class="page_title checktoolpage_title">
+   <h2 class="fl checktoolfl"  style="font-size: 30px">量仪检测履历表</h2>
+   <a class="fr top_rt_btn" style="margin-top: -35px">右侧按钮</a>
+  </div>
+  <table class="table">
+   <tr>
+    <th width="16%">量仪管理编号</th>
+    <td id="ctid" width="16%">数据</td>
+    <th width="16%">使用项目名称</th>
+    <td id="ctuseitem">项目4</td>
+    <th>校准程序</th>
+    <td id="ctcheckprogram">项目6</td>
+   </tr>
+   <tr>
+    <th>量仪名称</th>
+    <td id="ctname">内容二</td>
+    <th>领用产线</th>
+    <td id="ctuseline">内容四</td>
+    <th>校验方式</th>
+    <td id="ctcheckway">内容六</td>
+   </tr>
+   <tr>
+    <th>量仪生产商</th>
+    <td id="ctproducer">内容二</td>
+    <th>领用工位</th>
+    <td id="ctusestation">内容四</td>
+    <th>校验周期</th>
+    <td id="ctcheckcycle">内容六</td>
+   </tr>
+   <tr>
+    <th>制造编号</th>
+    <td id="ctproductionnum">内容二</td>
+    <th>领用人</th>
+    <td id="ctuser">内容四</td>
+    <th>MSA类型</th>
+    <td id="ctmsa">内容六</td>
+   </tr>
+   <tr>
+    <th>量仪规格</th>
+    <td id="ctnorms">内容二</td>
+    <th>领用日期</th>
+    <td id="ctusetime">内容四</td>
+    <th>量仪溯源编号</th>
+    <td id="ctoriginalnum">内容六</td>
+   </tr>
+   <tr>
+    <th>量仪精度</th>
+    <td id="ctprocision">内容二</td>
+    <th>资产编号</th>
+    <td id="ctassetnum">内容四</td>
+    <th>尺寸描述</th>
+    <td id="ctsize">内容六</td>
+   </tr>
+   <tr>
+    <th>量仪分度值</th>
+    <td id="ctresolation">内容二</td>
+    <th>下次校验日期</th>
+    <td id="ctchecknexttime">内容四</td>
+    <th>校验温度/湿度</th>
+    <td id="ctcheckTH">内容六</td>
+   </tr>
+   <tr>
+    <th>量仪状态</th>
+    <td id="ctstatus">封存</td>
+    <th>备注</th>
+    <!-- <td id="ctremark"> --><!-- </td> -->
+   </tr>
+  </table>
+  <div class="checkremarkdiv"><span id="ctremark">内容四</span></div>
+ </section>
+ <section>
+  <div class="page_title checktoolpage_title">
+   <h2 class="fl checktoolfl" style="font-size: 30px">校验、封存及维修记录</h2>
+  </div>
+  <table class="table" id="CTRTable">
+   <tr>
+    <th width="5%">测量序号</th>
+    <th>送检人</th>
+    <th>送检日期</th>
+    <th>校验单位</th>
+    <th>校验人员</th>
+    <th>校验日期</th>
+    <th>校验内容/技术规范</th>
+    <th>实测值</th>
+    <th>校验仪器/工具</th>
+    <th>测量结论</th>
+    <th>是否接受</th>
+    <th>状态</th>
+   </tr>
+   <tr>
+    <td>265px宽·</td>
+    <td>内容二</td>
+    <td>内容三</td>
+    <td>内容四</td>
+    <td>内容五</td>
+    <td>内容六</td>
+    <td>
+     hah 
+    </td>
+    <td>内容二</td>
+    <td>内容三</td>
+    <td>内容四</td>
+    <td>内容五</td>
+    <td>内容六</td>
+   </tr>
+   <tr>
+    <td>265px宽</td>
+    <td>内容二</td>
+    <td>内容三</td>
+    <td>内容四</td>
+    <td>内容五</td>
+    <td>内容六</td>
+    <td>内容二</td>
+    <td>内容三</td>
+    <td>内容四</td>
+    <td>内容五</td>
+    <td>内容六</td>
+    <td>
+     hah
+    </td>
+   </tr>
+   <tr>
+    <td>265px宽</td>
+    <td>内容二</td>
+    <td>内容三</td>
+    <td>内容四</td>
+    <td>内容五</td>
+    <td>内容六</td>
+    <td>内容二</td>
+    <td>内容三</td>
+    <td>内容四</td>
+    <td>内容五</td>
+    <td>内容六</td>
+    <td>
+     hah
+    </td>
+   </tr>
+  </table>
+ </section>
+
+ </div>
+</section>
+</body>
+</html>

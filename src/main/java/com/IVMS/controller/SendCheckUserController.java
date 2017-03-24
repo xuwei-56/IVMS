@@ -253,13 +253,13 @@ public class SendCheckUserController {
 	
 	@RequestMapping("/myCheckingForm")
 	@ResponseBody
-	public JSONObject myCheckingForm(HttpSession session,Integer requestPageNum,Integer claId,
+	public JSONObject myCheckingForm(HttpSession session,Integer requestPageNum,Integer claid,
 			Integer pid,String cfid) throws Exception {
 		User user=(User) session.getAttribute("user");
 		String userName=user.getCn();
-		int allPageNum=sendCheckUserService.countMySendCheck(userName,claId,pid,cfid);
+		int allPageNum=sendCheckUserService.countMySendCheck(userName,claid,pid,cfid);
 		List<CheckingFormCustom>myCheckingForm=sendCheckUserService.selectByUserName(userName,requestPageNum,
-				claId,pid,cfid);
+				claid,pid,cfid);
 		if(myCheckingForm.isEmpty()){
 			return CommonUtil.constructResponse(0,"没有数据！",null);
 		}else{

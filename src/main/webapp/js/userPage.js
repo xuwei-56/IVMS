@@ -179,7 +179,7 @@ $(document).ready(function(){
 
 		// 获取库位信息
 		$.ajax({
-			url:'./user/',
+			url:'./user/getWareHouse',
 			type:'POST',
 			data:{'ClassifyId':claid},
 			datatype:'json',
@@ -209,6 +209,7 @@ $(document).ready(function(){
 			$('#cfreply').val("无");
 			$('#cfreplyreport').attr("disabled","true");
 			$('#cfreplyreport').val("0");
+			$('#wId').html("<option value='0'>默认</option>")
 		}
 	})
 
