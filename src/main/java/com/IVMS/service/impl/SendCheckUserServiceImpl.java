@@ -201,5 +201,9 @@ public class SendCheckUserServiceImpl implements SendCheckUserService{
 	public CheckingTools myCheckingToolsDetails(Integer ctid, Integer isHaveCheckingToolsFile) {
 		return checkingToolsDao.myCheckingToolsDetails(ctid, isHaveCheckingToolsFile);
 	}
+
+	public int updateWStatusByWidAndClaid(String wid, Integer claid) {
+		return warehouseDao.updateWStatusByWidAndClaid(wid, claid);
+	}
 	
 }

@@ -470,6 +470,9 @@ public class SendCheckUserController {
   	        if(result<=0){
   	        	flag=false;
   	        }
+  	        String wid=checkingForm.getWid();
+  	        Integer claid=checkingForm.getClaid();
+  	        sendCheckUserService.updateWStatusByWidAndClaid(wid, claid);//更新库位信息
 	        if(flag==false){
 	        	return CommonUtil.constructResponse(EnumUtil.SYSTEM_ERROR,"提交信息失败！",null);
 	        }else{

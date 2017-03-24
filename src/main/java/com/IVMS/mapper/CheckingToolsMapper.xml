@@ -82,7 +82,33 @@
     select 
     <include refid="Base_Column_List" />
     from checkingtools
-    where CTReceiver = #{CTReceiver,jdbcType=VARCHAR}
+    where CTReceiver = #{CTReceiver,jdbcType=VARCHAR} ORDER BY CTUseTime DESC;
+  </select>
+  <select id="checkingToolsInfo" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    FROM checkingtools 
+    <where>
+      <if test="CTUseItem != null" >
+      and CTUseItem=#{CTUseItem,jdbcType=VARCHAR}
+      </if>
+      <if test="CTStatus != null" >
+      and CTStatus=#{CTStatus,jdbcType=INTEGER}
+      </if>
+    </where>
+    ORDER BY CTUseTime DESC
+    LIMIT #{startRow,jdbcType=INTEGER},#{numberOfPerPage,jdbcType=INTEGER};
+  </select>
+  <select id="countCheckingToolsInfo" resultType="java.lang.Integer" >
+    select count(*) FROM checkingtools 
+    <where>
+      <if test="CTUseItem != null" >
+      and CTUseItem=#{CTUseItem,jdbcType=VARCHAR}
+      </if>
+      <if test="CTStatus != null" >
+      and CTStatus=#{CTStatus,jdbcType=INTEGER}
+      </if>
+    </where>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from checkingtools

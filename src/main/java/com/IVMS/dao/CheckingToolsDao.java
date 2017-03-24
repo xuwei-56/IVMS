@@ -23,4 +23,10 @@ public interface CheckingToolsDao {
     
     CheckingTools myCheckingToolsDetails(@Param("ctid")Integer ctid,
     		@Param("isHaveCheckingToolsFile")Integer isHaveCheckingToolsFile);
+    
+    List<CheckingTools> checkingToolsInfo(@Param("CTUseItem")String CTUseItem,@Param("CTStatus")Integer CTStatus,
+    		@Param("startRow")Integer startRow,@Param("numberOfPerPage")Integer numberOfPerPage);
+    
+    int countCheckingToolsInfo(@Param("CTUseItem")String CTUseItem,@Param("CTStatus")Integer CTStatus);
+    
 }

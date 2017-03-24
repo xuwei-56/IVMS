@@ -8,6 +8,7 @@ import com.IVMS.model.CheckingForm;
 import com.IVMS.model.CheckingFormCustom;
 
 public interface CheckingFormDao {
+	
     int deleteCheckingFormByPrimaryKey(String cfid);
 
     int insertCheckingForm(CheckingForm checkingForm);
@@ -29,5 +30,20 @@ public interface CheckingFormDao {
     		@Param("startRow")Integer startRow,@Param("numberOfPerPage")Integer numberOfPerPage,
     		@Param("ClaId")Integer ClaId,@Param("Pid")Integer Pid,@Param("CFId")String CFId);
     
-    int countMySendCheck(@Param("CFMoveP")String CFMoveP,@Param("ClaId")Integer ClaId,@Param("Pid")Integer Pid,@Param("CFId")String CFId);
+    List<CheckingFormCustom> historyCheckingForm(@Param("startRow")Integer startRow,
+    		@Param("numberOfPerPage")Integer numberOfPerPage,@Param("ClaId")Integer ClaId,
+    		@Param("Pid")Integer Pid,@Param("CFId")String CFId);
+    
+    int countMySendCheck(@Param("CFMoveP")String CFMoveP,@Param("ClaId")Integer ClaId,
+    		@Param("Pid")Integer Pid,@Param("CFId")String CFId);
+    
+    int countMyHistoryCheck(@Param("ClaId")Integer ClaId,@Param("Pid")Integer Pid,
+    		@Param("CFId")String CFId);
+    
+    List<CheckingFormCustom> notPrintCheckingForm(@Param("urgentStatus")Integer urgentStatus);
+    
+    List<CheckingFormCustom> normalCheckingForm(@Param("urgentStatus")Integer urgentStatus);
+    
+    List<CheckingFormCustom> othersCheckingForm(@Param("urgentStatus")Integer urgentStatus);
+    
 }
