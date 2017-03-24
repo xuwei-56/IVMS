@@ -2,7 +2,7 @@
 function removeAllSpace(str) {
 	return str.replace(/\s+/g, "");
 }
-js脚本中过滤特殊字符的正则表达式代码：
+//js脚本中过滤特殊字符的正则表达式代码：
 function stripscript(s) 
 { 
   var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]") 

@@ -29,7 +29,7 @@
   </resultMap>
     <resultMap id="mycheckingtoolsdetailsMap" type="com.IVMS.model.CheckingTools"
     extends="BaseResultMap" >
-    <association property="checkingToolsRecord" javaType="com.IVMS.model.CheckingToolsRecord">
+    <collection property="checkingToolsRecord" ofType="com.IVMS.model.CheckingToolsRecord">
     <id column="CTRId" property="ctrid" jdbcType="INTEGER" />
     <result column="CTId" property="ctid" jdbcType="INTEGER" />
     <result column="CTRNum" property="ctrnum" jdbcType="INTEGER" />
@@ -44,11 +44,11 @@
     <result column="CTRAcceptResult" property="ctracceptresult" jdbcType="INTEGER" />
     <result column="CTRRemark" property="ctrremark" jdbcType="INTEGER" />
     <result column="CTRCheckMan" property="ctrcheckman" jdbcType="VARCHAR" />
-    </association>
     <collection property="checkingToolsFile" ofType="com.IVMS.model.CheckingToolsFile">
 	<id column="CTFId" property="ctfid" jdbcType="INTEGER" />
     <result column="CTId" property="ctid" jdbcType="INTEGER" />
     <result column="CTFName" property="ctfname" jdbcType="VARCHAR" />
+    </collection>
     </collection>
   </resultMap>
   <sql id="Base_Column_List" >
