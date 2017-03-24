@@ -95,6 +95,8 @@ $(document).ready(function(){
 						}
 					}
 				})
+
+
 			}
 			else{
 				alert("请先登录")
@@ -174,6 +176,40 @@ $(document).ready(function(){
 				}
 			}
 		})
+
+		// 获取库位信息
+		$.ajax({
+			url:'./user/',
+			type:'POST',
+			data:{'ClassifyId':claid},
+			datatype:'json',
+			success:function(data){
+				data = JSON.parse(data);
+				if (data.code == 1) {
+					var warehouse = "";
+					for (var i = 0; i < data.data.length; i++) {
+						warehouse += "<option value="+data.data[i].wid+">"+data.data[i].wid+"</option>";
+					}
+					$('#wId').html(warehouse);
+				}else{
+					alert(data.msg)
+					return false;
+				}
+			}
+		})
+		if (claid == 2) {
+			$('#checkNum').removeAttr("disabled","true");
+			$('#cfreply').removeAttr("disabled","true");
+			$('#cfreply').val("");
+			$('#cfreplyreport').removeAttr("disabled","true");
+		}else{
+			$('#checkNum').attr("disabled","true");
+			$('#checkNum').val("1");
+			$('#cfreply').attr("disabled","true");
+			$('#cfreply').val("无");
+			$('#cfreplyreport').attr("disabled","true");
+			$('#cfreplyreport').val("0");
+		}
 	})
 
 	// 获取对应产线下的单元
@@ -249,16 +285,22 @@ $(document).ready(function(){
 			alert("请输入零件数量")
 			return false;
 		}
-		/*var wid = $('#wId').val();   // 放置库位
+		var wid = $('#wId').val();   // 放置库位
 		if (wid == null ) {
 			alert("请选择放置库位")
 			return false;
-		}*/
+		}
 		var cfchecknum = $('#checkNum').val();   // 送检次数
 		if (cfchecknum == null || cfchecknum == "") {
 			alert("请选择送检次数")
 			return false;
 		}
+		var cfreply = $('#cfreply').val();    // 供应商名称
+		if (cfreply == null) {
+			alert("请输入供应商名称")
+			return false;
+		};
+		var cfreplyreport = $('#cfreplyreport').val();   // 供应商报告
 		var cfremark = $('#remark').val();   // 备注信息
 		cfremark = stripscript(cfremark);
 
@@ -266,13 +308,17 @@ $(document).ready(function(){
 		var cfremarkfile = $('#urgentfile')[0].files[0];
 		console.log(cfremarkfile);
 		if (cfurgentstatus == 2) {
-			if (cfremarkfile == null ) {
+			if (cfremarkfile == null || cfremarkfile == "") {
 				alert("请上传紧急说明文件")
 				return false;
-			};
-		};
+			}else{
+				formdata.append('urgentfile',cfremarkfile); 
+			}
+		}else{
+			formdata.append('urgentfile',null); 
+		}
 
-		formdata.append('urgentfile',cfremarkfile); 
+		
 		formdata.append('copySendEmails',notifyMailData)
 		formdata.append('lid',lid)
 		formdata.append('cid',cid)
@@ -288,6 +334,9 @@ $(document).ready(function(){
 		formdata.append('cfchecknum',cfchecknum)
 		formdata.append('cfremark',cfremark)
 		formdata.append('cfurgentstatus',cfurgentstatus)
+		formdata.append('wid',wid)
+		formdata.append('cfreply',cfreply)
+		formdata.append('cfreplyreport'.cfreplyreport)
 		console.log(formdata)
 		/*'lid':lid,'cid':cid,'pid':pid,'wid':wid,'claid':claid,'ccid':ccid,'cfmovep':cfmovep,'cfphonenum':cfphonenum,
 		'cfemail':cfemail,'cfcomponentname':cfcomponentname,'cfcomponentid':cfcomponentid,
@@ -305,6 +354,12 @@ $(document).ready(function(){
 				data = JSON.parse(data);
 				if (data.code == 1) {
 					alert("提交成功")
+					$('#checkNum').attr("disabled","true");
+					$('#checkNum').val("1");
+					$('#cfreply').attr("disabled","true");
+					$('#cfreply').val("无");
+					$('#cfreplyreport').attr("disabled","true");
+					$('#cfreplyreport').val("0");
 				}else{
 					alert(data.msg)
 					return false;
