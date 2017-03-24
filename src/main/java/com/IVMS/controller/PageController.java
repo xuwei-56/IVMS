@@ -39,11 +39,26 @@ public class PageController {
 		return "index";
 	}
 	/**
-	 * 前端页面路径:数据展示页
+	 * 前端页面路径:普通用户登陆首页
 	 */
 	@RequestMapping("/user_index")
 	public String userIndex(){
-		return "user_index";
+		return "user/user_index";
+	}
+	/**
+	 * 前端页面路径:普通用户展示
+	 */
+	@RequestMapping("/user_list")
+	public String userList(){
+		return "user/user_list";
+	}
+	
+	/**
+	 * 前端页面路径:检具详情展示
+	 */
+	@RequestMapping("/checktoolDetail")
+	public String checktoolDetail(){
+		return "checktoolDetail";
 	}
 
 	/**

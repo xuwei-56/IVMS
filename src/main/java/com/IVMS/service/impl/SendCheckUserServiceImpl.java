@@ -190,7 +190,7 @@ public class SendCheckUserServiceImpl implements SendCheckUserService{
 		return checkingFormDao.selectWidAndUrgentStatusByCfid(cfid);
 	}
 
-	public List<CheckingForm> mySendCheckDetails(String isHaveWareHouse, Integer urgentStatus, String cfid) {
+	public CheckingForm mySendCheckDetails(String isHaveWareHouse, Integer urgentStatus, String cfid) {
 		return checkingFormDao.mySendCheckDetails(isHaveWareHouse, urgentStatus, cfid);
 	}
 
@@ -198,7 +198,7 @@ public class SendCheckUserServiceImpl implements SendCheckUserService{
 		return checkingToolsFileDao.selectByCtid(ctid);
 	}
 
-	public List<CheckingTools> myCheckingToolsDetails(Integer ctid, Integer isHaveCheckingToolsFile) {
+	public CheckingTools myCheckingToolsDetails(Integer ctid, Integer isHaveCheckingToolsFile) {
 		return checkingToolsDao.myCheckingToolsDetails(ctid, isHaveCheckingToolsFile);
 	}
 	

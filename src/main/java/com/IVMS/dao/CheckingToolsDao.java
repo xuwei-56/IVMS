@@ -21,6 +21,6 @@ public interface CheckingToolsDao {
     
     List<CheckingTools> selectByReceiver(String receiver);
     
-    List<CheckingTools> myCheckingToolsDetails(@Param("ctid")Integer ctid,
+    CheckingTools myCheckingToolsDetails(@Param("ctid")Integer ctid,
     		@Param("isHaveCheckingToolsFile")Integer isHaveCheckingToolsFile);
 }

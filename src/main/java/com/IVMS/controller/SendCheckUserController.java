@@ -253,13 +253,13 @@ public class SendCheckUserController {
 	
 	@RequestMapping("/myCheckingForm")
 	@ResponseBody
-	public JSONObject myCheckingForm(HttpSession session,Integer requestPageNum,Integer claId,
+	public JSONObject myCheckingForm(HttpSession session,Integer requestPageNum,Integer claid,
 			Integer pid,String cfid) throws Exception {
 		User user=(User) session.getAttribute("user");
 		String userName=user.getCn();
-		int allPageNum=sendCheckUserService.countMySendCheck(userName,claId,pid,cfid);
+		int allPageNum=sendCheckUserService.countMySendCheck(userName,claid,pid,cfid);
 		List<CheckingFormCustom>myCheckingForm=sendCheckUserService.selectByUserName(userName,requestPageNum,
-				claId,pid,cfid);
+				claid,pid,cfid);
 		if(myCheckingForm.isEmpty()){
 			return CommonUtil.constructResponse(0,"没有数据！",null);
 		}else{
@@ -278,8 +278,8 @@ public class SendCheckUserController {
 		 * 如果urgentStaus==1，为正常送检，不联合urgentfile表进行查询
 		 * 如果isHaveWareHouse==“0”，不联系和warehouse表进行查询
 		 */
-		List<CheckingForm> mySendCheckDetails=sendCheckUserService.mySendCheckDetails(isHaveWareHouse, urgentStatus,cfid);
-		if(mySendCheckDetails.isEmpty()){
+		CheckingForm mySendCheckDetails=sendCheckUserService.mySendCheckDetails(isHaveWareHouse, urgentStatus,cfid);
+		if(mySendCheckDetails == null){
 			return CommonUtil.constructResponse(0,"没有数据！",null);
 		}else{
 			return CommonUtil.constructResponse(EnumUtil.OK,"我的送检详情", mySendCheckDetails);
@@ -307,9 +307,9 @@ public class SendCheckUserController {
 		if(myCheckingToolsFile==null||myCheckingToolsFile.isEmpty()){
 			isHaveCheckingToolsFile=0;
 		}
-		List<CheckingTools>myCheckingToolsDetails=sendCheckUserService.myCheckingToolsDetails(ctid, 
+		CheckingTools myCheckingToolsDetails=sendCheckUserService.myCheckingToolsDetails(ctid, 
 				isHaveCheckingToolsFile);
-		if(myCheckingToolsDetails.isEmpty()){
+		if(myCheckingToolsDetails == null){
 			return CommonUtil.constructResponse(0,"没有数据！",null);
 		}else{
 			return CommonUtil.constructResponse(EnumUtil.OK,"我的检具详情",myCheckingToolsDetails);

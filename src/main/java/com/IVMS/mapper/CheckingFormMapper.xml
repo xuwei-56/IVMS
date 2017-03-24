@@ -158,13 +158,13 @@
    SELECT CFId,CFTime,CName,CFComponentId,CFComponentName,CFStatus
    FROM checkingform cf,classify cla
    WHERE cf.ClaId=cla.ClaId AND CFMoveP=#{CFMoveP,jdbcType=VARCHAR} 
-   <if test="ClaId != 0" >
+   <if test="ClaId != null" >
          AND cf.ClaId=#{ClaId,jdbcType=INTEGER}
    </if>
-   <if test="Pid != 0" >
-         AND Pid=#{Pid，jdbcType=INTEGER}
+   <if test="Pid != null" >
+         AND Pid=#{Pid,jdbcType=INTEGER}
    </if>
-   <if test='CFId !="0" ' >
+   <if test='CFId !=null ' >
           AND CFId LIKE '${CFId}%'
    </if>
    ORDER BY CFTime DESC 
@@ -174,13 +174,13 @@
    SELECT COUNT(*)
    FROM checkingform cf,classify cla
    WHERE cf.ClaId=cla.ClaId AND CFMoveP=#{CFMoveP,jdbcType=VARCHAR}
-   <if test="ClaId != 0" >
+   <if test="ClaId != null" >
          AND cf.ClaId=#{ClaId,jdbcType=INTEGER}
    </if>
-   <if test="Pid != 0" >
+   <if test="Pid != null" >
          AND Pid=#{Pid,jdbcType=INTEGER}
    </if>
-   <if test='CFId !="0" ' >
+   <if test='CFId !=null ' >
          AND CFId LIKE '${CFId}%'
    </if>
   </select>

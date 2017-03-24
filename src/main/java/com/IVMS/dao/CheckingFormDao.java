@@ -14,7 +14,7 @@ public interface CheckingFormDao {
 
     CheckingForm selectByPrimaryKey(String cfid);
     
-    List<CheckingForm>mySendCheckDetails(@Param("isHaveWareHouse")String isHaveWareHouse,
+    CheckingForm mySendCheckDetails(@Param("isHaveWareHouse")String isHaveWareHouse,
     		@Param("urgentStatus")Integer urgentStatus,@Param("cfid")String cfid);
     
     CheckingForm selectWidAndUrgentStatusByCfid(String cfid);
