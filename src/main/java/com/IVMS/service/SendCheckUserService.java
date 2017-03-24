@@ -71,9 +71,9 @@ public interface SendCheckUserService {
 	
 	CheckingForm selectWidAndUrgentStatusByCfid(String cfid);
 	
-	List<CheckingForm>mySendCheckDetails(String isHaveWareHouse,Integer urgentStatus,String cfid);
+	CheckingForm mySendCheckDetails(String isHaveWareHouse,Integer urgentStatus,String cfid);
 	
 	List<CheckingToolsFile>selectByCtid(Integer ctid);
 	
-	List<CheckingTools> myCheckingToolsDetails(Integer ctid,Integer isHaveCheckingToolsFile);
+	CheckingTools myCheckingToolsDetails(Integer ctid,Integer isHaveCheckingToolsFile);
 }

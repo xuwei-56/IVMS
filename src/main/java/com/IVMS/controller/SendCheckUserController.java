@@ -278,8 +278,8 @@ public class SendCheckUserController {
 		 * 如果urgentStaus==1，为正常送检，不联合urgentfile表进行查询
 		 * 如果isHaveWareHouse==“0”，不联系和warehouse表进行查询
 		 */
-		List<CheckingForm> mySendCheckDetails=sendCheckUserService.mySendCheckDetails(isHaveWareHouse, urgentStatus,cfid);
-		if(mySendCheckDetails.isEmpty()){
+		CheckingForm mySendCheckDetails=sendCheckUserService.mySendCheckDetails(isHaveWareHouse, urgentStatus,cfid);
+		if(mySendCheckDetails==null){
 			return CommonUtil.constructResponse(0,"没有数据！",null);
 		}else{
 			return CommonUtil.constructResponse(EnumUtil.OK,"我的送检详情", mySendCheckDetails);
@@ -303,13 +303,13 @@ public class SendCheckUserController {
 	@ResponseBody
 	public JSONObject myCheckingToolsDetails(Integer ctid) throws Exception {
 		Integer isHaveCheckingToolsFile=1;
-		List<CheckingToolsFile>myCheckingToolsFile=sendCheckUserService.selectByCtid(ctid);
+		List<CheckingToolsFile>myCheckingToolsFile=sendCheckUserService.selectByCtid(1);
 		if(myCheckingToolsFile==null||myCheckingToolsFile.isEmpty()){
 			isHaveCheckingToolsFile=0;
 		}
-		List<CheckingTools>myCheckingToolsDetails=sendCheckUserService.myCheckingToolsDetails(ctid, 
+		CheckingTools myCheckingToolsDetails=sendCheckUserService.myCheckingToolsDetails(1, 
 				isHaveCheckingToolsFile);
-		if(myCheckingToolsDetails.isEmpty()){
+		if(myCheckingToolsDetails==null){
 			return CommonUtil.constructResponse(0,"没有数据！",null);
 		}else{
 			return CommonUtil.constructResponse(EnumUtil.OK,"我的检具详情",myCheckingToolsDetails);
@@ -407,10 +407,10 @@ public class SendCheckUserController {
 	  	 	            	destFile.mkdirs();
 	  	 	            }  
 	  	 	            urgentfile.transferTo(destFile);  
-	  	 	            String path = "/urgentFile/"+ filename;
+//	  	 	            String path = "/urgentFile/"+ filename;
 	  	 				urgentFile=new UrgentFile();
 	  	 				urgentFile.setCfid(sendCheckId);
-	  	 				urgentFile.setUfname(path);
+	  	 				urgentFile.setUfname(filename);
 	  	 				result=sendCheckUserService.insertUrgentFile(urgentFile);
 	  	 				if(result<0){
 	  	 					flag=false;
@@ -456,10 +456,10 @@ public class SendCheckUserController {
 			  	 	            	destFile.mkdirs();
 			  	 	            }  
 			  	 	            urgentfile.transferTo(destFile);  
-			  	 	            String path = "/urgentFile/"+ filename;
+//			  	 	            String path = "/urgentFile/"+ filename;
 			  	 				urgentFile=new UrgentFile();
 			  	 				urgentFile.setCfid(sendCheckId);
-			  	 				urgentFile.setUfname(path);
+			  	 				urgentFile.setUfname(filename);
 			  	 				result=sendCheckUserService.insertUrgentFile(urgentFile);
 			  	 				if(result<0){
 			  	 					flag=false;

@@ -49,10 +49,8 @@ public class CheckingTools {
     private String ctremark;
     
     private Integer ctstatus;
-
-    private List<CheckingToolsFile> checkingToolsFile;
     
-    private CheckingToolsRecord checkingToolsRecord;
+    private List<CheckingToolsRecord> checkingToolsRecord;
     
 
 	public Integer getCtid() {
@@ -239,21 +237,13 @@ public class CheckingTools {
 		this.ctstatus = ctstatus;
 	}
 
-	public List<CheckingToolsFile> getCheckingToolsFile() {
-		return checkingToolsFile;
-	}
-
-	public void setCheckingToolsFile(List<CheckingToolsFile> checkingToolsFile) {
-		this.checkingToolsFile = checkingToolsFile;
-	}
-
-	public CheckingToolsRecord getCheckingToolsRecord() {
+	public List<CheckingToolsRecord> getCheckingToolsRecord() {
 		return checkingToolsRecord;
 	}
 
-	public void setCheckingToolsRecord(CheckingToolsRecord checkingToolsRecord) {
+	public void setCheckingToolsRecord(List<CheckingToolsRecord> checkingToolsRecord) {
 		this.checkingToolsRecord = checkingToolsRecord;
 	}
-	
+    
     
 }

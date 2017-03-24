@@ -1,6 +1,7 @@
 package com.IVMS.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class CheckingToolsRecord {
     private Integer ctrid;
@@ -30,6 +31,8 @@ public class CheckingToolsRecord {
     private Integer ctrremark;
     
     private String ctrcheckman;
+
+    private List<CheckingToolsFile> checkingToolsFile;
 
     
 	public Integer getCtrid() {
@@ -144,5 +147,14 @@ public class CheckingToolsRecord {
 		this.ctrcheckman = ctrcheckman;
 	}
 
+	public List<CheckingToolsFile> getCheckingToolsFile() {
+		return checkingToolsFile;
+	}
+
+	public void setCheckingToolsFile(List<CheckingToolsFile> checkingToolsFile) {
+		this.checkingToolsFile = checkingToolsFile;
+	}
 	
+    
+    
 }
