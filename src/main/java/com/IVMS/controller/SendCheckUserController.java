@@ -303,11 +303,11 @@ public class SendCheckUserController {
 	@ResponseBody
 	public JSONObject myCheckingToolsDetails(Integer ctid) throws Exception {
 		Integer isHaveCheckingToolsFile=1;
-		List<CheckingToolsFile>myCheckingToolsFile=sendCheckUserService.selectByCtid(1);
+		List<CheckingToolsFile>myCheckingToolsFile=sendCheckUserService.selectByCtid(ctid);
 		if(myCheckingToolsFile==null||myCheckingToolsFile.isEmpty()){
 			isHaveCheckingToolsFile=0;
 		}
-		CheckingTools myCheckingToolsDetails=sendCheckUserService.myCheckingToolsDetails(1, 
+		CheckingTools myCheckingToolsDetails=sendCheckUserService.myCheckingToolsDetails(ctid, 
 				isHaveCheckingToolsFile);
 		if(myCheckingToolsDetails==null){
 			return CommonUtil.constructResponse(0,"没有数据！",null);
