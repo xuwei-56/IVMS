@@ -171,7 +171,7 @@ $(document).ready(function(){
 					}
 					$('#cCId').html(CheckingClassify);
 				}else{
-					alert(data.msg)
+					alert(data.msg + " 1")
 					return false;
 				}
 			}
@@ -192,7 +192,7 @@ $(document).ready(function(){
 					}
 					$('#wId').html(warehouse);
 				}else{
-					alert(data.msg)
+					alert(data.msg + "2")
 					return false;
 				}
 			}
