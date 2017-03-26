@@ -26,14 +26,7 @@ $(document).ready(function(){
 				$('#ctcheckway').text(data.data.ctcheckway)
 				$('#ctproducer').text(data.data.ctproducer)
 				$('#ctusestation').text(data.data.ctusestation)
-				var ctcheckcycle = "";
-				var cycle;
-				switch(data.data.ctcheckcycle){
-					case 1: ctcheckcycle = "三个月" ; cycle = 3;break;
-					case 2: ctcheckcycle = "半年" ;cycle = 6;break;
-					case 3: ctcheckcycle = "一年" ;cycle = 12;break;
-				}
-				$('#ctcheckcycle').text(ctcheckcycle)
+				$('#ctcheckcycle').text(getCTCycle(data.data.ctcheckcycle))
 				$('#ctproductionnum').text(data.data.ctproductionnum)
 				$('#ctuser').text(data.data.user)
 				$('#ctmsa').text(data.data.ctmsa)

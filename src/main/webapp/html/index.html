@@ -1,10 +1,310 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>检测效验管理系统</title>
+<meta charset="utf-8"/>
+<title>检测校验管理系统</title>
+<link rel="stylesheet" type="text/css" href="./css/style.css" />
+<!--[if lt IE 9]>
+<script src="js/html5.js"></script>
+<![endif]-->
+<script src="./js/jquery.js"></script>
+<script src="./js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script type="text/javascript" src="./js/CheckActivX.js"></script>
+<script type="text/javascript" src="./js/publicFunction.js"></script>
+<script type="text/javascript" src="./js/index.js"></script>
+<object id="LODOP" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0> </object>
+<script>
+	(function($){
+		$(window).load(function(){
+			
+			$("a[rel='load-content']").click(function(e){
+				e.preventDefault();
+				var url=$(this).attr("href");
+				$.get(url,function(data){
+					$(".content .mCSB_container").append(data); //load new content inside .mCSB_container
+					//scroll-to appended content 
+					$(".content").mCustomScrollbar("scrollTo","h2:last");
+				});
+			});
+			
+			$(".content").delegate("a[href='top']","click",function(e){
+				e.preventDefault();
+				$(".content").mCustomScrollbar("scrollTo",$(this).attr("href"));
+			});
+			
+		});
+	})(jQuery);
+</script>
 </head>
 <body>
+<!--header-->
+<header>
+ <h1><img src="images/admin_logo.png"/></h1>
+ <ul class="rt_nav">
+  <li><a href="#" class="admin_icon">登陆</a></li>
+ </ul>
+</header>
+
+
+
+<section class="rt_wrap content mCustomScrollbar rt_wrap_index">
+ <div class="rt_content rt_content_index">
+    <section class="loading_area">
+      <div class="loading_cont">
+       <div class="loading_icon"><i></i><i></i><i></i><i></i><i></i></div>
+       <div class="loading_txt"><mark>数据正在加载，请稍后！</mark></div>
+      </div>
+     </section>
+     <!--结束加载-->
+
+     <section class="pop_bg" id="pop_bg_user">
+      <div class="pop_cont">
+       <!--title-->
+       <h3>送检单详情</h3>
+       <!--content-->
+       <div class="pop_cont_input">
+        <ul>
+         <li>
+        <h2><strong style="color:#d10529;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;送检人信息</strong></h2>
+        <span class="item_name item_name_first">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姓名：</span>
+        <input type="text" class="textbox textbox_100" id="moveP" disabled="true" />
+        <span class="item_name" >联系电话：</span>
+        <input type="text" class="textbox" id="phoneNum" disabled="true"/>
+        <span class="item_name" >邮箱：</span>
+        <input type="text" class="textbox textbox_225" id="mail" disabled="true"/>
+       </li>
+       <li id="notifyLi">
+        <span class="item_name item_name_first" >通知邮箱抄送人：</span>
+        <textarea class="textarea" style="width:500px;height:50px;" id="notifymail" disabled="true"></textarea>
+       </li>
+       <li>
+        <h2><strong style="color:#d10529;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;送检品信息</strong></h2>
+        <span class="item_name item_name_first" >送检类型：</span>
+        <input type="text" class="textbox textbox_100" id="claId" disabled="true"/>
+         
+        <span class="item_name" >紧急程度：</span>
+        <input type="text" class="textbox textbox_100" id="urgentStatus" disabled="true"/>
+        <span class="item_name" >送检时间：</span>
+        <input type="text" class="textbox" id="time" disabled="true"/>  
+        <span class="item_name" >送检状态：</span>
+        <input type="text" class="textbox textbox_100" id="cfstatus" disabled="true"/> 
+       </li>
+       <li>
+        <span class="item_name item_name_first" >检测类型：</span>
+        <input type="text" class="textbox textbox_150" id="cCId" disabled="true"/>
+        <span class="item_name" >所属产线：</span>
+        <input type="text" class="textbox textbox_150" id="lId" disabled="true"/>
+        <span class="item_name" >所属单元：</span>
+        <input type="text" class="textbox textbox_150" id="cId" disabled="true"/>
+        <span class="item_name" >所属项目：</span>
+        <input type="text" class="textbox textbox_150" id="pId" disabled="true"/>
+       </li>
+       <li>
+        <span class="item_name item_name_first" >零件编号：</span>
+        <input type="text" class="textbox textbox_225" id="componentId" disabled="true"/>
+        <span class="item_name" >零件名称：</span>
+        <input type="text" class="textbox textbox_225" id="componentName" disabled="true"/>
+        <span class="item_name" >零件数量：</span>
+        <input type="text" class="textbox textbox_100" id="componentNum" disabled="true"/>
+       </li>
+       <li>
+         <span class="item_name item_name_first" >放置库位：</span>
+        <input type="text" class="textbox textbox_100" id="wId" disabled="true"/> 
+        <span class="item_name" >送检次数：</span>
+        <input type="text" class="textbox textbox_100" id="checkNum" disabled="true"/> 
+         <span class="item_name">供应商名称：</span>
+         <input type="text" class="textbox textbox_150" id="cfreply" disabled="true"/>
+         <span class="item_name">供应商报告：</span>
+         <input type="text" class="textbox textbox_150" id="cfreplyreport" disabled="true"/>
+       </li>
+       <li>
+        <span class="item_name item_name_first" >备注信息：</span>
+        <textarea placeholder="备注信息" class="textarea" style="width:500px;height:50px;" id="remark" disabled="true"></textarea>
+       </li>
+       <li>
+        <span class="item_name item_name_first" >上传附件：</span>
+        <input type="text" class="textbox textbox_225" id="urgentfile" disabled="true"/> 
+        <span class="item_name item_name_first" >报告附件：</span>
+        <span class="item_name" id="cfreportfile" ><a href="./"></a></span> 
+       </li>
+        </ul>
+       </div>
+       <!--bottom:operate->button-->
+       <div class="btm_btn">
+        <input type="button" value="关闭" class="input_btn falseBtn" id="falseBtn" />
+       </div>
+      </div>
+     </section>
+     <section>
+      <div class="page_title">
+             <!-- <h2 class="fl">例如产品详情标题</h2>
+             <a class="fr top_rt_btn">右侧按钮</a> --> 
+      </div>
+      <ul class="admin_tab">
+       <li><a class="active">未打印凭条送检单</a></li>
+       <li><a>正常物料送检</a></li>
+       <li><a>其他分类送检</a></li>
+       <li><a>历史检测报告</a></li>
+       <li><a>量检具</a></li>
+      </ul>
+      <!-- 未打印凭条送检单 -->
+      <div class="admin_tab_cont" style="display:block;">
+      <table class="table" id="cfzero">
+       <tr>
+        <th>检测单号</th>
+        <th>送检日期</th>
+        <th>送检类型</th>
+        <th>送检人</th>
+        <th>零件号</th>
+        <th>零件名称</th>
+        <th>检测状态</th>
+        <th style="width:150px;">操作</th>
+       </tr>
+       <tr>
+          <td>未打印凭条送检单</td>
+          <td>内容二</td>
+          <td>内容三</td>
+          <td>内容四</td>
+          <td>内容五</td>
+          <td>内容六</td>
+          <td>内容七</td>
+          <td>
+           <a href='#' class='inner_btn' id='print'>打印</a>
+           <a href='#' class='inner_btn' id='checkformdetail'>详情</a>
+          </td>
+         </tr>
+      </table>
+      </div>
+      <!-- 正常物料送检 -->
+      <div class="admin_tab_cont">
+      <table class="table" id="cfnormal">
+       <tr>
+        <th>检测单号</th>
+        <th>送检日期</th>
+        <th>送检类型</th>
+        <th>送检人</th>
+        <th>零件号</th>
+        <th>零件名称</th>
+        <th>检测状态</th>
+        <th style="width:150px;">操作</th>
+       </tr>
+       <tr>
+          <td>正常物料送检</td>
+          <td>内容二</td>
+          <td>内容三</td>
+          <td>内容四</td>
+          <td>内容五</td>
+          <td>内容六</td>
+          <td>内容七</td>
+          <td>
+           <a href='#' class='inner_btn' id='checkformdetail'>详情</a>
+          </td>
+         </tr>
+      </table>
+      </div>
+      <!-- 其他检测 -->
+      <div class="admin_tab_cont">   
+        <table class="table" id="cfspecial">
+         <tr>
+          <th>检测单号</th>
+          <th>送检日期</th>
+          <th>送检类型</th>
+          <th>送检人</th>
+          <th>零件号</th>
+          <th>零件名称</th>
+          <th>检测状态</th>
+          <th style="width:150px;">操作</th>
+         </tr>
+         <tr>
+          <td>其他检测</td>
+          <td>内容二</td>
+          <td>内容三</td>
+          <td>内容四</td>
+          <td>内容五</td>
+          <td>内容六</td>
+          <td>内容七</td>
+          <td>
+           <a href='#' class='inner_btn' id='checkformdetail'>详情</a>
+          </td>
+         </tr>
+      </table>
+      </div>
+      <!-- 检测报告 -->
+      <div class="admin_tab_cont">
+        <span class="item_name" style="text-align: center;">筛选</span>
+         <span class="item_name">送检类型：</span>
+         <select class="select textbox_100" id="byclaId">
+          <option>&nbsp;&nbsp;&nbsp;加载中</option>
+         </select>
+         <span class="item_name">送检项目：</span>
+         <select class="select textbox_100" id="bypId">
+          <option>&nbsp;&nbsp;&nbsp;加载中</option>
+         </select>
+         <span class="item_name">送检单号：</span>
+         <input type="text" class="textbox textbox_225" id="bycfid" />
+         <input type="button" value="搜索" class="link_btn" id="button_searchByCfid" />
+        <table class="table" id="cffinished">
+         <tr>
+          <th>检测单号</th>
+          <th>送检日期</th>
+          <th>送检类型</th>
+          <th>送检人</th>
+          <th>零件号</th>
+          <th>零件名称</th>
+          <th>检测状态</th>
+          <th style="width:150px;">操作</th>
+         </tr>
+         <tr>
+          <td>检测报告</td>
+          <td>内容二</td>
+          <td>内容三</td>
+          <td>内容四</td>
+          <td>内容五</td>
+          <td>内容六</td>
+          <td>内容七</td>
+          <td>
+           <a href='#' class='inner_btn' id='checkformdetail'>详情</a>
+          </td>
+         </tr>
+        </table>
+        <aside class="paging" id="pageToolFinished">
+         
+        </aside>
+      </div>
+      <div class="admin_tab_cont">
+        <!-- 量检具 -->
+        <section>
+          <table class="table" id="checktools">
+           <tr>
+            <th>量仪编号</th>
+            <th>量仪名称</th>
+            <th>量仪规格</th>
+            <th>校验周期</th>
+            <th>使用项目</th>
+            <th>检具状态</th>
+            <th>操作</th>
+           </tr>
+           <tr>
+            <td>量检具</td>
+            <td>内容二</td>
+            <td>内容三</td>
+            <td>内容四</td>
+            <td>内容五</td>
+            <td>内容六</td>
+            <td>
+             <a href='#' class='inner_btn' id='checkformdetail'>详情</a>
+            </td>
+           </tr>
+          </table>
+          <aside class="paging" id="pageToolTools">
+         
+          </aside>
+         </section>
+      </div>
+     </section>
+    <!--结束：以下内容则可删除，仅为素材引用参考-->
+ </div>
+</section>
 
 </body>
 </html>

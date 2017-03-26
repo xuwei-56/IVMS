@@ -31,13 +31,11 @@ function validate () {
     var codeToUp=code.toUpperCase();
     if(inputCode.length <=0) {
       document.getElementById("Vcode").setAttribute("placeholder","输入验证码");
-      createCode();
       return false;
     }
     else if(inputCode != codeToUp ){
       document.getElementById("Vcode").value="";
       document.getElementById("Vcode").setAttribute("placeholder","验证码错误");
-      createCode();
       return false;
     }
 

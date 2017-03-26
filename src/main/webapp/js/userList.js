@@ -36,9 +36,9 @@ $(document).ready(function(){
 								//getPage(data.data[0].count,1,pageSize);
 								count = parseInt(data.msg);
 								checkformdata = data.data;
-								var mycheckformdata = "<tr><th>检测单号</th><th>检测日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
+								var mycheckformdata = "<tr><th>检测单号</th><th>送检日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
 								data.data.forEach(function(checkform){
-									mycheckformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDate(checkform.cftime)+"</td><td>"+checkform.claid+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+checkform.cfstatus+"</td>";
+									mycheckformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td>";
 									if (checkform.status == 0) {
 										mycheckformdata += "<td><a href='#' class='inner_btn' id='checkformdetail'>详情</a><a href='#' class='inner_btn' id='deleteform'>删除</a></td></tr>";
 									}else{
@@ -52,7 +52,7 @@ $(document).ready(function(){
 				}});
 				var mycheckformdata = "<tr><th>检测单号</th><th>检测日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
 				data.data.forEach(function(checkform){
-					mycheckformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDate(checkform.cftime)+"</td><td>"+checkform.claid+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+checkform.cfstatus+"</td>";
+					mycheckformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td>";
   					if (checkform.status == 0) {
 						mycheckformdata += "<td><a href='#' class='inner_btn' id='checkformdetail'>详情</a><a href='#' class='inner_btn' id='deleteform'>删除</a></td></tr>";
 					}else{
@@ -113,7 +113,7 @@ $(document).ready(function(){
 						if (data.code == 1) {
 							var mychecktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪规格</th><th>效验周期</th><th>使用项目</th><th>领用日期</th><th style='width:150px;'>操作</th></tr>";
 							data.data.forEach(function(checktool){
-								mychecktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+checktool.ctcheckcycle+"</td><td>"+checktool.ctusestation+"</td><td>"+$.UnixToDate(checktool.ctusetime)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
+								mychecktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctusestation+"</td><td>"+$.UnixToDate(checktool.ctusetime)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
 							})
 							$('#mychecktools').html(mychecktooldata);
 		  					$(".loading_area").fadeOut();
@@ -177,9 +177,9 @@ $(document).ready(function(){
 									//getPage(data.data[0].count,1,pageSize);
 									count = data.msg;
 									checkformdata = data.data;
-									var mycheckformdata = "<tr><th>检测单号</th><th>检测日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
+									var mycheckformdata = "<tr><th>检测单号</th><th>送检日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
 									data.data.forEach(function(checkform){
-										mycheckformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTimeS(checkform.cftime)+"</td><td>"+checkform.claid+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+checkform.cfstatus+"</td>";
+										mycheckformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td>";
 										if (checkform.status == 0) {
 											mycheckformdata += "<td><a href='#' class='inner_btn' id='checkformdetail'>详情</a><a href='#' class='inner_btn' id='deleteform'>删除</a></td></tr>";
 										}else{
@@ -191,9 +191,9 @@ $(document).ready(function(){
 							}
 						})
 					}});
-					var mycheckformdata = "<tr><th>检测单号</th><th>检测日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
+					var mycheckformdata = "<tr><th>检测单号</th><th>送检日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
 					data.data.forEach(function(checkform){
-						mycheckformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.claid+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+checkform.cfstatus+"</td>";
+						mycheckformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td>";
 	  					if (checkform.status == 0) {
 							mycheckformdata += "<td><a href='#' class='inner_btn' id='checkformdetail'>详情</a><a href='#' class='inner_btn' id='deleteform'>删除</a></td></tr>";
 						}else{

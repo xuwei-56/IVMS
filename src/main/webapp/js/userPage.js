@@ -192,7 +192,7 @@ $(document).ready(function(){
 					}
 					$('#wId').html(warehouse);
 				}else{
-					alert(data.msg + "2")
+					
 					return false;
 				}
 			}
@@ -337,7 +337,7 @@ $(document).ready(function(){
 		formdata.append('cfurgentstatus',cfurgentstatus)
 		formdata.append('wid',wid)
 		formdata.append('cfreply',cfreply)
-		formdata.append('cfreplyreport'.cfreplyreport)
+		formdata.append('cfreplyreport',cfreplyreport)
 		console.log(formdata)
 		/*'lid':lid,'cid':cid,'pid':pid,'wid':wid,'claid':claid,'ccid':ccid,'cfmovep':cfmovep,'cfphonenum':cfphonenum,
 		'cfemail':cfemail,'cfcomponentname':cfcomponentname,'cfcomponentid':cfcomponentid,

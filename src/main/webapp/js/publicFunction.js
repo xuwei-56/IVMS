@@ -1,6 +1,6 @@
 //去除空格
 function removeAllSpace(str) {
-	return str.replace(/\s+/g, "");
+  return str.replace(/\s+/g, "");
 }
 //js脚本中过滤特殊字符的正则表达式代码：
 function stripscript(s) 
@@ -13,9 +13,47 @@ function stripscript(s)
   return rs;
 
 }
+//得到检测状态
+function getStatus(str){
+  var status = "";
+  switch(str){
+    case 0:status = "未打印凭证";break;
+    case 1:status = "待检"; break;
+    case 2:status = "检测中"; break;
+    case 3:status = "检验完毕"; break;
+  }
+  return status;
+}
+//得到检具状态
+function getCTStatus(str){
+  var status = "";
+  switch(str){
+    case 0:status = "未领用";break;
+    case 1:status = "已领用"; break;
+    case 2:status = "维修"; break;
+    case 3:status = "封存"; break;
+    case 4:status = "报废"; break;
+  }
+  return status;
+}
+// 得到检具检验周期
+function getCTCycle(ctcheckcycle){
+  var cycle;
+  switch(ctcheckcycle){
+    case 1: ctcheckcycle = "三个月" ; cycle = 3;break;
+    case 2: ctcheckcycle = "半年" ;cycle = 6;break;
+    case 3: ctcheckcycle = "一年" ;cycle = 12;break;
+  }
+  return cycle;
+}
+// 刷新页面
+function myrefresh() 
+{ 
+  window.location.reload(); 
+} 
 //工具方法
 $.extend({  
-	//获取GET方式传递的参数
+  //获取GET方式传递的参数
   getUrlVars: function(){  
     var vars = [], hash;  
     var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');  
@@ -69,8 +107,8 @@ $.extend({
     ymdhis += (time.getUTCMonth()+1) + "-";
     ymdhis += time.getUTCDate();
     ymdhis += " " + time.getUTCHours() + ":";
-  	ymdhis += time.getUTCMinutes() + ":";
-  	ymdhis += time.getUTCSeconds();
+    ymdhis += time.getUTCMinutes() + ":";
+    ymdhis += time.getUTCSeconds();
     return ymdhis;
   },
   /**       
