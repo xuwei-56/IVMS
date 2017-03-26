@@ -11,6 +11,8 @@
 <script src="./js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script type="text/javascript" src="./js/CheckActivX.js"></script>
 <script type="text/javascript" src="./js/publicFunction.js"></script>
+<script type="text/javascript" src="./js/query.js"></script>
+<script type="text/javascript" src="./js/paging.js"></script>
 <script type="text/javascript" src="./js/index.js"></script>
 <object id="LODOP" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0> </object>
 <script>
@@ -242,7 +244,7 @@
          </select>
          <span class="item_name">送检单号：</span>
          <input type="text" class="textbox textbox_225" id="bycfid" />
-         <input type="button" value="搜索" class="link_btn" id="button_searchByCfid" />
+         <input type="button" value="搜索" class="link_btn" id="button_searchCheckForm" />
         <table class="table" id="cffinished">
          <tr>
           <th>检测单号</th>
@@ -274,6 +276,18 @@
       <div class="admin_tab_cont">
         <!-- 量检具 -->
         <section>
+          <span class="item_name" style="text-align: center;">筛选</span>
+          <span class="item_name">检具状态：</span>
+          <select class="select textbox_100" id="byCTStatus">
+            <option value="0">未领用</option>
+            <option value="1">已领用</option>
+            <option value="2">维修</option>
+            <option value="3">封存</option>
+            <option value="4">报废</option>
+          </select>
+          <span class="item_name">使用项目：</span>
+          <input type="text" class="textbox textbox_225" id="byCTUseItem" />
+          <input type="button" value="搜索" class="link_btn" id="button_searchCheckTools" />
           <table class="table" id="checktools">
            <tr>
             <th>量仪编号</th>
