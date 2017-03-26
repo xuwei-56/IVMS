@@ -46,4 +46,6 @@ public interface CheckingFormDao {
     
     List<CheckingFormCustom> othersCheckingForm(@Param("urgentStatus")Integer urgentStatus);
     
+    int updateCfstatuByCfid(String cfid);
+    
 }

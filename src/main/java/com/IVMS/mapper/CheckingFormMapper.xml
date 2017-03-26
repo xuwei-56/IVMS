@@ -499,4 +499,9 @@
       CFReplyreport=#{cfreplyreport,jdbcType=VARCHAR}
     where CFId = #{cfid,jdbcType=VARCHAR}
   </update>
+  <update id="updateCfstatuByCfid" parameterType="java.lang.String" >
+  UPDATE checkingform 
+  SET CFStatus=1 
+  WHERE CFStatus=0 AND CFId=#{CFId,jdbcType=VARCHAR};
+  </update>
 </mapper>
