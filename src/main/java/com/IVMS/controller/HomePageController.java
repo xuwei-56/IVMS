@@ -89,4 +89,15 @@ public class HomePageController {
 			return CommonUtil.constructResponse(EnumUtil.OK,String.valueOf(allPageNum), checkingToolsInfo);
 		}
 	}
+	
+	@RequestMapping("/updateCfstatus")
+	@ResponseBody
+	public JSONObject updateCfstatus(String cfid) throws Exception {
+		int updateResult=homePageService.updateCfstatuByCfid(cfid);
+		if(updateResult<=0){
+			return CommonUtil.constructResponse(0,"更新状态失败！",null);
+		}else{
+			return CommonUtil.constructResponse(EnumUtil.OK,"更新状态成功！",null);
+		}
+	}
 }

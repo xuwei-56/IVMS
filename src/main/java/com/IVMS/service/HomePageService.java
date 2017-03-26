@@ -28,4 +28,6 @@ public interface HomePageService {
     List<CheckingTools> checkingToolsInfo(String CTUseItem,Integer CTStatus,Integer requestPageNum);
     
     int countCheckingToolsInfo(String CTUseItem,Integer CTStatus);
+    
+    int updateCfstatuByCfid(String cfid);
 }

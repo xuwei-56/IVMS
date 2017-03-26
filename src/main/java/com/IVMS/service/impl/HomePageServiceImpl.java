@@ -69,4 +69,9 @@ public class HomePageServiceImpl implements HomePageService {
 		return page;
 	}
 
+
+	public int updateCfstatuByCfid(String cfid) {
+		return checkingFormDao.updateCfstatuByCfid(cfid);
+	}
+
 }
