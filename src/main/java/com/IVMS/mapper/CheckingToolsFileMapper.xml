@@ -21,15 +21,20 @@
     from checkingtoolsfile
     where CTId = #{ctid,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from checkingtoolsfile
-    where CTFId = #{ctfid,jdbcType=INTEGER}
+  <delete id="deleteCheckingToolsFileByCtid" parameterType="java.lang.Integer" >
+  DELETE FROM checkingtoolsfile WHERE CTId=#{ctid,jdbcType=INTEGER};
+  </delete>
+  <delete id="deleteCheckingToolsFileByCtfid" parameterType="java.lang.Integer" >
+  DELETE FROM checkingtoolsfile WHERE CTFId=#{ctfid,jdbcType=INTEGER};
   </delete>
   <insert id="insert" parameterType="com.IVMS.model.CheckingToolsFile" >
     insert into checkingtoolsfile (CTFId, CTId, CTFName
       )
     values (#{ctfid,jdbcType=INTEGER}, #{ctid,jdbcType=INTEGER}, #{ctfname,jdbcType=VARCHAR}
       )
+  </insert>
+  <insert id="insertCheckingToolsFile" >
+    INSERT checkingtoolsfile(CTId,CTFName) VALUES(#{ctid,jdbcType=INTEGER},#{ctfname,jdbcType=VARCHAR});
   </insert>
   <insert id="insertSelective" parameterType="com.IVMS.model.CheckingToolsFile" >
     insert into checkingtoolsfile

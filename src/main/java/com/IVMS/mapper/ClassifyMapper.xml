@@ -19,13 +19,23 @@
     <include refid="Base_Column_List" />
     from classify
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <select id="selectMaxClaId" resultType="java.lang.Integer" >
+  SELECT MAX(ClaId) FROM classify;
+  </select>
+  <select id="selectClaIdByCheckingTool" resultType="java.lang.Integer" >
+  SELECT ClaId FROM classify WHERE CName LIKE '%检具%';
+  </select>
+  <delete id="deleteByClaid" parameterType="java.lang.Integer" >
     delete from classify
     where ClaId = #{claid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.IVMS.model.Classify" >
     insert into classify (ClaId, CName)
     values (#{claid,jdbcType=INTEGER}, #{cname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertClassify" parameterType="java.lang.String" >
+    insert into classify (CName)
+    values (#{cname,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.IVMS.model.Classify" >
     insert into classify

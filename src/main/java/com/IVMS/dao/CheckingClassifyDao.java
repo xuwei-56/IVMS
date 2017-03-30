@@ -2,12 +2,18 @@ package com.IVMS.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.IVMS.model.CheckingClassify;
 
 public interface CheckingClassifyDao {
-    int deleteByPrimaryKey(Integer ccid);
+    int deleteByCCid(Integer ccid);
+    
+    int deleteCheckingClassifyByClaid(Integer claid);
 
     int insert(CheckingClassify record);
+    
+    int insertCheckingClassify(@Param("claid")Integer claid,@Param("ccname")String ccname);
 
     int insertSelective(CheckingClassify record);
 

@@ -18,14 +18,18 @@
   <select id="selectCellNameByLineId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
   SELECT CId,CName FROM cell WHERE LId=#{LID,jdbcType=INTEGER};
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteCellByCid" parameterType="java.lang.Integer" >
     delete from cell
     where CId = #{cid,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.IVMS.model.Cell" >
-    insert into cell (CId, CName, LId
+  <delete id="deleteCellByLid" parameterType="java.lang.Integer" >
+    delete from cell
+    where LId = #{lid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertCell" >
+    insert into cell (CName, LId
       )
-    values (#{cid,jdbcType=INTEGER}, #{cname,jdbcType=VARCHAR}, #{lid,jdbcType=INTEGER}
+    values (#{cname,jdbcType=VARCHAR}, #{lid,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.IVMS.model.Cell" >

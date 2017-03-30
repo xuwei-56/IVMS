@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.IVMS.model.CheckingToolsRecord" >
     <id column="CTRId" property="ctrid" jdbcType="INTEGER" />
     <result column="CTId" property="ctid" jdbcType="INTEGER" />
-    <result column="CTRNum" property="ctrnum" jdbcType="INTEGER" />
+    <result column="CTRNum" property="ctrnum" jdbcType="VARCHAR" />
     <result column="CTRMoveCP" property="ctrmovecp" jdbcType="VARCHAR" />
     <result column="CTRMoveTime" property="ctrmovetime" jdbcType="DATE" />
     <result column="CTRCheckTIme" property="ctrchecktime" jdbcType="DATE" />
@@ -16,10 +16,20 @@
     <result column="CTRAcceptResult" property="ctracceptresult" jdbcType="INTEGER" />
     <result column="CTRRemark" property="ctrremark" jdbcType="INTEGER" />
     <result column="CTRCheckMan" property="ctrcheckman" jdbcType="VARCHAR" />
+    <result column="CTIsAgree" property="ctisagree" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="noticeEmailAndTimeMap" type="com.IVMS.model.CheckingToolsRecord"
+    extends="BaseResultMap" >
+    <collection property="notifyPersonnelEmails" ofType="com.IVMS.model.NotifyPersonnelEmail">
+    <id column="NPEId" property="npeid" jdbcType="INTEGER" />
+    <result column="CFId" property="cfid" jdbcType="VARCHAR" />
+    <result column="NPENotifyEmail" property="npenotifyemail" jdbcType="VARCHAR" />
+    <result column="NPENotifyTime" property="npenotifytime" jdbcType="DATE" />
+    </collection>
   </resultMap>
   <sql id="Base_Column_List" >
     CTRId, CTId, CTRNum, CTRMoveCP, CTRMoveTime, CTRCheckTIme, CTRCheckNextTime, CTRCheckContent, 
-    CTRCheckValue, CTRCheckTools, CTRCheckResult, CTRAcceptResult, CTRRemark,CTRCheckMan
+    CTRCheckValue, CTRCheckTools, CTRCheckResult, CTRAcceptResult, CTRRemark,CTRCheckMan,CTIsAgree
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -27,21 +37,18 @@
     from checkingtoolsrecord
     where CTRId = #{ctrid,jdbcType=INTEGER}
   </select>
+  <select id="selectEmailAndCheckNextTime" resultType="hashmap" >
+  SELECT CTRCheckNextTime,NPENotifyEmail 
+  FROM checkingtoolsrecord ctr,notifypersonnelemail npe,(SELECT MAX(CTRId) ctrid FROM checkingtoolsrecord GROUP BY CTId) ti
+  WHERE npe.CFId=ctr.CTRNum AND ctr.CTRId=ti.ctrid;
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from checkingtoolsrecord
     where CTRId = #{ctrid,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.IVMS.model.CheckingToolsRecord" >
-    insert into checkingtoolsrecord (CTRId, CTId, CTRNum, 
-      CTRMoveCP, CTRMoveTime, CTRCheckTIme, 
-      CTRCheckNextTime, CTRCheckContent, CTRCheckValue, 
-      CTRCheckTools, CTRCheckResult, CTRAcceptResult, 
-      CTRRemark,CTRCheckMan)
-    values (#{ctrid,jdbcType=INTEGER}, #{ctid,jdbcType=INTEGER}, #{ctrnum,jdbcType=INTEGER}, 
-      #{ctrmovecp,jdbcType=VARCHAR}, #{ctrmovetime,jdbcType=DATE}, #{ctrchecktime,jdbcType=DATE}, 
-      #{ctrchecknexttime,jdbcType=DATE}, #{ctrcheckcontent,jdbcType=VARCHAR}, #{ctrcheckvalue,jdbcType=VARCHAR}, 
-      #{ctrchecktools,jdbcType=VARCHAR}, #{ctrcheckresult,jdbcType=INTEGER}, #{ctracceptresult,jdbcType=INTEGER}, 
-      #{ctrremark,jdbcType=INTEGER},#{ctrcheckman,jdbcType=VARCHAR})
+  <insert id="insertCheckingToolRecordByCtUseTime" >
+  INSERT INTO checkingtoolsrecord(CTId,CTRMoveCP,CTRCheckTIme,CTRCheckNextTime) VALUES
+  (#{ctid,jdbcType=INTEGER},#{ctrmovecp,jdbcType=VARCHAR},#{ctrchecktime,jdbcType=DATE},#{ctrchecknexttime,jdbcType=DATE});
   </insert>
   <insert id="insertSelective" parameterType="com.IVMS.model.CheckingToolsRecord" >
     insert into checkingtoolsrecord
@@ -88,6 +95,9 @@
       <if test="ctrcheckman != null" >
         CTRCheckMan,
       </if>
+      <if test="ctisagree != null" >
+        CTIsAgree,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="ctrid != null" >
@@ -97,7 +107,7 @@
         #{ctid,jdbcType=INTEGER},
       </if>
       <if test="ctrnum != null" >
-        #{ctrnum,jdbcType=INTEGER},
+        #{ctrnum,jdbcType=VARCHAR},
       </if>
       <if test="ctrmovecp != null" >
         #{ctrmovecp,jdbcType=VARCHAR},
@@ -132,16 +142,19 @@
       <if test="ctrcheckman != null" >
         #{ctrcheckman,jdbcType=VARCHAR},
       </if>
+      <if test="ctisagree != null" >
+        #{ctisagree,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.IVMS.model.CheckingToolsRecord" >
+  <update id="updateCheckingToolResultByCtrid" parameterType="com.IVMS.model.CheckingToolsRecord" >
     update checkingtoolsrecord
     <set >
       <if test="ctid != null" >
         CTId = #{ctid,jdbcType=INTEGER},
       </if>
       <if test="ctrnum != null" >
-        CTRNum = #{ctrnum,jdbcType=INTEGER},
+        CTRNum = #{ctrnum,jdbcType=VARCHAR},
       </if>
       <if test="ctrmovecp != null" >
         CTRMoveCP = #{ctrmovecp,jdbcType=VARCHAR},
@@ -176,13 +189,16 @@
       <if test="ctrcheckman != null" >
         CTRCheckman = #{ctrcheckman,jdbcType=VARCHAR},
       </if>
+      <if test="ctisagree != null" >
+        CTIsAgree = #{ctisagree,jdbcType=INTEGER},
+      </if>
     </set>
     where CTRId = #{ctrid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.IVMS.model.CheckingToolsRecord" >
     update checkingtoolsrecord
     set CTId = #{ctid,jdbcType=INTEGER},
-      CTRNum = #{ctrnum,jdbcType=INTEGER},
+      CTRNum = #{ctrnum,jdbcType=VARCHAR},
       CTRMoveCP = #{ctrmovecp,jdbcType=VARCHAR},
       CTRMoveTime = #{ctrmovetime,jdbcType=DATE},
       CTRCheckTIme = #{ctrchecktime,jdbcType=DATE},
@@ -194,6 +210,11 @@
       CTRAcceptResult = #{ctracceptresult,jdbcType=INTEGER},
       CTRRemark = #{ctrremark,jdbcType=INTEGER}
       CTRCheckman = #{ctrcheckman,jdbcType=VARCHAR}
+      CTIsAgree = #{ctisagree,jdbcType=INTEGER}
     where CTRId = #{ctrid,jdbcType=INTEGER}
+  </update>
+   <update id="updateAcceptAndAgreeByCtrid" >
+   UPDATE checkingtoolsrecord SET CTRAcceptResult=#{ctrcheckresult,jdbcType=INTEGER},
+   CTIsAgree=#{ctisagree,jdbcType=INTEGER} WHERE CTRId=#{ctrid,jdbcType=INTEGER};
   </update>
 </mapper>

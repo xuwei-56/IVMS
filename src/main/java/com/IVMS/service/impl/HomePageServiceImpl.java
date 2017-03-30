@@ -47,10 +47,10 @@ public class HomePageServiceImpl implements HomePageService {
 
 	public int countMyHistoryCheck(Integer ClaId, Integer Pid, String CFId) {
 		int count=checkingFormDao.countMyHistoryCheck(ClaId,Pid,CFId);
-		System.out.println(count);
-		int page=(int) Math.ceil(count*1.0/20);
-		System.out.println(page);
-		return page;
+//		System.out.println(count);
+//		int page=(int) Math.ceil(count*1.0/20);
+//		System.out.println(page);
+		return count;
 	}
 
 
@@ -63,10 +63,10 @@ public class HomePageServiceImpl implements HomePageService {
 
 	public int countCheckingToolsInfo(String CTUseItem, Integer CTStatus) {
 		int count=checkingToolsDao.countCheckingToolsInfo(CTUseItem, CTStatus);
-		System.out.println(count);
-		int page=(int) Math.ceil(count*1.0/20);
-		System.out.println(page);
-		return page;
+//		System.out.println(count);
+//		int page=(int) Math.ceil(count*1.0/20);
+//		System.out.println(page);
+		return count;
 	}
 
 

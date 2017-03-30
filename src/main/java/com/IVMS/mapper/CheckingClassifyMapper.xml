@@ -18,15 +18,23 @@
   <select id="selectCheckClassifyNameByClassifyId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
   SELECT CCId,CCName FROM checkingclassify WHERE ClaId=#{ClaId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByCCid" parameterType="java.lang.Integer" >
     delete from checkingclassify
     where CCId = #{ccid,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteCheckingClassifyByClaid" parameterType="java.lang.Integer" >
+   DELETE FROM checkingclassify WHERE ClaId=#{claid,jdbcType=INTEGER}
+  </delete>
+  
   <insert id="insert" parameterType="com.IVMS.model.CheckingClassify" >
     insert into checkingclassify (CCId, ClaId, CCName
       )
     values (#{ccid,jdbcType=INTEGER}, #{claid,jdbcType=INTEGER}, #{ccname,jdbcType=VARCHAR}
       )
+  </insert>
+  <insert id="insertCheckingClassify" >
+  INSERT INTO checkingclassify(ClaId,CCName) VALUES(#{claid,jdbcType=INTEGER},
+   #{ccname,jdbcType=VARCHAR});
   </insert>
   <insert id="insertSelective" parameterType="com.IVMS.model.CheckingClassify" >
     insert into checkingclassify

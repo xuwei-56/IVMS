@@ -5,6 +5,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +34,7 @@ import com.IVMS.model.Project;
 import com.IVMS.model.UrgentFile;
 import com.IVMS.model.User;
 import com.IVMS.model.Warehouse;
+import com.IVMS.service.CheckUserService;
 import com.IVMS.service.SendCheckUserService;
 import com.IVMS.util.CommonUtil;
 import com.IVMS.util.EnumUtil;
@@ -303,11 +305,11 @@ public class SendCheckUserController {
 	@ResponseBody
 	public JSONObject myCheckingToolsDetails(Integer ctid) throws Exception {
 		Integer isHaveCheckingToolsFile=1;
-		List<CheckingToolsFile>myCheckingToolsFile=sendCheckUserService.selectByCtid(ctid);
+		List<CheckingToolsFile>myCheckingToolsFile=sendCheckUserService.selectByCtid(1);
 		if(myCheckingToolsFile==null||myCheckingToolsFile.isEmpty()){
 			isHaveCheckingToolsFile=0;
 		}
-		CheckingTools myCheckingToolsDetails=sendCheckUserService.myCheckingToolsDetails(ctid, 
+		List<Map<String,Object>> myCheckingToolsDetails=sendCheckUserService.myCheckingToolsDetails(1, 
 				isHaveCheckingToolsFile);
 		if(myCheckingToolsDetails==null){
 			return CommonUtil.constructResponse(0,"没有数据！",null);
@@ -473,6 +475,11 @@ public class SendCheckUserController {
   	        String wid=checkingForm.getWid();
   	        Integer claid=checkingForm.getClaid();
   	        sendCheckUserService.updateWStatusByWidAndClaid(wid, claid);//更新库位信息
+  	        int claIdOfCheckingTool=sendCheckUserService.selectClaIdByCheckingTool();
+  	        if(checkingForm.getClaid()==claIdOfCheckingTool){
+  	        	sendCheckUserService.insertCheckingToolsRecord(checkingForm.getCfid(),checkingForm.getCfmovep(), 
+  	        			Integer.parseInt(checkingForm.getCfcomponentid()),checkingForm.getCftime());
+  	        }
 	        if(flag==false){
 	        	return CommonUtil.constructResponse(EnumUtil.SYSTEM_ERROR,"提交信息失败！",null);
 	        }else{

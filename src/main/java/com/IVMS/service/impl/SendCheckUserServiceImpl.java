@@ -1,6 +1,8 @@
 package com.IVMS.service.impl;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -160,10 +162,10 @@ public class SendCheckUserServiceImpl implements SendCheckUserService{
 
 	public int countMySendCheck(String CFMoveP,Integer ClaId,Integer Pid,String cfid) {
 		int count=checkingFormDao.countMySendCheck(CFMoveP,ClaId,Pid,cfid);
-		System.out.println(count);
-		int page=(int) Math.ceil(count*1.0/20);
-		System.out.println(page);
-		return page;
+//		System.out.println(count);
+//		int page=(int) Math.ceil(count*1.0/20);
+//		System.out.println(page);
+		return count;
 	}
 
 	public List<CheckingTools> selectByReceiver(String receiver) {
@@ -198,12 +200,20 @@ public class SendCheckUserServiceImpl implements SendCheckUserService{
 		return checkingToolsFileDao.selectByCtid(ctid);
 	}
 
-	public CheckingTools myCheckingToolsDetails(Integer ctid, Integer isHaveCheckingToolsFile) {
+	public List<Map<String,Object>> myCheckingToolsDetails(Integer ctid, Integer isHaveCheckingToolsFile) {
 		return checkingToolsDao.myCheckingToolsDetails(ctid, isHaveCheckingToolsFile);
 	}
 
 	public int updateWStatusByWidAndClaid(String wid, Integer claid) {
 		return warehouseDao.updateWStatusByWidAndClaid(wid, claid);
+	}
+
+	public int selectClaIdByCheckingTool() {
+		return classifyDao.selectClaIdByCheckingTool();
+	}
+
+	public int insertCheckingToolsRecord(String cfid, String cfmovep, Integer cfcomponentid, Date cftime) {
+		return checkingFormDao.insertCheckingToolsRecord(cfid, cfmovep, cfcomponentid, cftime);
 	}
 	
 }

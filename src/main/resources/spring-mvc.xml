@@ -58,7 +58,6 @@
         <property name="prefix" value="/html/" />  
         <property name="suffix" value=".html" />  
     </bean> 
-     
 	<!-- 页面跳转接口验证登录 -->
 	<!-- <mvc:interceptors>
 		<mvc:interceptor>

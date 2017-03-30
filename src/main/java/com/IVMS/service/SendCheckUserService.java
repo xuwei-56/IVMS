@@ -1,6 +1,8 @@
 package com.IVMS.service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.naming.ldap.LdapContext;
@@ -75,8 +77,12 @@ public interface SendCheckUserService {
 	
 	List<CheckingToolsFile>selectByCtid(Integer ctid);
 	
-	CheckingTools myCheckingToolsDetails(Integer ctid,Integer isHaveCheckingToolsFile);
+	List<Map<String,Object>> myCheckingToolsDetails(Integer ctid,Integer isHaveCheckingToolsFile);
 	
 	int updateWStatusByWidAndClaid(String wid,Integer claid);
+	
+	int selectClaIdByCheckingTool();
+	
+	int insertCheckingToolsRecord(String cfid,String cfmovep,Integer cfcomponentid,Date cftime);
 	
 }

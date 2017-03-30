@@ -19,13 +19,16 @@
     <include refid="Base_Column_List" />
     from project
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPid" parameterType="java.lang.Integer" >
     delete from project
     where PId = #{pid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.IVMS.model.Project" >
     insert into project (PId, PName)
     values (#{pid,jdbcType=INTEGER}, #{pname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertProject" parameterType="java.lang.String" >
+    INSERT INTO project (PName) VALUES (#{pname,jdbcType=VARCHAR});
   </insert>
   <insert id="insertSelective" parameterType="com.IVMS.model.Project" >
     insert into project

@@ -2,12 +2,18 @@ package com.IVMS.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.IVMS.model.CheckingToolsFile;
 
 public interface CheckingToolsFileDao {
-    int deleteByPrimaryKey(Integer ctfid);
+    int deleteCheckingToolsFileByCtid(Integer ctid);
+    
+    int deleteCheckingToolsFileByCtfid(Integer ctfid);
 
     int insert(CheckingToolsFile record);
+    
+    int insertCheckingToolsFile(@Param("ctid")Integer ctid,@Param("ctfname")String ctfname);
 
     int insertSelective(CheckingToolsFile record);
 
