@@ -330,9 +330,9 @@ $(document).ready(function(){
 		prn_preview(cfid,moveP,time); // 打印预览
 		//prn_print(cfid,moveP,time);   // 直接打印
 		$.ajax({
-			url:'./',
+			url:'./updateCfstatus',
 			type:'POST',
-			data:{'cfid':},
+			data:{'cfid':cfid},
 			datatype:'json',
 			success:function(data){
 				data = JSON.parse(data);

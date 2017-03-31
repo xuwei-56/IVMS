@@ -26,7 +26,8 @@ $(document).ready(function(){
 				$('#ctcheckway').text(data.data.ctcheckway)
 				$('#ctproducer').text(data.data.ctproducer)
 				$('#ctusestation').text(data.data.ctusestation)
-				$('#ctcheckcycle').text(getCTCycle(data.data.ctcheckcycle))
+				var cycle = getCTCycle(data.data.ctcheckcycle);
+				$('#ctcheckcycle').text(cycle + "个月")
 				$('#ctproductionnum').text(data.data.ctproductionnum)
 				$('#ctuser').text(data.data.user)
 				$('#ctmsa').text(data.data.ctmsa)
@@ -40,18 +41,17 @@ $(document).ready(function(){
 				$('#ctcheckTH').text(data.data.ctchecktemperature +"℃/"+ data.data.ctcheckhumidiry)
 				$('#ctstatus').text(data.data.ctstatus)
 				$('#ctremark').text(data.data.ctremark)
-				var CTRData = "<tr><th width='5%'>测量序号</th><th>送检人</th><th>送检日期</th><th>校验单位</th><th>校验人员</th><th>校验日期</th><th>校验内容/技术规范</th><th>实测值</th><th>校验仪器/工具</th><th>测量结论</th><th>是否接受</th><th>状态</th></tr>";
+				var CTRData = "<tr><th width='5%'>测量序号</th><th>送检人</th><th>送检日期</th><th>校验人员</th><th>校验日期</th><th>校验内容/技术规范</th><th>实测值</th><th>校验仪器/工具</th><th>测量结论</th><th>是否接受</th><th>状态</th></tr>";
 				var temp;
-				console.log(data.data.checkingToolsRecord.length)
 				for (var i = data.data.checkingToolsRecord.length - 1; i >= 0; i--) {
 					temp = data.data.checkingToolsRecord[i];
-					CTRData += "<tr><td>"+temp.ctrid+"</td><td>"+temp.ctrmovep+"</td><td>"+temp.ctrmovetime+"</td><td>"+temp.ctrcheckman+"</td><td>"+temp.ctrchecktime+"</td><td>"+temp.ctrcheckcontent+"</td><td>"+temp.ctrcheckvalue+"</td><td>"+temp.ctrchecktools+"</td><td>"+temp.ctrcheckresult+"</td><td>"+temp.ctracceptresult+"</td><td>"+temp.ctrremark+"</td></tr>";
+					CTRData += "<tr><td>"+temp.ctrid+"</td><td>"+temp.ctrmovecp+"</td><td>"+$.UnixToDate(temp.ctrmovetime)+"</td><td>"+temp.ctrcheckman+"</td><td>"+$.UnixToDate(temp.ctrchecktime)+"</td><td>"+temp.ctrcheckcontent+"</td><td>"+temp.ctrcheckvalue+"</td><td>"+temp.ctrchecktools+"</td><td>"+temp.ctrcheckresult+"</td><td>"+temp.ctracceptresult+"</td><td>"+temp.ctrremark+"</td></tr>";
 				}
 				$('#CTRTable').html(CTRData);
 				var ctchecknexttime = "";
 				if (data.data.ctstatus == 1 ) {
 					if (data.data.checkingToolsRecord != null) {
-						ctchecknexttime = data.data.checkingToolsRecord[data.data.checkingToolsRecord.length-1].ctrctrchecknexttime
+						ctchecknexttime = data.data.checkingToolsRecord[0].ctrctrchecknexttime
 					} else {
 						ctchecknexttime = $.UnixToDate(data.data.ctusetime + cycle * 30 * 24 * 60 * 60 * 1000) // 这个时间是大概时间  
 					}

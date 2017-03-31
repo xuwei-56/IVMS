@@ -60,7 +60,20 @@ public class PageController {
 	public String checktoolDetail(){
 		return "checktoolDetail";
 	}
-
+	/**
+	 * 前端页面路径:检测人员登录
+	 */
+	@RequestMapping("/admin_index")
+	public String adminIndex(){
+		return "admin_index";
+	}
+	/**
+	 * 前端页面路径:检测人员检具管理
+	 */
+	@RequestMapping("/admin_tools")
+	public String adminTools(){
+		return "admin_tools";
+	}
 	/**
 	 * 获取图片验证码
 	 * @return 图片流

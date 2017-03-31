@@ -40,9 +40,9 @@ function getCTStatus(str){
 function getCTCycle(ctcheckcycle){
   var cycle;
   switch(ctcheckcycle){
-    case 1: ctcheckcycle = "三个月" ; cycle = 3;break;
-    case 2: ctcheckcycle = "半年" ;cycle = 6;break;
-    case 3: ctcheckcycle = "一年" ;cycle = 12;break;
+    case 1: cycle = 3;break;
+    case 2: cycle = 6;break;
+    case 3: cycle = 12;break;
   }
   return cycle;
 }
@@ -51,6 +51,257 @@ function myrefresh()
 { 
   window.location.reload(); 
 } 
+function getnormalCheckingForm(){
+  //得到正常过程送检送检单
+  $.ajax({
+    url:'./normalCheckingForm',
+    type:'POST',
+    data:{},
+    datatype:'json',
+    success:function(data){
+      data = JSON.parse(data);
+      if(data.code == 1){
+        var checkformdata = "<tr><th>检测单号</th><th>检测日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
+        data.data.forEach(function(checkform){
+          checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
+          })
+          $('#cfnormal').html(checkformdata);
+      }
+    }
+  })
+}
+function getothersCheckingForm(){
+  //得到其他分类的送检单
+  $.ajax({
+    url:'./othersCheckingForm',
+    type:'POST',
+    data:{},
+    datatype:'json',
+    success:function(data){
+      data = JSON.parse(data);
+      if(data.code == 1){
+        var checkformdata = "<tr><th>检测单号</th><th>检测日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
+        data.data.forEach(function(checkform){
+          checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
+          })
+          $('#cfspecial').html(checkformdata);
+      }
+    }
+  })
+}
+function getClassify(){
+  // 获取送检类型
+  $.ajax({
+    url:'./user/getClassify',
+    type:'POST',
+    data:{},
+    datatype:'json',
+    success:function(data){
+      data = JSON.parse(data);
+      if (data.code == 1) {
+        var Classify = "<option></option>";
+        for (var i = 0; i < data.data.length; i++) {
+          Classify += "<option value="+data.data[i].claid+">"+data.data[i].cname+"</option>"
+        }
+        $('#claId').html(Classify)
+        $('#byclaId').html(Classify)
+      }else{
+        alert("获取送检类型失败！错误信息：" + data.msg)
+      }
+    }
+  })
+}
+function getProject(){
+  // 获取项目 
+  $.ajax({
+    url:'./user/getProjects',
+    type:'POST',
+    data:{},
+    datatype:'json',
+    success:function(data){
+      data = JSON.parse(data);
+      if (data.code == 1) {
+        var Projects = "<option></option>";
+        for (var i = 0; i < data.data.length; i++) {
+          Projects += "<option value="+data.data[i].pid+">"+data.data[i].pname+"</option>";
+        }
+        $('#pId').html(Projects);
+        $('#bypId').html(Projects);
+      }else{
+        alert("获取送检项目失败！错误信息：" + data.msg)
+        //return false;
+      }
+    }
+  })
+}
+function getDepartments(){
+  // 获取部门信息
+  $.ajax({
+    url:'./user/getDepartments',
+    type:'POST',
+    data:{},
+    datatype:'json',
+    success:function(data){
+      data = JSON.parse(data);
+      if (data.code == 1) {
+        var department = "<option></option>";
+        for (var i = 0; i < data.data.length; i++) {
+          department += "<option value="+data.data[i]+">"+data.data[i]+"</option>"
+        }
+        $('#departmentName').html(department)
+      }else{
+        alert("获取部门信息失败！错误信息：" + data.msg)
+        //return false;
+      }
+    }
+  })
+}
+function getLines(){
+  // 获取产线
+  $.ajax({
+    url:'./user/getLines',
+    type:'POST',
+    data:{},
+    datatype:'json',
+    success:function(data){
+      data = JSON.parse(data);
+      if (data.code == 1) {
+        var Lines = "<option></option>";
+        for (var i = 0; i < data.data.length; i++) {
+          Lines += "<option value="+data.data[i].lid+">"+data.data[i].lname+"</option>"
+        }
+        $('#lId').html(Lines)
+      }else{
+        alert("获取产线失败！错误信息：" + data.msg)
+        //return false;
+      }
+    }
+  })
+}
+function getSessionUser(){
+  var notifyMailData = new Array();
+  $.ajax({
+    url:'./user/getSessionUser',
+    type:'POST',
+    data:{},
+    datatype:'json',
+    success:function(data){
+      data = JSON.parse(data);
+      if (data.code == 1) {
+        $('#moveP').val(data.data.cn)
+        $('#phoneNum').val(data.data.mobile)
+        $('#mail').val(data.data.mail)
+        notifyMailData[0] = data.data.mail; //通知送检人本人
+        $('#userNameList').html("<span class='userNameDel'>"+data.data.cn+"<a href='#' class='deleteEmail'>X</a></span>")
+        // 获取部门信息
+        getDepartments();
+        // 获取送检类型
+        getClassify();
+        // 获取产线
+        getLines();
+        // 获取项目
+        getProject();
+      }
+      else{
+        alert("请先登录")
+        location.href = "./login";
+      }
+    }
+  })
+  return notifyMailData;
+}
+// 根据部门获取员工信息
+function getUserInfoByDepartment(department){
+  $.ajax({
+    url:'./user/getUserInfoByDepartment',
+    type:'POST',
+    data:{'department':department},
+    datatype:'json',
+    success:function(data){
+      data = JSON.parse(data);
+      if (data.code == 1) {
+        var user = "<option></option>";
+        /*console.log(userData)*/
+        for (var i = 0; i < data.data.length; i++) {
+          user += "<option value="+data.data[i].mail+">"+data.data[i].cn+"</option>";
+        }
+        $('#userName').html(user);
+      }else{
+        alert(data.msg)
+        //return false;
+      }
+    }
+  })
+  
+}
+// 获取对应送检类型下的检测类型
+function getCheckingClassify(claid){
+  $.ajax({
+    url:'./user/getCheckingClassify',
+    type:'POST',
+    data:{'ClassifyId':claid},
+    datatype:'json',
+    success:function(data){
+      data = JSON.parse(data);
+      if (data.code == 1) {
+        var CheckingClassify = "";
+        for (var i = 0; i < data.data.length; i++) {
+          CheckingClassify += "<option value="+data.data[i].ccid+">"+data.data[i].ccname+"</option>";
+        }
+        $('#cCId').html(CheckingClassify);
+      }else{
+        alert(data.msg + " 1")
+        //return false;
+      }
+    }
+  })
+}
+// 获取库位信息
+function getWarehouse(claid){
+  $.ajax({
+    url:'./user/getWareHouse',
+    type:'POST',
+    data:{'ClassifyId':claid},
+    datatype:'json',
+    success:function(data){
+      data = JSON.parse(data);
+      if (data.code == 1) {
+        var warehouse = "";
+        for (var i = 0; i < data.data.length; i++) {
+          warehouse += "<option value="+data.data[i].wid+">"+data.data[i].wid+"</option>";
+        }
+        $('#wId').html(warehouse);
+      }else{
+        if (data.code < 0) {
+          alert(data.msg)
+        }
+        //return false;
+      }
+    }
+  })
+}
+// 获取对应产线下的单元
+function getCellNames(lid){
+  $.ajax({
+    url:'./user/getCellNames',
+    type:'POST',
+    data:{'LineId':lid},
+    datatype:'json',
+    success:function(data){
+      data = JSON.parse(data);
+      if (data.code == 1) {
+        var CellNames = "<option></option>";
+        for (var i = 0; i < data.data.length; i++) {
+          CellNames += "<option value="+data.data[i].cid+">"+data.data[i].cname+"</option>";
+        }
+        $('#cId').html(CellNames);
+      }else{
+        alert(data.msg)
+        //return false;
+      }
+    }
+  })
+}
 //工具方法
 $.extend({  
   //获取GET方式传递的参数

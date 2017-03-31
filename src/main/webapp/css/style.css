@@ -147,7 +147,7 @@ header .rt_nav li .quit_icon:before{content:"Q";}
 .errorTips{color:red;margin:0 8px;}
 .errorTips:before{content:"x";font-family:'adminthemesregular';margin-right:3px;font-size:16px;}
 .textarea{display:inline-block;margin-top:5px;outline:none;resize:none;border:1px #d10429 solid;padding:8px;}
-.uploadImg{display:inline-block;padding:15px;background:#f8f8f8;position:relative;border:1px #d10429 solid;}
+.uploadImg{display:inline-block;padding:5px;background:#f8f8f8;position:relative;border:1px #d10429 solid;}
 .uploadImg input{/* display:none; */}
 .uploadImg span{display:block;font-size:12px;text-align:center;color:#d10429;}
 .uploadImg span:hover{color:#d10429;}
@@ -179,8 +179,13 @@ header .rt_nav li .quit_icon:before{content:"Q";}
 .pop_cont .pop_cont_input li .textbox{border:1px #d2d2d2 solid;/* width:200px; */display:inline-block;}
 .pop_cont .pop_cont_input li .select{border:1px #d2d2d2 solid;}
 .pop_cont .pop_cont_input li .textarea{border:1px #d2d2d2 solid;}
-.pop_cont .pop_cont_input li .item_name{display: inline-block;margin: 5px}
+.pop_cont .pop_cont_input li .item_name{display: inline-block;margin: 5px;width: 85px;text-align: right;}
 .pop_cont .pop_cont_input li .item_name_first{margin: 0px;width: 120px;text-align: right;}
+.pop_cont .pop_cont_input li .item_dd_235{display: inline-block;width: 250px;margin: 0}
+.pop_cont .pop_cont_input li .item_dd_335{display: inline-block;width: 350px;margin: 0}
+.pop_cont .pop_cont_input li .item_dd_285{display: inline-block;width: 286px;margin: 0}
+.ulColumn2 .item_dd_335{display: inline-block;width: 350px;margin: 0}
+.ulColumn2 .item_dd_250{display: inline-block;width: 250px;margin: 0}
 .pop_cont .btm_btn{padding:10px 0;text-align:center;}
 .pop_cont .btm_btn .input_btn{display:inline-block;height:35px;border:none;background:none;padding:0 20px;}
 .pop_cont .btm_btn .trueBtn{background:#d10429;color:white;border:1px #d10429 solid;border-radius:2px;}
@@ -217,7 +222,7 @@ header .rt_nav li .quit_icon:before{content:"Q";}
 .ui-paging-container li.ui-paging-toolbar select{height:22px;border:1px solid #ddd;color: #666;}
 .ui-paging-container li.ui-paging-toolbar input{line-height: 20px; height:20px;padding:0;border:1px solid #ddd;text-align: center;width: 30px;margin:0 0 0 5px;vertical-align: middle;}
 .ui-paging-container li.ui-paging-toolbar a{vertical-align: middle; text-decoration: none;display: inline-block;height:20px;border:1px solid #ddd;vertical-align: top;border-radius: 2px;line-height: 20px;padding:0 3px;cursor: pointer;margin-left: 5px;color: #666;}
-.ui-paging-container li.ui-pager-disabled,.ui-paging-container li.ui-pager-disabled:hover{background-color: #d10529;;cursor: default;border:none;color:#ddd;}
+.ui-paging-container li.ui-pager-disabled,.ui-paging-container li.ui-pager-disabled:hover{background-color: #f6f6f6;;cursor: default;border:none;color:#ddd;}
 
 .checkremarkdiv{width: 52%;display: inline-block;float: right;border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;height: 40px;line-height: 40px;margin-top: -41px;margin-right: 0.5px;}
 .checkremarkdiv span{padding-left:10px; }
