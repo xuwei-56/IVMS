@@ -42,4 +42,11 @@ public class NotifyPersonnelEmail {
     public void setNpenotifytime(Date npenotifytime) {
         this.npenotifytime = npenotifytime;
     }
+
+	public String toString() {
+		return "NotifyPersonnelEmail [ npenotifyemail=" + npenotifyemail
+				+ "]";
+	}
+    
+    
 }

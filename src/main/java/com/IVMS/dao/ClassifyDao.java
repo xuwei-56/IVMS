@@ -5,13 +5,19 @@ import java.util.List;
 import com.IVMS.model.Classify;
 
 public interface ClassifyDao {
-    int deleteByPrimaryKey(Integer claid);
+    int deleteByClaid(Integer claid);
 
     int insert(Classify record);
+    
+    int insertClassify(String cname);
 
     int insertSelective(Classify record);
 
     Classify selectByPrimaryKey(Integer claid);
+    
+    int selectMaxClaId();
+    
+    int selectClaIdByCheckingTool();
 
     int updateByPrimaryKeySelective(Classify record);
 

@@ -59,7 +59,7 @@ public class MailSender {
 			 * 设置多人抄送
 			 */
 			String[]ccs=mail.getCCs();
-			if(ccs!=null){
+			if(ccs!=null&&!ccs.equals("")&&ccs.length>0){
 				Address[]ccAddress=new InternetAddress[ccs.length];
 				for(int i=0;i<ccs.length;i++){
 					ccAddress[i]=new InternetAddress(ccs[i]);

@@ -5,9 +5,11 @@ import java.util.List;
 import com.IVMS.model.Project;
 
 public interface ProjectDao {
-    int deleteByPrimaryKey(Integer pid);
+    int deleteByPid(Integer pid);
 
     int insert(Project record);
+    
+    int insertProject(String pName);
 
     int insertSelective(Project record);
 

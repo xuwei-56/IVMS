@@ -1,5 +1,6 @@
 package com.IVMS.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -10,10 +11,15 @@ import com.IVMS.model.CheckingFormCustom;
 public interface CheckingFormDao {
 	
     int deleteCheckingFormByPrimaryKey(String cfid);
+    
+    int insertCheckingToolsRecord(@Param("cfid")String cfid,@Param("cfmovep")String cfmovep,
+    		@Param("cfcomponentid")Integer cfcomponentid,@Param("cftime")Date cftime );
 
     int insertCheckingForm(CheckingForm checkingForm);
 
     CheckingForm selectByPrimaryKey(String cfid);
+    
+    String selectCfRemarkByCfid(String cfid);
     
     CheckingForm mySendCheckDetails(@Param("isHaveWareHouse")String isHaveWareHouse,
     		@Param("urgentStatus")Integer urgentStatus,@Param("cfid")String cfid);
@@ -48,4 +54,8 @@ public interface CheckingFormDao {
     
     int updateCfstatuByCfid(String cfid);
     
+    int updateCfStatusToOnCheck(String cfid);
+    
+    int submitCfReport(@Param("cfStatus")Integer cfStatus,@Param("cfRemark")String cfRemark,
+    		@Param("isHaveReportFile")String isHaveReportFile,@Param("cfId")String cfId);
 }

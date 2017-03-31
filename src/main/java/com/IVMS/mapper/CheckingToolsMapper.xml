@@ -56,17 +56,25 @@
     CTResolation, CTAssetNum, CTUseLine, CTUseStation, CTUseTime, CTCheckWay, CTCheckCycle, 
     CTMSA, CTOriginalNum, CTSize, CTCheckTemperature, CTCheckHumidiry,CTReceiver,CTRemark,CTStatus
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectCheckingToolByCtid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from checkingtools
     where CTId = #{ctid,jdbcType=INTEGER}
   </select>
-  <select id="myCheckingToolsDetails" resultMap="mycheckingtoolsdetailsMap" >
+  <select id="selectCheckingToolCycleByCtid" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+   SELECT CTCheckCycle FROM checkingtools 
+   WHERE CTId=(SELECT CTId FROM checkingtoolsrecord WHERE CTRId=#{ctrid,jdbcType=INTEGER});
+  </select>
+  <select id="selectCycleByCtid" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+   SELECT CTCheckCycle FROM checkingtools 
+   WHERE CTId=#{ctid,jdbcType=INTEGER});
+  </select>
+  <select id="myCheckingToolsDetails" resultType="hashmap" >
   SELECT 
   ct.*,ctr.*
   <if test="isHaveCheckingToolsFile != 0" >
-  ,ctf.CTFName 
+  ,ctf.CTFId,ctf.CTFName 
   </if>
   FROM 
   checkingtools ct,checkingtoolsrecord  ctr
@@ -110,9 +118,9 @@
       </if>
     </where>
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from checkingtools
-    where CTId = #{ctid,jdbcType=INTEGER}
+  <delete id="deleteCheckingToolsByCtidAndCtStatus" parameterType="java.lang.Integer" >
+  DELETE FROM checkingtools 
+  WHERE CTStatus=0 AND CTId=#{CTId,jdbcType=INTEGER};
   </delete>
   <insert id="insert" parameterType="com.IVMS.model.CheckingTools" >
     insert into checkingtools (CTId, CTUseItem, CTCheckProgram, 
@@ -131,7 +139,7 @@
       #{ctchecktemperature,jdbcType=VARCHAR}, #{ctcheckhumidiry,jdbcType=VARCHAR}, #{ctreceiver,jdbcType=VARCHAR},
       #{ctremark,jdbcType=VARCHAR},#{ctstatus,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.IVMS.model.CheckingTools" >
+  <insert id="insertCheckingTools" parameterType="com.IVMS.model.CheckingTools" >
     insert into checkingtools
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="ctid != null" >
@@ -373,5 +381,16 @@
       CTRemark = #{ctremark,jdbcType=VARCHAR}
       CTStatus = #{ctstatus,jdbcType=INTEGER}
     where CTId = #{ctid,jdbcType=INTEGER}
+  </update>
+  <update id="updateCheckingToolTimeAndReceiverByCtid" >
+    UPDATE checkingtools SET CTUseTime=#{ctusetime,jdbcType=DATE},CTReceiver=#{ctreceiver,jdbcType=VARCHAR}
+    WHERE CTId=#{ctid,jdbcType=INTEGER};
+  </update>
+  <update id="updateCheckingToolStatusByCtid" parameterType="java.lang.Integer">
+  UPDATE checkingtools SET CTStatus=1 WHERE CTId=#{ctid,jdbcType=INTEGER};
+  </update>
+  <update id="updateCheckingToolStatusByCtrId" >
+   UPDATE checkingtools SET CTStatus=#{ctstatus,jdbcType=INTEGER} 
+   WHERE CTId=(SELECT CTId FROM checkingtoolsrecord WHERE CTRId=#{ctrid,jdbcType=INTEGER});
   </update>
 </mapper>

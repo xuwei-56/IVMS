@@ -1,5 +1,7 @@
 package com.IVMS.dao;
 
+import java.util.List;
+
 import com.IVMS.model.NotifyPersonnelEmail;
 
 public interface NotifyPersonnelEmailDao {
@@ -16,4 +18,6 @@ public interface NotifyPersonnelEmailDao {
     int updateByPrimaryKey(NotifyPersonnelEmail record);
     
     int deleteCopyEmailsByCfid(String cfid);
+    
+    List<NotifyPersonnelEmail> selectNotifyEmailByCfid(String cfid);
 }

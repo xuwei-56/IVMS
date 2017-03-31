@@ -8,7 +8,7 @@ public class CheckingToolsRecord {
 
     private Integer ctid;
 
-    private Integer ctrnum;
+    private String ctrnum;
 
     private String ctrmovecp;
 
@@ -31,10 +31,11 @@ public class CheckingToolsRecord {
     private Integer ctrremark;
     
     private String ctrcheckman;
-
-    private List<CheckingToolsFile> checkingToolsFile;
-
     
+    private List<NotifyPersonnelEmail> notifyPersonnelEmails;
+    
+    private Integer ctisagree;
+
 	public Integer getCtrid() {
 		return ctrid;
 	}
@@ -51,11 +52,11 @@ public class CheckingToolsRecord {
 		this.ctid = ctid;
 	}
 
-	public Integer getCtrnum() {
+	public String getCtrnum() {
 		return ctrnum;
 	}
 
-	public void setCtrnum(Integer ctrnum) {
+	public void setCtrnum(String ctrnum) {
 		this.ctrnum = ctrnum;
 	}
 
@@ -147,14 +148,27 @@ public class CheckingToolsRecord {
 		this.ctrcheckman = ctrcheckman;
 	}
 
-	public List<CheckingToolsFile> getCheckingToolsFile() {
-		return checkingToolsFile;
+	public List<NotifyPersonnelEmail> getNotifyPersonnelEmails() {
+		return notifyPersonnelEmails;
 	}
 
-	public void setCheckingToolsFile(List<CheckingToolsFile> checkingToolsFile) {
-		this.checkingToolsFile = checkingToolsFile;
+	public void setNotifyPersonnelEmails(List<NotifyPersonnelEmail> notifyPersonnelEmails) {
+		this.notifyPersonnelEmails = notifyPersonnelEmails;
 	}
+
+	public Integer getCtisagree() {
+		return ctisagree;
+	}
+
+	public void setCtisagree(Integer ctisagree) {
+		this.ctisagree = ctisagree;
+	}
+
+	public String toString() {
+		return "CheckingToolsRecord [ctrchecknexttime="
+				+ ctrchecknexttime + ", getNotifyPersonnelEmails()=" + getNotifyPersonnelEmails()
+				+ "]";
+	}
+    
 	
-    
-    
 }

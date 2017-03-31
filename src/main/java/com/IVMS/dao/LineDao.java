@@ -5,13 +5,18 @@ import java.util.List;
 import com.IVMS.model.Line;
 
 public interface LineDao {
-    int deleteByPrimaryKey(Integer lid);
+    int deleteByLid(Integer lid);
 
     int insert(Line record);
+    
+    int insertLine(String lName);
 
     int insertSelective(Line record);
 
     Line selectByPrimaryKey(Integer lid);
+    
+    
+    Integer selectMaxLid();
 
     int updateByPrimaryKeySelective(Line record);
 

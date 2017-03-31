@@ -118,6 +118,9 @@
     from checkingform
     where CFId = #{cfid,jdbcType=VARCHAR}
   </select>
+  <select id="selectCfRemarkByCfid" resultType="java.lang.String" parameterType="java.lang.String" >
+  SELECT CFRemark FROM checkingform where CFId = #{cfid,jdbcType=VARCHAR}
+  </select>
   <select id="selectWidAndUrgentStatusByCfid" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select WId,CFUrgentStatus
     from checkingform
@@ -246,22 +249,9 @@
     delete from checkingform
     where CFId = #{cfid,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.IVMS.model.CheckingForm" >
-    insert into checkingform (CFId, LId, CId, 
-      PId, WId, ClaId, CCId, 
-      CFMoveP, CFPhoneNum, CFEMail, 
-      CFComponentName, CFComponentId, CFComponentNum, 
-      CFCheckNum, CFRemark, CFStatus, 
-      CFUrgentStatus, CFRemarkFile, CFReportFile,CFTime,CFReply,CFReplyReport
-      )
-    values (#{cfid,jdbcType=VARCHAR}, #{lid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, 
-      #{pid,jdbcType=INTEGER}, #{wid,jdbcType=VARCHAR}, #{claid,jdbcType=INTEGER}, #{ccid,jdbcType=INTEGER}, 
-      #{cfmovep,jdbcType=VARCHAR}, #{cfphonenum,jdbcType=VARCHAR}, #{cfemail,jdbcType=VARCHAR}, 
-      #{cfcomponentname,jdbcType=VARCHAR}, #{cfcomponentid,jdbcType=VARCHAR}, #{cfcomponentnum,jdbcType=INTEGER}, 
-      #{cfchecknum,jdbcType=INTEGER}, #{cfremark,jdbcType=VARCHAR}, #{cfstatus,jdbcType=INTEGER}, 
-      #{cfurgentstatus,jdbcType=INTEGER}, #{cfremarkfile,jdbcType=VARCHAR}, #{cfreportfile,jdbcType=VARCHAR},
-      #{cftime,jdbcType=TIMESTAMP},#{cfreply,jdbcType=VARCHAR},#{cfreplyreport,jdbcType=VARCHAR}
-      )
+  <insert id="insertCheckingToolsRecord" >
+  INSERT checkingtoolsrecord(CTRNum,CTRMoveCP,CTId,CTRMoveTime) VALUES (#{cfid,jdbcType=VARCHAR},
+  #{cfmovep,jdbcType=VARCHAR},#{cfcomponentid,jdbcType=INTEGER},#{cftime,jdbcType=TIMESTAMP});
   </insert>
   <insert id="insertCheckingForm" parameterType="com.IVMS.model.CheckingForm" >
     insert into checkingform
@@ -503,5 +493,17 @@
   UPDATE checkingform 
   SET CFStatus=1 
   WHERE CFStatus=0 AND CFId=#{CFId,jdbcType=VARCHAR};
+  </update>
+  <update id="updateCfStatusToOnCheck" parameterType="java.lang.String" >
+ UPDATE checkingform SET CFStatus=2 
+ WHERE CFId=#{CFId,jdbcType=VARCHAR};
+  </update>
+  <update id="submitCfReport">
+  UPDATE checkingform 
+  SET CFStatus=#{cfStatus,jdbcType=INTEGER},CFRemark=#{cfRemark,jdbcType=VARCHAR}
+  <if test="isHaveReportFile!= null" >
+  ,CFReportFile = #{isHaveReportFile,jdbcType=VARCHAR}
+  </if>
+  WHERE CFId=#{cfId,jdbcType=VARCHAR};
   </update>
 </mapper>
