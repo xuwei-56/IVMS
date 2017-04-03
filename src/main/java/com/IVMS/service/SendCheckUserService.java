@@ -77,7 +77,7 @@ public interface SendCheckUserService {
 	
 	List<CheckingToolsFile>selectByCtid(Integer ctid);
 	
-	List<Map<String,Object>> myCheckingToolsDetails(Integer ctid,Integer isHaveCheckingToolsFile);
+	Map<String,Object> myCheckingToolsDetails(Integer ctid,Integer isHaveCheckingToolsFile);
 	
 	int updateWStatusByWidAndClaid(String wid,Integer claid);
 	

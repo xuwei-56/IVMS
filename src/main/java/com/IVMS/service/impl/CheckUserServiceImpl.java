@@ -3,8 +3,10 @@ package com.IVMS.service.impl;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
+import javax.naming.ldap.LdapContext;
 
 import org.springframework.stereotype.Service;
 
@@ -18,10 +20,13 @@ import com.IVMS.dao.ClassifyDao;
 import com.IVMS.dao.LineDao;
 import com.IVMS.dao.NotifyPersonnelEmailDao;
 import com.IVMS.dao.ProjectDao;
+import com.IVMS.dao.WarehouseDao;
 import com.IVMS.model.CheckingTools;
 import com.IVMS.model.CheckingToolsRecord;
 import com.IVMS.model.NotifyPersonnelEmail;
+import com.IVMS.model.Warehouse;
 import com.IVMS.service.CheckUserService;
+import com.IVMS.util.LdapUtil;
 
 @Service("CheckUserServiceImpl")
 public class CheckUserServiceImpl implements CheckUserService{
@@ -46,6 +51,8 @@ public class CheckUserServiceImpl implements CheckUserService{
 	private CheckingToolsFileDao checkingToolsFileDao;
 	@Resource
 	private CheckingToolsRecordDao checkingToolsRecordDao;
+	@Resource
+	private WarehouseDao warehouseDao;
 	
 	public int insertProject(String pName) {
 		return projectDao.insertProject(pName);
@@ -151,8 +158,8 @@ public class CheckUserServiceImpl implements CheckUserService{
 		return checkingToolsRecordDao.updateCheckingToolResultByCtrid(checkingToolsRecord);
 	}
 
-	public int updateCheckingToolStatusByCtrId(Integer ctstatus, Integer ctrid) {
-		return checkingToolsDao.updateCheckingToolStatusByCtrId(ctstatus, ctrid);
+	public int updateCheckingToolStatusByCtidAndCtStatus(Integer ctstatus,Integer ctid) {
+		return checkingToolsDao.updateCheckingToolStatusByCtidAndCtStatus(ctstatus, ctid);
 	}
 
 	public int selectCheckingToolCycleByCtid(Integer ctrid) {
@@ -177,6 +184,71 @@ public class CheckUserServiceImpl implements CheckUserService{
 
 	public List<Map<String,Object>> selectEmailAndCheckNextTime() {
 		return checkingToolsRecordDao.selectEmailAndCheckNextTime();
+	}
+
+	public int insertCheckingToolsRecord(CheckingToolsRecord record) {
+		return checkingToolsRecordDao.insertCheckingToolsRecord(record);
+	}
+
+	public int updateCfCheckManByCfid(String cfcheckman, String cfid) {
+		return checkingFormDao.updateCfCheckManByCfid(cfcheckman, cfid);
+	}
+
+	public CheckingTools judgeCtidIsAlreadyExist(Integer ctid) {
+		return checkingToolsDao.judgeCtidIsAlreadyExist(ctid);
+	}
+
+	public int updateCheckingToolByCtid(CheckingTools checkingTools) {
+		return checkingToolsDao.updateCheckingToolByCtid(checkingTools);
+	}
+
+	public List<Warehouse> selectWIdByClaid(Integer claid) {
+		return warehouseDao.selectWIdByClaid(claid);
+	}
+
+	public int deleteWareHouseByWid(String wid) {
+		return warehouseDao.deleteWareHouseByWid(wid);
+	}
+
+	public List<Warehouse> judgeWidIsAlreadyExist(String wid) {
+		return warehouseDao.judgeWidIsAlreadyExist(wid);
+	}
+
+	public int insertWareHouse(Warehouse warehouse) {
+		return warehouseDao.insertWareHouse(warehouse);
+	}
+
+	public String selectCTFNameByCTFId(Integer ctfid) {
+		return checkingToolsFileDao.selectCTFNameByCTFId(ctfid);
+	}
+
+	public String getEmailByCn(String username, String password, String cn) {
+		LdapContext ctx=LdapUtil.getLdapContext(username, password);
+		String email=null;
+		if(ctx!=null){
+			 email=LdapUtil.getEmailByCn(ctx, cn);
+		}
+		return email;
+	}
+
+	public int updateCfStatusToCheckOver(String cfid) {
+		return checkingFormDao.updateCfStatusToCheckOver(cfid);
+	}
+
+	public int updateCTRCheckNextTimeByCtrNum(Date ctrchecknexttime, String ctrnum) {
+		return checkingToolsRecordDao.updateCTRCheckNextTimeByCtrNum(ctrchecknexttime, ctrnum);
+	}
+
+	public List<Map<String, Object>> selectCheckingToolRecords(Integer ctid) {
+		return checkingToolsRecordDao.selectCheckingToolRecords(ctid);
+	}
+
+	public List<Map<String, Object>> selectNotifyEmailAndTime() {
+		return notifyPersonnelEmailDao.selectNotifyEmailAndTime();
+	}
+
+	public List<Map<String,Object>> selectCTFNameByCTId(Integer ctid) {
+		return checkingToolsFileDao.selectCTFNameByCTId(ctid);
 	}
 
 }

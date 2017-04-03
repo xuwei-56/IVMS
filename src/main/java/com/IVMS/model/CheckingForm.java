@@ -3,7 +3,6 @@ package com.IVMS.model;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class CheckingForm {
     private String cfid;
@@ -44,12 +43,13 @@ public class CheckingForm {
 
     private String cfreportfile;
     
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")  
     private Date cftime;
     
     private String cfreply;
     
     private String cfreplyreport;
+    
+    private String cfcheckman;
     
     private Line line;
     
@@ -244,6 +244,14 @@ public class CheckingForm {
 		this.cfreplyreport = cfreplyreport;
 	}
 
+	public String getCfcheckman() {
+		return cfcheckman;
+	}
+
+	public void setCfcheckman(String cfcheckman) {
+		this.cfcheckman = cfcheckman;
+	}
+
 	public Line getLine() {
 		return line;
 	}
@@ -308,5 +316,6 @@ public class CheckingForm {
 		this.warehouse = warehouse;
 	}
 
-	
+    
+    
 }

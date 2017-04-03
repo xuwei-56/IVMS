@@ -46,7 +46,8 @@ import com.alibaba.fastjson.JSONObject;
 public class SendCheckUserController {
 	@Autowired
 	SendCheckUserService sendCheckUserService;
-	
+	@Autowired
+	CheckUserService checkUserService;
 	//获取日志类
 	 private static Logger logger= LoggerFactory.getLogger(SendCheckUserController.class);
 	 private static Integer lastTime=0;
@@ -305,16 +306,27 @@ public class SendCheckUserController {
 	@ResponseBody
 	public JSONObject myCheckingToolsDetails(Integer ctid) throws Exception {
 		Integer isHaveCheckingToolsFile=1;
-		List<CheckingToolsFile>myCheckingToolsFile=sendCheckUserService.selectByCtid(1);
+		List<CheckingToolsFile>myCheckingToolsFile=sendCheckUserService.selectByCtid(ctid);
 		if(myCheckingToolsFile==null||myCheckingToolsFile.isEmpty()){
 			isHaveCheckingToolsFile=0;
 		}
-		List<Map<String,Object>> myCheckingToolsDetails=sendCheckUserService.myCheckingToolsDetails(1, 
+		Map<String,Object> myCheckingToolsDetails=sendCheckUserService.myCheckingToolsDetails(ctid, 
 				isHaveCheckingToolsFile);
 		if(myCheckingToolsDetails==null){
 			return CommonUtil.constructResponse(0,"没有数据！",null);
 		}else{
 			return CommonUtil.constructResponse(EnumUtil.OK,"我的检具详情",myCheckingToolsDetails);
+		}
+	}
+	
+	@RequestMapping("/myCheckingToolRecords")
+	@ResponseBody
+	public JSONObject myCheckingToolRecords(Integer ctid) throws Exception {
+		List<Map<String,Object>> myCheckingToolRecords=checkUserService.selectCheckingToolRecords(1);
+		if(myCheckingToolRecords.isEmpty()){
+			return CommonUtil.constructResponse(0,"没有数据！",null);
+		}else{
+			return CommonUtil.constructResponse(EnumUtil.OK,"检具检验封存及维修记录",myCheckingToolRecords);
 		}
 	}
 	
@@ -475,11 +487,6 @@ public class SendCheckUserController {
   	        String wid=checkingForm.getWid();
   	        Integer claid=checkingForm.getClaid();
   	        sendCheckUserService.updateWStatusByWidAndClaid(wid, claid);//更新库位信息
-  	        int claIdOfCheckingTool=sendCheckUserService.selectClaIdByCheckingTool();
-  	        if(checkingForm.getClaid()==claIdOfCheckingTool){
-  	        	sendCheckUserService.insertCheckingToolsRecord(checkingForm.getCfid(),checkingForm.getCfmovep(), 
-  	        			Integer.parseInt(checkingForm.getCfcomponentid()),checkingForm.getCftime());
-  	        }
 	        if(flag==false){
 	        	return CommonUtil.constructResponse(EnumUtil.SYSTEM_ERROR,"提交信息失败！",null);
 	        }else{

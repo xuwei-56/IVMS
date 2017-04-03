@@ -1,6 +1,7 @@
 package com.IVMS.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.IVMS.model.NotifyPersonnelEmail;
 
@@ -20,4 +21,6 @@ public interface NotifyPersonnelEmailDao {
     int deleteCopyEmailsByCfid(String cfid);
     
     List<NotifyPersonnelEmail> selectNotifyEmailByCfid(String cfid);
+    
+    List<Map<String,Object>> selectNotifyEmailAndTime();
 }

@@ -24,6 +24,7 @@
     <result column="CFTime" property="cftime" jdbcType="TIMESTAMP" />
     <result column="CFReply" property="cfreply" jdbcType="VARCHAR" />
     <result column="CFReplyReport" property="cfreplyreport" jdbcType="VARCHAR" />
+    <result column="CFCheckMan" property="cfcheckman" jdbcType="VARCHAR" />
   </resultMap>
     <resultMap id="BaseResultMap1" type="com.IVMS.model.CheckingFormCustom" >
     <id column="CFId" property="cfid" jdbcType="VARCHAR" />
@@ -48,6 +49,7 @@
     <result column="CFTime" property="cftime" jdbcType="TIMESTAMP" />
     <result column="CFReply" property="cfreply" jdbcType="VARCHAR" />
     <result column="CFReplyReport" property="cfreplyreport" jdbcType="VARCHAR" />
+    <result column="CFCheckMan" property="cfcheckman" jdbcType="VARCHAR" />
     <result column="CName" property="cname" jdbcType="VARCHAR" />
   </resultMap>
   <!-- 送检详情resultmap -->
@@ -67,6 +69,7 @@
     <result column="CFTime" property="cftime" jdbcType="TIMESTAMP" />
     <result column="CFReply" property="cfreply" jdbcType="VARCHAR" />
     <result column="CFReplyReport" property="cfreplyreport" jdbcType="VARCHAR" />
+    <result column="CFCheckMan" property="cfcheckman" jdbcType="VARCHAR" />
     <association property="line" javaType="com.IVMS.model.Line">
     <id property="lid" column="LId"/>
     <result property="lname" column="LName"/>
@@ -110,7 +113,7 @@
   <sql id="Base_Column_List" >
     CFId, LId, CId, PId, WId, ClaId, CCId, CFMoveP, CFPhoneNum, CFEMail, CFComponentName, 
     CFComponentId, CFComponentNum, CFCheckNum, CFRemark, CFStatus, CFUrgentStatus, CFRemarkFile, 
-    CFReportFile,CFTime,CFReply,CFReplyReport
+    CFReportFile,CFTime,CFReply,CFReplyReport,CFCheckMan
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -130,7 +133,7 @@
  SELECT 
  cf.CFId,cf.CFMoveP,cf.CFPhoneNum,cf.CFEMail,cf.CFComponentName,cf.CFComponentId,cf.CFComponentNum,
  cf.CFCheckNum,cf.CFRemark,cf.CFStatus,cf.CFUrgentStatus,cf.CFReportFile,cf.CFTime,cf.CFReply,
- cf.CFReplyReport,LName,c.CName CName,PName,cla.CName ClaName,cc.CCName CCName,
+ cf.CFReplyReport,cf.CFCheckMan,LName,c.CName CName,PName,cla.CName ClaName,cc.CCName CCName,
  npe.NPENotifyEmail
  <if test='isHaveWareHouse!="0"'>
   ,wh.WId,WStatus
@@ -200,8 +203,8 @@
     SELECT
 	CFId,CFTime,CName,CFComponentId,CFComponentName,CFStatus,CFMoveP
 	FROM checkingform cf,Classify cla
-	WHERE cf.ClaId=cla.ClaId AND CFStatus=1 AND cf.ClaId=
-	(SELECT ClaId FROM classify WHERE CName='正常过程送检') AND 
+	WHERE cf.ClaId=cla.ClaId AND CFStatus IN(1,2) AND cf.ClaId=
+	(SELECT ClaId FROM classify WHERE CName LIKE '%正常%') AND 
 	CFUrgentStatus=#{urgentStatus,jdbcType=INTEGER}
 	ORDER BY CFTime ASC;
   </select>
@@ -209,8 +212,8 @@
     SELECT
 	CFId,CFTime,CName,CFComponentId,CFComponentName,CFStatus,CFMoveP
 	FROM checkingform cf,Classify cla
-	WHERE cf.ClaId=cla.ClaId AND CFStatus=1 AND cf.ClaId!=
-	(SELECT ClaId FROM classify WHERE CName='正常过程送检') AND 
+	WHERE cf.ClaId=cla.ClaId AND CFStatus IN(1,2) AND cf.ClaId!=
+	(SELECT ClaId FROM classify WHERE CName LIKE '%正常%') AND 
 	CFUrgentStatus=#{urgentStatus,jdbcType=INTEGER}
 	ORDER BY CFTime ASC;
   </select>
@@ -322,6 +325,9 @@
       <if test="cfreplyreport != null" >
         CFReplyReport,
       </if>
+      <if test="cfcheckman != null" >
+        CFCheckMan,
+      </if>
       
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -391,7 +397,9 @@
       <if test="cfreplyreport != null" >
         #{cfreplyreport,jdbcType=VARCHAR},
       </if>
-  
+      <if test="cfcheckman != null" >
+        #{cfcheckman,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.IVMS.model.CheckingForm" >
@@ -460,6 +468,9 @@
       <if test="cfreplyreport != null" >
         CFReplyreport = #{cfreplyreport,jdbcType=VARCHAR},
       </if>
+      <if test="cfcheckman != null" >
+        CFCheckMan = #{cfcheckman,jdbcType=VARCHAR},
+      </if>
       
     </set>
     where CFId = #{cfid,jdbcType=VARCHAR}
@@ -487,6 +498,7 @@
       CFTime = #{cftime,jdbcType=TIMESTAMP}
       CFReply=#{cfreply,jdbcType=VARCHAR}
       CFReplyreport=#{cfreplyreport,jdbcType=VARCHAR}
+      CFCheckMan = #{cfcheckman,jdbcType=VARCHAR},
     where CFId = #{cfid,jdbcType=VARCHAR}
   </update>
   <update id="updateCfstatuByCfid" parameterType="java.lang.String" >
@@ -497,6 +509,13 @@
   <update id="updateCfStatusToOnCheck" parameterType="java.lang.String" >
  UPDATE checkingform SET CFStatus=2 
  WHERE CFId=#{CFId,jdbcType=VARCHAR};
+  </update>
+  <update id="updateCfStatusToCheckOver" parameterType="java.lang.String" >
+ UPDATE checkingform SET CFStatus=3 
+ WHERE CFId=#{CFId,jdbcType=VARCHAR};
+  </update>
+  <update id="updateCfCheckManByCfid" >
+  UPDATE checkingform SET CFCheckMan=#{cfcheckman,jdbcType=VARCHAR} WHERE CFId=#{cfid,jdbcType=VARCHAR};
   </update>
   <update id="submitCfReport">
   UPDATE checkingform 

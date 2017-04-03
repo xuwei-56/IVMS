@@ -68,11 +68,11 @@
   </select>
   <select id="selectCycleByCtid" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
    SELECT CTCheckCycle FROM checkingtools 
-   WHERE CTId=#{ctid,jdbcType=INTEGER});
+   WHERE CTId=#{ctid,jdbcType=INTEGER};
   </select>
   <select id="myCheckingToolsDetails" resultType="hashmap" >
   SELECT 
-  ct.*,ctr.*
+  ct.*,ctr.CTRCheckNextTime
   <if test="isHaveCheckingToolsFile != 0" >
   ,ctf.CTFId,ctf.CTFName 
   </if>
@@ -85,12 +85,16 @@
   <if test="isHaveCheckingToolsFile != 0" >
   AND ctf.CTId=ct.CTId; 
   </if>
+  ORDER BY CTRCheckNextTime DESC LIMIT 1;
   </select>
   <select id="selectByReceiver" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from checkingtools
     where CTReceiver = #{CTReceiver,jdbcType=VARCHAR} ORDER BY CTUseTime DESC;
+  </select>
+  <select id="judgeCtidIsAlreadyExist" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  SELECT * FROM checkingtools WHERE CTId=#{ctid,jdbcType=INTEGER};
   </select>
   <select id="checkingToolsInfo" resultMap="BaseResultMap" >
     select 
@@ -284,7 +288,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.IVMS.model.CheckingTools" >
+  <update id="updateCheckingToolByCtid" parameterType="com.IVMS.model.CheckingTools" >
     update checkingtools
     <set >
       <if test="ctuseitem != null" >
@@ -389,8 +393,8 @@
   <update id="updateCheckingToolStatusByCtid" parameterType="java.lang.Integer">
   UPDATE checkingtools SET CTStatus=1 WHERE CTId=#{ctid,jdbcType=INTEGER};
   </update>
-  <update id="updateCheckingToolStatusByCtrId" >
+  <update id="updateCheckingToolStatusByCtidAndCtStatus" >
    UPDATE checkingtools SET CTStatus=#{ctstatus,jdbcType=INTEGER} 
-   WHERE CTId=(SELECT CTId FROM checkingtoolsrecord WHERE CTRId=#{ctrid,jdbcType=INTEGER});
+   WHERE CTId=#{ctid,jdbcType=INTEGER};
   </update>
 </mapper>

@@ -17,14 +17,16 @@ public interface CheckingToolsDao {
 
     CheckingTools selectCheckingToolByCtid(Integer ctid);
     
+    CheckingTools judgeCtidIsAlreadyExist(Integer ctid);
+    
     int selectCheckingToolCycleByCtid(Integer ctrid);
     
     int selectCycleByCtid(Integer ctid);
 
-    int updateByPrimaryKeySelective(CheckingTools record);
+    int updateCheckingToolByCtid(CheckingTools checkingTools);
     
-    int updateCheckingToolStatusByCtrId(@Param("ctstatus")Integer ctstatus,
-    		@Param("ctrid")Integer ctrid);
+    int updateCheckingToolStatusByCtidAndCtStatus(@Param("ctstatus")Integer ctstatus,
+    		@Param("ctid")Integer ctid);
     
     int updateCheckingToolStatusByCtid(Integer ctid);
     
@@ -35,7 +37,7 @@ public interface CheckingToolsDao {
     
     List<CheckingTools> selectByReceiver(String receiver);
     
-    List<Map<String,Object>> myCheckingToolsDetails(@Param("ctid")Integer ctid,
+    Map<String,Object> myCheckingToolsDetails(@Param("ctid")Integer ctid,
     		@Param("isHaveCheckingToolsFile")Integer isHaveCheckingToolsFile);
     
     List<CheckingTools> checkingToolsInfo(@Param("CTUseItem")String CTUseItem,@Param("CTStatus")Integer CTStatus,
