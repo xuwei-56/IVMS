@@ -268,7 +268,7 @@ $(document).ready(function(){
 						$('#cfreply').val(data.data.cfreply)
 						$('#cfreplyreport').val(data.data.cfreplyreport)
 					} 
-					$('#cfreportfile').val(data.data.cfreportfile);
+					$('#cfreportfile').html("<a href='./"+data.data.cfreportfile+"'>"+data.data.cfreportfile+"</a>")
 					$('#pop_bg_user').fadeIn();
 				}else{
 					alert(data.msg)
