@@ -75,6 +75,13 @@ public class PageController {
 		return "admin_tools";
 	}
 	/**
+	 * 前端页面路径:检测人员分类管理
+	 */
+	@RequestMapping("/admin_utils")
+	public String adminUtils(){
+		return "admin_utils";
+	}
+	/**
 	 * 获取图片验证码
 	 * @return 图片流
 	 */

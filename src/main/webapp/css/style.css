@@ -231,3 +231,12 @@ header .rt_nav li .quit_icon:before{content:"Q";}
 #CTFileList_ul{margin:5px 0 5px 10px;}
 .CTFileDetail_bg{width: 702px;height: 850px;margin: 50px auto;}
 .CTFileDetail_close{height: 20px;line-height: 20px;border: 1px #d10529 solid; border-radius: 2px;}
+.utils_ul{margin-left: 50px;margin-top: 50px}
+.utils_ul .utils_h{border-bottom: 1px solid #d10529; padding-bottom: 5px;padding-left: 10px;width:200px;}
+.utils_ul .utils_div{display: none;margin: 10px}
+.utils_ul .active{font-weight: bold;}
+.utils_ul .utils_item{width: 100px;text-align: right;display: inline-block;}
+.utils_ul .utils_add{margin-bottom: 10px}
+.utils_ul .utils_display{margin-left: 15px}
+.utils_ul .utils_display h2{font-weight: bold;color: #d10529;font-size: 15px;;width: 500px;text-align: center;padding-bottom: 2px}
+.utils_ul .utils_table{width: 500px;text-align: center;}
