@@ -18,29 +18,30 @@ $(document).ready(function(){
 		success:function(data){
 			data = JSON.parse(data);
 			if (data.code == 1) {
-				$('#ctid').text(data.data.ctid);
-				$('#ctuseitem').text(data.data.ctuseitem)
-				$('#ctcheckprogram').text(data.data.ctcheckprogram)
-				$('#ctname').text(data.data.ctname)
-				$('#ctuseline').text(data.data.ctuseline)
-				$('#ctcheckway').text(data.data.ctcheckway)
-				$('#ctproducer').text(data.data.ctproducer)
-				$('#ctusestation').text(data.data.ctusestation)
-				var cycle = getCTCycle(data.data.ctcheckcycle);
+				$('#ctid').text(data.data.CTId);
+				$('#ctuseitem').text(data.data.CTUseitem)
+				$('#ctcheckprogram').text(data.data.CTCheckProgram)
+				$('#ctname').text(data.data.CTName)
+				$('#ctuseline').text(data.data.CTUseLine)
+				$('#ctcheckway').text(data.data.CTCheckWay)
+				$('#ctproducer').text(data.data.CTProducer)
+				$('#ctusestation').text(data.data.CTUseStation)
+				var cycle = getCTCycle(data.data.CTCheckCycle);
 				$('#ctcheckcycle').text(cycle + "个月")
-				$('#ctproductionnum').text(data.data.ctproductionnum)
-				$('#ctuser').text(data.data.user)
-				$('#ctmsa').text(data.data.ctmsa)
-				$('#ctnorms').text(data.data.ctnorms)
-				$('#ctusetime').text($.UnixToDate(data.data.ctusetime))
-				$('#ctoriginalnum').text(data.data.ctoriginalnum)
-				$('#ctprocision').text(data.data.ctprocision)
-				$('#ctassetnum').text(data.data.ctassetnum)
-				$('#ctsize').text(data.data.ctsize)
-				$('#ctresolation').text(data.data.ctresolation)
-				$('#ctcheckTH').text(data.data.ctchecktemperature +"℃/"+ data.data.ctcheckhumidiry)
-				$('#ctstatus').text(data.data.ctstatus)
-				$('#ctremark').text(data.data.ctremark)
+				$('#ctproductionnum').text(data.data.CTProductionNum)
+				$('#ctuser').text(data.data.CTReceiver)
+				$('#ctmsa').text(data.data.CTMSA)
+				$('#ctnorms').text(data.data.CTNorms)
+				$('#ctusetime').text($.UnixToDate(data.data.CTUseTime))
+				$('#ctoriginalnum').text(data.data.CTOriginalNum)
+				$('#ctprocision').text(data.data.CTProcision)
+				$('#ctassetnum').text(data.data.CTAssetNum)
+				$('#ctsize').text(data.data.CTSize)
+				$('#ctresolation').text(data.data.CTResolation)
+				$('#ctcheckTH').text(data.data.CTCheckTemperature +"℃/"+ data.data.CTCheckHumidiry)
+				$('#ctstatus').text(data.data.CTStatus)
+				$('#ctremark').text(data.data.CTRemark)
+				$('#ctchecknexttime').text(CTRCheckNextTime);
 				var CTRData = "<tr><th width='5%'>测量序号</th><th>送检人</th><th>送检日期</th><th>校验人员</th><th>校验日期</th><th>校验内容/技术规范</th><th>实测值</th><th>校验仪器/工具</th><th>测量结论</th><th>是否接受</th><th>状态</th></tr>";
 				var temp;
 				for (var i = data.data.checkingToolsRecord.length - 1; i >= 0; i--) {
@@ -57,7 +58,6 @@ $(document).ready(function(){
 					}
 				}
 				
-				$('#ctchecknexttime').text(ctchecknexttime);
 				var fileUrl = "";
 				for (var i = data.data.checkingToolsFile.length - 1; i >= 0; i--) {
 					temp = data.data.checkingToolsFile[i]

@@ -18,7 +18,7 @@ $(document).ready(function(){
 	//将选中抄送人，加入文本框，且存入notifyMailData数组
 	$('#userName').change(function(){
 		var mail = $('#userName').val()
-		var cn = $('#userName').text()
+		var cn = $('#userName').find("option:selected").text()
 		if (mail ==  null) {
 			return false;
 		}

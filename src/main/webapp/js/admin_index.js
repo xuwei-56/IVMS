@@ -277,10 +277,11 @@ $(document).ready(function(){
   // 开始送检
   $('#cfnormal').delegate('#startcheck','click',function(){
   	var cfid = $(this).parent().parent().find('td:first').text();
+  	var SCFComponentId = $(this).parent().parent().find('td:eq(4)').text();
   	$.ajax({
-  		url:'./',
+  		url:'./user/updateCfStatusToOnCheck',
   		type:'POST',
-  		data:{'cfid':cfid},
+  		data:{'cfid':cfid,'SCFComponentId':SCFComponentId},
   		datatype:'json',
   		success:function(data){
   			data = JSON.parse(data)
@@ -297,7 +298,7 @@ $(document).ready(function(){
   $('#cfnormal').delegate('#endcheck','click',function(){
   	var cfid = $(this).parent().parent().find('td:first').text();
   	var cname = $(this).parent().parent().find('td:eq(2)').text();
-  	if (canme == "检具送检") {
+  	if (cname == "检具送检") {
   		$.ajax({
 	  		url:'./user/getSessionUser',
 	  		type:'POST',
@@ -322,7 +323,7 @@ $(document).ready(function(){
 	  	})
   	}else{
   		$.ajax({
-	  		url:'./',
+	  		url:'./user/getCfRemark',
 	  		type:'POST',
 	  		data:{'cfid':cfid},
 	  		datatype:'json',
@@ -330,8 +331,8 @@ $(document).ready(function(){
 	  			data = JSON.parse(data)
 	  			if (data.code == 1) {
 	  				$('#normalcfid').val(cfid);
-	  				$('#normalcheckremark').val('要填加后台数据')
-	  				s('#pop_bg_normal').fadeIn();
+	  				$('#normalcheckremark').val(data.data)
+	  				$('#pop_bg_normal').fadeIn();
 	  			}
 	  		}
 	  	})
@@ -344,12 +345,12 @@ $(document).ready(function(){
 		var remark = $('#normalcheckremark').val();
 		var normalreportfile = $('#normalreportfile')[0].files[0];
 		var formdata = new FormData();
-		formdata.append("",cfid)
-		formdata.append("",normalcheckresult)
-		formdata.append("",remark)
-		formdata.append("",normalreportfile)
+		formdata.append("cfid",cfid)
+		formdata.append("cfStatus",normalcheckresult)
+		formdata.append("cfRemark",remark)
+		formdata.append("cfReportFile",normalreportfile)
 		$.ajax({
-  		url:'./',
+  		url:'./user/submitCheckResult',
   		type:'POST',
   		cache:false,
 			data:formdata,
@@ -392,9 +393,9 @@ $(document).ready(function(){
 		var ctrcheckresult = $('#ctrcheckresult').val()
 		var ctrremark = $('#ctrremark').val()
 		$.ajax({
-  		url:'./',
+  		url:'./user/addCheckingToolResult',
   		type:'POST',
-  		data:{"ctid":ctid,"cfid":cfid,"ctrmovep":ctrmovep,"ctrcheckman":ctrcheckman,"ctrcheckcontent":ctrcheckcontent,"ctrchecktool":ctrchecktool,"ctrcheckresult":ctrcheckresult,"ctrmovetime":ctrmovetime,"ctrremark":ctrremark,"ctrcheckvalue":ctrcheckvalue},
+  		data:{"ctid":ctid,"ctrnum":cfid,"ctrmovecp":ctrmovep,"ctrcheckman":ctrcheckman,"ctrcheckcontent":ctrcheckcontent,"ctrchecktools":ctrchecktool,"ctrcheckresult":ctrcheckresult,"ctrmovetime":ctrmovetime,"ctrremark":ctrremark,"ctrcheckvalue":ctrcheckvalue},
   		datatype:'json',
   		success:function(data){
   			data = JSON.parse(data)
@@ -419,7 +420,7 @@ $(document).ready(function(){
 	//将选中抄送人，加入文本框，且存入notifyMailData数组
 	$('#userName').change(function(){
 		var mail = $('#userName').val()
-		var cn = $('#userName').text()
+		var cn = $('#userName').find("option:selected").text()
 		if (num ==  null) {
 			return false;
 		}

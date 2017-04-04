@@ -5,10 +5,10 @@ function removeAllSpace(str) {
 //js脚本中过滤特殊字符的正则表达式代码：
 function stripscript(s) 
 { 
-  var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]") 
+  var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?@#￥&*]") 
   var rs = ""; 
   for (var i = 0; i < s.length; i++) { 
-    rs = rs+s.substr(i, 1).replace(pattern, ''); 
+    rs = rs+s.substr(i, 1).replace(pattern, ' '); 
   } 
   return rs;
 

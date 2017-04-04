@@ -88,7 +88,7 @@
     <!-- 领用人确认检测结果 -->
      <section class="pop_bg" id="pop_bg_confirm">
        <div class="pop_cont">
-         <h3>检具送检记录</h3>
+         <h3>领用人确认检测结果</h3>
          <div class="pop_cont_input">
           <ul>
             <li>
@@ -123,7 +123,7 @@
      <!-- 领用人登记 -->
      <section class="pop_bg" id="pop_bg_confirmuser">
        <div class="pop_cont">
-         <h3>完成送检记录</h3>
+         <h3>领用人登记</h3>
          <div class="pop_cont_input">
           <ul>
             <li>
@@ -137,6 +137,91 @@
               <input type="text" class="textbox" id="ctuser"/></dd>
             </li>
           </ul> 
+         </div>
+         <div class="btm_btn">
+          <input type="button" value="确认" class="input_btn trueBtn" id="updatetool_btn" />
+          <input type="button" value="关闭" class="input_btn falseBtn"/>
+         </div>
+       </div>
+     </section>
+     <!-- 修改检具信息 -->
+     <section  class="pop_bg" id="pop_bg_updateTool">
+       <div class="pop_cont">
+         <h3>修改检具信息</h3>
+         <div class="pop_cont_input">
+           <ul>
+             <li>
+              <dd class="item_dd_285"><span class="item_name">管理编号：</span>
+              <input type="text" class="textbox" id="ctid_update" disabled="true"/></dd>
+              <dd class="item_dd_285"><span class="item_name" style="width:100px;">名称：</span>
+              <input type="text" class="textbox" id="ctname_update" /></dd>
+             </li>
+             <li>
+              <dd class="item_dd_285"><span class="item_name">生产商：</span>
+              <input type="text" class="textbox" id="ctproducer_update"></input></dd>
+              <dd class="item_dd_285"><span class="item_name" style="width:100px;">制造编号：</span>
+              <input type="text" class="textbox" id="ctproductionnum_update" /></dd>
+             </li>
+             <li>   
+              <dd class="item_dd_285"><span class="item_name">精度：</span>
+              <input type="text" class="textbox" id="ctprocision_update" /></dd>
+              <dd class="item_dd_285"><span class="item_name" style="width:100px;">分度值：</span>
+              <input type="text" class="textbox" id="ctresolation_update" /></dd>
+              <dd class="item_dd_335"><span class="item_name" style="width:100px;">规格：</span>
+              <input type="text" class="textbox" id="ctnorms_update" /></dd>
+             </li>
+             <li>
+              <dd class="item_dd_285"><span class="item_name">校准程序：</span>
+              <input type="text" class="textbox" id="ctcheckprogram_update" /></dd>
+              <dd class="item_dd_235"><span class="item_name" style="width:100px;">校验方式：</span>
+              <select class="select" id="ctcheckway_update">
+               <option value="1">内检</option>
+               <option value="2">外检</option>
+               <option value="3">免检</option>
+               <option value="4">检定</option>
+              </select></dd>
+              <dd class="item_dd_235"><span class="item_name" style="width:100px;">校验周期：</span>
+              <select class="select" id="ctcheckcycle_update">
+               <option value="0">无</option>
+               <option value="1">三个月</option>
+               <option value="2">半年</option>
+               <option value="3">一年</option>
+              </select></dd>
+              <dd class="item_dd_235"><span class="item_name" style="width:100px;">MSA类型：</span>
+              <select class="select" id="ctmsa_update">
+               <option value="1">小样法</option>
+               <option value="2">CR&R</option>
+               <option value="3">KAPPA</option>
+              </select></dd>
+             </li>
+             <li>
+              <dd class="item_dd_285"><span class="item_name">溯源编号：</span>
+              <input type="text" class="textbox" id="ctoriginalnum_update" /></dd>
+              <dd class="item_dd_285"><span class="item_name" style="width:100px;">尺寸描述：</span>
+              <input type="text" class="textbox" id="ctsize_update" /></dd>
+             </li>
+             <li>
+              <dd class="item_dd_285"><span class="item_name">校验温度：</span>
+              <input type="text" class="textbox" id="ctchecktemperature_update" />℃</dd>
+              <dd class="item_dd_285"><span class="item_name" style="width:100px;">校验湿度：</span>
+              <input type="text" class="textbox" id="ctcheckhumidiry_update" /></dd>
+             </li>
+             <li>
+              <span class="item_name" style="width:120px;">备注信息：</span>
+              <textarea placeholder="备注信息" class="textarea" style="width:500px;height:50px;" id="ctremark_update"></textarea>
+             </li>
+             <li>
+               <span class="item_name">已上传文件：</span>
+               <dd class="item_dd_285" id="upload_file" style="border: 1px #d2d2d2 solid;"><span>文件名</span> <a href="#">删除</a></br></dd>
+             </li>
+             <li>
+              <span class="item_name"> 上传附件：</span>
+              <label class="uploadImg" >
+               <input type="file" multiple="multiple" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,text/plain" id="ctfile_update" style="width: 200px;"/>
+              </label>
+              <span style="margin-left: 20px;">上传文件名：</span><span id="ctfilename_update">没有选择文件</span>
+             </li>
+           </ul>
          </div>
          <div class="btm_btn">
           <input type="button" value="确认" class="input_btn trueBtn" id="tooluseconfirm_btn" />
@@ -217,6 +302,8 @@
             <input type="text" class="textbox" id="ctprocision" /></dd>
             <dd class="item_dd_335"><span class="item_name" style="width:100px;">分度值：</span>
             <input type="text" class="textbox" id="ctresolation" /></dd>
+            <dd class="item_dd_335"><span class="item_name" style="width:100px;">规格：</span>
+            <input type="text" class="textbox" id="ctnorms" /></dd>
            </li>
            <li>
             <dd class="item_dd_335"><span class="item_name" style="width:120px;">校准程序：</span>
@@ -242,9 +329,10 @@
              <option value="3">KAPPA</option>
             </select></dd>
            </li>
-           <li>
             <dd class="item_dd_335"><span class="item_name" style="width:120px;">溯源编号：</span>
             <input type="text" class="textbox" id="ctoriginalnum" /></dd>
+            <dd class="item_dd_335"><span class="item_name" style="width:100px;">资产编号：</span>
+            <input type="text" class="textbox" id="ctassetnum" /></dd>
             <dd class="item_dd_335"><span class="item_name" style="width:100px;">尺寸描述：</span>
             <input type="text" class="textbox" id="ctsize" /></dd>
            </li>
@@ -253,6 +341,10 @@
             <input type="text" class="textbox" id="ctchecktemperature" />℃</dd>
             <dd class="item_dd_335"><span class="item_name" style="width:100px;">校验湿度：</span>
             <input type="text" class="textbox" id="ctcheckhumidiry" /></dd>
+           </li>
+           <li>
+            <span class="item_name" style="width:120px;">备注信息：</span>
+            <textarea placeholder="备注信息" class="textarea" style="width:500px;height:50px;" id="ctremark"></textarea>
            </li>
            <li>
             <span class="item_name" style="width:120px;"> 上传附件：</span>

@@ -9,6 +9,9 @@ function getCTStatusButton(str){
   }
   return status;
 }
+function submitTool(){
+	
+}
 $(document).ready(function(){
 	$(".admin_tab li a").click(function(){
 		var liindex = $(".admin_tab li a").index(this);
@@ -42,7 +45,11 @@ $(document).ready(function(){
 								toolsCount = parseInt(data.msg);
 								var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪规格</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:150px;'>操作</th></tr>";
 								data.data.forEach(function(checktool){
-									checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctusestation+"</td><td>"+getCTStatusButton(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
+									if (checktool.ctstatus == 0) {
+										checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctusestation+"</td><td>"+getCTStatusButton(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td><a href='#' class='inner_btn' id='deleteTool'>删除</a></tr>";
+									}else{
+										checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctusestation+"</td><td>"+getCTStatusButton(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
+									}
 								})
 				  				$('#cffinished').html(checkformdata);
 							}
@@ -51,7 +58,11 @@ $(document).ready(function(){
 				}});
 				var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪规格</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:150px;'>操作</th></tr>";
 				data.data.forEach(function(checktool){
-					checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctusestation+"</td><td>"+getCTStatusButton(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
+					if (checktool.ctstatus == 0) {
+						checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctusestation+"</td><td>"+getCTStatusButton(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td><a href='#' class='inner_btn' id='deleteTool'>删除</a></tr>";
+					}else{
+						checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctusestation+"</td><td>"+getCTStatusButton(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
+					}
 				})
 				$('#cttable').html(mychecktooldata);
 			}else if (data.code == 0) {
@@ -63,7 +74,7 @@ $(document).ready(function(){
 		}
 	})
 	// 确认认领人
-	$('#cttable').delegate('confirmuser_btn','click',function(){
+	$('#cttable').delegate('#confirmuser_btn','click',function(){
 		var ctid = $(this).parent().parent().find("td:eq(0)").text();
 		var ctname = $(this).parent().parent().find("td:eq(0)").text();
 		$('#ctid_user').val(ctid);
@@ -73,19 +84,16 @@ $(document).ready(function(){
 	// 提交认领人
 	$('#tooluseconfirm_btn').click(function(){
 		var ctid = $('#ctid_user').val();
-		var ctname = $('#ctname_user').val()
 		var ctuser = $('#ctuser').val()
 		if (ctuser == null || ctuser == "") {
 			alert("请输入领用人！")
 			return false
 		}
 		$.ajax({
-			url:'./',
+			url:'./user/addCheckingToolReceiver',
 			type:'POST',
-			data:formdata,
+			data:{'ctid':ctid,"ctreceiver":ctuser},
 			datatype:'json',
-			contentType:false,
-			processData:false,
 			success:function(data){
 				data = JSON.parse(data);
 				if (data.code == 1) {
@@ -99,8 +107,180 @@ $(document).ready(function(){
 	})
 	// 关闭认领人弹框
 	$(".falseBtn").click(function(){
-    $("#pop_bg_confirmuser").fadeOut();
+    $(".pop_bg").fadeOut();
   });
+  //  获取检具详情可更改
+  $('#cttable').delegate('#updateTool','click',function(){
+		var ctid = $(this).parent().parent().find("td:eq(0)").text();
+		// 检具履历
+		$.ajax({
+			url:'./user/myCheckingToolsDetails',
+			type:'POST',
+			data:{'ctid':ctid},
+			datatype:'json',
+			success:function(data){
+				data = JSON.parse(data);
+				if (data.code == 1) {
+					$('#ctid_update').val(data.data.CTId);
+					$('#ctname_update').val(data.data.CTName)
+					$('#ctcheckprogram_update').val(data.data.CTCheckProgram)
+					$('#ctcheckway_update').val(data.data.CTCheckWay)
+					$('#ctproducer_update').val(data.data.CTProducer)
+					$('#ctcheckcycle_update').val(data.data.CTCheckCycle)
+					$('#ctproductionnum_update').val(data.data.CTProductionNum)
+					$('#ctmsa_update').val(data.data.CTMSA)
+					$('#ctnorms_update').val(data.data.CTNorms)
+					$('#ctprocision_update').val(data.data.CTProcision)
+					$('#ctoriginalnum_update').val(data.data.cCTOriginalNum)
+					$('#ctassetnum_update').val(data.data.CTAssetNum)
+					$('#ctsize_update').val(data.data.CTSize)
+					$('#ctresolation_update').val(data.data.CTResolation)
+					$('#ctchecktemperature_update').val(data.data.CTCheckTemperature)
+					$('#ctcheckhumidiry_update').val(data.data.CTCheckHumidiry)
+					$('#ctremark_update').val(data.data.CTRemark)
+					/*var fileUrl = "";
+					for (var i = data.data.checkingToolsFile.length - 1; i >= 0; i--) {
+						temp = data.data.checkingToolsFile[i]
+						fileUrl += "<li><a href='./file/"+temp.ctfname+"' id='fileUrlA'>"+temp.ctfname+"</a></li>"
+					}
+					$('#CTFileList_ul').html(fileUrl)*/
+					$('#pop_bg_updateTool').fadeIn();
+				}else{
+					alert(data.msg)
+					return false;
+				}
+			}
+		})
+  })
+  // 提交修改
+  $('#updatetool_btn').click(function(){
+  	var ctid = $('#ctid_update').val();
+		if (ctid == null || ctid == "") {
+			alert("请输入量仪管理编号！")
+			return false;
+		}
+		var ctname = $('#ctname_update').val();
+		if (ctname == null || ctname == "") {
+			alert("请输入量仪名称！")
+			return false
+		}
+		var ctproducer = $('#ctproducer_update').val();
+		if (ctproducer == "" || ctproducer == null) {
+			alert("请输入量仪生产商！")
+			return false
+		}
+		var ctproductionnum = $('#ctproductionnum_update').val()
+		if (ctproductionnum == null || ctproductionnum == "") {
+			alert("请输入量仪制造编号！")
+			return false
+		}
+		var ctprocision = $('#ctprocision_update').val()
+		if (ctprocision == null || ctprocision == "") {
+			alert("请输入量仪精度！")
+			return false
+		}
+		var ctresolation = $('#ctresolation_update').val()
+		if (ctresolation == null || ctresolation == "") {
+			alert("请输入量仪分度值！")
+			return false
+		}
+		var ctnorms = $('#ctnorms_update').val()
+		if (ctnorms == null || ctnorms == "") {
+			alert("请输入量仪规格！")
+			return false
+		}
+		var ctcheckprogram = $('#ctcheckprogram_update').val()
+		if (ctcheckprogram == null || ctcheckprogram == "") {
+			alert("请输入量仪校准程序！")
+			return false
+		}
+		var ctcheckway = $('#ctcheckway_update').val()
+		var ctcheckcycle = $('#ctcheckcycle_update').val()
+		var ctmsa = $('#ctmsa_update').val()
+		var ctoriginalnum = $('#ctoriginalnum_update').val()
+		if (ctoriginalnum == null || ctoriginalnum == "") {
+			alert("请输入量仪溯源编号！")
+			return false
+		}
+		var ctassetnum = $('#ctassetnum_update').val()
+		if (ctassetnum == null || ctassetnum == "") {
+			alert("请输入量仪资产编号！")
+			return false
+		}
+		var ctsize = $('#ctsize_update').val();
+		if (ctsize == null || ctsize == "") {
+			alert("请输入量仪尺寸描述！")
+			return false
+		}
+		var ctchecktemperature = $('#ctchecktemperature_update').val()
+		if (ctchecktemperature == null || ctchecktemperature == "") {
+			alert("请输入量仪校验温度！")
+			return false
+		}
+		var ctcheckhumidiry = $('#ctcheckhumidiry_update').val()
+		if (ctcheckhumidiry == null || ctcheckhumidiry == "") {
+			alert("请输入量仪校验湿度！")
+			return false
+		}
+		var ctremark = $('#ctremark_update').val()
+		ctremark = stripscript(ctremark);
+		var ctfile = $('#ctfile_update')[0];
+		var formdata = new FormData();
+		formdata.append('ctid',ctid)
+		formdata.append('ctname',ctname)
+		formdata.append('ctproducer',ctproducer)
+		formdata.append('ctproductionnum',ctproductionnum)
+		formdata.append('ctprocision',ctprocision)
+		formdata.append('ctresolation',ctresolation)
+		formdata.append('ctnorms',ctnorms)
+		formdata.append('ctcheckprogram',ctcheckprogram)
+		formdata.append('ctcheckway',ctcheckway)
+		formdata.append('ctcheckcycle',ctcheckcycle)
+		formdata.append('ctmsa',ctmsa)
+		formdata.append('ctoriginalnum',ctoriginalnum)
+		formdata.append('ctassetnum',ctassetnum)
+		formdata.append('ctsize',ctsize)
+		formdata.append('ctremark',ctremark)
+		formdata.append('ctchecktemperature',ctchecktemperature)
+		formdata.append('ctcheckhumidiry',ctcheckhumidiry)
+		formdata.append('checkingToolFiles',ctfile)
+		$.ajax({
+			url:'./user/updateCheckingTool',
+			type:'POST',
+			data:formdata,
+			datatype:'json',
+			contentType:false,
+			processData:false,
+			success:function(data){
+				data = JSON.parse(data);
+				if (data.code == 1) {
+					alert("更改成功");
+				}else{
+					alert(data.msg)
+					return false;
+				}
+			}
+		})
+	})
+  //  删除未领用的检具
+  $('#cttable').delegate('#daleteTool','click',function(){
+  	var ctid = $(this).parent().parent().find("td:eq(0)").text();
+  	$.ajax({
+			url:'./user/deleteCheckingTool',
+			type:'POST',
+			data:{'ctid':ctid},
+			datatype:'json',
+			success:function(data){
+				data = JSON.parse(data);
+				if (data.code == 1) {
+					alert("删除成功");
+				}else{
+					alert(data.msg)
+					return false;
+				}
+			}
+		})
+  })
 	// 文件列表
 	$('#ctfile').change(function(){
 		var files = $('#ctfile')[0].files;
@@ -109,7 +289,6 @@ $(document).ready(function(){
 			filesname += files[i].name + "；"
 		}
 		$('#ctfilename').text(filesname)
-		console.log(filesname)
 	})
 
 	// 检具信息录入提交
@@ -144,6 +323,11 @@ $(document).ready(function(){
 			alert("请输入量仪分度值！")
 			return false
 		}
+		var ctnorms = $('#ctnorms').val()
+		if (ctnorms == null || ctnorms == "") {
+			alert("请输入量仪规格！")
+			return false
+		}
 		var ctcheckprogram = $('#ctcheckprogram').val()
 		if (ctcheckprogram == null || ctcheckprogram == "") {
 			alert("请输入量仪校准程序！")
@@ -155,6 +339,11 @@ $(document).ready(function(){
 		var ctoriginalnum = $('#ctoriginalnum').val()
 		if (ctoriginalnum == null || ctoriginalnum == "") {
 			alert("请输入量仪溯源编号！")
+			return false
+		}
+		var ctassetnum = $('#ctassetnum').val()
+		if (ctassetnum == null || ctassetnum == "") {
+			alert("请输入量仪资产编号！")
 			return false
 		}
 		var ctsize = $('#ctsize').val();
@@ -172,6 +361,8 @@ $(document).ready(function(){
 			alert("请输入量仪校验湿度！")
 			return false
 		}
+		var ctremark = $('#ctremark').val()
+		ctremark = stripscript(ctremark);
 		var ctfile = $('#ctfile')[0];
 		var formdata = new FormData();
 		formdata.append('ctid',ctid)
@@ -180,17 +371,20 @@ $(document).ready(function(){
 		formdata.append('ctproductionnum',ctproductionnum)
 		formdata.append('ctprocision',ctprocision)
 		formdata.append('ctresolation',ctresolation)
+		formdata.append('ctnorms',ctnorms)
 		formdata.append('ctcheckprogram',ctcheckprogram)
 		formdata.append('ctcheckway',ctcheckway)
 		formdata.append('ctcheckcycle',ctcheckcycle)
 		formdata.append('ctmsa',ctmsa)
 		formdata.append('ctoriginalnum',ctoriginalnum)
+		formdata.append('ctassetnum',ctassetnum)
 		formdata.append('ctsize',ctsize)
+		formdata.append('ctremark',ctremark)
 		formdata.append('ctchecktemperature',ctchecktemperature)
 		formdata.append('ctcheckhumidiry',ctcheckhumidiry)
-		formdata.append('',ctfile)
+		formdata.append('checkingToolFiles',ctfile)
 		$.ajax({
-			url:'./',
+			url:'./user/addCheckingToolInfo',
 			type:'POST',
 			data:formdata,
 			datatype:'json',

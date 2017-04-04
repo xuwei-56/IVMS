@@ -44,9 +44,9 @@ function getCheckingClassifyAdd(claid){
 function getWarehouseAdd(claid){
 	// 得到库位
 	$.ajax({
-    url:'./user/getWareHouse',
+    url:'./user/getWareHouseByClaid',
     type:'POST',
-    data:{'ClassifyId':claid},
+    data:{'claid':claid},
     datatype:'json',
     success:function(data){
       data = JSON.parse(data);
@@ -337,15 +337,15 @@ $(document).ready(function(){
 			return false;
 		} 
 	  $.ajax({
-	    url:'./user/',
+	    url:'./user/addWareHouse',
 	    type:'POST',
-	    data:{"0":0},
+	    data:{"claid":claid,"wid":warehouse},
 	    datatype:'json',
 	    success:function(data){
 	      data = JSON.parse(data);
 	      if (data.code == 1) {
 	       alert("添加成功")
-	       getWarehouseAdd(clid);
+	       getWarehouseAdd(claid);
 	      }else{
 	        alert("获取库位信息失败！错误信息：" + data.msg)
 	        return false;
@@ -358,10 +358,11 @@ $(document).ready(function(){
 	$('#warehouse_table').delegate('#deleteWarehouse','click',function(){
 		var warehouse = $(this).parent().parent().find("td:eq(0)").text()
 		var claid = $('#claid').val()
+		warehouse = warehouse.substr(0,1);
 		$.ajax({
-	    url:'./user/',
+	    url:'./user/deleteWareHouse',
 	    type:'POST',
-	    data:{"0":0},
+	    data:{"wid":warehouse},
 	    datatype:'json',
 	    success:function(data){
 	      data = JSON.parse(data);
