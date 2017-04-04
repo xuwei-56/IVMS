@@ -56,6 +56,10 @@ public interface CheckingFormDao {
     
     int updateCfStatusToOnCheck(String cfid);
     
+    int updateCfStatusToCheckOver(String cfid);
+    
+    int updateCfCheckManByCfid(@Param("cfcheckman")String cfcheckman,@Param("cfid")String cfid);
+    
     int submitCfReport(@Param("cfStatus")Integer cfStatus,@Param("cfRemark")String cfRemark,
     		@Param("isHaveReportFile")String isHaveReportFile,@Param("cfId")String cfId);
 }

@@ -3,6 +3,9 @@ package com.IVMS.service;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import javax.naming.ldap.LdapContext;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -10,6 +13,8 @@ import com.IVMS.model.CheckingForm;
 import com.IVMS.model.CheckingTools;
 import com.IVMS.model.CheckingToolsRecord;
 import com.IVMS.model.NotifyPersonnelEmail;
+import com.IVMS.model.Warehouse;
+import com.IVMS.util.LdapUtil;
 
 /**
  * 检测人service
@@ -70,7 +75,7 @@ public interface CheckUserService {
     
     int updateCheckingToolResultByCtrid(CheckingToolsRecord checkingToolsRecord);
     
-    int updateCheckingToolStatusByCtrId(Integer ctstatus,Integer ctrid);
+    int updateCheckingToolStatusByCtidAndCtStatus(Integer ctstatus,Integer ctid);
     
     int selectCheckingToolCycleByCtid(Integer ctrid);
     
@@ -83,4 +88,34 @@ public interface CheckUserService {
     CheckingTools selectCheckingToolByCtid(Integer ctid);
 	
     List<Map<String,Object>> selectEmailAndCheckNextTime();
+    
+    int insertCheckingToolsRecord(CheckingToolsRecord record);
+    
+    int updateCfCheckManByCfid(String cfcheckman,String cfid);
+    
+    CheckingTools judgeCtidIsAlreadyExist(Integer ctid);
+    
+    int updateCheckingToolByCtid(CheckingTools checkingTools);
+    
+    List<Warehouse> selectWIdByClaid(Integer claid);
+    
+    int deleteWareHouseByWid(String wid);
+    
+    List<Warehouse> judgeWidIsAlreadyExist(String wid);
+    
+    int insertWareHouse(Warehouse warehouse);
+    
+    String selectCTFNameByCTFId(Integer ctfid);
+    
+	String getEmailByCn(String username, String password,String cn);
+	
+	int updateCfStatusToCheckOver(String cfid);
+	 
+	int updateCTRCheckNextTimeByCtrNum(Date ctrchecknexttime,String ctrnum);
+	
+	List<Map<String,Object>> selectCheckingToolRecords(Integer ctid);
+	
+	List<Map<String,Object>> selectNotifyEmailAndTime();
+	
+	List<Map<String,Object>> selectCTFNameByCTId(Integer ctid);
 }

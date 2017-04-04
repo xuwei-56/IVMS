@@ -10,43 +10,49 @@ public class NotifyPersonnelEmail {
     private String npenotifyemail;
 
     private Date npenotifytime;
-
-    public Integer getNpeid() {
-        return npeid;
-    }
-
-    public void setNpeid(Integer npeid) {
-        this.npeid = npeid;
-    }
-
-    public String getCfid() {
-        return cfid;
-    }
-
-    public void setCfid(String cfid) {
-        this.cfid = cfid == null ? null : cfid.trim();
-    }
-
-    public String getNpenotifyemail() {
-        return npenotifyemail;
-    }
-
-    public void setNpenotifyemail(String npenotifyemail) {
-        this.npenotifyemail = npenotifyemail == null ? null : npenotifyemail.trim();
-    }
-
-    public Date getNpenotifytime() {
-        return npenotifytime;
-    }
-
-    public void setNpenotifytime(Date npenotifytime) {
-        this.npenotifytime = npenotifytime;
-    }
-
-	public String toString() {
-		return "NotifyPersonnelEmail [ npenotifyemail=" + npenotifyemail
-				+ "]";
-	}
     
+    private Integer npestyle;
+    
+
+	public Integer getNpeid() {
+		return npeid;
+	}
+
+	public void setNpeid(Integer npeid) {
+		this.npeid = npeid;
+	}
+
+	public String getCfid() {
+		return cfid;
+	}
+
+	public void setCfid(String cfid) {
+		this.cfid = cfid;
+	}
+
+	public String getNpenotifyemail() {
+		return npenotifyemail;
+	}
+
+	public void setNpenotifyemail(String npenotifyemail) {
+		this.npenotifyemail = npenotifyemail;
+	}
+
+	public Date getNpenotifytime() {
+		return npenotifytime;
+	}
+
+	public void setNpenotifytime(Date npenotifytime) {
+		this.npenotifytime = npenotifytime;
+	}
+
+	public Integer getNpestyle() {
+		return npestyle;
+	}
+
+	public void setNpestyle(Integer npestyle) {
+		this.npestyle = npestyle;
+	}
+
     
 }

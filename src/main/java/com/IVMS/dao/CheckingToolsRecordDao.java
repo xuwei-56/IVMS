@@ -14,7 +14,7 @@ public interface CheckingToolsRecordDao {
     int insertCheckingToolRecordByCtUseTime(@Param("ctid")Integer ctid,@Param("ctrmovecp")String ctrmovecp,
     		@Param("ctrchecktime")Date ctrchecktime,@Param("ctrchecknexttime")Date ctrchecknexttime);
 
-    int insertSelective(CheckingToolsRecord record);
+    int insertCheckingToolsRecord(CheckingToolsRecord record);
 
     CheckingToolsRecord selectByPrimaryKey(Integer ctrid);
 
@@ -22,8 +22,13 @@ public interface CheckingToolsRecordDao {
 
     int updateByPrimaryKey(CheckingToolsRecord record);
     
+    int updateCTRCheckNextTimeByCtrNum(@Param("ctrchecknexttime")Date ctrchecknexttime,
+    		@Param("ctrnum")String ctrnum);
+    
     int updateAcceptAndAgreeByCtrid(@Param("ctrid")Integer ctrid,@Param("ctrcheckresult")
     Integer ctrcheckresult,@Param("ctisagree")Integer ctisagree);
     
     List<Map<String,Object>> selectEmailAndCheckNextTime();
+    
+    List<Map<String,Object>> selectCheckingToolRecords(Integer ctid);
 }

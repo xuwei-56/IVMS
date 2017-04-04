@@ -9,18 +9,17 @@
   <sql id="Base_Column_List" >
     WId, ClaId, WStatus
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from warehouse
-    where WId = #{wid,jdbcType=VARCHAR}
+  <select id="judgeWidIsAlreadyExist" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  SELECT * FROM warehouse WHERE WId LIKE '${value}%'
+  </select>
+  <select id="selectWIdByClaid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  SELECT WId FROM warehouse WHERE ClaId=#{CLaId,jdbcType=INTEGER};
   </select>
   <select id="selectWareHouseByClaid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
   SELECT WID,WStatus FROM warehouse WHERE CLaId=#{CLaId,jdbcType=INTEGER} AND WStatus=0;
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from warehouse
-    where WId = #{wid,jdbcType=VARCHAR}
+  <delete id="deleteWareHouseByWid" parameterType="java.lang.String" >
+  DELETE FROM warehouse WHERE WId LIKE '${value}%';
   </delete>
   <insert id="insert" parameterType="com.IVMS.model.Warehouse" >
     insert into warehouse (WId, ClaId, WStatus
@@ -28,7 +27,7 @@
     values (#{wid,jdbcType=VARCHAR}, #{claid,jdbcType=INTEGER}, #{wstatus,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.IVMS.model.Warehouse" >
+  <insert id="insertWareHouse" parameterType="com.IVMS.model.Warehouse" >
     insert into warehouse
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="wid != null" >

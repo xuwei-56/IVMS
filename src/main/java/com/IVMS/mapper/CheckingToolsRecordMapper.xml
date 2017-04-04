@@ -42,6 +42,9 @@
   FROM checkingtoolsrecord ctr,notifypersonnelemail npe,(SELECT MAX(CTRId) ctrid FROM checkingtoolsrecord GROUP BY CTId) ti
   WHERE npe.CFId=ctr.CTRNum AND ctr.CTRId=ti.ctrid;
   </select>
+  <select id="selectCheckingToolRecords" resultType="hashmap" parameterType="java.lang.Integer">
+  SELECT * FROM checkingtoolsrecord WHERE CTId=#{ctid,jdbcType=INTEGER} ORDER BY CTRCheckTime DESC ; 
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from checkingtoolsrecord
     where CTRId = #{ctrid,jdbcType=INTEGER}
@@ -50,7 +53,7 @@
   INSERT INTO checkingtoolsrecord(CTId,CTRMoveCP,CTRCheckTIme,CTRCheckNextTime) VALUES
   (#{ctid,jdbcType=INTEGER},#{ctrmovecp,jdbcType=VARCHAR},#{ctrchecktime,jdbcType=DATE},#{ctrchecknexttime,jdbcType=DATE});
   </insert>
-  <insert id="insertSelective" parameterType="com.IVMS.model.CheckingToolsRecord" >
+  <insert id="insertCheckingToolsRecord" parameterType="com.IVMS.model.CheckingToolsRecord" >
     insert into checkingtoolsrecord
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="ctrid != null" >
@@ -216,5 +219,9 @@
    <update id="updateAcceptAndAgreeByCtrid" >
    UPDATE checkingtoolsrecord SET CTRAcceptResult=#{ctrcheckresult,jdbcType=INTEGER},
    CTIsAgree=#{ctisagree,jdbcType=INTEGER} WHERE CTRId=#{ctrid,jdbcType=INTEGER};
+  </update>
+  <update id="updateCTRCheckNextTimeByCtrNum" >
+  UPDATE checkingtoolsrecord SET CTRCheckNextTime=#{ctrchecknexttime,jdbcType=DATE}
+  WHERE CTRNum=#{ctrnum,jdbcType=VARCHAR};
   </update>
 </mapper>

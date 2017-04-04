@@ -1,6 +1,7 @@
 package com.IVMS.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -16,6 +17,10 @@ public interface CheckingToolsFileDao {
     int insertCheckingToolsFile(@Param("ctid")Integer ctid,@Param("ctfname")String ctfname);
 
     int insertSelective(CheckingToolsFile record);
+    
+    String selectCTFNameByCTFId(Integer ctfid);
+    
+    List<Map<String,Object>> selectCTFNameByCTId(Integer ctid);
 
     CheckingToolsFile selectByPrimaryKey(Integer ctfid);
     

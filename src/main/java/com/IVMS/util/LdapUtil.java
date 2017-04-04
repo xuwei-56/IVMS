@@ -196,4 +196,40 @@ public class LdapUtil{
         }
 		return userInfo;
 	}
+	
+	public static String getEmailByCn(LdapContext ctx,String cn){
+		logger.info("LDAP 通过员工名字获取员工邮箱");
+		SearchControls searchCtls = new SearchControls();  
+	    searchCtls.setSearchScope(SearchControls.SUBTREE_SCOPE);  
+//	    String searchFilter = "(&(objectCategory=person)(objectClass=user)(name=*))";
+	    String searchFilter = "(&(cn="+cn+"))"; 
+	    String searchBase = props.getProperty("searchBase");  
+	    String returnedAtts[] = {"mail"};  
+	    searchCtls.setReturningAttributes(returnedAtts);  
+	    NamingEnumeration<SearchResult> answer;
+	    String email=null;
+		try {
+			answer = ctx.search(searchBase, searchFilter,searchCtls);
+			while (answer.hasMoreElements()) {  
+		        SearchResult sr = (SearchResult) answer.next();  
+		        Attributes attributes=sr.getAttributes();	
+				if (attributes.get("mail") != null){
+					email=(String) attributes.get("mail").get();
+				}
+		    } 
+			logger.info("email:"+email); //写入日志文件
+		} catch (NamingException e) {
+			e.printStackTrace();
+		} finally{
+            if(ctx!=null){
+                try {
+                    ctx.close();
+                    ctx=null;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+		return email;
+	}
 }

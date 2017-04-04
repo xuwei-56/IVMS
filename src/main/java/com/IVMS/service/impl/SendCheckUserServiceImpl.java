@@ -200,7 +200,7 @@ public class SendCheckUserServiceImpl implements SendCheckUserService{
 		return checkingToolsFileDao.selectByCtid(ctid);
 	}
 
-	public List<Map<String,Object>> myCheckingToolsDetails(Integer ctid, Integer isHaveCheckingToolsFile) {
+	public Map<String,Object> myCheckingToolsDetails(Integer ctid, Integer isHaveCheckingToolsFile) {
 		return checkingToolsDao.myCheckingToolsDetails(ctid, isHaveCheckingToolsFile);
 	}
 
