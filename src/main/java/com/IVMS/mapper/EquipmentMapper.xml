@@ -11,11 +11,41 @@
   <sql id="Base_Column_List" >
     EId, EName, CId, EWorker, ECheckCycle
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectEquipmentByEid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from equipment
     where EId = #{eid,jdbcType=INTEGER}
+  </select>
+  <select id="selectEquipmentDetailInfo" resultType="hashmap" >
+  SELECT e.EId,e.EName,CName,e.EWorker,e.ECheckCycle,ect.ECTime,ect.ECNextTime,l.LName
+  FROM equipment e,equipmentchecktime ect,cell c,Line l,(SELECT MAX(ECTId) ectid FROM equipmentchecktime GROUP BY EId) ti
+  WHERE ect.EId=e.EId AND c.CId=e.CId AND c.LId=l.LId AND ect.ECTId=ti.ectid
+  <if test="cid != null" >
+  AND e.CId=#{cid,jdbcType=INTEGER}
+  </if>
+  <if test="eworker != null" >
+  AND e.EWorker=#{eworker,jdbcType=VARCHAR}
+  </if>
+  <if test="ename != null" >
+  AND e.EName=#{ename,jdbcType=VARCHAR}
+  </if>
+  ORDER BY ECNextTime ASC 
+  LIMIT #{startRow,jdbcType=INTEGER},#{numberOfPerPage,jdbcType=INTEGER};
+  </select>
+  <select id="countEquipmentDetailInfo" resultType="java.lang.Integer" >
+  SELECT COUNT(*)
+  FROM equipment e,equipmentchecktime ect,cell c,Line l,(SELECT MAX(ECTId) ectid FROM equipmentchecktime GROUP BY EId) ti
+  WHERE ect.EId=e.EId AND c.CId=e.CId AND c.LId=l.LId AND ect.ECTId=ti.ectid
+  <if test="cid != null" >
+  AND e.CId=#{cid,jdbcType=INTEGER}
+  </if>
+  <if test="eworker != null" >
+  AND e.EWorker=#{eworker,jdbcType=VARCHAR}
+  </if>
+  <if test="ename != null" >
+  AND e.EName=#{ename,jdbcType=VARCHAR}
+  </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from equipment
@@ -27,7 +57,7 @@
     values (#{eid,jdbcType=INTEGER}, #{ename,jdbcType=VARCHAR}, #{cid,jdbcType=INTEGER}, 
       #{eworker,jdbcType=VARCHAR}, #{echeckcycle,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.IVMS.model.Equipment" >
+  <insert id="insertEquipment" parameterType="com.IVMS.model.Equipment" >
     insert into equipment
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="eid != null" >
@@ -64,7 +94,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.IVMS.model.Equipment" >
+  <update id="updateEquipment" parameterType="com.IVMS.model.Equipment" >
     update equipment
     <set >
       <if test="ename != null" >

@@ -10,11 +10,11 @@
   <sql id="Base_Column_List" >
     ECTId, EId, ECTime, ECNextTime
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectEquipmentCheckTimeByEid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from equipmentchecktime
-    where ECTId = #{ectid,jdbcType=INTEGER}
+    where EId = #{eid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from equipmentchecktime
@@ -26,7 +26,7 @@
     values (#{ectid,jdbcType=INTEGER}, #{eid,jdbcType=INTEGER}, #{ectime,jdbcType=DATE}, 
       #{ecnexttime,jdbcType=DATE})
   </insert>
-  <insert id="insertSelective" parameterType="com.IVMS.model.EquipmentCheckTime" >
+  <insert id="insertEquipmentCheckTime" parameterType="com.IVMS.model.EquipmentCheckTime" >
     insert into equipmentchecktime
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="ectid != null" >
@@ -72,11 +72,9 @@
     </set>
     where ECTId = #{ectid,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.IVMS.model.EquipmentCheckTime" >
-    update equipmentchecktime
-    set EId = #{eid,jdbcType=INTEGER},
-      ECTime = #{ectime,jdbcType=DATE},
-      ECNextTime = #{ecnexttime,jdbcType=DATE}
-    where ECTId = #{ectid,jdbcType=INTEGER}
+  <update id="updateEquipmentCheckTimeByEid" >
+  UPDATE equipmentchecktime 
+  SET ECTime=#{ectime,jdbcType=DATE},ECNextTime=#{ecnexttime,jdbcType=DATE} 
+  WHERE EId=#{eid,jdbcType=INTEGER};
   </update>
 </mapper>
