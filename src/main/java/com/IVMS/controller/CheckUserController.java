@@ -265,6 +265,17 @@ public class CheckUserController {
 		}
 	}
 	
+	@RequestMapping("/judgeCtid")
+	@ResponseBody
+	public JSONObject judgeCtid(Integer ctid,HttpServletRequest request){
+		CheckingTools checkingtools=checkUserService.judgeCtidIsAlreadyExist(ctid);//判断检具是否已经存在
+		if(checkingtools==null){
+			return CommonUtil.constructResponse(EnumUtil.OK,"此检具可以添加",null);
+		}else{
+			return CommonUtil.constructResponse(0,"检具已存在，不能重复添加！",null);
+		}
+	}
+	
 	@RequestMapping("/addCheckingToolInfo")
 	@ResponseBody
 	public JSONObject addCheckingToolInfo(HttpServletRequest request,CheckingTools checkingTools,
@@ -280,10 +291,8 @@ public class CheckUserController {
 				/**
 				 * 保存检具附件并把路径添加到数据库
 				 */
-				System.out.println(checkingToolFiles.length);
 				if(checkingToolFiles!=null&&checkingToolFiles.length>0){  
 		            for(int i = 0;i<checkingToolFiles.length;i++){  
-		            	System.out.println("checkingtoolfile");
 		                MultipartFile file = checkingToolFiles[i];  
 		                SaveFileUtil saveFileUtil=new SaveFileUtil();
 		                String filePath=saveFileUtil.saveFile(file, request);
@@ -481,6 +490,31 @@ public class CheckUserController {
 	        }  
 			return CommonUtil.constructResponse(EnumUtil.OK, "更新检具信息成功！",null);
 		}
+	}
+	
+	@RequestMapping("/getCheckingToolReceiver")
+	@ResponseBody
+	public JSONObject getCheckingToolReceiver(Integer ctid)
+			throws Exception{
+		CheckingTools checkingTools=checkUserService.selectCheckingToolByCtid(ctid);
+		String receiver=null;
+		if(checkingTools!=null){
+			receiver=checkingTools.getCtreceiver();
+		}
+		return CommonUtil.constructResponse(EnumUtil.OK,"检具领用人",receiver);
+	}
+	
+	@RequestMapping("/updateCheckingToolReceiver")
+	@ResponseBody
+	public JSONObject updateCheckingToolReceiver(Integer ctid,String ctreceiver)
+			throws Exception{
+		Integer resultOfUpdateCheckingToolReceiver=checkUserService.updateCheckingToolReceiverByCtid(ctreceiver, ctid);
+		if(resultOfUpdateCheckingToolReceiver<=0){
+			return CommonUtil.constructResponse(0,"更新检具领用人失败！",null);
+		}else{
+			return CommonUtil.constructResponse(EnumUtil.OK,"更新检具领用人成功！",null);
+		}
+		
 	}
 	
 	@RequestMapping("/getWareHouseByClaid")

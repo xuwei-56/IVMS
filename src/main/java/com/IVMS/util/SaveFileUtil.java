@@ -23,7 +23,6 @@ public class SaveFileUtil {
 			String filename = checkingToolFiles.getOriginalFilename();//获取上传的文件名称
 			if(filename!=null && !filename.isEmpty()){
 				String root=request.getSession().getServletContext().getRealPath("/checkingtoolfile/");
-				System.out.println("root:"+root);
 				int index = filename.lastIndexOf("\\");
 				if(index != -1) {
 					filename = filename.substring(index+1);

@@ -45,4 +45,7 @@ public interface CheckingToolsDao {
     
     int countCheckingToolsInfo(@Param("CTUseItem")String CTUseItem,@Param("CTStatus")Integer CTStatus);
     
+    int updateCheckingToolReceiverByCtid(@Param("ctreceiver")String ctreceiver,
+    		@Param("ctid")Integer ctid);
+    
 }
