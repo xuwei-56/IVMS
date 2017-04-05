@@ -275,7 +275,7 @@ $(document).ready(function(){
   });
 
   // 开始送检
-  $('#cfnormal').delegate('#startcheck','click',function(){
+  $('#cfnormal,#cfspecial').delegate('#startcheck','click',function(){
   	var cfid = $(this).parent().parent().find('td:first').text();
   	var SCFComponentId = $(this).parent().parent().find('td:eq(4)').text();
   	$.ajax({
@@ -286,7 +286,7 @@ $(document).ready(function(){
   		success:function(data){
   			data = JSON.parse(data)
   			if (data.code == 1) {
-  				getnormalCheckingForm();
+  				getnormalCheckingForm1();
   			}else{
   				alert(data.msg)
   			}
@@ -295,7 +295,7 @@ $(document).ready(function(){
   })
 
   // 结束送检
-  $('#cfnormal').delegate('#endcheck','click',function(){
+  $('#cfnormal,#cfspecial').delegate('#endcheck','click',function(){
   	var cfid = $(this).parent().parent().find('td:first').text();
   	var cname = $(this).parent().parent().find('td:eq(2)').text();
   	if (cname == "检具送检") {

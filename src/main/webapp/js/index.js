@@ -279,7 +279,7 @@ $(document).ready(function(){
 	$.ajax({
 		url:'./checkingToolsInfo',
 		type:'POST',
-		data:{'requestPageNum':1,'CTUseItem':null,'CTStatus':null},
+		data:{'requestPageNum':1,'CTUseItem':0,'CTStatus':null},
 		datatype:'json',
 		success:function(data){
 			data = JSON.parse(data);
@@ -291,7 +291,7 @@ $(document).ready(function(){
 					$.ajax({
 						url:'./checkingToolsInfo',
 						type:'POST',
-						data:{'requestPageNum':page,'CTUseItem':null,'CTStatus':null},
+						data:{'requestPageNum':page,'CTUseItem':0,'CTStatus':null},
 						datatype:'json',
 						success:function(data){
 							data = JSON.parse(data);
@@ -311,7 +311,7 @@ $(document).ready(function(){
 				data.data.forEach(function(checktool){
 					checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctusestation+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
 				})
-				$('#checktools').html(mychecktooldata);
+				$('#checktools').html(checktooldata);
 			}else if (data.code == 0) {
 				$('#checktools').html("<div>没有数据</div>");
 			}else{
@@ -475,12 +475,15 @@ $(document).ready(function(){
 	})
 	
 	// 查询检具
-	$('#button_searchCheckForm').click(function(){
+	$('#button_searchCheckTools').click(function(){
 		var CTUseItem = $('#byCTUseItem').val();
 		var CTStatus = $('#byCTStatus').val();
 		if (CTStatus == null && CTUseItem == null && CTUseItem == "") {
 			return false;
 		}
+		if (CTUseItem == "" && CTUseItem == null ) {
+			CTUseItem = 0;
+		};
 		$.ajax({
 			url:'./checkingToolsInfo',
 			type:'POST',

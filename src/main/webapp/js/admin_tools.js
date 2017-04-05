@@ -24,7 +24,7 @@ $(document).ready(function(){
 	$.ajax({
 		url:'./checkingToolsInfo',
 		type:'POST',
-		data:{'requestPageNum':1,'CTUseItem':null,'CTStatus':null},
+		data:{'requestPageNum':1,'CTUseItem':0,'CTStatus':null},
 		datatype:'json',
 		success:function(data){
 			data = JSON.parse(data);
@@ -36,7 +36,7 @@ $(document).ready(function(){
 					$.ajax({
 						url:'./checkingToolsInfo',
 						type:'POST',
-						data:{'requestPageNum':page,'CTUseItem':null,'CTStatus':null},
+						data:{'requestPageNum':page,'CTUseItem':0,'CTStatus':null},
 						datatype:'json',
 						success:function(data){
 							data = JSON.parse(data);
@@ -109,6 +109,61 @@ $(document).ready(function(){
 	$(".falseBtn").click(function(){
     $(".pop_bg").fadeOut();
   });
+  // 查询检具
+	$('#button_searchCheckTools').click(function(){
+		var CTUseItem = $('#byCTUseItem').val();
+		var CTStatus = $('#byCTStatus').val();
+		if (CTStatus == null && CTUseItem == null && CTUseItem == "") {
+			return false;
+		}
+		if (CTUseItem == "" && CTUseItem == null ) {
+			CTUseItem = 0;
+		};
+		$.ajax({
+			url:'./checkingToolsInfo',
+			type:'POST',
+			data:{'requestPageNum':1,'CTUseItem':CTUseItem,'CTStatus':CTStatus},
+			datatype:'json',
+			success:function(data){
+				data = JSON.parse(data);
+				if (data.code == 1) {
+					toolsCount = parseInt(data.msg);
+					$('#pageToolTools').html("");
+					var pageSize = 20;
+					$('#pageToolTools').Paging({pagesize:pageSize,count:toolsCount,callback:function(page,size,count){
+						$.ajax({
+							url:'./checkingToolsInfo',
+							type:'POST',
+							data:{'requestPageNum':page,'CTUseItem':CTUseItem,'CTStatus':CTStatus},
+							datatype:'json',
+							success:function(data){
+								data = JSON.parse(data);
+								if(data.code == 1){
+									//getPage(data.data[0].count,1,pageSize);
+									toolsCount = parseInt(data.msg);
+									var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪规格</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:150px;'>操作</th></tr>";
+									data.data.forEach(function(checktool){
+										checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctusestation+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
+									})
+					  				$('#cffinished').html(checkformdata);
+								}
+							}
+						})
+					}});
+					var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪规格</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:150px;'>操作</th></tr>";
+					data.data.forEach(function(checktool){
+						checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctusestation+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
+					})
+					$('#checktools').html(mychecktooldata);
+				}else if (data.code == 0) {
+					$('#checktools').html("<div>没有数据</div>");
+				}else{
+					alert("获取量检具失败！错误信息："+data.msg)
+					return false;
+				}
+			}
+		})
+	})
   //  获取检具详情可更改
   $('#cttable').delegate('#updateTool','click',function(){
 		var ctid = $(this).parent().parent().find("td:eq(0)").text();
@@ -363,8 +418,12 @@ $(document).ready(function(){
 		}
 		var ctremark = $('#ctremark').val()
 		ctremark = stripscript(ctremark);
-		var ctfile = $('#ctfile')[0];
+		var ctfile = $('#ctfile')[0].files;
+		console.log(ctfile)
 		var formdata = new FormData();
+		for (var i = 0; i < ctfile.length; i++) {
+			formdata.append('checkingToolFiles',ctfile[i])
+		};
 		formdata.append('ctid',ctid)
 		formdata.append('ctname',ctname)
 		formdata.append('ctproducer',ctproducer)
@@ -382,10 +441,11 @@ $(document).ready(function(){
 		formdata.append('ctremark',ctremark)
 		formdata.append('ctchecktemperature',ctchecktemperature)
 		formdata.append('ctcheckhumidiry',ctcheckhumidiry)
-		formdata.append('checkingToolFiles',ctfile)
+		
 		$.ajax({
 			url:'./user/addCheckingToolInfo',
 			type:'POST',
+			cache:false,
 			data:formdata,
 			datatype:'json',
 			contentType:false,

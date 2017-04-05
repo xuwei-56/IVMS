@@ -57,6 +57,10 @@ $(document).ready(function(){
 			$('#cfreplyreport').val("0");
 			$('#wId').html("<option value='0'>默认</option>")
 		}
+		if (claid > 1) {
+			$('#lId').html("<option value='0'>默认</option>")
+			$('#cId').html("<option value='0'>默认</option>")
+		};
 	})
 
 	// 获取对应产线下的单元

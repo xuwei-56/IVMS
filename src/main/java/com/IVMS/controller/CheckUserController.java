@@ -268,7 +268,7 @@ public class CheckUserController {
 	@RequestMapping("/addCheckingToolInfo")
 	@ResponseBody
 	public JSONObject addCheckingToolInfo(HttpServletRequest request,CheckingTools checkingTools,
-			@RequestParam("checkingToolFiles") MultipartFile[] checkingToolFiles)
+			@RequestParam(value = "checkingToolFiles", required = false) MultipartFile[] checkingToolFiles)
 			throws Exception{
 		Integer ctid=checkingTools.getCtid();
 		CheckingTools checkingtools=checkUserService.judgeCtidIsAlreadyExist(ctid);//判断检具是否已经存在
