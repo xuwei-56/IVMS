@@ -12,6 +12,8 @@ import org.apache.ibatis.annotations.Param;
 import com.IVMS.model.CheckingForm;
 import com.IVMS.model.CheckingTools;
 import com.IVMS.model.CheckingToolsRecord;
+import com.IVMS.model.Equipment;
+import com.IVMS.model.EquipmentCheckTime;
 import com.IVMS.model.NotifyPersonnelEmail;
 import com.IVMS.model.Warehouse;
 import com.IVMS.util.LdapUtil;
@@ -118,4 +120,21 @@ public interface CheckUserService {
 	List<Map<String,Object>> selectNotifyEmailAndTime();
 	
 	List<Map<String,Object>> selectCTFNameByCTId(Integer ctid);
+	
+	int insertEquipment(Equipment equipment);
+	
+	int updateEquipment(Equipment equipment);
+	
+	Equipment selectEquipmentByEid(Integer eid);
+	
+	EquipmentCheckTime selectEquipmentCheckTimeByEid(Integer eid);
+	
+	int insertEquipmentCheckTime(EquipmentCheckTime equipmentCheckTime);
+	
+	List<Map<String,Object>> selectEquipmentDetailInfo(Integer cid,String eworker,String ename,
+			Integer requestPageNum);
+	
+    int countEquipmentDetailInfo(Integer cid,String eworker,String ename);
+    
+    int updateEquipmentCheckTimeByEid(Date ectime,Date ecnexttime,Integer eid);
 }

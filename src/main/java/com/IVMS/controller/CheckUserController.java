@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.IVMS.model.CheckingTools;
 import com.IVMS.model.CheckingToolsRecord;
+import com.IVMS.model.Equipment;
+import com.IVMS.model.EquipmentCheckTime;
 import com.IVMS.model.Mail;
 import com.IVMS.model.NotifyPersonnelEmail;
 import com.IVMS.model.User;
@@ -30,7 +31,6 @@ import com.IVMS.service.CheckUserService;
 import com.IVMS.service.SendCheckUserService;
 import com.IVMS.util.CommonUtil;
 import com.IVMS.util.EnumUtil;
-import com.IVMS.util.LdapUtil;
 import com.IVMS.util.MailSender;
 import com.IVMS.util.SaveFileUtil;
 import com.alibaba.fastjson.JSONObject;
@@ -517,6 +517,83 @@ public class CheckUserController {
 			}else{
 				return CommonUtil.constructResponse(EnumUtil.OK, "添加库位成功！",null);
 			}
+		}
+	}
+	
+	@RequestMapping("/addEquipment")
+	@ResponseBody
+	public JSONObject addEquipMent(Equipment equipment)
+			throws Exception{
+		int resultOfAddEquipment=checkUserService.insertEquipment(equipment);
+		if(resultOfAddEquipment<=0){
+			return CommonUtil.constructResponse(0,"添加设备信息失败！",null);
+		}else{
+			return CommonUtil.constructResponse(EnumUtil.OK, "添加设备信息成功！", null);
+		}
+	}
+	
+	@RequestMapping("/updateEquipment")
+	@ResponseBody
+	public JSONObject updateEquipment(Equipment equipment)
+			throws Exception{
+		int resultOfUpdateEquipment=checkUserService.updateEquipment(equipment);
+		if(resultOfUpdateEquipment<=0){
+			return CommonUtil.constructResponse(0,"更新设备信息失败！",null);
+		}else{
+			return CommonUtil.constructResponse(EnumUtil.OK, "更新设备信息成功！", null);
+		}
+	}
+	
+	@RequestMapping("/equipmentInfo")
+	@ResponseBody
+	public JSONObject equipmentInfo(Integer cid,String eworker,String ename,Integer requestPageNum)
+			throws Exception{
+		List<Map<String,Object>>
+		equipmentInfo=checkUserService.selectEquipmentDetailInfo
+				(cid, eworker, ename, requestPageNum);
+		if(equipmentInfo.isEmpty()){
+			return CommonUtil.constructResponse(0,"没有数据！",null);
+		}else{
+			Integer countEquipmentInfo=checkUserService.countEquipmentDetailInfo(cid, eworker, 
+					ename);
+			Map<String,Object> countMap=new HashMap<String,Object>();
+			countMap.put("countEquipmentInfo", countEquipmentInfo);
+			equipmentInfo.add(countMap);
+			return CommonUtil.constructResponse(EnumUtil.OK, "设备信息",equipmentInfo);
+		}
+	}
+	
+	@RequestMapping("/addEquipmentTime")
+	@ResponseBody
+	public JSONObject addEquipmentTime(HttpSession session,Integer eid,Date ectime)
+			throws Exception{
+		Equipment equipment=checkUserService.selectEquipmentByEid(eid);
+		Integer equipmentCycle=equipment.getEcheckcycle();
+		String worker=equipment.getEworker();//得到领用人
+		Calendar calendar=Calendar.getInstance();
+		calendar.setTime(ectime);
+		calendar.add(Calendar.MONTH,equipmentCycle);
+		Date nextCheckTime=calendar.getTime();//得到设备下次检验时间
+		EquipmentCheckTime equipmentCheckTime=new EquipmentCheckTime();
+		equipmentCheckTime.setEid(eid);
+		equipmentCheckTime.setEcnexttime(nextCheckTime);
+		equipmentCheckTime.setEctime(ectime);
+		Integer resultOfInsertEquipmentCheckTime=checkUserService.
+				insertEquipmentCheckTime(equipmentCheckTime);
+		if(resultOfInsertEquipmentCheckTime<=0){
+			return CommonUtil.constructResponse(0,"添加设备校验时间失败！",null);
+		}else{
+			String username=(String) session.getAttribute("username");
+			String password=(String) session.getAttribute("password");
+			String email=checkUserService.getEmailByCn(username, password,worker);//得到领用人邮箱
+			NotifyPersonnelEmail notifyPersonnelEmail=new NotifyPersonnelEmail();
+			if(email!=null){
+				notifyPersonnelEmail.setNpenotifyemail(email);
+			}
+			notifyPersonnelEmail.setNpenotifytime(nextCheckTime);
+			notifyPersonnelEmail.setNpestyle(2);
+			sendCheckUserService.insertCopySendEmail(notifyPersonnelEmail);
+			return CommonUtil.constructResponse(EnumUtil.OK, "添加设备校验时间成功！",null);
 		}
 	}
 	

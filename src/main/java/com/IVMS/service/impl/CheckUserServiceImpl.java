@@ -3,7 +3,6 @@ package com.IVMS.service.impl;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.naming.ldap.LdapContext;
@@ -17,12 +16,16 @@ import com.IVMS.dao.CheckingToolsDao;
 import com.IVMS.dao.CheckingToolsFileDao;
 import com.IVMS.dao.CheckingToolsRecordDao;
 import com.IVMS.dao.ClassifyDao;
+import com.IVMS.dao.EquipmentCheckTimeDao;
+import com.IVMS.dao.EquipmentDao;
 import com.IVMS.dao.LineDao;
 import com.IVMS.dao.NotifyPersonnelEmailDao;
 import com.IVMS.dao.ProjectDao;
 import com.IVMS.dao.WarehouseDao;
 import com.IVMS.model.CheckingTools;
 import com.IVMS.model.CheckingToolsRecord;
+import com.IVMS.model.Equipment;
+import com.IVMS.model.EquipmentCheckTime;
 import com.IVMS.model.NotifyPersonnelEmail;
 import com.IVMS.model.Warehouse;
 import com.IVMS.service.CheckUserService;
@@ -53,6 +56,10 @@ public class CheckUserServiceImpl implements CheckUserService{
 	private CheckingToolsRecordDao checkingToolsRecordDao;
 	@Resource
 	private WarehouseDao warehouseDao;
+	@Resource
+	private EquipmentDao equipmentDao;
+	@Resource
+	private EquipmentCheckTimeDao equipmentCheckTimeDao;
 	
 	public int insertProject(String pName) {
 		return projectDao.insertProject(pName);
@@ -249,6 +256,41 @@ public class CheckUserServiceImpl implements CheckUserService{
 
 	public List<Map<String,Object>> selectCTFNameByCTId(Integer ctid) {
 		return checkingToolsFileDao.selectCTFNameByCTId(ctid);
+	}
+
+	public int insertEquipment(Equipment equipment) {
+		return equipmentDao.insertEquipment(equipment);
+	}
+
+	public int updateEquipment(Equipment equipment) {
+		return equipmentDao.updateEquipment(equipment);
+	}
+
+	public Equipment selectEquipmentByEid(Integer eid) {
+		return equipmentDao.selectEquipmentByEid(eid);
+	}
+
+	public EquipmentCheckTime selectEquipmentCheckTimeByEid(Integer eid) {
+		return equipmentCheckTimeDao.selectEquipmentCheckTimeByEid(eid);
+	}
+
+	public int insertEquipmentCheckTime(EquipmentCheckTime equipmentCheckTime) {
+		return equipmentCheckTimeDao.insertEquipmentCheckTime(equipmentCheckTime);
+	}
+
+	public List<Map<String, Object>> selectEquipmentDetailInfo(Integer cid, String eworker,
+			String ename,Integer requestPageNum) {
+		int startRow=(requestPageNum-1)*10;
+		int numberOfPerPage=20;
+		return equipmentDao.selectEquipmentDetailInfo(cid, eworker, ename, startRow, numberOfPerPage);
+	}
+
+	public int countEquipmentDetailInfo(Integer cid, String eworker, String ename) {
+		return equipmentDao.countEquipmentDetailInfo(cid, eworker, ename);
+	}
+
+	public int updateEquipmentCheckTimeByEid(Date ectime, Date ecnexttime, Integer eid) {
+		return equipmentCheckTimeDao.updateEquipmentCheckTimeByEid(ectime, ecnexttime, eid);
 	}
 
 }
