@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.IVMS.model.CheckingForm;
 import com.IVMS.model.CheckingTools;
 import com.IVMS.model.CheckingToolsRecord;
 import com.IVMS.model.Equipment;
@@ -174,8 +175,7 @@ public class CheckUserController {
 	
 	@RequestMapping("/updateCfStatusToOnCheck")
 	@ResponseBody
-	public JSONObject updateCfStatusToOnCheck(HttpSession session,String cfid,String SCFComponentId,
-			Integer ClaId){
+	public JSONObject updateCfStatusToOnCheck(HttpSession session,String cfid,String SCFComponentId){
 		/**
 		 * 更新检测状态为检测中，发送邮箱（开始检测）
 		 */
@@ -187,6 +187,8 @@ public class CheckUserController {
 			User user=(User) session.getAttribute("user");
 			String userName=user.getCn();//拿到检测人
 			checkUserService.updateCfCheckManByCfid(userName, cfid);//更新送检单的检测人
+			CheckingForm checkingForm=sendCheckUserService.selectByPrimaryKey(cfid);
+			Integer ClaId=checkingForm.getClaid();
 			Integer claId=sendCheckUserService.selectClaIdByCheckingTool();//得到检具送检类型的主键
 			if(ClaId==claId){
 				CheckingTools checkingTools=checkUserService.selectCheckingToolByCtid(
@@ -278,8 +280,10 @@ public class CheckUserController {
 				/**
 				 * 保存检具附件并把路径添加到数据库
 				 */
+				System.out.println(checkingToolFiles.length);
 				if(checkingToolFiles!=null&&checkingToolFiles.length>0){  
 		            for(int i = 0;i<checkingToolFiles.length;i++){  
+		            	System.out.println("checkingtoolfile");
 		                MultipartFile file = checkingToolFiles[i];  
 		                SaveFileUtil saveFileUtil=new SaveFileUtil();
 		                String filePath=saveFileUtil.saveFile(file, request);
@@ -456,12 +460,25 @@ public class CheckUserController {
 	
 	@RequestMapping("/updateCheckingTool")
 	@ResponseBody
-	public JSONObject updateCheckingTool(CheckingTools checkingTools)
+	public JSONObject updateCheckingTool(CheckingTools checkingTools,HttpServletRequest request,
+			@RequestParam("checkingToolFiles") MultipartFile[] checkingToolFiles)
 			throws Exception{
+		Integer ctid=checkingTools.getCtid();
 		Integer resultOfUpdateCheckingTool=checkUserService.updateCheckingToolByCtid(checkingTools);
 		if(resultOfUpdateCheckingTool<=0){
 			return CommonUtil.constructResponse(0,"更新检具信息失败！",null);
 		}else{
+			/**
+			 * 保存检具附件并把路径添加到数据库
+			 */
+			if(checkingToolFiles!=null&&checkingToolFiles.length>0){  
+	            for(int i = 0;i<checkingToolFiles.length;i++){  
+	                MultipartFile file = checkingToolFiles[i];  
+	                SaveFileUtil saveFileUtil=new SaveFileUtil();
+	                String filePath=saveFileUtil.saveFile(file, request);
+	                checkUserService.insertCheckingToolsFile(ctid, filePath);
+	            }  
+	        }  
 			return CommonUtil.constructResponse(EnumUtil.OK, "更新检具信息成功！",null);
 		}
 	}
@@ -594,6 +611,20 @@ public class CheckUserController {
 			notifyPersonnelEmail.setNpestyle(2);
 			sendCheckUserService.insertCopySendEmail(notifyPersonnelEmail);
 			return CommonUtil.constructResponse(EnumUtil.OK, "添加设备校验时间成功！",null);
+		}
+	}
+	
+	@RequestMapping("/myEquipment")
+	@ResponseBody
+	public JSONObject myEquipment(HttpSession session)
+			throws Exception{
+		User user=(User) session.getAttribute("user");
+		String userName=user.getCn();
+		List<Map<String,Object>> myEquipment=checkUserService.myEquipment(userName);
+		if(myEquipment.isEmpty()){
+			return CommonUtil.constructResponse(0,"没有数据！",null);
+		}else{
+			return CommonUtil.constructResponse(EnumUtil.OK, "我的设备信息",myEquipment);
 		}
 	}
 	

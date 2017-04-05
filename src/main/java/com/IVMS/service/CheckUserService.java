@@ -137,4 +137,6 @@ public interface CheckUserService {
     int countEquipmentDetailInfo(Integer cid,String eworker,String ename);
     
     int updateEquipmentCheckTimeByEid(Date ectime,Date ecnexttime,Integer eid);
+    
+    List<Map<String,Object>> myEquipment(String eworker);
 }

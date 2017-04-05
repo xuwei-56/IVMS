@@ -56,7 +56,7 @@ public interface SendCheckUserService {
 	CheckingForm selectByPrimaryKey(String cfid);
 	
 	String selectMaxCfid(String cfid);
-	
+		
 	List<CheckingFormCustom> selectByUserName(String CFMoveP,Integer startRow,Integer ClaId,Integer Pid,String cfid);
 	
 	int countMySendCheck(String CFMoveP,Integer ClaId,Integer Pid,String cfid);

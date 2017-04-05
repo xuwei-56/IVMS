@@ -293,4 +293,8 @@ public class CheckUserServiceImpl implements CheckUserService{
 		return equipmentCheckTimeDao.updateEquipmentCheckTimeByEid(ectime, ecnexttime, eid);
 	}
 
+	public List<Map<String, Object>> myEquipment(String eworker) {
+		return equipmentDao.myEquipment(eworker);
+	}
+
 }

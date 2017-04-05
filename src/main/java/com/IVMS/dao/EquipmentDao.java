@@ -26,4 +26,6 @@ public interface EquipmentDao {
     int updateEquipment(Equipment equipment);
 
     int updateByPrimaryKey(Equipment record);
+    
+    List<Map<String,Object>> myEquipment(String eworker);
 }

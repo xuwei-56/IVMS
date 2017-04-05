@@ -23,6 +23,7 @@ public class SaveFileUtil {
 			String filename = checkingToolFiles.getOriginalFilename();//获取上传的文件名称
 			if(filename!=null && !filename.isEmpty()){
 				String root=request.getSession().getServletContext().getRealPath("/checkingtoolfile/");
+				System.out.println("root:"+root);
 				int index = filename.lastIndexOf("\\");
 				if(index != -1) {
 					filename = filename.substring(index+1);
@@ -38,6 +39,7 @@ public class SaveFileUtil {
 					File destFile = new File(dirFile, filename);
 					checkingToolFiles.transferTo(destFile);
 					path="/"+hex.charAt(0) + "/" + hex.charAt(1)+"/"+filename;//数据库存的路径
+					System.out.println("path:"+path);
 				}
 			}
 		}

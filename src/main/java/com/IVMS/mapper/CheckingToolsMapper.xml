@@ -101,7 +101,7 @@
     <include refid="Base_Column_List" />
     FROM checkingtools 
     <where>
-      <if test="CTUseItem != null" >
+      <if test='CTUseItem != "0"' >
       and CTUseItem=#{CTUseItem,jdbcType=VARCHAR}
       </if>
       <if test="CTStatus != null" >
@@ -114,7 +114,7 @@
   <select id="countCheckingToolsInfo" resultType="java.lang.Integer" >
     select count(*) FROM checkingtools 
     <where>
-      <if test="CTUseItem != null" >
+      <if test='CTUseItem != "0"' >
       and CTUseItem=#{CTUseItem,jdbcType=VARCHAR}
       </if>
       <if test="CTStatus != null" >

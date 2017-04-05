@@ -214,6 +214,5 @@ public class SendCheckUserServiceImpl implements SendCheckUserService{
 
 	public int insertCheckingToolsRecord(String cfid, String cfmovep, Integer cfcomponentid, Date cftime) {
 		return checkingFormDao.insertCheckingToolsRecord(cfid, cfmovep, cfcomponentid, cftime);
-	}
-	
+	}	
 }

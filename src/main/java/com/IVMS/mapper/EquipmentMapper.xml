@@ -17,6 +17,11 @@
     from equipment
     where EId = #{eid,jdbcType=INTEGER}
   </select>
+  <select id="myEquipment" resultType="hashmap" parameterType="java.lang.String" >
+   SELECT e.EId,e.EName,CName,e.EWorker,e.ECheckCycle,ect.ECTime,ect.ECNextTime,l.LName
+  FROM equipment e,equipmentchecktime ect,cell c,Line l,(SELECT MAX(ECTId) ectid FROM equipmentchecktime GROUP BY EId) ti
+  WHERE ect.EId=e.EId AND c.CId=e.CId AND c.LId=l.LId AND ect.ECTId=ti.ectid AND EWorker=#{eworker,jdbcType=VARCHAR};
+  </select>
   <select id="selectEquipmentDetailInfo" resultType="hashmap" >
   SELECT e.EId,e.EName,CName,e.EWorker,e.ECheckCycle,ect.ECTime,ect.ECNextTime,l.LName
   FROM equipment e,equipmentchecktime ect,cell c,Line l,(SELECT MAX(ECTId) ectid FROM equipmentchecktime GROUP BY EId) ti
@@ -24,10 +29,10 @@
   <if test="cid != null" >
   AND e.CId=#{cid,jdbcType=INTEGER}
   </if>
-  <if test="eworker != null" >
+  <if test='eworker != "0"' >
   AND e.EWorker=#{eworker,jdbcType=VARCHAR}
   </if>
-  <if test="ename != null" >
+  <if test='ename != "0"' >
   AND e.EName=#{ename,jdbcType=VARCHAR}
   </if>
   ORDER BY ECNextTime ASC 
@@ -40,10 +45,10 @@
   <if test="cid != null" >
   AND e.CId=#{cid,jdbcType=INTEGER}
   </if>
-  <if test="eworker != null" >
+  <if test='eworker != "0"' >
   AND e.EWorker=#{eworker,jdbcType=VARCHAR}
   </if>
-  <if test="ename != null" >
+  <if test='ename != "0"' >
   AND e.EName=#{ename,jdbcType=VARCHAR}
   </if>
   </select>
