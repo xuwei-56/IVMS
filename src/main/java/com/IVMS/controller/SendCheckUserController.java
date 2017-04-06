@@ -75,8 +75,8 @@ public class SendCheckUserController {
 				session.setAttribute("username", username);
 				session.setAttribute("password", password);
 				session.setAttribute("user", user); //存入session保持登录信息
-				String department=user.getDepartment();
-				if(department.equals("QA")){
+				String pager=user.getPager();//1为设备负责人，2为送检单校验人
+				if(pager.equals("2")){
 					return CommonUtil.constructResponse(EnumUtil.ADMIN_LOGIN, "登录用户信息", user);
 				}else{
 					return CommonUtil.constructResponse(EnumUtil.USER_LOGIN, "登录用户信息", user);

@@ -44,7 +44,7 @@ public class EnumUtil {
    public static final int ERROR = 0;
    
    /**
-    * 	测试人员登录
+    * 	校验送检单人登录
     */
    public static final int ADMIN_LOGIN = 101;
    

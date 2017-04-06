@@ -7,6 +7,7 @@ public class User {
 	private String mobile;
 	private String sAMAccountName;
 	private String department;
+	private String pager;//权限字段，设备负责人为1，校验送检单的人为2
 	
 	public String getCn() {
 		return cn;
@@ -44,10 +45,16 @@ public class User {
 	public void setDepartment(String department) {
 		this.department = department;
 	}
+	public String getPager() {
+		return pager;
+	}
+	public void setPager(String pager) {
+		this.pager = pager;
+	}
 	
 	public String toString() {
 		return "User [cn=" + cn + ", description=" + description + ", mail=" + mail + ", mobile=" + mobile
-				+ ", sAMAccountName=" + sAMAccountName + ", department=" + department + "]";
+				+ ", sAMAccountName=" + sAMAccountName + ", department=" + department + ", pager=" + pager + "]";
 	}
 	
 }
