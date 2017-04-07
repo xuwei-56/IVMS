@@ -226,7 +226,7 @@ header .rt_nav li .quit_icon:before{content:"Q";}
 
 .checkremarkdiv{width: 52%;display: inline-block;float: right;border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;height: 40px;line-height: 40px;margin-top: -41px;margin-right: 0.5px;}
 .checkremarkdiv span{padding-left:10px; }
-.CTFileList_pop_bg{display: none; background: rgba(0,0,0,0); width: 200px;/* height: 300px; */position: fixed;top: 90px;right: 5%;z-index: 999;}
+.CTFileList_pop_bg{display: none; background: rgba(0,0,0,0); width: 200px;/* height: 300px; */position: absolute;top: 20px;right: 5%;z-index: 999;}
 .CTFileList_bg{border: 1px solid #d10529;width: 100%;/* height: 100%; */margin-top: 35px;background: rgba(255,255,255,1);border-radius:5px }
 #CTFileList_ul{margin:5px 0 5px 10px;}
 .CTFileDetail_bg{width: 702px;height: 850px;margin: 50px auto;}

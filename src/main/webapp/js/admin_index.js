@@ -258,7 +258,7 @@ $(document).ready(function(){
 						$('#cfreply_detail').val(data.data.cfreply)
 						$('#cfreplyreport_detail').val(data.data.cfreplyreport)
 					}
-					$('#cfreportfile_detail').html("<a href='./"+data.data.cfreportfile+"'>"+data.data.cfreportfile+"</a>"); 
+					$('#cfreportfile_detail').html("<a href='./cfreportfile/"+data.data.cfreportfile+"'>"+data.data.cfreportfile+"</a>"); 
 					$('#pop_bg_user').fadeIn();
 				}else{
 					alert(data.msg)
@@ -345,7 +345,7 @@ $(document).ready(function(){
 		var remark = $('#normalcheckremark').val();
 		var normalreportfile = $('#normalreportfile')[0].files[0];
 		var formdata = new FormData();
-		formdata.append("cfid",cfid)
+		formdata.append("cfId",cfid)
 		formdata.append("cfStatus",normalcheckresult)
 		formdata.append("cfRemark",remark)
 		formdata.append("cfReportFile",normalreportfile)

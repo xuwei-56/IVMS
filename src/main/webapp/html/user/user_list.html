@@ -67,223 +67,213 @@
 
 <section class="rt_wrap content mCustomScrollbar">
  <div class="rt_content">
-     <section class="loading_area">
-      <div class="loading_cont">
-       <div class="loading_icon"><i></i><i></i><i></i><i></i><i></i></div>
-       <div class="loading_txt"><mark>数据正在加载，请稍后！</mark></div>
-      </div>
-     </section>
-     <!--结束加载-->
-
-     <section class="pop_bg" id="pop_bg_user">
-      <div class="pop_cont">
-       <!--title-->
-       <h3>送检单详情</h3>
-       <!--content-->
+   <section class="loading_area">
+    <div class="loading_cont">
+     <div class="loading_icon"><i></i><i></i><i></i><i></i><i></i></div>
+     <div class="loading_txt"><mark>数据正在加载，请稍后！</mark></div>
+    </div>
+   </section>
+   <!--结束加载-->
+   <!-- 领用人确认检测结果 -->
+   <section class="pop_bg" id="pop_bg_confirm">
+     <div class="pop_cont">
+       <h3>领用人确认检测结果</h3>
        <div class="pop_cont_input">
         <ul>
-         <li>
-        <h2><strong style="color:#d10529;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;送检人信息</strong></h2>
-        <span class="item_name item_name_first">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姓名：</span>
-        <input type="text" class="textbox textbox_100" id="moveP" disabled="true" />
-        <span class="item_name" >联系电话：</span>
-        <input type="text" class="textbox" id="phoneNum" disabled="true"/>
-        <span class="item_name" >邮箱：</span>
-        <input type="text" class="textbox textbox_225" id="mail" disabled="true"/>
-       </li>
-       <li id="notifyLi">
-        <span class="item_name item_name_first" >通知邮箱抄送人：</span>
-        <textarea class="textarea" style="width:500px;height:50px;" id="notifymail" disabled="true"></textarea>
-       </li>
-       <li>
-        <h2><strong style="color:#d10529;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;送检品信息</strong></h2>
-        <span class="item_name item_name_first" >送检类型：</span>
-        <input type="text" class="textbox textbox_100" id="claId" disabled="true"/>
-         
-        <span class="item_name" >紧急程度：</span>
-        <input type="text" class="textbox textbox_100" id="urgentStatus" disabled="true"/>
-        <span class="item_name" >送检时间：</span>
-        <input type="text" class="textbox" id="time" disabled="true"/>  
-        <span class="item_name" >送检状态：</span>
-        <input type="text" class="textbox textbox_100" id="cfstatus" disabled="true"/> 
-       </li>
-       <li>
-        <span class="item_name item_name_first" >检测类型：</span>
-        <input type="text" class="textbox textbox_150" id="cCId" disabled="true"/>
-        <span class="item_name" >所属产线：</span>
-        <input type="text" class="textbox textbox_150" id="lId" disabled="true"/>
-        <span class="item_name" >所属单元：</span>
-        <input type="text" class="textbox textbox_150" id="cId" disabled="true"/>
-        <span class="item_name" >所属项目：</span>
-        <input type="text" class="textbox textbox_150" id="pId" disabled="true"/>
-       </li>
-       <li>
-        <span class="item_name item_name_first" >零件编号：</span>
-        <input type="text" class="textbox textbox_225" id="componentId" disabled="true"/>
-        <span class="item_name" >零件名称：</span>
-        <input type="text" class="textbox textbox_225" id="componentName" disabled="true"/>
-        <span class="item_name" >零件数量：</span>
-        <input type="text" class="textbox textbox_100"id="componentNum" disabled="true"/>
-       </li>
-       <li>
-         <span class="item_name item_name_first" >放置库位：</span>
-        <input type="text" class="textbox textbox_100" id="wId" disabled="true"/> 
-        <span class="item_name" >送检次数：</span>
-        <input type="text" class="textbox textbox_100" id="checkNum" disabled="true"/> 
-         <span class="item_name">供应商名称：</span>
-         <input type="text" class="textbox textbox_150" id="cfreply" disabled="true"/>
-         <span class="item_name">供应商报告：</span>
-         <input type="text" class="textbox textbox_150" id="cfreplyreport" disabled="true"/>
-       </li>
-       <li>
-        <span class="item_name item_name_first" >备注信息：</span>
-        <textarea placeholder="备注信息" class="textarea" style="width:500px;height:50px;" id="remark" disabled="true"></textarea>
-       </li>
-       <li>
-        <span class="item_name item_name_first" >上传附件：</span>
-        <input type="text" class="textbox textbox_225" id="urgentfile" disabled="true"/> 
-        <span class="item_name item_name_first" >报告附件：</span>
-        <span class="item_name" id="cfreportfile" ><a href="./"></a></span>  
-       </li>
-        </ul>
+          <li>
+            <dd class="item_dd_235"><span class="item_name">量仪编号：</span>
+            <input type="text" class="textbox" id="ctid_confirm" disabled="true"/></dd>
+            <dd class="item_dd_235"><span class="item_name">量仪名称：</span>
+            <input type="text" class="textbox" id="ctname_confirm" disabled="true"/></dd>
+          </li>
+          <!-- <li>
+            <dd class="item_dd_235"><span class="item_name">送检人：</span>
+            <input type="text" class="textbox" id="ctrmovep" disabled="true"/></dd>
+            <dd class="item_dd_235"><span class="item_name">检测人：</span>
+            <input type="text" class="textbox" id="ctrcheckman" disabled="true"/></dd>
+            <dd class="item_dd_335"><span class="item_name">送检时间：</span>
+            <input type="text" class="textbox textbox_225" id="ctrmovetime" disabled="true"/></dd>
+          </li> -->
+          <li>
+            <dd class="item_dd_235"><span class="item_name">是否接受：</span>
+            <select class="select" id="ctracceptresult">
+              <option value="1">接受</option>
+              <option value="2">不接受</option>
+            </select></dd>
+            <dd class="item_dd_235"><span class="item_name">确认签字：</span>
+            <select class="select" id="ctisagree">
+              <option value="0">同意</option>
+              <option value="1">拒绝签字</option>
+            </select></dd>
+          </li>
+        </ul> 
        </div>
-       <!--bottom:operate->button-->
        <div class="btm_btn">
-        <input type="button" value="关闭" class="input_btn falseBtn" id="falseBtn" />
+        <input type="button" value="确认" class="input_btn trueBtn" id="toolconfirm_btn" />
+        <input type="button" value="关闭" class="input_btn falseBtn"/>
        </div>
-      </div>
-     </section>
-     
-     <section>
-      <ul class="admin_tab">
-       <li><a class="active">我的送检</a></li>
-       <li><a>我的量检具</a></li>
+     </div>
+   </section>
+   <section class="pop_bg" id="pop_bg_user">
+    <div class="pop_cont">
+     <!--title-->
+     <h3>送检单详情</h3>
+     <!--content-->
+     <div class="pop_cont_input">
+      <ul>
+       <li>
+      <h2><strong style="color:#d10529;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;送检人信息</strong></h2>
+      <span class="item_name item_name_first">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姓名：</span>
+      <input type="text" class="textbox textbox_100" id="moveP" disabled="true" />
+      <span class="item_name" >联系电话：</span>
+      <input type="text" class="textbox" id="phoneNum" disabled="true"/>
+      <span class="item_name" >邮箱：</span>
+      <input type="text" class="textbox textbox_225" id="mail" disabled="true"/>
+     </li>
+     <li id="notifyLi">
+      <span class="item_name item_name_first" >通知邮箱抄送人：</span>
+      <textarea class="textarea" style="width:500px;height:50px;" id="notifymail" disabled="true"></textarea>
+     </li>
+     <li>
+      <h2><strong style="color:#d10529;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;送检品信息</strong></h2>
+      <span class="item_name item_name_first" >送检类型：</span>
+      <input type="text" class="textbox textbox_100" id="claId" disabled="true"/>
+       
+      <span class="item_name" >紧急程度：</span>
+      <input type="text" class="textbox textbox_100" id="urgentStatus" disabled="true"/>
+      <span class="item_name" >送检时间：</span>
+      <input type="text" class="textbox" id="time" disabled="true"/>  
+      <span class="item_name" >送检状态：</span>
+      <input type="text" class="textbox textbox_100" id="cfstatus" disabled="true"/> 
+     </li>
+     <li>
+      <span class="item_name item_name_first" >检测类型：</span>
+      <input type="text" class="textbox textbox_150" id="cCId" disabled="true"/>
+      <span class="item_name" >所属产线：</span>
+      <input type="text" class="textbox textbox_150" id="lId" disabled="true"/>
+      <span class="item_name" >所属单元：</span>
+      <input type="text" class="textbox textbox_150" id="cId" disabled="true"/>
+      <span class="item_name" >所属项目：</span>
+      <input type="text" class="textbox textbox_150" id="pId" disabled="true"/>
+     </li>
+     <li>
+      <span class="item_name item_name_first" >零件编号：</span>
+      <input type="text" class="textbox textbox_225" id="componentId" disabled="true"/>
+      <span class="item_name" >零件名称：</span>
+      <input type="text" class="textbox textbox_225" id="componentName" disabled="true"/>
+      <span class="item_name" >零件数量：</span>
+      <input type="text" class="textbox textbox_100"id="componentNum" disabled="true"/>
+     </li>
+     <li>
+       <span class="item_name item_name_first" >放置库位：</span>
+      <input type="text" class="textbox textbox_100" id="wId" disabled="true"/> 
+      <span class="item_name" >送检次数：</span>
+      <input type="text" class="textbox textbox_100" id="checkNum" disabled="true"/> 
+       <span class="item_name">供应商名称：</span>
+       <input type="text" class="textbox textbox_150" id="cfreply" disabled="true"/>
+       <span class="item_name">供应商报告：</span>
+       <input type="text" class="textbox textbox_150" id="cfreplyreport" disabled="true"/>
+     </li>
+     <li>
+      <span class="item_name item_name_first" >备注信息：</span>
+      <textarea placeholder="备注信息" class="textarea" style="width:500px;height:50px;" id="remark" disabled="true"></textarea>
+     </li>
+     <li>
+      <span class="item_name item_name_first" >上传附件：</span>
+      <input type="text" class="textbox textbox_225" id="urgentfile" disabled="true"/> 
+      <span class="item_name item_name_first" >报告附件：</span>
+      <span class="item_name" id="cfreportfile" ><a href="./"></a></span>  
+     </li>
       </ul>
-      <!--tabCont-->
-      <div class="admin_tab_cont" style="display:block;">
-      <!--我的送检栏目-->
-       <span class="item_name" style="text-align: center;">筛选</span>
-       <span class="item_name">送检类型：</span>
-       <select class="select textbox_100" id="byclaId">
-        <option>&nbsp;&nbsp;&nbsp;加载中</option>
-       </select>
-       <span class="item_name">送检项目：</span>
-       <select class="select textbox_100" id="bypId">
-        <option>&nbsp;&nbsp;&nbsp;加载中</option>
-       </select>
-       <span class="item_name">送检单号：</span>
-       <input type="text" class="textbox textbox_225" id="bycfid" />
-       <input type="button" value="搜索" class="link_btn" id="button_searchByCfid" />
-       <section>
-        <table class="table" style="margin-top:10px " id="mycheckform">
+     </div>
+     <!--bottom:operate->button-->
+     <div class="btm_btn">
+      <input type="button" value="关闭" class="input_btn falseBtn" id="falseBtn" />
+     </div>
+    </div>
+   </section>
+   
+   <section>
+    <ul class="admin_tab">
+     <li><a class="active">我的送检</a></li>
+     <li><a>我的量检具</a></li>
+    </ul>
+    <!--tabCont-->
+    <div class="admin_tab_cont" style="display:block;">
+    <!--我的送检栏目-->
+     <span class="item_name" style="text-align: center;">筛选</span>
+     <span class="item_name">送检类型：</span>
+     <select class="select textbox_100" id="byclaId">
+      <option>&nbsp;&nbsp;&nbsp;加载中</option>
+     </select>
+     <span class="item_name">送检项目：</span>
+     <select class="select textbox_100" id="bypId">
+      <option>&nbsp;&nbsp;&nbsp;加载中</option>
+     </select>
+     <span class="item_name">送检单号：</span>
+     <input type="text" class="textbox textbox_225" id="bycfid" />
+     <input type="button" value="搜索" class="link_btn" id="button_searchByCfid" />
+     <section>
+      <table class="table" style="margin-top:10px " id="mycheckform">
+       <tr>
+        <th>检测单号</th>
+        <th>送检日期</th>
+        <th>送检类型</th>
+        <th>送检人</th>
+        <th>零件号</th>
+        <th>零件名称</th>
+        <th>检测状态</th>
+        <th style="width:150px;">操作</th>
+       </tr>
+       <tr>
+        <td>265px</td>
+        <td>内容二</td>
+        <td>内容三</td>
+        <td>内容四</td>
+        <td>内容五</td>
+        <td>内容六</td>
+        <td>内容七</td>
+        <td>
+         <a href='#' class='inner_btn' id='checkformdetail'>详情</a>
+         <a href='#' class='inner_btn' id='deleteform'>删除</a>
+        </td>
+       </tr>
+      </table>
+      <aside class="paging" id="pageTool">
+       <!-- 分页 -->
+      </aside>
+     </section>
+    </div>
+    <div class="admin_tab_cont">
+      <!-- 我的量检具 -->
+      <section>
+        <table class="table" id="mychecktools">
          <tr>
-          <th>检测单号</th>
-          <th>送检日期</th>
-          <th>送检类型</th>
-          <th>送检人</th>
-          <th>零件号</th>
-          <th>零件名称</th>
-          <th>检测状态</th>
-          <th style="width:150px;">操作</th>
+          <th>量仪编号</th>
+          <th>量仪名称</th>
+          <th>量仪规格</th>
+          <th>校验周期</th>
+          <th>使用项目</th>
+          <th>领用日期</th>
+          <th>操作</th>
          </tr>
          <tr>
-          <td style="width:265px;"><div class="cut_title ellipsis">265px宽·长标题字符串截取，仅适合单行截取，多行截取程序定义一下。1</div></td>
+          <td>定义一下</td>
           <td>内容二</td>
           <td>内容三</td>
           <td>内容四</td>
           <td>内容五</td>
           <td>内容六</td>
-          <td>内容七</td>
           <td>
            <a href='#' class='inner_btn' id='checkformdetail'>详情</a>
-           <a href='#' class='inner_btn' id='deleteform'>删除</a>
-          </td>
-         </tr>
-         <tr>
-          <td style="width:265px;"><div class="cut_title ellipsis">265px宽·长标题字符串截取，仅适合单行截取，多行截取程序定义一下。2</div></td>
-          <td>内容二</td>
-          <td>内容三</td>
-          <td>内容四</td>
-          <td>内容五</td>
-          <td>内容六</td>
-          <td>内容七</td>
-          <td>
-           <a href='#' class='inner_btn' id='checkformdetail'>详情</a>
-           <a href='#' class='inner_btn' id='deleteform'>删除</a>
-          </td>
-         </tr>
-         <tr>
-          <td style="width:265px;"><div class="cut_title ellipsis">265px宽·长标题字符串截取，仅适合单行截取，多行截取程序定义一下。3</div></td>
-          <td>内容二</td>
-          <td>内容三</td>
-          <td>内容四</td>
-          <td>内容五</td>
-          <td>内容六</td>
-          <td>内容七</td>
-          <td>
-           <a href='#' class='inner_btn' id='checkformdetail'>详情</a>
-           <a href='#' class='inner_btn' id='deleteform'>删除</a>
           </td>
          </tr>
         </table>
-        <aside class="paging" id="pageTool">
-         <!-- 分页 -->
-        </aside>
        </section>
-      </div>
-      <div class="admin_tab_cont">
-        <!-- 我的量检具 -->
-        <section>
-          <table class="table" id="mychecktools">
-           <tr>
-            <th>量仪编号</th>
-            <th>量仪名称</th>
-            <th>量仪规格</th>
-            <th>校验周期</th>
-            <th>使用项目</th>
-            <th>领用日期</th>
-            <th>操作</th>
-           </tr>
-           <tr>
-            <td>定义一下</td>
-            <td>内容二</td>
-            <td>内容三</td>
-            <td>内容四</td>
-            <td>内容五</td>
-            <td>内容六</td>
-            <td>
-             <a href='#' class='inner_btn' id='checkformdetail'>详情</a>
-            </td>
-           </tr>
-           <tr>
-            <td>定义一下</td>
-            <td>内容二</td>
-            <td>内容三</td>
-            <td>内容四</td>
-            <td>内容五</td>
-            <td>内容六</td>
-            <td>
-             <a href='#' class='inner_btn' id='checkformdetail'>详情</a>
-            </td>
-           </tr>
-           <tr>
-            <td>定义一下</td>
-            <td>内容二</td>
-            <td>内容三</td>
-            <td>内容四</td>
-            <td>内容五</td>
-            <td>内容六</td>
-            <td>
-             <a href='#' class='inner_btn' id='checkformdetail'>详情</a>
-            </td>
-           </tr>
-          </table>
-          
-         </section>
-      </div>
-      <div class="admin_tab_cont">可追加</div>
-     </section>
-    <!--结束：以下内容则可删除，仅为素材引用参考-->
+    </div>
+    <div class="admin_tab_cont">可追加</div>
+   </section>
+  <!--结束：以下内容则可删除，仅为素材引用参考-->
  </div>
 </section>
 </body>

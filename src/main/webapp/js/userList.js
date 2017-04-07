@@ -111,12 +111,17 @@ $(document).ready(function(){
 					success:function(data){
 						data = JSON.parse(data);
 						if (data.code == 1) {
-							var mychecktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪规格</th><th>效验周期</th><th>使用项目</th><th>领用日期</th><th style='width:150px;'>操作</th></tr>";
+							var mychecktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪规格</th><th>效验周期</th><th>使用项目</th><th>领用日期</th><th style='width:250px;'>操作</th></tr>";
 							data.data.forEach(function(checktool){
-								mychecktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctusestation+"</td><td>"+$.UnixToDate(checktool.ctusetime)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
+								if (checktool.ctstatus == 6) {
+									mychecktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctusestation+"</td><td>"+$.UnixToDate(checktool.ctusetime)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a><a class='inner_btn' id='confirm'>确认检测</a></td></tr>";
+								}else{
+									mychecktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctusestation+"</td><td>"+$.UnixToDate(checktool.ctusetime)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
+								}
+								
 							})
 							$('#mychecktools').html(mychecktooldata);
-		  					$(".loading_area").fadeOut();
+		  				$(".loading_area").fadeOut();
 						}else if (data.code == 0) {
 							$('#mychecktools').html("<div>没有数据</div>");
 						}else{
@@ -135,8 +140,35 @@ $(document).ready(function(){
 			$(".loading_area").fadeOut();
 		}
 	})
-	
-	
+	//	确认检测结果
+	$('#mychecktools').delegate('#confirm','click',function(){
+		var ctid = $(this).parent().parent().find("td:eq(0)").text();
+		var ctname = $(this).parent().parent().find("td:eq(1)").text();
+		$('#ctid_confirm').val(ctid)
+		$('#ctname_confirm').val(ctname)
+		$('#pop_bg_confirm').fadeIn()
+	})
+	// 提交确认结果
+	$('#toolconfirm_btn').click(function(){
+		var ctid = $('#ctid_confirm').val();
+		var ctisagree = $('#ctisagree').val()
+		var ctracceptresult = $('#ctracceptresult').val();
+		$.ajax({
+			url:'./user/updateAgreeAndAccept',
+			type:'POST',
+			data:{'ctid':ctid,'ctracceptresult':ctracceptresult,'ctisagree':ctisagree},
+			datatype:'json',
+			success:function(data){
+				data = JSON.parse(data);
+				if (data.code == 1) {
+					window.location.reload();
+				}else{
+					alert(data.msg)
+					return false;
+				}
+			}
+		})
+	})
 	//根据送检单模糊查询到自己的送检单
 	$('#button_searchByCfid').click(function(){
 		var cfid = $('#bycfid').val();
@@ -279,8 +311,8 @@ $(document).ready(function(){
 	})
 
 	// 关闭弹框
-    $("#falseBtn").click(function(){
-      $("#pop_bg_user").fadeOut();
+    $(".falseBtn").click(function(){
+      $(".pop_bg").fadeOut();
     });
 	
 	//回车提交事件
