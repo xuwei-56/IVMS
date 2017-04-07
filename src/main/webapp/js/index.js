@@ -368,7 +368,7 @@ $(document).ready(function(){
 					$('#notifymail').val(notifymail) ;
 					if (data.data.cfurgentstatus == 1 ) {
 						$('#urgentStatus').val("加急")
-						$('#urgentfile').val(data.data.urgentFile.ufname)
+						$('#urgentfile').html("<a href='./urgentFile/"+data.data.urgentFile.ufname+"'>"+data.data.urgentFile.ufname+"</a>")
 					}else{
 						$('#urgentStatus').val("普通")
 					}
@@ -394,7 +394,7 @@ $(document).ready(function(){
 						$('#cfreply').val(data.data.cfreply)
 						$('#cfreplyreport').val(data.data.cfreplyreport)
 					}
-					$('#cfreportfile').text("<a href='./"+data.data.cfreportfile+"'>"+data.data.cfreportfile+"</a>"); 
+					$('#cfreportfile').html("<a href='./"+data.data.cfreportfile+"'>"+data.data.cfreportfile+"</a>"); 
 					$('#pop_bg_user').fadeIn();
 				}else{
 					alert(data.msg)

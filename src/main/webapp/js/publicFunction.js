@@ -1,3 +1,24 @@
+$(document).ready(function(){
+  $('.quit_icon').click(function(){
+    $.ajax({
+      url:'./user/exit',
+      type:'POST',
+      data:{},
+      datatype:'json',
+      success:function(data){
+        data = JSON.parse(data);
+        if (data.code == 1) {
+          location.href="./index"
+        }else{
+          if (data.code < 0) {
+            alert(data.msg)
+          }
+          //return false;
+        }
+      }
+    })
+  })
+})
 //去除空格
 function removeAllSpace(str) {
   return str.replace(/\s+/g, "");
@@ -40,6 +61,7 @@ function getCTStatus(str){
 function getCTCycle(ctcheckcycle){
   var cycle;
   switch(ctcheckcycle){
+    case 0: cycle = "无";break;
     case 1: cycle = 3;break;
     case 2: cycle = 6;break;
     case 3: cycle = 12;break;

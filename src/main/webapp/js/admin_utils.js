@@ -46,7 +46,7 @@ function getWarehouseAdd(claid){
 	$.ajax({
     url:'./user/getWareHouseByClaid',
     type:'POST',
-    data:{'claid':claid},
+    data:{'claId':claid},
     datatype:'json',
     success:function(data){
       data = JSON.parse(data);

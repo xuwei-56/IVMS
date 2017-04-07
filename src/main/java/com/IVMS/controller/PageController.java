@@ -61,25 +61,32 @@ public class PageController {
 		return "checktoolDetail";
 	}
 	/**
-	 * 前端页面路径:检测人员登录
+	 * 前端页面路径:检测人员主页
 	 */
 	@RequestMapping("/admin_index")
 	public String adminIndex(){
-		return "admin_index";
+		return "admin/admin_index";
 	}
 	/**
 	 * 前端页面路径:检测人员检具管理
 	 */
 	@RequestMapping("/admin_tools")
 	public String adminTools(){
-		return "admin_tools";
+		return "admin/admin_tools";
 	}
 	/**
 	 * 前端页面路径:检测人员分类管理
 	 */
 	@RequestMapping("/admin_utils")
 	public String adminUtils(){
-		return "admin_utils";
+		return "admin/admin_utils";
+	}
+	/**
+	 * 前端页面路径:设备管理
+	 */
+	@RequestMapping("/equipments")
+	public String equipment(){
+		return "equipments_index";
 	}
 	/**
 	 * 获取图片验证码

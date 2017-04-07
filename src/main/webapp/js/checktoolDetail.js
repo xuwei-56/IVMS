@@ -42,13 +42,13 @@ $(document).ready(function(){
 				$('#ctstatus').text(data.data.CTStatus)
 				$('#ctremark').text(data.data.CTRemark)
 				$('#ctchecknexttime').text(CTRCheckNextTime);
-				var CTRData = "<tr><th width='5%'>测量序号</th><th>送检人</th><th>送检日期</th><th>校验人员</th><th>校验日期</th><th>校验内容/技术规范</th><th>实测值</th><th>校验仪器/工具</th><th>测量结论</th><th>是否接受</th><th>状态</th></tr>";
+				/*var CTRData = "<tr><th width='5%'>测量序号</th><th>送检人</th><th>送检日期</th><th>校验人员</th><th>校验日期</th><th>校验内容/技术规范</th><th>实测值</th><th>校验仪器/工具</th><th>测量结论</th><th>是否接受</th><th>状态</th></tr>";
 				var temp;
 				for (var i = data.data.checkingToolsRecord.length - 1; i >= 0; i--) {
 					temp = data.data.checkingToolsRecord[i];
 					CTRData += "<tr><td>"+temp.ctrid+"</td><td>"+temp.ctrmovecp+"</td><td>"+$.UnixToDate(temp.ctrmovetime)+"</td><td>"+temp.ctrcheckman+"</td><td>"+$.UnixToDate(temp.ctrchecktime)+"</td><td>"+temp.ctrcheckcontent+"</td><td>"+temp.ctrcheckvalue+"</td><td>"+temp.ctrchecktools+"</td><td>"+temp.ctrcheckresult+"</td><td>"+temp.ctracceptresult+"</td><td>"+temp.ctrremark+"</td></tr>";
 				}
-				$('#CTRTable').html(CTRData);
+				$('#CTRTable').html(CTRData);*/
 				var ctchecknexttime = "";
 				if (data.data.ctstatus == 1 ) {
 					if (data.data.checkingToolsRecord != null) {
@@ -72,17 +72,17 @@ $(document).ready(function(){
 	})
 
 	// 检具每期检测数据
-	/*$.ajax({
-		url:'./user/get',
+	$.ajax({
+		url:'./user/myCheckingToolRecords',
 		type:'POST',
-		data:{'':ctid},
+		data:{'ctid':ctid},
 		datatype:'json',
 		success:function(data){
 			data = JSON.parse(data);
 			if (data.code == 1) {
-				var CTRData = "<tr><th width='5%'>测量序号</th><th>送检人</th><th>送检日期</th><th>校验单位</th><th>校验人员</th><th>校验日期</th><th>校验内容/技术规范</th><th>实测值</th><th>校验仪器/工具</th><th>测量结论</th><th>是否接受</th><th>状态</th></tr>";
+				var CTRData = "<tr><th width='5%'>测量序号</th><th>送检人</th><th>送检日期</th><th>校验单位</th><th>校验人员</th><th>校验日期</th><th>校验内容/技术规范</th><th>实测值</th><th>校验仪器/工具</th><th>测量结论</th><th>是否接受</th><th>是否同意</th><th>状态</th></tr>";
 				for (var i = 0; i < data.data.length; i++) {
-					CTRData += "<tr><td>"+data.data[i].ctrid+"</td><td>"+data.data[i].ctrmovep+"</td><td>"+data.data[i].ctrmovetime+"</td><td>"+data.data[i].ctrcheckman+"</td><td>"+data.data[i].ctrchecktime+"</td><td>"+data.data[i].ctrcheckcontent+"</td><td>"+data.data[i].ctrcheckvalue+"</td><td>"+data.data[i].ctrchecktools+"</td><td>"+data.data[i].ctrcheckresult+"</td><td>"+data.data[i].ctracceptresult+"</td><td>"+data.data[i].ctrremark+"</td></tr>";
+					CTRData += "<tr><td>"+data.data[i].CTRId+"</td><td>"+data.data[i].CTRMoveCP+"</td><td>"+data.data[i].CTRMoveTime+"</td><td>"+data.data[i].CTRCheckMan+"</td><td>"+data.data[i].CTRCheckTime+"</td><td>"+data.data[i].CTRCheckContent+"</td><td>"+data.data[i].CTRCheckValue+"</td><td>"+data.data[i].CTRCheckTools+"</td><td>"+data.data[i].CTRCheckResult+"</td><td>"+data.data[i].CTRAcceptResult+"</td><td>"+data.data[i].CTRIsAgree+"</td><td>"+data.data[i].CTRRemark+"</td></tr>";
 				}
 				$('#CTRTable').html(CTRData);
 			}else{
@@ -90,7 +90,7 @@ $(document).ready(function(){
 				return false;
 			}
 		}
-	})*/
+	})
 
 	
 
