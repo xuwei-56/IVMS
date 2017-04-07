@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import com.IVMS.model.Equipment;
 
 public interface EquipmentDao {
-    int deleteByPrimaryKey(Integer eid);
+    int deleteEquipmentByEid(Integer eid);
 
     int insert(Equipment record);
 

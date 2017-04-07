@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.IVMS.model.EquipmentCheckTime;
 
 public interface EquipmentCheckTimeDao {
-    int deleteByPrimaryKey(Integer ectid);
+    int deleteEquipmentCheckTimeByEid(Integer eid);
 
     int insert(EquipmentCheckTime record);
 

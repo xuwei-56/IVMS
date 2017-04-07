@@ -21,8 +21,7 @@ public interface CheckingFormDao {
     
     String selectCfRemarkByCfid(String cfid);
     
-    CheckingForm mySendCheckDetails(@Param("isHaveWareHouse")String isHaveWareHouse,
-    		@Param("urgentStatus")Integer urgentStatus,@Param("cfid")String cfid);
+    CheckingForm mySendCheckDetails(@Param("cfid")String cfid);
     
     CheckingForm selectWidAndUrgentStatusByCfid(String cfid);
 

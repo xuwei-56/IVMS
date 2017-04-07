@@ -52,7 +52,7 @@
   AND e.EName=#{ename,jdbcType=VARCHAR}
   </if>
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteEquipmentByEid" parameterType="java.lang.Integer" >
     delete from equipment
     where EId = #{eid,jdbcType=INTEGER}
   </delete>

@@ -85,7 +85,7 @@
     </association>
     <association property="classify" javaType="com.IVMS.model.Classify">
     <id property="claid" column="ClaId"/>
-    <result property="cname" column="CName"/>
+    <result property="cname" column="ClaName"/>
     </association>
     <association property="checkingClassify" javaType="com.IVMS.model.CheckingClassify">
     <id property="ccid" column="CCId"/>
@@ -134,31 +134,19 @@
  cf.CFId,cf.CFMoveP,cf.CFPhoneNum,cf.CFEMail,cf.CFComponentName,cf.CFComponentId,cf.CFComponentNum,
  cf.CFCheckNum,cf.CFRemark,cf.CFStatus,cf.CFUrgentStatus,cf.CFReportFile,cf.CFTime,cf.CFReply,
  cf.CFReplyReport,cf.CFCheckMan,LName,c.CName CName,PName,cla.CName ClaName,cc.CCName CCName,
- npe.NPENotifyEmail
- <if test='isHaveWareHouse!="0"'>
-  ,wh.WId,WStatus
- </if>
- <if test="urgentStatus!= 1">
-  ,ur.UFName UFName
- </if>
+ npe.NPENotifyEmail,ur.UFName UFName,wh.WId,WStatus
  FROM 
- checkingform cf,line l,cell c,project p,classify cla,checkingclassify cc,
- notifypersonnelemail npe
- <if test='isHaveWareHouse!="0"'>
-  ,warehouse wh
- </if>
- <if test="urgentStatus!= 1">
-  ,urgentfile ur
- </if>
+ checkingform cf 
+ LEFT JOIN line l ON cf.LId=l.LId  
+ LEFT JOIN cell c ON c.CId=cf.CId
+ LEFT JOIN project p ON p.PId=cf.PId 
+ LEFT JOIN classify cla ON cla.ClaId=cf.ClaId
+ LEFT JOIN checkingclassify cc ON cc.CCId=cf.CCId
+ LEFT JOIN notifypersonnelemail npe ON cf.CFId=npe.CFId
+ LEFT JOIN urgentfile ur ON ur.CFId=cf.CFId 
+ LEFT JOIN warehouse wh ON wh.WId=cf.WId
  WHERE 
- cf.LId=l.LId AND cf.CFId=#{cfid,jdbcType=VARCHAR} AND cf.CFId=npe.CFId AND c.CId=cf.CId AND p.PId=cf.PId 
- AND cla.ClaId=cf.ClaId AND cc.CCId=cf.CCId
- <if test='isHaveWareHouse!="0"'>
- AND wh.WId=cf.WId 
- </if>
- <if test="urgentStatus!= 1">
- AND ur.CFId=cf.CFId 
- </if> 
+ cf.CFId=#{cfid,jdbcType=VARCHAR}
   </select>
   <select id="selectByUserName" resultMap="BaseResultMap1">
    SELECT CFId,CFTime,CName,CFComponentId,CFComponentName,CFStatus,CFMoveP

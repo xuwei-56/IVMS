@@ -29,4 +29,6 @@ public interface CheckingToolsFileDao {
     int updateByPrimaryKeySelective(CheckingToolsFile record);
 
     int updateByPrimaryKey(CheckingToolsFile record);
+    
+    int countCTFNameByCTId(Integer ctid);
 }

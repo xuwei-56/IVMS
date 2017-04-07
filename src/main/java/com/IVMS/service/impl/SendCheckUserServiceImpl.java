@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.annotation.Resource;
 import javax.naming.ldap.LdapContext;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -192,16 +193,16 @@ public class SendCheckUserServiceImpl implements SendCheckUserService{
 		return checkingFormDao.selectWidAndUrgentStatusByCfid(cfid);
 	}
 
-	public CheckingForm mySendCheckDetails(String isHaveWareHouse, Integer urgentStatus, String cfid) {
-		return checkingFormDao.mySendCheckDetails(isHaveWareHouse, urgentStatus, cfid);
+	public CheckingForm mySendCheckDetails(String cfid) {
+		return checkingFormDao.mySendCheckDetails(cfid);
 	}
 
 	public List<CheckingToolsFile> selectByCtid(Integer ctid) {
 		return checkingToolsFileDao.selectByCtid(ctid);
 	}
 
-	public Map<String,Object> myCheckingToolsDetails(Integer ctid, Integer isHaveCheckingToolsFile) {
-		return checkingToolsDao.myCheckingToolsDetails(ctid, isHaveCheckingToolsFile);
+	public List<Map<String,Object>> myCheckingToolsDetails(Integer ctid,Integer numberOfFile){
+		return checkingToolsDao.myCheckingToolsDetails(ctid, numberOfFile);
 	}
 
 	public int updateWStatusByWidAndClaid(String wid, Integer claid) {

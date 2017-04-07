@@ -45,6 +45,11 @@
   <select id="selectCheckingToolRecords" resultType="hashmap" parameterType="java.lang.Integer">
   SELECT * FROM checkingtoolsrecord WHERE CTId=#{ctid,jdbcType=INTEGER} ORDER BY CTRCheckTime DESC ; 
   </select>
+  <select id="selectCfIdByCtid" resultType="java.lang.String" parameterType="java.lang.Integer">
+    SELECT CTRNum 
+	FROM checkingtoolsrecord ctr,(SELECT MAX(CTRId) ctrid FROM checkingtoolsrecord GROUP BY CTId) ti
+	WHERE CTId=#{ctid,jdbcType=INTEGER} AND ctr.CTRId=ti.ctrid;
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from checkingtoolsrecord
     where CTRId = #{ctrid,jdbcType=INTEGER}

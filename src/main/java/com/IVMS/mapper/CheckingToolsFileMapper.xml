@@ -21,6 +21,9 @@
   <select id="selectCTFNameByCTId" resultType="hashmap" parameterType="java.lang.Integer" >
   SELECT CTFName FROM checkingtoolsfile WHERE CTId=#{ctid,jdbcType=INTEGER};
   </select>
+  <select id="countCTFNameByCTId" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+  SELECT count(*) FROM checkingtoolsfile WHERE CTId=#{ctid,jdbcType=INTEGER};
+  </select>
   <select id="selectByCtid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
