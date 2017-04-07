@@ -297,4 +297,8 @@ public class CheckUserServiceImpl implements CheckUserService{
 		return equipmentDao.myEquipment(eworker);
 	}
 
+	public int updateCheckingToolReceiverByCtid(String ctreceiver, Integer ctid) {
+		return checkingToolsDao.updateCheckingToolReceiverByCtid(ctreceiver, ctid);
+	}
+
 }

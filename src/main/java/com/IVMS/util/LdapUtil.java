@@ -71,7 +71,7 @@ public class LdapUtil{
 	    String searchFilter = "(&(sAMAccountName="+sAMAccountName+"))"; 
 	    String searchBase = props.getProperty("searchBase");  
 	    /*过滤之后设置想获取登录人的字段名称，用于返回对应字段的值*/
-	    String returnedAtts[] = {"description","mobile","cn","mail","department"};  
+	    String returnedAtts[] = {"description","mobile","cn","mail","department","pager"};  
 	    searchCtls.setReturningAttributes(returnedAtts);  
 	    NamingEnumeration<SearchResult> answer;
 		try {
@@ -95,6 +95,9 @@ public class LdapUtil{
 				}	
 				if (attributes.get("department") != null){
 					user.setDepartment((String)attributes.get("department").get());
+				}
+				if (attributes.get("pager") != null){
+					user.setPager((String)attributes.get("pager").get());
 				}
 		    } 
 			logger.info("user:"+user); //写入日志文件

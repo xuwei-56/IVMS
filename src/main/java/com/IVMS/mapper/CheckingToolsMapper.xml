@@ -108,7 +108,6 @@
       and CTStatus=#{CTStatus,jdbcType=INTEGER}
       </if>
     </where>
-    ORDER BY CTUseTime DESC
     LIMIT #{startRow,jdbcType=INTEGER},#{numberOfPerPage,jdbcType=INTEGER};
   </select>
   <select id="countCheckingToolsInfo" resultType="java.lang.Integer" >
@@ -396,5 +395,8 @@
   <update id="updateCheckingToolStatusByCtidAndCtStatus" >
    UPDATE checkingtools SET CTStatus=#{ctstatus,jdbcType=INTEGER} 
    WHERE CTId=#{ctid,jdbcType=INTEGER};
+  </update>
+  <update id="updateCheckingToolReceiverByCtid" >
+  UPDATE checkingtools SET CTReceiver=#{ctreceiver,jdbcType=VARCHAR} WHERE CTId=#{ctid,jdbcType=INTEGER};
   </update>
 </mapper>

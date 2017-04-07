@@ -33,7 +33,7 @@ public class AdminLoginFilter implements Filter {
 			httpResponse.sendRedirect("/login");
 			return;
 		}
-		if(!user.getDepartment().equals("QA")) {
+		if(!user.getPager().equals("2")) {
 			response.getWriter().print("您的等级不够！");
 			HttpServletResponse httpResponse=(HttpServletResponse) response;
 			httpResponse.sendRedirect("/user_index");
