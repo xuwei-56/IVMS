@@ -284,6 +284,10 @@ public class SendCheckUserController {
 		if(mySendCheckDetails==null){
 			return CommonUtil.constructResponse(0,"没有数据！",null);
 		}else{
+			if(mySendCheckDetails.getUrgentFile().getUfname()==null){
+				UrgentFile urgentFile=null;
+				mySendCheckDetails.setUrgentFile(urgentFile);
+			}
 			return CommonUtil.constructResponse(EnumUtil.OK,"我的送检详情", mySendCheckDetails);
 		}
 	}
