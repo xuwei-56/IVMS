@@ -3,6 +3,7 @@ package com.IVMS.controller;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -420,8 +421,8 @@ public class CheckUserController {
 	
 	@RequestMapping("/updateCheckingToolStatus")
 	@ResponseBody
-	public JSONObject updateCheckingToolStatus(Integer ctid,HttpSession session,Integer ctStatus,
-			String cfId) throws Exception{
+	public JSONObject updateCheckingToolStatus(Integer ctid,HttpSession session,Integer ctStatus) throws Exception{
+		String cfId=checkUserService.selectCfIdByCtid(ctid);//拿到最新订单号
 		String email=null,emailInfo=null;
 		if(ctStatus==5){//正常
 			Integer cycle=checkUserService.selectCycleByCtid(ctid);
@@ -525,11 +526,17 @@ public class CheckUserController {
 		if(Wids.isEmpty()){
 			return CommonUtil.constructResponse(0,"该送检类型没有库位！",null);
 		}else{
-			Map<String,String> letters=new HashMap<String,String>();
+			List<Warehouse> letters=new ArrayList<Warehouse>();
+			String lastWid=null;
 			for(Warehouse warehouse:Wids){
+				Warehouse wh=new Warehouse();
 				String wid=warehouse.getWid();
 				wid=wid.substring(0,2);
-				letters.put(wid, "wid");
+				if(!wid.equals(lastWid)){
+					wh.setWid(wid);
+					letters.add(wh);
+				}
+				lastWid=wid;
 			}
 			return CommonUtil.constructResponse(EnumUtil.OK,"库位信息！",letters);
 		}
@@ -573,25 +580,53 @@ public class CheckUserController {
 	
 	@RequestMapping("/addEquipment")
 	@ResponseBody
-	public JSONObject addEquipMent(Equipment equipment)
+	public JSONObject addEquipMent(HttpSession session,Equipment equipment)
 			throws Exception{
-		int resultOfAddEquipment=checkUserService.insertEquipment(equipment);
-		if(resultOfAddEquipment<=0){
-			return CommonUtil.constructResponse(0,"添加设备信息失败！",null);
+		User user = (User)session.getAttribute("user");
+		if(user.getPager().equals("1")){//设备负责人
+			int resultOfAddEquipment=checkUserService.insertEquipment(equipment);
+			if(resultOfAddEquipment<=0){
+				return CommonUtil.constructResponse(0,"添加设备信息失败！",null);
+			}else{
+				return CommonUtil.constructResponse(EnumUtil.OK, "添加设备信息成功！", null);
+			}
 		}else{
-			return CommonUtil.constructResponse(EnumUtil.OK, "添加设备信息成功！", null);
+			return CommonUtil.constructResponse(0,"你不是设备负责人，不能对设备进行添加操作！",null);
 		}
 	}
 	
 	@RequestMapping("/updateEquipment")
 	@ResponseBody
-	public JSONObject updateEquipment(Equipment equipment)
+	public JSONObject updateEquipment(HttpSession session,Equipment equipment)
 			throws Exception{
-		int resultOfUpdateEquipment=checkUserService.updateEquipment(equipment);
-		if(resultOfUpdateEquipment<=0){
-			return CommonUtil.constructResponse(0,"更新设备信息失败！",null);
+		User user = (User)session.getAttribute("user");
+		if(user.getPager().equals("1")){//设备负责人
+			int resultOfUpdateEquipment=checkUserService.updateEquipment(equipment);
+			if(resultOfUpdateEquipment<=0){
+				return CommonUtil.constructResponse(0,"更新设备信息失败！",null);
+			}else{
+				return CommonUtil.constructResponse(EnumUtil.OK, "更新设备信息成功！", null);
+			}
 		}else{
-			return CommonUtil.constructResponse(EnumUtil.OK, "更新设备信息成功！", null);
+			return CommonUtil.constructResponse(0,"你不是设备负责人，不能对设备进行更改操作！",null);
+		}
+	}
+	
+	@RequestMapping("/deleteEquipment")
+	@ResponseBody
+	public JSONObject deleteEquipment(Integer eid,HttpSession session)
+			throws Exception{
+		User user = (User)session.getAttribute("user");
+		if(user.getPager().equals("1")){//设备负责人
+			int resultOfDeleteEquipment=checkUserService.deleteEquipmentByEid(eid);
+			if(resultOfDeleteEquipment<=0){
+				return CommonUtil.constructResponse(0,"删除设备信息失败！",null);
+			}else{
+				checkUserService.deleteEquipmentCheckTimeByEid(eid);
+				return CommonUtil.constructResponse(EnumUtil.OK, "删除设备信息成功！", null);
+			}	
+		}else{
+			return CommonUtil.constructResponse(0,"你不是设备负责人，不能对设备进行删除操作！",null);
 		}
 	}
 	

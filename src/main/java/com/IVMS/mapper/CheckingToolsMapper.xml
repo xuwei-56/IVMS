@@ -71,21 +71,14 @@
    WHERE CTId=#{ctid,jdbcType=INTEGER};
   </select>
   <select id="myCheckingToolsDetails" resultType="hashmap" >
-  SELECT 
-  ct.*,ctr.CTRCheckNextTime
-  <if test="isHaveCheckingToolsFile != 0" >
-  ,ctf.CTFId,ctf.CTFName 
-  </if>
-  FROM 
-  checkingtools ct,checkingtoolsrecord  ctr
-  <if test="isHaveCheckingToolsFile != 0" >
-  ,checkingtoolsfile ctf 
-  </if>
-  WHERE ct.CTId=#{ctid,jdbcType=INTEGER} AND ct.CTId=ctr.CTId 
-  <if test="isHaveCheckingToolsFile != 0" >
-  AND ctf.CTId=ct.CTId; 
-  </if>
-  ORDER BY CTRCheckNextTime DESC LIMIT 1;
+    SELECT 
+	ct.*,ctr.CTRCheckNextTime,ctf.CTFId,ctf.CTFName 
+	FROM 
+	checkingtools ct
+	LEFT JOIN checkingtoolsrecord  ctr ON ct.CTId=ctr.CTId 
+	LEFT JOIN checkingtoolsfile ctf ON ctf.CTId=ct.CTId
+	WHERE ct.CTId=#{ctid,jdbcType=INTEGER}
+	ORDER BY CTRCheckNextTime DESC LIMIT #{numberOfFile,jdbcType=INTEGER};
   </select>
   <select id="selectByReceiver" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

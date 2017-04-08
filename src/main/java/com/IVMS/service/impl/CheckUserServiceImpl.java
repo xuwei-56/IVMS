@@ -301,4 +301,20 @@ public class CheckUserServiceImpl implements CheckUserService{
 		return checkingToolsDao.updateCheckingToolReceiverByCtid(ctreceiver, ctid);
 	}
 
+	public int deleteEquipmentByEid(Integer eid) {
+		return equipmentDao.deleteEquipmentByEid(eid);
+	}
+
+	public int deleteEquipmentCheckTimeByEid(Integer eid) {
+		return equipmentCheckTimeDao.deleteEquipmentCheckTimeByEid(eid);
+	}
+
+	public int countCTFNameByCTId(Integer ctid) {
+		return checkingToolsFileDao.countCTFNameByCTId(ctid);
+	}
+
+	public String selectCfIdByCtid(Integer ctid) {
+		return checkingToolsRecordDao.selectCfIdByCtid(ctid);
+	}
+
 }

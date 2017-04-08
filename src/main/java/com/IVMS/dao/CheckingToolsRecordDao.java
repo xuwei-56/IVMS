@@ -31,4 +31,6 @@ public interface CheckingToolsRecordDao {
     List<Map<String,Object>> selectEmailAndCheckNextTime();
     
     List<Map<String,Object>> selectCheckingToolRecords(Integer ctid);
+    
+    String selectCfIdByCtid(Integer ctid);
 }

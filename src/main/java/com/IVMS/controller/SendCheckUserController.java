@@ -273,15 +273,14 @@ public class SendCheckUserController {
 	@RequestMapping("/myCheckingFormDetails")
 	@ResponseBody
 	public JSONObject myCheckingFormDetails(String cfid) throws Exception {
-		//修改
-		CheckingForm checkingForm=sendCheckUserService.selectWidAndUrgentStatusByCfid(cfid);
-		int urgentStatus=checkingForm.getCfurgentstatus();
-		String isHaveWareHouse=checkingForm.getWid();
-		/**
-		 * 如果urgentStaus==1，为正常送检，不联合urgentfile表进行查询
-		 * 如果isHaveWareHouse==“0”，不联系和warehouse表进行查询
-		 */
-		CheckingForm mySendCheckDetails=sendCheckUserService.mySendCheckDetails(isHaveWareHouse, urgentStatus,cfid);
+//		CheckingForm checkingForm=sendCheckUserService.selectWidAndUrgentStatusByCfid(cfid);
+//		int urgentStatus=checkingForm.getCfurgentstatus();
+//		String isHaveWareHouse=checkingForm.getWid();
+//		/**
+//		 * 如果urgentStaus==1，为正常送检，不联合urgentfile表进行查询
+//		 * 如果isHaveWareHouse==“0”，不联系和warehouse表进行查询
+//		 */
+		CheckingForm mySendCheckDetails=sendCheckUserService.mySendCheckDetails(cfid);
 		if(mySendCheckDetails==null){
 			return CommonUtil.constructResponse(0,"没有数据！",null);
 		}else{
@@ -305,13 +304,12 @@ public class SendCheckUserController {
 	@RequestMapping("/myCheckingToolsDetails")
 	@ResponseBody
 	public JSONObject myCheckingToolsDetails(Integer ctid) throws Exception {
-		Integer isHaveCheckingToolsFile=1;
-		List<CheckingToolsFile>myCheckingToolsFile=sendCheckUserService.selectByCtid(1);
-		if(myCheckingToolsFile==null||myCheckingToolsFile.isEmpty()){
-			isHaveCheckingToolsFile=0;
+		Integer numberOfCheckingToolFile=checkUserService.countCTFNameByCTId(ctid);
+		if(numberOfCheckingToolFile==0){
+			numberOfCheckingToolFile=1;
 		}
-		Map<String,Object> myCheckingToolsDetails=sendCheckUserService.myCheckingToolsDetails(1, 
-				isHaveCheckingToolsFile);
+		List<Map<String,Object>> myCheckingToolsDetails=sendCheckUserService.myCheckingToolsDetails(ctid, 
+				numberOfCheckingToolFile);
 		if(myCheckingToolsDetails==null){
 			return CommonUtil.constructResponse(0,"没有数据！",null);
 		}else{
@@ -341,6 +339,19 @@ public class SendCheckUserController {
 		}
 		else{
 			return CommonUtil.constructResponse(EnumUtil.UNKOWN_ERROR,"删除失败！",null);
+		}
+	}
+	
+	@RequestMapping("/judgeCtidAndGetCTName")
+	@ResponseBody
+	public JSONObject judgeCtid(Integer ctid,HttpServletRequest request){
+		CheckingTools checkingtools=checkUserService.judgeCtidIsAlreadyExist(ctid);//判断检具是否已经存在
+		if(checkingtools==null){
+			return CommonUtil.constructResponse(0,"此检具号不存在，请重新输入",null);
+		}else{
+			CheckingTools checkingTool=checkUserService.selectCheckingToolByCtid(ctid);
+			String ctname=checkingTool.getCtname();
+			return CommonUtil.constructResponse(0,"此检具号存在，合法输入",ctname);
 		}
 	}
 	

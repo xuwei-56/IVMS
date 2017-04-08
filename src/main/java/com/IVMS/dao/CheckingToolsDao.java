@@ -37,8 +37,8 @@ public interface CheckingToolsDao {
     
     List<CheckingTools> selectByReceiver(String receiver);
     
-    Map<String,Object> myCheckingToolsDetails(@Param("ctid")Integer ctid,
-    		@Param("isHaveCheckingToolsFile")Integer isHaveCheckingToolsFile);
+    List<Map<String,Object>> myCheckingToolsDetails(@Param("ctid")Integer ctid,
+    		@Param("numberOfFile")Integer numberOfFile);
     
     List<CheckingTools> checkingToolsInfo(@Param("CTUseItem")String CTUseItem,@Param("CTStatus")Integer CTStatus,
     		@Param("startRow")Integer startRow,@Param("numberOfPerPage")Integer numberOfPerPage);

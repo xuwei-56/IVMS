@@ -141,4 +141,12 @@ public interface CheckUserService {
     List<Map<String,Object>> myEquipment(String eworker);
     
     int updateCheckingToolReceiverByCtid(String ctreceiver,Integer ctid);
+    
+    int deleteEquipmentByEid(Integer eid);
+    
+    int deleteEquipmentCheckTimeByEid(Integer eid);
+    
+    int countCTFNameByCTId(Integer ctid);
+    
+    String selectCfIdByCtid(Integer ctid);
 }

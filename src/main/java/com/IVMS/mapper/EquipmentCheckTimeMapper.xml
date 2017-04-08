@@ -16,9 +16,9 @@
     from equipmentchecktime
     where EId = #{eid,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteEquipmentCheckTimeByEid" parameterType="java.lang.Integer" >
     delete from equipmentchecktime
-    where ECTId = #{ectid,jdbcType=INTEGER}
+    where EId = #{eid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.IVMS.model.EquipmentCheckTime" >
     insert into equipmentchecktime (ECTId, EId, ECTime, 
