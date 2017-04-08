@@ -368,7 +368,9 @@ $(document).ready(function(){
 					$('#notifymail').val(notifymail) ;
 					if (data.data.cfurgentstatus == 1 ) {
 						$('#urgentStatus').val("加急")
-						$('#urgentfile').html("<a href='./urgentFile/"+data.data.urgentFile.ufname+"'>"+data.data.urgentFile.ufname+"</a>")
+						if (data.data.urgentFile != null ) {
+							$('#urgentfile').html("<a href='./urgentFile/"+data.data.urgentFile.ufname+"'>"+data.data.urgentFile.ufname+"</a>")
+						};
 					}else{
 						$('#urgentStatus').val("普通")
 					}
@@ -394,7 +396,9 @@ $(document).ready(function(){
 						$('#cfreply').val(data.data.cfreply)
 						$('#cfreplyreport').val(data.data.cfreplyreport)
 					}
-					$('#cfreportfile').html("<a href='./"+data.data.cfreportfile+"'>"+data.data.cfreportfile+"</a>"); 
+					if (data.data.cfreportfile != 0) {
+						('#cfreportfile').html("<a href='./cfreportfile/"+data.data.cfreportfile+"'>"+data.data.cfreportfile+"</a>"); 
+					};
 					$('#pop_bg_user').fadeIn();
 				}else{
 					alert(data.msg)
