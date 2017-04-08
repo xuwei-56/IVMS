@@ -54,6 +54,29 @@ function getCTStatus(str){
     case 2:status = "维修"; break;
     case 3:status = "封存"; break;
     case 4:status = "报废"; break;
+    case 5:status = "正常"; break;
+    case 6:status = "未确认"; break;
+    default:status = "未知状态";break;
+  }
+  return status;
+}
+//是否同意检具检测结果
+function getIsAgree(str){
+  var status = "";
+  switch(str){
+    case 0:status = "同意";break;
+    case 1:status = "不同意";break;
+    default:status = "未确认";break;
+  }
+  return status;
+}
+//是否接受检具检测结果
+function getAccept(str){
+  var status = "";
+  switch(str){
+    case 0:status = "接受";break;
+    case 1:status = "不接受";break;
+    default:status = "未确认";break;
   }
   return status;
 }
@@ -312,7 +335,7 @@ function getCellNames(lid){
     success:function(data){
       data = JSON.parse(data);
       if (data.code == 1) {
-        var CellNames = "<option></option>";
+        var CellNames = "";
         for (var i = 0; i < data.data.length; i++) {
           CellNames += "<option value="+data.data[i].cid+">"+data.data[i].cname+"</option>";
         }

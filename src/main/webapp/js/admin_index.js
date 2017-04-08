@@ -232,7 +232,9 @@ $(document).ready(function(){
 					$('#notifymail_detail').val(notifymail) ;
 					if (data.data.cfurgentstatus == 1 ) {
 						$('#urgentStatus_detail').val("加急")
-						$('#urgentfile_detail').html("<a href='./urgentFile/"+data.data.urgentFile.ufname+"'>"+data.data.urgentFile.ufname+"</a>")
+						if (data.data.urgentFile != null ) {
+							$('#urgentfile_detail').html("<a href='./urgentFile/"+data.data.urgentFile.ufname+"'>"+data.data.urgentFile.ufname+"</a>")
+						};
 					}else{
 						$('#urgentStatus_detail').val("普通")
 					}
@@ -258,6 +260,9 @@ $(document).ready(function(){
 						$('#cfreply_detail').val(data.data.cfreply)
 						$('#cfreplyreport_detail').val(data.data.cfreplyreport)
 					}
+					if (data.data.cfreportfile != 0) {
+						('#cfreportfile_detail').html("<a href='./cfreportfile/"+data.data.cfreportfile+"'>"+data.data.cfreportfile+"</a>"); 
+					};
 					$('#cfreportfile_detail').html("<a href='./cfreportfile/"+data.data.cfreportfile+"'>"+data.data.cfreportfile+"</a>"); 
 					$('#pop_bg_user').fadeIn();
 				}else{

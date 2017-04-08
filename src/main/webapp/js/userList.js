@@ -267,21 +267,16 @@ $(document).ready(function(){
 					$('#notifymail').val(notifymail) ;
 					if (data.data.cfurgentstatus == 1 ) {
 						$('#urgentStatus').val("加急")
-						$('#urgentfile').val(data.data.urgentFile.ufname)
+						if (data.data.urgentFile != null ) {
+							$('#urgentfile').html("<a href='./urgentFile/"+data.data.urgentFile.ufname+"'>"+data.data.urgentFile.ufname+"</a>")
+						};
 					}else{
 						$('#urgentStatus').val("普通")
 					}
 					/*$('#urgentStatus').val(data.data.cfurgentstatus);*/
 					$('#cCId').val(data.data.checkingClassify.ccname)
 					$('#time').val($.UnixToDate(data.data.cftime));
-					var status = "";
-					switch(data.data.cfstatus){
-						case 0:status = "未打印凭证";break;
-						case 1:status = "待检"; break;
-						case 2:status = "检测中"; break;
-						case 3:status = "检验完毕"; break;
-					}
-					$('#cfstatus').val(status)
+					$('#cfstatus').val(getStatus(data.data.cfstatus))
 					$('#lId').val(data.data.line.lname);
 					$('#cId').val(data.data.cell.cname);
 					$('#pId').val(data.data.project.pname);
@@ -299,8 +294,10 @@ $(document).ready(function(){
 					if (data.data.claid == 2) {
 						$('#cfreply').val(data.data.cfreply)
 						$('#cfreplyreport').val(data.data.cfreplyreport)
-					} 
-					$('#cfreportfile').html("<a href='./"+data.data.cfreportfile+"'>"+data.data.cfreportfile+"</a>")
+					}
+					if (data.data.cfreportfile != 0) {
+						('#cfreportfile').html("<a href='./cfreportfile/"+data.data.cfreportfile+"'>"+data.data.cfreportfile+"</a>"); 
+					};
 					$('#pop_bg_user').fadeIn();
 				}else{
 					alert(data.msg)

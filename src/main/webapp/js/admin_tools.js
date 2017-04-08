@@ -83,7 +83,7 @@ $(document).ready(function(){
     success:function(data){
       data = JSON.parse(data);
       if (data.code == 1) {
-        var department = "<option></option>";
+        var department = "<option value=''>请选择部门</option>";
         for (var i = 0; i < data.data.length; i++) {
           department += "<option value="+data.data[i]+">"+data.data[i]+"</option>"
         }
@@ -117,12 +117,31 @@ $(document).ready(function(){
 			}
 		})
 	})
-	$('#departmentName').change(function(){
-		var department = $('#departmentName').val();
+	$('#bydepartmentname').change(function(){
+		var department = $('#bydepartmentname').val();
 		if (department == null || department == "") {
 			return false;
 		}
-		getUserInfoByDepartment(department);
+		$.ajax({
+	    url:'./user/getUserInfoByDepartment',
+	    type:'POST',
+	    data:{'department':department},
+	    datatype:'json',
+	    success:function(data){
+	      data = JSON.parse(data);
+	      if (data.code == 1) {
+	        var user = "";
+	        /*console.log(userData)*/
+	        for (var i = 0; i < data.data.length; i++) {
+	          user += "<option value="+data.data[i].mail+">"+data.data[i].cn+"</option>";
+	        }
+	        $('#ctuser').html(user);
+	      }else{
+	        alert(data.msg)
+	        //return false;
+	      }
+	    }
+	  })
 	})
 	// 提交认领人
 	$('#tooluseconfirm_btn').click(function(){
