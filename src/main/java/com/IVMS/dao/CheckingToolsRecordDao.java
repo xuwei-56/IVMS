@@ -16,7 +16,7 @@ public interface CheckingToolsRecordDao {
 
     int insertCheckingToolsRecord(CheckingToolsRecord record);
 
-    CheckingToolsRecord selectByPrimaryKey(Integer ctrid);
+    CheckingToolsRecord selectCheckingToolRecordByCtrid(Integer ctrid);
 
     int updateCheckingToolResultByCtrid(CheckingToolsRecord checkingToolsRecord);
 
@@ -33,4 +33,6 @@ public interface CheckingToolsRecordDao {
     List<Map<String,Object>> selectCheckingToolRecords(Integer ctid);
     
     String selectCfIdByCtid(Integer ctid);
+    
+    Integer selectMaxCtrIdByCtid(Integer ctid);
 }

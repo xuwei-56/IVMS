@@ -31,7 +31,7 @@
     CTRId, CTId, CTRNum, CTRMoveCP, CTRMoveTime, CTRCheckTIme, CTRCheckNextTime, CTRCheckContent, 
     CTRCheckValue, CTRCheckTools, CTRCheckResult, CTRAcceptResult, CTRRemark,CTRCheckMan,CTIsAgree
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectCheckingToolRecordByCtrid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from checkingtoolsrecord
@@ -49,6 +49,11 @@
     SELECT CTRNum 
 	FROM checkingtoolsrecord ctr,(SELECT MAX(CTRId) ctrid FROM checkingtoolsrecord GROUP BY CTId) ti
 	WHERE CTId=#{ctid,jdbcType=INTEGER} AND ctr.CTRId=ti.ctrid;
+  </select>
+  <select id="selectMaxCtrIdByCtid" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+	SELECT ti.ctrid
+	FROM (SELECT CTId,MAX(CTRId) ctrid FROM checkingtoolsrecord GROUP BY CTId) ti
+	WHERE ti.CTId=#{ctid,jdbcType=INTEGER};
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from checkingtoolsrecord

@@ -23,6 +23,7 @@ import com.IVMS.dao.NotifyPersonnelEmailDao;
 import com.IVMS.dao.ProjectDao;
 import com.IVMS.dao.WarehouseDao;
 import com.IVMS.model.CheckingTools;
+import com.IVMS.model.CheckingToolsFile;
 import com.IVMS.model.CheckingToolsRecord;
 import com.IVMS.model.Equipment;
 import com.IVMS.model.EquipmentCheckTime;
@@ -317,4 +318,16 @@ public class CheckUserServiceImpl implements CheckUserService{
 		return checkingToolsRecordDao.selectCfIdByCtid(ctid);
 	}
 
+	public List<CheckingToolsFile> selectCtFilesByCtid(Integer ctid) {
+		return checkingToolsFileDao.selectCtFilesByCtid(ctid);
+	}
+
+	public Integer selectMaxCtrIdByCtid(Integer ctid) {
+		return checkingToolsRecordDao.selectMaxCtrIdByCtid(ctid);
+	}
+
+	public CheckingToolsRecord selectCheckingToolRecordByCtrid(Integer ctrid) {
+		return checkingToolsRecordDao.selectCheckingToolRecordByCtrid(ctrid);
+	}
+	
 }

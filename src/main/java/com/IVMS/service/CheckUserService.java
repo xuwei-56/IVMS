@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.IVMS.model.CheckingForm;
 import com.IVMS.model.CheckingTools;
+import com.IVMS.model.CheckingToolsFile;
 import com.IVMS.model.CheckingToolsRecord;
 import com.IVMS.model.Equipment;
 import com.IVMS.model.EquipmentCheckTime;
@@ -149,4 +150,10 @@ public interface CheckUserService {
     int countCTFNameByCTId(Integer ctid);
     
     String selectCfIdByCtid(Integer ctid);
+    
+    List<CheckingToolsFile> selectCtFilesByCtid(Integer ctid);
+    
+    Integer selectMaxCtrIdByCtid(Integer ctid);
+    
+    CheckingToolsRecord selectCheckingToolRecordByCtrid(Integer ctrid);
 }

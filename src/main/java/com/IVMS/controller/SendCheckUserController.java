@@ -304,16 +304,22 @@ public class SendCheckUserController {
 	@RequestMapping("/myCheckingToolsDetails")
 	@ResponseBody
 	public JSONObject myCheckingToolsDetails(Integer ctid) throws Exception {
-		Integer numberOfCheckingToolFile=checkUserService.countCTFNameByCTId(ctid);
-		if(numberOfCheckingToolFile==0){
-			numberOfCheckingToolFile=1;
-		}
-		List<Map<String,Object>> myCheckingToolsDetails=sendCheckUserService.myCheckingToolsDetails(ctid, 
-				numberOfCheckingToolFile);
+		Map<String,Object> myCheckingToolsDetails=sendCheckUserService.myCheckingToolsDetails(ctid);
 		if(myCheckingToolsDetails==null){
 			return CommonUtil.constructResponse(0,"没有数据！",null);
 		}else{
 			return CommonUtil.constructResponse(EnumUtil.OK,"我的检具详情",myCheckingToolsDetails);
+		}
+	}
+	
+	@RequestMapping("/myCheckingToolsFiles")
+	@ResponseBody
+	public JSONObject myCheckingToolsFiles(Integer ctid) throws Exception {
+		List<CheckingToolsFile> myCheckingToolsFiles=checkUserService.selectCtFilesByCtid(ctid);
+		if(myCheckingToolsFiles.isEmpty()){
+			return CommonUtil.constructResponse(0,"没有附件！",null);
+		}else{
+			return CommonUtil.constructResponse(EnumUtil.OK,"我的检具附件",myCheckingToolsFiles);
 		}
 	}
 	
