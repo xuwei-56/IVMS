@@ -22,7 +22,7 @@ public interface CheckingToolsFileDao {
     
     List<Map<String,Object>> selectCTFNameByCTId(Integer ctid);
 
-    CheckingToolsFile selectByPrimaryKey(Integer ctfid);
+    List<CheckingToolsFile> selectCtFilesByCtid(Integer ctid);
     
     List<CheckingToolsFile>selectByCtid(Integer ctid);
 

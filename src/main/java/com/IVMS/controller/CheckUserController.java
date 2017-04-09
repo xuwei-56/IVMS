@@ -325,6 +325,7 @@ public class CheckUserController {
 			}else{
 				emailInfo="报废";
 			}
+			checkUserService.updateCheckingToolStatusByCtidAndCtStatus(6, ctid);//确认签字
 		}else{
 			/*
 			 * 检具正常或维修，录入下次校验时间,检具正常时修改送检单状态，检具维修时不修改送检单状态
@@ -351,8 +352,10 @@ public class CheckUserController {
 				sendCheckUserService.insertCopySendEmail(notifyPersonnelEmail);
 				checkUserService.updateCfStatusToCheckOver(cfid);
 				emailInfo="正常";
+				checkUserService.updateCheckingToolStatusByCtidAndCtStatus(6, ctid);//确认签字
 			}else{
 				emailInfo="维修中";
+				checkUserService.updateCheckingToolStatusByCtidAndCtStatus(ctStatus, ctid);//维修
 			}
 		}
 		checkingToolsRecord.setCtrremark(ctStatus);	
@@ -361,8 +364,6 @@ public class CheckUserController {
 		if(resultOfAddCheckingToolInfo<=0){
 			return CommonUtil.constructResponse(0,"添加检具检测记录失败！",null);
 		}else{
-			//更新检具状态
-			checkUserService.updateCheckingToolStatusByCtidAndCtStatus(ctStatus, ctid);
 			/**
 			 * 发送邮箱
 			 */
@@ -392,6 +393,11 @@ public class CheckUserController {
 			calendar.setTime(new Date());
 			calendar.add(Calendar.MONTH,cycle);
 			Date nextCheckTime=calendar.getTime();//得到检具下次检验时间
+			CheckingToolsRecord record=new CheckingToolsRecord();
+			record.setCtid(ctid);
+			record.setCtrchecktime(new Date());
+			record.setCtrchecknexttime(nextCheckTime);
+			checkUserService.insertCheckingToolsRecord(record);
 			String username=(String) session.getAttribute("username");
 			String password=(String) session.getAttribute("password");
 			String email=checkUserService.getEmailByCn(username, password,ctreceiver);//得到领用人邮箱
@@ -408,13 +414,22 @@ public class CheckUserController {
 	
 	@RequestMapping("/updateAgreeAndAccept")
 	@ResponseBody
-	public JSONObject updateAgreeAndAccept(Integer ctrid, Integer ctracceptresult, Integer ctisagree)
+	public JSONObject updateAgreeAndAccept(Integer ctid, Integer ctracceptresult, Integer ctisagree)
 			throws Exception{
+		Integer ctrid=checkUserService.selectMaxCtrIdByCtid(ctid);
 		Integer resultOfUpdateAgreeAndAccept=checkUserService.updateAcceptAndAgreeByCtrid
 				(ctrid, ctracceptresult, ctisagree);
 		if(resultOfUpdateAgreeAndAccept<=0){
 			return CommonUtil.constructResponse(0,"更新接收和确认信息失败！",null);
 		}else{
+			CheckingToolsRecord checkingToolsRecord=checkUserService.
+					selectCheckingToolRecordByCtrid(ctrid);
+			Integer status=checkingToolsRecord.getCtrremark();
+			if(status==2){//维修
+				checkUserService.updateCheckingToolStatusByCtidAndCtStatus(5, ctid);//更改状态为正常
+			}else{
+				checkUserService.updateCheckingToolStatusByCtidAndCtStatus(status, ctid);
+			}
 			return CommonUtil.constructResponse(EnumUtil.OK, "更新接收和确认信息成功！",null);
 		}
 	}
@@ -447,11 +462,14 @@ public class CheckUserController {
 			notifyPersonnelEmail.setNpenotifytime(nextCheckTime);
 			notifyPersonnelEmail.setNpestyle(1);
 			sendCheckUserService.insertCopySendEmail(notifyPersonnelEmail);
+			checkUserService.updateCheckingToolStatusByCtidAndCtStatus(6, ctid);//确认签字
 		}else{
 			if(ctStatus==3){
 				emailInfo="封存";
+				checkUserService.updateCheckingToolStatusByCtidAndCtStatus(6, ctid);//确认签字
 			}else{
 				emailInfo="报废";
+				checkUserService.updateCheckingToolStatusByCtidAndCtStatus(6, ctid);//确认签字
 			}
 		}
 		Integer resultOfUpdateCheckingToolStatus=checkUserService.
@@ -580,7 +598,7 @@ public class CheckUserController {
 	
 	@RequestMapping("/addEquipment")
 	@ResponseBody
-	public JSONObject addEquipMent(HttpSession session,Equipment equipment)
+	public JSONObject addEquipMent(HttpSession session,Equipment equipment,Date date)
 			throws Exception{
 		User user = (User)session.getAttribute("user");
 		if(user.getPager().equals("1")){//设备负责人
@@ -588,6 +606,30 @@ public class CheckUserController {
 			if(resultOfAddEquipment<=0){
 				return CommonUtil.constructResponse(0,"添加设备信息失败！",null);
 			}else{
+				Integer equipmentCycle=equipment.getEcheckcycle();
+				String worker=equipment.getEworker();//得到负责人
+				Calendar calendar=Calendar.getInstance();
+				calendar.setTime(date);
+				calendar.add(Calendar.MONTH,equipmentCycle);
+				Date nextCheckTime=calendar.getTime();//得到设备下次检验时间
+				EquipmentCheckTime equipmentCheckTime=new EquipmentCheckTime();
+				equipmentCheckTime.setEid(equipment.getEid());
+				equipmentCheckTime.setEcnexttime(nextCheckTime);
+				equipmentCheckTime.setEctime(date);
+				checkUserService.insertEquipmentCheckTime(equipmentCheckTime);
+				/**
+				 * 添加到通知邮箱表中
+				 */
+				String username=(String) session.getAttribute("username");
+				String password=(String) session.getAttribute("password");
+				String email=checkUserService.getEmailByCn(username, password,worker);//得到领用人邮箱
+				NotifyPersonnelEmail notifyPersonnelEmail=new NotifyPersonnelEmail();
+				if(email!=null){
+					notifyPersonnelEmail.setNpenotifyemail(email);
+				}
+				notifyPersonnelEmail.setNpenotifytime(nextCheckTime);
+				notifyPersonnelEmail.setNpestyle(2);
+				sendCheckUserService.insertCopySendEmail(notifyPersonnelEmail);
 				return CommonUtil.constructResponse(EnumUtil.OK, "添加设备信息成功！", null);
 			}
 		}else{

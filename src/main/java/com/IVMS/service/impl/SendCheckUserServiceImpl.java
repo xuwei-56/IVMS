@@ -31,6 +31,7 @@ import com.IVMS.model.CheckingForm;
 import com.IVMS.model.CheckingFormCustom;
 import com.IVMS.model.CheckingTools;
 import com.IVMS.model.CheckingToolsFile;
+import com.IVMS.model.CheckingToolsRecord;
 import com.IVMS.model.Classify;
 import com.IVMS.model.Line;
 import com.IVMS.model.NotifyPersonnelEmail;
@@ -201,8 +202,8 @@ public class SendCheckUserServiceImpl implements SendCheckUserService{
 		return checkingToolsFileDao.selectByCtid(ctid);
 	}
 
-	public List<Map<String,Object>> myCheckingToolsDetails(Integer ctid,Integer numberOfFile){
-		return checkingToolsDao.myCheckingToolsDetails(ctid, numberOfFile);
+	public Map<String,Object> myCheckingToolsDetails(Integer ctid){
+		return checkingToolsDao.myCheckingToolsDetails(ctid);
 	}
 
 	public int updateWStatusByWidAndClaid(String wid, Integer claid) {
@@ -215,5 +216,6 @@ public class SendCheckUserServiceImpl implements SendCheckUserService{
 
 	public int insertCheckingToolsRecord(String cfid, String cfmovep, Integer cfcomponentid, Date cftime) {
 		return checkingFormDao.insertCheckingToolsRecord(cfid, cfmovep, cfcomponentid, cftime);
-	}	
+	}
+
 }
