@@ -260,6 +260,28 @@ $(document).ready(function(){
   //  获取检具详情可更改
   $('#cttable').delegate('#updateTool','click',function(){
 		var ctid = $(this).parent().parent().find("td:eq(0)").text();
+		// 获取检具附件
+		$.ajax({
+			url:'./user/myCheckingToolsFiles',
+			type:'POST',
+			cache:false,
+			data:{'ctid':ctid},
+			datatype:'json',
+			success:function(data){
+				data = JSON.parse(data);
+				if (data.code == 1) {
+					var filedata = "";
+					var filename  = "";
+					data.data.forEach(function(file){
+						filename = file.ctfname.substr(file.ctfname.lastIndexOf('_')+1)//获取最后一个下滑线之后的字符串
+						filedata += "<li><span style='display:none;'>"+file.cifid+"</span><span>"+ filename +"</span><a id='deletefile'>删除</a></li>"
+					})
+					$('#upload_file').html(filedata);
+				}else if(data.code == 0){
+					$('#upload_file').html(data.msg);
+				}
+			}
+		})
 		// 检具履历
 		$.ajax({
 			url:'./user/myCheckingToolsDetails',
@@ -286,12 +308,6 @@ $(document).ready(function(){
 					$('#ctchecktemperature_update').val(data.data.CTCheckTemperature)
 					$('#ctcheckhumidiry_update').val(data.data.CTCheckHumidiry)
 					$('#ctremark_update').val(data.data.CTRemark)
-					/*var fileUrl = "";
-					for (var i = data.data.checkingToolsFile.length - 1; i >= 0; i--) {
-						temp = data.data.checkingToolsFile[i]
-						fileUrl += "<li><a href='./file/"+temp.ctfname+"' id='fileUrlA'>"+temp.ctfname+"</a></li>"
-					}
-					$('#CTFileList_ul').html(fileUrl)*/
 					$('#pop_bg_updateTool').fadeIn();
 				}else{
 					alert(data.msg)
@@ -300,6 +316,27 @@ $(document).ready(function(){
 			}
 		})
   })
+	// 删除附件
+	$('#pop_bg_updateTool').delegate('#upload_file','click',function(){
+		var ctfid = $(this).parent().find("span:eq(0)").text();
+		$.ajax({
+			url:'./user/deleteCheckingToolFile',
+			type:'POST',
+			cache:false,
+			data:{'ctfid':ctfid},
+			datatype:'json',
+			success:function(data){
+				data = JSON.parse(data);
+				if (data.code == 1) {
+					alert("删除附件成功！");
+					$(this).parent().remove();
+					
+				}else if(data.code == 0){
+					$('#upload_file').html(data.msg);
+				}
+			}
+		})
+	})
   // 提交修改
   $('#updatetool_btn').click(function(){
   	var ctid = $('#ctid_update').val();
@@ -550,6 +587,23 @@ $(document).ready(function(){
 				}else{
 					alert(data.msg)
 					return false;
+				}
+			}
+		})
+	})
+	// 判断量仪编号是否重复
+	$('#ctid').blur(function(){
+		var ctid = $('#ctid').val();
+		$.ajax({
+			url:'./user/judgeCtid',
+			type:'POST',
+			cache:false,
+			data:{'ctid':ctid},
+			datatype:'json',
+			success:function(data){
+				data = JSON.parse(data);
+				if (data.code == 0) {
+					alert(data.msg);
 				}
 			}
 		})

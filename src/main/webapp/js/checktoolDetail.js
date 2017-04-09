@@ -42,28 +42,7 @@ $(document).ready(function(){
 				$('#ctstatus').text(data.data.CTStatus)
 				$('#ctremark').text(data.data.CTRemark)
 				$('#ctchecknexttime').text($.UnixToDate(data.data.CTRCheckNextTime));
-				/*var CTRData = "<tr><th width='5%'>测量序号</th><th>送检人</th><th>送检日期</th><th>校验人员</th><th>校验日期</th><th>校验内容/技术规范</th><th>实测值</th><th>校验仪器/工具</th><th>测量结论</th><th>是否接受</th><th>状态</th></tr>";
-				var temp;
-				for (var i = data.data.checkingToolsRecord.length - 1; i >= 0; i--) {
-					temp = data.data.checkingToolsRecord[i];
-					CTRData += "<tr><td>"+temp.ctrid+"</td><td>"+temp.ctrmovecp+"</td><td>"+$.UnixToDate(temp.ctrmovetime)+"</td><td>"+temp.ctrcheckman+"</td><td>"+$.UnixToDate(temp.ctrchecktime)+"</td><td>"+temp.ctrcheckcontent+"</td><td>"+temp.ctrcheckvalue+"</td><td>"+temp.ctrchecktools+"</td><td>"+temp.ctrcheckresult+"</td><td>"+temp.ctracceptresult+"</td><td>"+temp.ctrremark+"</td></tr>";
-				}
-				$('#CTRTable').html(CTRData);*/
-				var ctchecknexttime = "";
-				if (data.data.ctstatus == 1 ) {
-					if (data.data.checkingToolsRecord != null) {
-						ctchecknexttime = data.data.checkingToolsRecord[0].ctrctrchecknexttime
-					} else {
-						ctchecknexttime = $.UnixToDate(data.data.ctusetime + cycle * 30 * 24 * 60 * 60 * 1000) // 这个时间是大概时间  
-					}
-				}
 				
-				var fileUrl = "";
-				for (var i = data.data.checkingToolsFile.length - 1; i >= 0; i--) {
-					temp = data.data.checkingToolsFile[i]
-					fileUrl += "<li><a href='./file/"+temp.ctfname+"' id='fileUrlA'>"+temp.ctfname+"</a></li>"
-				}
-				$('#CTFileList_ul').html(fileUrl)
 			}else{
 				alert(data.msg)
 				return false;
@@ -91,7 +70,28 @@ $(document).ready(function(){
 			}
 		}
 	})
-
+	// 获取检具附件
+	$.ajax({
+		url:'./user/myCheckingToolsFiles',
+		type:'POST',
+		cache:false,
+		data:{'ctid':ctid},
+		datatype:'json',
+		success:function(data){
+			data = JSON.parse(data);
+			if (data.code == 1) {
+				var filedata = "";
+				var filename  = "";
+				data.data.forEach(function(file){
+					filename = file.ctfname.substr(file.ctfname.lastIndexOf('_')+1)//获取最后一个下滑线之后的字符串
+					filedata += "<li><a href='./checkingtoolfile/"+file.ctfname+"' id='fileUrlA'</a>"+filename+"</li>"
+				})
+				$('#CTFileList_ul').html(filedata);
+			}else if(data.code == 0){
+				$('#CTFileList_ul').html(data.msg);
+			}
+		}
+	})
 	
 
 	$('.top_rt_btn').mouseenter(function(){
