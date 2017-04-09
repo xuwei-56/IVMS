@@ -78,6 +78,8 @@ public class SendCheckUserController {
 				String pager=user.getPager();//1为设备负责人，2为送检单校验人
 				if(pager.equals("2")){
 					return CommonUtil.constructResponse(EnumUtil.ADMIN_LOGIN, "登录用户信息", user);
+				}else if(pager.equals("1")){
+					return CommonUtil.constructResponse(EnumUtil.EQUIPMENT_LOGIN, "登录用户信息", user);
 				}else{
 					return CommonUtil.constructResponse(EnumUtil.USER_LOGIN, "登录用户信息", user);
 				}

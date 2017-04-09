@@ -172,7 +172,7 @@
          AND cf.ClaId=#{ClaId,jdbcType=INTEGER}
    </if>
    <if test="Pid != null" >
-         AND Pid=#{Pid，jdbcType=INTEGER}
+         AND Pid=#{Pid,jdbcType=INTEGER}
    </if>
    <if test="CFId != null " >
           AND CFId LIKE '${CFId}%'
