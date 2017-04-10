@@ -87,7 +87,7 @@ $(document).ready(function(){
 
 	// 获取历史检测报告
 	var count;
-	var claId = null;
+	var claid = null;
 	var pid = null
 	var cfid = null;
 	$.ajax({
@@ -230,10 +230,10 @@ $(document).ready(function(){
 						notifymail += data.data.notifyPersonnelEmail[i].npenotifyemail + ";";
 					}
 					$('#notifymail_detail').val(notifymail) ;
-					if (data.data.cfurgentstatus == 1 ) {
+					if (data.data.cfurgentstatus == 2 ) {
 						$('#urgentStatus_detail').val("加急")
 						if (data.data.urgentFile != null ) {
-							$('#urgentfile_detail').html("<a href='./urgentFile/"+data.data.urgentFile.ufname+"'>"+data.data.urgentFile.ufname+"</a>")
+							$('#urgentfile_detail').html("<a href='./urgentfile/"+data.data.urgentFile.ufname+"' download>"+data.data.urgentFile.ufname+"</a>")
 						};
 					}else{
 						$('#urgentStatus_detail').val("普通")
@@ -242,8 +242,16 @@ $(document).ready(function(){
 					$('#cCId_detail').val(data.data.checkingClassify.ccname)
 					$('#time_detail').val($.UnixToDate(data.data.cftime));
 					$('#cfstatus_detail').val(getStatus(data.data.cfstatus))
-					$('#lId_detail').val(data.data.line.lname);
-					$('#cId_detail').val(data.data.cell.cname);
+					var  lname =  "默认";
+					if (data.data.line != null) {
+						lname = data.data.line.lname
+					};
+					$('#lId_detail').val(lname);
+					var cname = "默认"
+					if (data.data.cell != null) {
+						cname = data.data.cell.cname;
+					};
+					$('#cId_detail').val(cname);
 					$('#pId_detail').val(data.data.project.pname);
 					$('#componentId_detail').val(data.data.cfcomponentid);
 					$('#componentName_detail').val(data.data.cfcomponentname);
@@ -261,9 +269,8 @@ $(document).ready(function(){
 						$('#cfreplyreport_detail').val(data.data.cfreplyreport)
 					}
 					if (data.data.cfreportfile != 0) {
-						('#cfreportfile_detail').html("<a href='./cfreportfile/"+data.data.cfreportfile+"'>"+data.data.cfreportfile+"</a>"); 
+						('#cfreportfile_detail').html("<a href='./cfreportfile/"+data.data.cfreportfile+"' download>"+data.data.cfreportfile+"</a>"); 
 					};
-					$('#cfreportfile_detail').html("<a href='./cfreportfile/"+data.data.cfreportfile+"'>"+data.data.cfreportfile+"</a>"); 
 					$('#pop_bg_user').fadeIn();
 				}else{
 					alert(data.msg)
@@ -292,6 +299,7 @@ $(document).ready(function(){
   			data = JSON.parse(data)
   			if (data.code == 1) {
   				getnormalCheckingForm1();
+  				getothersCheckingForm1()
   			}else{
   				alert(data.msg)
   			}

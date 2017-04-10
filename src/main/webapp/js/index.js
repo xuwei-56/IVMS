@@ -126,18 +126,17 @@ function getcheckingToolsInfo(requestPageNum,CTUseItem,CTStatus){
 							if(data.code == 1){
 								//getPage(data.data[0].count,1,pageSize);
 								count = parseInt(data.msg);
-								var checkformdata = "<tr><th>检测单号</th><th>送检日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
-								data.data.forEach(function(checkform){
-									checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
-				  				})
-				  				$('#cffinished').html(checkformdata);
+								data.data.forEach(function(checktool){
+									checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
+								})
+								$('#checktools').html(mychecktooldata);
 							}
 						}
 					})
 				}});
 				var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪规格</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:150px;'>操作</th></tr>";
 				data.data.forEach(function(checktool){
-					checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctusestation+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
+					checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
 				})
 				$('#checktools').html(mychecktooldata);
 			}else if (data.code == 0) {
@@ -300,7 +299,7 @@ $(document).ready(function(){
 								toolsCount = parseInt(data.msg);
 								var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪规格</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:150px;'>操作</th></tr>";
 								data.data.forEach(function(checktool){
-									checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctusestation+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
+									checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
 								})
 				  				$('#cffinished').html(checkformdata);
 							}
@@ -309,7 +308,7 @@ $(document).ready(function(){
 				}});
 				var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪规格</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:150px;'>操作</th></tr>";
 				data.data.forEach(function(checktool){
-					checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctusestation+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
+					checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
 				})
 				$('#checktools').html(checktooldata);
 			}else if (data.code == 0) {
@@ -366,10 +365,10 @@ $(document).ready(function(){
 						notifymail += data.data.notifyPersonnelEmail[i].npenotifyemail + ";";
 					}
 					$('#notifymail').val(notifymail) ;
-					if (data.data.cfurgentstatus == 1 ) {
+					if (data.data.cfurgentstatus == 2 ) {
 						$('#urgentStatus').val("加急")
 						if (data.data.urgentFile != null ) {
-							$('#urgentfile').html("<a href='./urgentFile/"+data.data.urgentFile.ufname+"'>"+data.data.urgentFile.ufname+"</a>")
+							$('#urgentfile').html("<a href='./urgentfile/"+data.data.urgentFile.ufname+"' download>"+data.data.urgentFile.ufname+"</a>")
 						};
 					}else{
 						$('#urgentStatus').val("普通")
@@ -378,8 +377,16 @@ $(document).ready(function(){
 					$('#cCId').val(data.data.checkingClassify.ccname)
 					$('#time').val($.UnixToDate(data.data.cftime));
 					$('#cfstatus').val(getStatus(data.data.cfstatus))
-					$('#lId').val(data.data.line.lname);
-					$('#cId').val(data.data.cell.cname);
+					var  lname =  "默认";
+					if (data.data.line != null) {
+						lname = data.data.line.lname
+					};
+					$('#lId').val(lname);
+					var cname = "默认"
+					if (data.data.cell != null) {
+						cname = data.data.cell.cname;
+					};
+					$('#cId').val(cname);
 					$('#pId').val(data.data.project.pname);
 					$('#componentId').val(data.data.cfcomponentid);
 					$('#componentName').val(data.data.cfcomponentname);
@@ -397,7 +404,7 @@ $(document).ready(function(){
 						$('#cfreplyreport').val(data.data.cfreplyreport)
 					}
 					if (data.data.cfreportfile != 0) {
-						('#cfreportfile').html("<a href='./cfreportfile/"+data.data.cfreportfile+"'>"+data.data.cfreportfile+"</a>"); 
+						('#cfreportfile').html("<a href='./cfreportfile/"+data.data.cfreportfile+"' download>"+data.data.cfreportfile+"</a>"); 
 					};
 					$('#pop_bg_user').fadeIn();
 				}else{
@@ -512,18 +519,18 @@ $(document).ready(function(){
 									toolsCount = parseInt(data.msg);
 									var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪规格</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:150px;'>操作</th></tr>";
 									data.data.forEach(function(checktool){
-										checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctusestation+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
+										checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
 									})
-					  				$('#cffinished').html(checkformdata);
+					  				$('#checktools').html(checkformdata);
 								}
 							}
 						})
 					}});
 					var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪规格</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:150px;'>操作</th></tr>";
 					data.data.forEach(function(checktool){
-						checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctusestation+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
+						checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
 					})
-					$('#checktools').html(mychecktooldata);
+					$('#checktools').html(checktooldata);
 				}else if (data.code == 0) {
 					$('#checktools').html("<div>没有数据</div>");
 				}else{

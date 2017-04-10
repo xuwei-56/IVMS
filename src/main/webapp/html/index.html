@@ -43,6 +43,9 @@
 <header>
  <h1><img src="images/admin_logo.png"/></h1>
  <ul class="rt_nav">
+  <li><a href="./admin_index" class="website_icon">检测</a></li>
+  <li><a href="./user_index" class="website_icon">送检</a></li>
+  <li><a href="./equipments" class="website_icon">设备</a></li>
   <li><a href="./login" class="admin_icon">登陆</a></li>
  </ul>
 </header>
@@ -67,101 +70,101 @@
        <div class="pop_cont_input">
         <ul>
          <li>
-        <h2><strong style="color:#d10529;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;送检人信息</strong></h2>
-        <dd class="item_dd_285">
-          <span class="item_name item_name_first">姓名：</span>
-          <input type="text" class="textbox textbox_100" id="moveP" disabled="true" />
-        </dd>
-        <dd class="item_dd_235">
-          <span class="item_name" >联系电话：</span>
-          <input type="text" class="textbox" id="phoneNum" disabled="true"/>
-        </dd>
-        <dd class="item_dd_335">
-          <span class="item_name" >邮箱：</span>
-          <input type="text" class="textbox textbox_225" id="mail" disabled="true"/>
-        </dd>
-       </li>
-       <li id="notifyLi">
-        <span class="item_name item_name_first" >通知邮箱抄送人：</span>
-        <textarea class="textarea" style="width:500px;height:50px;" id="notifymail" disabled="true"></textarea>
-       </li>
-       <li>
-        <h2><strong style="color:#d10529;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;送检品信息</strong></h2>
-        <dd class="item_dd_285">
-          <span class="item_name item_name_first" >送检类型：</span>
-          <input type="text" class="textbox textbox_100" id="claId" disabled="true"/>
-        </dd>
-        <dd class="item_dd_235">
-          <span class="item_name" >紧急程度：</span>
-          <input type="text" class="textbox textbox_100" id="urgentStatus" disabled="true"/>
-        </dd>
-        <dd class="item_dd_235">
-          <span class="item_name" >送检时间：</span>
-          <input type="text" class="textbox" id="time" disabled="true"/>  
-        </dd>
-        <dd class="item_dd_235">
-          <span class="item_name" >送检状态：</span>
-          <input type="text" class="textbox textbox_100" id="cfstatus" disabled="true"/> 
-        </dd>
-       </li>
-       <li>
-        <dd class="item_dd_285">
-          <span class="item_name item_name_first" >检测类型：</span>
-          <input type="text" class="textbox textbox_150" id="cCId" disabled="true"/>
-        </dd>
-        <dd class="item_dd_235">
-          <span class="item_name" >所属产线：</span>
-          <input type="text" class="textbox" id="lId" disabled="true"/>
-        </dd>
-        <dd class="item_dd_235">
-          <span class="item_name" >所属单元：</span>
-          <input type="text" class="textbox" id="cId" disabled="true"/>
-        </dd>
-        <dd class="item_dd_235">
-          <span class="item_name" >所属项目：</span>
-          <input type="text" class="textbox" id="pId" disabled="true"/>
-        </dd>
-       </li>
-       <li>
-        <span class="item_name item_name_first" >零件编号：</span>
-        <input type="text" class="textbox textbox_225" id="componentId" disabled="true"/>
-        <span class="item_name" >零件名称：</span>
-        <input type="text" class="textbox textbox_225" id="componentName" disabled="true"/>
-        <span class="item_name" >零件数量：</span>
-        <input type="text" class="textbox textbox_100" id="componentNum" disabled="true"/>
-       </li>
-       <li>
-        <dd class="item_dd_285">
-          <span class="item_name item_name_first" >放置库位：</span>
-          <input type="text" class="textbox textbox_100" id="wId" disabled="true"/> 
-        </dd>
-        <dd class="item_dd_235">
-          <span class="item_name" >送检次数：</span>
-          <input type="text" class="textbox textbox_100" id="checkNum" disabled="true"/> 
-        </dd>
-        <dd class="item_dd_285">
-          <span class="item_name">供应商名称：</span>
-          <input type="text" class="textbox textbox_150" id="cfreply" disabled="true"/>
-        </dd>
-        <dd class="item_dd_285">
-          <span class="item_name">供应商报告：</span>
-          <input type="text" class="textbox textbox_150" id="cfreplyreport" disabled="true"/>
-        </dd>
-       </li>
-       <li>
-        <span class="item_name item_name_first" >备注信息：</span>
-        <textarea placeholder="备注信息" class="textarea" style="width:500px;height:50px;" id="remark" disabled="true"></textarea>
-       </li>
-       <li>
-        <dd class="item_dd_335">
-          <span class="item_name item_name_first" >上传附件：</span>
-          <span class="item_name" id="urgentfile" ><a href="./"></a></span>
-        </dd>
-        <dd class="item_dd_335">
-          <span class="item_name item_name_first" >报告附件：</span>
-          <span class="item_name" id="cfreportfile" ><a href="./"></a></span> 
-        </dd>
-       </li>
+          <h2><strong style="color:#d10529;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;送检人信息</strong></h2>
+          <dd class="item_dd_285">
+            <span class="item_name item_name_first">姓名：</span>
+            <input type="text" class="textbox textbox_100" id="moveP" disabled="true" />
+          </dd>
+          <dd class="item_dd_235">
+            <span class="item_name" >联系电话：</span>
+            <input type="text" class="textbox" id="phoneNum" disabled="true"/>
+          </dd>
+          <dd class="item_dd_335">
+            <span class="item_name" >邮箱：</span>
+            <input type="text" class="textbox textbox_225" id="mail" disabled="true"/>
+          </dd>
+         </li>
+         <li id="notifyLi">
+          <span class="item_name item_name_first" >通知邮箱抄送人：</span>
+          <textarea class="textarea" style="width:500px;height:50px;" id="notifymail" disabled="true"></textarea>
+         </li>
+         <li>
+          <h2><strong style="color:#d10529;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;送检品信息</strong></h2>
+          <dd class="item_dd_285">
+            <span class="item_name item_name_first" >送检类型：</span>
+            <input type="text" class="textbox textbox_100" id="claId" disabled="true"/>
+          </dd>
+          <dd class="item_dd_235">
+            <span class="item_name" >紧急程度：</span>
+            <input type="text" class="textbox textbox_100" id="urgentStatus" disabled="true"/>
+          </dd>
+          <dd class="item_dd_235">
+            <span class="item_name" >送检时间：</span>
+            <input type="text" class="textbox" id="time" disabled="true"/>  
+          </dd>
+          <dd class="item_dd_235">
+            <span class="item_name" >送检状态：</span>
+            <input type="text" class="textbox textbox_100" id="cfstatus" disabled="true"/> 
+          </dd>
+         </li>
+         <li>
+          <dd class="item_dd_285">
+            <span class="item_name item_name_first" >检测类型：</span>
+            <input type="text" class="textbox textbox_150" id="cCId" disabled="true"/>
+          </dd>
+          <dd class="item_dd_235">
+            <span class="item_name" >所属产线：</span>
+            <input type="text" class="textbox" id="lId" disabled="true"/>
+          </dd>
+          <dd class="item_dd_235">
+            <span class="item_name" >所属单元：</span>
+            <input type="text" class="textbox" id="cId" disabled="true"/>
+          </dd>
+          <dd class="item_dd_235">
+            <span class="item_name" >所属项目：</span>
+            <input type="text" class="textbox" id="pId" disabled="true"/>
+          </dd>
+         </li>
+         <li>
+          <span class="item_name item_name_first" >零件编号：</span>
+          <input type="text" class="textbox textbox_225" id="componentId" disabled="true"/>
+          <span class="item_name" >零件名称：</span>
+          <input type="text" class="textbox textbox_225" id="componentName" disabled="true"/>
+          <span class="item_name" >零件数量：</span>
+          <input type="text" class="textbox textbox_100" id="componentNum" disabled="true"/>
+         </li>
+         <li>
+          <dd class="item_dd_285">
+            <span class="item_name item_name_first" >放置库位：</span>
+            <input type="text" class="textbox textbox_100" id="wId" disabled="true"/> 
+          </dd>
+          <dd class="item_dd_235">
+            <span class="item_name" >送检次数：</span>
+            <input type="text" class="textbox textbox_100" id="checkNum" disabled="true"/> 
+          </dd>
+          <dd class="item_dd_285">
+            <span class="item_name">供应商名称：</span>
+            <input type="text" class="textbox textbox_150" id="cfreply" disabled="true"/>
+          </dd>
+          <dd class="item_dd_285">
+            <span class="item_name">供应商报告：</span>
+            <input type="text" class="textbox textbox_150" id="cfreplyreport" disabled="true"/>
+          </dd>
+         </li>
+         <li>
+          <span class="item_name item_name_first" >备注信息：</span>
+          <textarea placeholder="备注信息" class="textarea" style="width:500px;height:50px;" id="remark" disabled="true"></textarea>
+         </li>
+         <li>
+          <dd class="item_dd_335">
+            <span class="item_name item_name_first" >上传附件：</span>
+            <span class="item_name" id="urgentfile" ><a href="./"></a></span>
+          </dd>
+          <dd class="item_dd_335">
+            <span class="item_name item_name_first" >报告附件：</span>
+            <span class="item_name" id="cfreportfile" ><a href="./"></a></span> 
+          </dd>
+         </li>
         </ul>
        </div>
        <!--bottom:operate->button-->

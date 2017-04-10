@@ -122,11 +122,15 @@ $(document).ready(function(){
         datatype:"json",
         success:function(data){
           data = JSON.parse(data);
-          if(data.code == 1){
+          if(data.code > 100 && data.code < 104){
             alert("登录成功！")
             $('#equipment_login').fadeOut();
             $('#login_li').hide();
             $('#logout_li').show();
+            if (data.code == 103) {
+              $('#update_equipment_btn').hide();
+              $('#update_equipment_pop input').attr('disabled');
+            }
           }else{
             alert(data.msg)
           }
@@ -166,7 +170,7 @@ $(document).ready(function(){
                 Count = parseInt(data.msg);
                 var emdata = "<tr><th>设备号</th><th>设备名</th><th>负责人</th><th>所属产线</th><th>所属单元</th><th>上次检测时间</th><th>下次检测时间</th><th style='width: 250px'>操作</th></tr>"
                 data.data.forEach(function(em){
-                  emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECTime +"</td><td>"+ em.ECNextTime +"</td><a class='inner_btn' id='comfirm_check'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a><a class='inner_btn' id='delete_equipment'>删除</a><td></td></tr>"
+                  emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><a class='inner_btn' id='comfirm_check'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a><a class='inner_btn' id='delete_equipment'>删除</a><td></td></tr>"
                 })
                 $('#emtable').html(emdata);
               }
@@ -175,7 +179,7 @@ $(document).ready(function(){
         }});
         var emdata = "<tr><th>设备号</th><th>设备名</th><th>负责人</th><th>所属产线</th><th>所属单元</th><th>上次检测时间</th><th>下次检测时间</th><th style='width: 250px'>操作</th></tr>"
         data.data.forEach(function(em){
-          emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECTime +"</td><td>"+ em.ECNextTime +"</td><a class='inner_btn' id='comfirm_check'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a><a class='inner_btn' id='delete_equipment'>删除</a><td></td></tr>"
+          emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><a class='inner_btn' id='comfirm_check'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a><a class='inner_btn' id='delete_equipment'>删除</a><td></td></tr>"
         })
         $('#emtable').html(emdata);
       }else{
@@ -348,6 +352,7 @@ $(document).ready(function(){
     var addecheckcycle = $('#checkcycle').val()
     var addcid = $('#cid').val()
     var addeworker = $('#username').val()
+    var edate = $('#edate').val();
     $.ajax({
       url:'./user/addEquipment',
       type:'POST',
@@ -367,5 +372,61 @@ $(document).ready(function(){
       }
     })
   })
-
+  //查看详情
+  $('#emtable').delegate('#updete_equipment','click',function(){
+    var eid = $(this).parent().parent().find("td:eq(0)").text();
+    var ename = $(this).parent().parent().find("td:eq(1)").text();
+    var eworker = $(this).parent().parent().find("td:eq(2)").text();
+    var lid = $(this).parent().parent().find("td:eq(3)").text();
+    var cid = $(this).parent().parent().find("td:eq(4)").text();
+    var echeckcycle = $(this).parent().parent().find("td:eq(5)").text();
+    var edate = $(this).parent().parent().find("td:eq(6)").text();
+    var nexttime = $(this).parent().parent().find("td:eq(7)").text();
+    $('#eid').val(eid);
+    $('#ename_update').val(ename);
+    $('#echeckcycle_update').val(echeckcycle);
+    if (nexttime == "" || nexttime == null) {
+      $('#edate_update').val(edate);
+    }
+    $('#lasttime').val(edate);
+    $('#nexttime').val(nexttime);
+    $('#lid_update').val(lid);
+    $('#cid_update').val(cid);
+    $('#username_update').val(eworker);
+    $('#update_equipment_pop').fadeIn();
+  })
+  // 确认修改
+  $('#update_equipment_btn').click(function(){
+    var eid =$('#eid').val();
+    var ename =$('#ename_update').val();
+    var echeckcycle = $('#echeckcycle_update').val();
+    var edate = $('#edate_update').val();
+    var cid = $('#cid_update').val();
+    var eworker = $('#username_update').val();
+    // 感觉 很恐怖的一个正则匹配
+    var reg=/^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)$/; 
+    if(!s.match(reg)){
+      alert('时间格式不对！') 
+      return false;
+    }
+    edate=$.DateToUnix(edate);
+    $.ajax({
+      url:'./user/updateEquipment',
+      type:'POST',
+      data:{'eid':eid,'ename':ename,'echeckcycle':echeckcycle,'cid':cid,'eworker':eworker,'date':edate},
+      datatype:'json',
+      success:function(data){
+        data = JSON.parse(data);
+        if (data.code == 1) {
+          alert('修改成功！')
+          window.location.reload()
+        }else{
+          if (data.code < 0) {
+            alert(data.msg)
+          }
+          //return false;
+        }
+      }
+    })
+  })
 })

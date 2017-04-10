@@ -75,7 +75,7 @@
         <input type="button" value="取消登陆" class="submit_btn" id="button_cancel" />
        </dd>
        <dd>
-        <p>© 2015-2016 重庆施耐特 版权所有</p>
+        <p>© 2015-2016 重庆耐世特 版权所有</p>
         <p></p>
        </dd>
       </dl>
@@ -93,6 +93,12 @@
               <dd class="item_dd_235">
                 <span class="item_name">检测周期：</span>
                 <input type="text" class="textbox" id="echeckcycle" placeholder="请输入整数" />
+              </dd>
+            </li>
+            <li>
+              <dd class="item_dd_235">
+                <span class="item_name">设备初始日期：</span>
+                <input type="text" class="textbox" id="edate" placeholder="日期格式2017-5-1" />
               </dd>
             </li>
             <li>
@@ -123,6 +129,69 @@
           </ul>
           <div class="btm_btn">
             <input type="button" value="确认" class="input_btn trueBtn" id="add_equipment_btn" />
+            <input type="button" value="关闭" class="input_btn falseBtn"/>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="pop_bg" id="update_equipment_pop">
+      <div class="pop_cont">
+        <h3>设备详情</h3>
+        <div class="pop_cont_input">
+          <ul>
+            <li>
+              <input type="text" style="display: none;" id="eid"></input>
+              <dd class="item_dd_235">
+                <span class="item_name">设备名称：</span>
+                <input type="text" class="textbox" id="ename_update"/>
+              </dd>
+              <dd class="item_dd_235">
+                <span class="item_name">检测周期：</span>
+                <input type="text" class="textbox" id="echeckcycle_update" placeholder="请输入整数" />
+              </dd>
+            </li>
+            <li>
+              <dd class="item_dd_235">
+                <span class="item_name">设备初始日期：</span>
+                <input type="text" class="textbox" id="edate_update" placeholder="日期格式2017-5-1" />
+              </dd>
+              <dd class="item_dd_235">
+                <span class="item_name">上次检测时间：</span>
+                <input type="text" class="textbox" id="lasttime" placeholder="日期格式2017-5-1" disabled="true" />
+              </dd>
+              <dd class="item_dd_235">
+                <span class="item_name">下次检测时间：</span>
+                <input type="text" class="textbox" id="nexttime" placeholder="日期格式2017-5-1" disabled="true" />
+              </dd>
+            </li>
+            <li>
+              <dd class="item_dd_235">
+                <span class="item_name">所属产线：</span>
+                <select class="select textbox_100" id="lid_update">
+                  <option value="0">默认</option>
+                </select>
+              </dd>
+              <dd class="item_dd_235">
+                <span class="item_name">所属单元：</span>
+                <select class="select textbox_100" id="cid_update">
+                  <option value="0">默认</option>
+                </select>
+              </dd>
+            </li>
+            <li>
+              <dd class="item_dd_335">
+                <span class="item_name">设备负责人：</span>
+                <select class="select textbox_100" id="departmentname_update">
+                  <option value="0">默认</option>
+                </select>
+                <select class="select textbox_100" id="username_update">
+                  <option value="0">默认</option>
+                </select>
+              </dd>
+            </li>
+          </ul>
+          <div class="btm_btn">
+            <input type="button" value="确认修改" class="input_btn trueBtn" id="update_equipment_btn" />
             <input type="button" value="关闭" class="input_btn falseBtn"/>
           </div>
         </div>
@@ -165,12 +234,14 @@
           <th>负责人</th>
           <th>所属产线</th>
           <th>所属单元</th>
+          <th>检测周期</th>
           <th>上次检测时间</th>
           <th>下次检测时间</th>
           <th style="width: 250px">操作</th>
         </tr>
         <tr>
           <td>11</td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
