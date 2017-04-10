@@ -479,6 +479,27 @@ $(document).ready(function(){
 		getCellNames(lid);
 	})
 
+	// 判断检具送检的零件号是否正确，正确添加检具名字到零件名称
+	$('#componentName').blur(function(){
+		var claid = $('#claId').val();
+		var ctid = $('#componentName').val();
+		if (claid == 6) {
+			$.ajax({
+		    url:'./user/judgeCtidAndGetCTName',
+		    type:'POST',
+		    data:{'ctid':ctid},
+		    datatype:'json',
+		    success:function(data){
+		      data = JSON.parse(data);
+		      if (data.code == 1) {
+		        $('#componentName').val(data.data);
+		      }else{
+		        alert(data.msg)
+		      }
+		    }
+		  })
+		}
+	})
 	// 提交
 	$('#userCheckformInput').click(function(){
 		var cfmovep = $('#moveP').val();  // 送检人

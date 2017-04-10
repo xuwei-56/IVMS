@@ -41,7 +41,10 @@ function getStatus(str){
     case 0:status = "未打印凭证";break;
     case 1:status = "待检"; break;
     case 2:status = "检测中"; break;
-    case 3:status = "检验完毕"; break;
+    case 3:status = "检验通过"; break;
+    case 4:status = "检验部分通过"; break;
+    case 5:status = "检验未通过"; break;
+    default:status = "未知状态";break;
   }
   return status;
 }
@@ -343,6 +346,42 @@ function getCellNames(lid){
       }else{
         alert(data.msg)
         //return false;
+      }
+    }
+  })
+}
+// 判断零件号是不是检具编号
+function isCheckingTool(ctid){
+  var flag = false;
+  $.ajax({
+    url:'./user/judgeCtid',
+    type:'POST',
+    data:{'ctid':ctid},
+    datatype:'json',
+    success:function(data){
+      data = JSON.parse(data);
+      if (data.code == 1) {
+        flag = true;
+      }else{
+        alert(data.msg)
+      }
+    }
+  })
+  return flag;
+}
+// 判断零件号是否合法，合法得到检具名
+function getCTNameByCtid(ctid){
+  $.ajax({
+    url:'./user/judgeCtidAndGetCTName',
+    type:'POST',
+    data:{'ctid':ctid},
+    datatype:'json',
+    success:function(data){
+      data = JSON.parse(data);
+      if (data.code == 1) {
+        $('#componentName').val(data.data);
+      }else{
+        alert(data.msg)
       }
     }
   })

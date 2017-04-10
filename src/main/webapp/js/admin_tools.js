@@ -483,6 +483,9 @@ $(document).ready(function(){
 			alert("请输入量仪管理编号！")
 			return false;
 		}
+		if (!isCheckingTool) {
+			return false;
+		}
 		var ctname = $('#ctname').val();
 		if (ctname == null || ctname == "") {
 			alert("请输入量仪名称！")
