@@ -363,7 +363,7 @@ public class SendCheckUserController {
 		}else{
 			CheckingTools checkingTool=checkUserService.selectCheckingToolByCtid(ctid);
 			String ctname=checkingTool.getCtname();
-			return CommonUtil.constructResponse(0,"此检具号存在，合法输入",ctname);
+			return CommonUtil.constructResponse(EnumUtil.OK,"此检具号存在，合法输入",ctname);
 		}
 	}
 	

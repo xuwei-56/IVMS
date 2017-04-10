@@ -192,10 +192,40 @@
           </ul>
           <div class="btm_btn">
             <input type="button" value="确认修改" class="input_btn trueBtn" id="update_equipment_btn" />
+            <input type="button" value="删除设备" class="input_btn trueBtn" id="delete_equipment_btn" />
             <input type="button" value="关闭" class="input_btn falseBtn"/>
           </div>
         </div>
       </div>
+    </section>
+    <section class="pop_bg" id="update_equipment_pop">
+     <div class="pop_cont">
+       <h3>确认检测</h3>
+       <div class="pop_cont_input">
+         <ul>
+           <li>
+            <dd class="item_dd_235">
+              <span class="item_name">设备名称：</span>
+              <input type="text" class="textbox" id="ename_confirm"/>
+            </dd>
+            <dd class="item_dd_235">
+              <span class="item_name">设备编号：</span>
+              <input type="text" class="textbox" id="eid_confirm"/>
+            </dd>
+           </li>
+           <li>
+             <dd class="item_dd_335">
+                <span class="item_name">确认检测时间：</span>
+                <input type="text" class="textbox" id="time_confirm" placeholder="日期格式2017-5-1"/>
+              </dd>
+           </li>
+         </ul>
+         <div class="btm_btn">
+            <input type="button" value="确认" class="input_btn trueBtn" id="confirm_equipment_btn" />
+            <input type="button" value="关闭" class="input_btn falseBtn"/>
+          </div>
+       </div>
+     </div> 
     </section>
     <section style="margin-top: 20px">
       <div class="page_title">
