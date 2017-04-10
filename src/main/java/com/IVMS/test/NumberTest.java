@@ -1,6 +1,9 @@
 package com.IVMS.test;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class NumberTest {
@@ -23,19 +26,29 @@ public class NumberTest {
 //	        	personnelEmail.setNpenotifyemail(email);
 //	        	System.out.println(personnelEmail);
 //		 }
-		System.out.println(1);
-		List<String>list1=new ArrayList<String>();
-		list1.add("hello");
-		list1.add("world");
-		list1.add("java");
-		
-		List<String>list2=new ArrayList<String>();
-		list2.add("123");
-		list2.add("456");
-		
-		list1.addAll(list2);
-		for(String str:list1){
-			System.out.println(str);
-		}
+//		System.out.println(1);
+//		List<String>list1=new ArrayList<String>();
+//		list1.add("hello");
+//		list1.add("world");
+//		list1.add("java");
+//		
+//		List<String>list2=new ArrayList<String>();
+//		list2.add("123");
+//		list2.add("456");
+//		
+//		list1.addAll(list2);
+//		for(String str:list1){
+//			System.out.println(str);
+//		}
+		Calendar calendar=Calendar.getInstance();
+		calendar.setTime(new Date());
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
+        String time=sdf.format(new Date());
+		System.out.println(time);
+		calendar.add(Calendar.MONTH,9);
+		Date nextCheckTime=calendar.getTime();//得到设备下次检验时间
+		sdf=new SimpleDateFormat("yyyyMMdd");
+        time=sdf.format(nextCheckTime);
+		System.out.println(time);
 	}
 }

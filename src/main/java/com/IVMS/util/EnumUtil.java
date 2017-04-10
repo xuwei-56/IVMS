@@ -52,7 +52,10 @@ public class EnumUtil {
     * 	普通人员登录
     */
    public static final int USER_LOGIN = 102;
-   
+   /**
+    * 设备负责人登录
+    */
+   public static final int EQUIPMENT_LOGIN = 103;
    /**
     * 用户密码错误
     */

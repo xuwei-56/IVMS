@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.IVMS.model.User;
 
 
-@WebFilter({ "/UserLoginFilter", "/html/user" })
+@WebFilter({ "/UserLoginFilter", "/user_index","/user_list" })
 public class UserLoginFilter implements Filter {
 	
     public UserLoginFilter() {
@@ -26,16 +26,21 @@ public class UserLoginFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
+		HttpServletResponse httpResponse=(HttpServletResponse) response;
+		httpResponse.setContentType("text/html;charset=utf-8");
+		String itemName=request.getServletContext().getContextPath();
 		User user = (User) req.getSession().getAttribute("user");
 		System.out.println(user);
 		if(user == null) {
 			response.getWriter().print("您还没有登录!");
-			HttpServletResponse httpResponse=(HttpServletResponse) response;
-			httpResponse.sendRedirect("/login");
+			String path=itemName+"/login";
+			httpResponse.setHeader("Refresh", "2;URL="+path);
 			return;
 		}
 		if(user.getPager().equals("2")){
 			response.getWriter().print("您不是送检人员，不能查看送检界面!");
+			String path=itemName+"/admin_index";
+			httpResponse.setHeader("Refresh", "2;URL="+path);
 			return;
 		}
 		chain.doFilter(request, response);

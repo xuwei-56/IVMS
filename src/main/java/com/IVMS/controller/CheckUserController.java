@@ -377,10 +377,11 @@ public class CheckUserController {
 	
 	@RequestMapping("/addCheckingToolReceiver")
 	@ResponseBody
-	public JSONObject addCheckingToolReceiver(HttpSession session,Integer ctid, String ctreceiver)
+	public JSONObject addCheckingToolReceiver(HttpSession session,Integer ctid,String ctreceiver,
+			String ctuseitem,String ctuseline,String ctusestation)
 			throws Exception{
 		Integer resultOfAddCheckingToolReceiver=checkUserService.updateCheckingToolTimeAndReceiverByCtid
-				(ctid,ctreceiver, new Date());
+				(ctid,ctreceiver, new Date(),ctuseitem,ctuseline,ctusestation);
 		if(resultOfAddCheckingToolReceiver<=0){
 			return CommonUtil.constructResponse(0,"更新检具领用人失败！",null);
 		}else{
@@ -610,7 +611,7 @@ public class CheckUserController {
 				String worker=equipment.getEworker();//得到负责人
 				Calendar calendar=Calendar.getInstance();
 				calendar.setTime(date);
-				calendar.add(Calendar.MONTH,equipmentCycle);
+				calendar.add(Calendar.DATE,equipmentCycle);
 				Date nextCheckTime=calendar.getTime();//得到设备下次检验时间
 				EquipmentCheckTime equipmentCheckTime=new EquipmentCheckTime();
 				equipmentCheckTime.setEid(equipment.getEid());
@@ -633,7 +634,7 @@ public class CheckUserController {
 				return CommonUtil.constructResponse(EnumUtil.OK, "添加设备信息成功！", null);
 			}
 		}else{
-			return CommonUtil.constructResponse(0,"你不是设备负责人，不能对设备进行添加操作！",null);
+			return CommonUtil.constructResponse(0,"你不是设备总负责人，不能对设备进行添加操作！",null);
 		}
 	}
 	
@@ -650,7 +651,7 @@ public class CheckUserController {
 				return CommonUtil.constructResponse(EnumUtil.OK, "更新设备信息成功！", null);
 			}
 		}else{
-			return CommonUtil.constructResponse(0,"你不是设备负责人，不能对设备进行更改操作！",null);
+			return CommonUtil.constructResponse(0,"你不是设备总负责人，不能对设备进行更改操作！",null);
 		}
 	}
 	
@@ -668,7 +669,7 @@ public class CheckUserController {
 				return CommonUtil.constructResponse(EnumUtil.OK, "删除设备信息成功！", null);
 			}	
 		}else{
-			return CommonUtil.constructResponse(0,"你不是设备负责人，不能对设备进行删除操作！",null);
+			return CommonUtil.constructResponse(0,"你不是设备总负责人，不能对设备进行删除操作！",null);
 		}
 	}
 	
@@ -697,31 +698,36 @@ public class CheckUserController {
 			throws Exception{
 		Equipment equipment=checkUserService.selectEquipmentByEid(eid);
 		Integer equipmentCycle=equipment.getEcheckcycle();
-		String worker=equipment.getEworker();//得到领用人
+		String worker=equipment.getEworker();//得到设备负责人
 		Calendar calendar=Calendar.getInstance();
 		calendar.setTime(ectime);
-		calendar.add(Calendar.MONTH,equipmentCycle);
+		calendar.add(Calendar.DATE,equipmentCycle);
 		Date nextCheckTime=calendar.getTime();//得到设备下次检验时间
 		EquipmentCheckTime equipmentCheckTime=new EquipmentCheckTime();
 		equipmentCheckTime.setEid(eid);
 		equipmentCheckTime.setEcnexttime(nextCheckTime);
 		equipmentCheckTime.setEctime(ectime);
-		Integer resultOfInsertEquipmentCheckTime=checkUserService.
-				insertEquipmentCheckTime(equipmentCheckTime);
-		if(resultOfInsertEquipmentCheckTime<=0){
-			return CommonUtil.constructResponse(0,"添加设备校验时间失败！",null);
-		}else{
-			String username=(String) session.getAttribute("username");
-			String password=(String) session.getAttribute("password");
-			String email=checkUserService.getEmailByCn(username, password,worker);//得到领用人邮箱
-			NotifyPersonnelEmail notifyPersonnelEmail=new NotifyPersonnelEmail();
-			if(email!=null){
-				notifyPersonnelEmail.setNpenotifyemail(email);
+		User user = (User)session.getAttribute("user");
+		if(user.getPager().equals("1")||user.getCn().equals(worker)){//设备负责人
+			Integer resultOfInsertEquipmentCheckTime=checkUserService.
+					insertEquipmentCheckTime(equipmentCheckTime);
+			if(resultOfInsertEquipmentCheckTime<=0){
+				return CommonUtil.constructResponse(0,"添加设备校验时间失败！",null);
+			}else{
+				String username=(String) session.getAttribute("username");
+				String password=(String) session.getAttribute("password");
+				String email=checkUserService.getEmailByCn(username, password,worker);//得到领用人邮箱
+				NotifyPersonnelEmail notifyPersonnelEmail=new NotifyPersonnelEmail();
+				if(email!=null){
+					notifyPersonnelEmail.setNpenotifyemail(email);
+				}
+				notifyPersonnelEmail.setNpenotifytime(nextCheckTime);
+				notifyPersonnelEmail.setNpestyle(2);
+				sendCheckUserService.insertCopySendEmail(notifyPersonnelEmail);
+				return CommonUtil.constructResponse(EnumUtil.OK, "添加设备校验时间成功！",null);
 			}
-			notifyPersonnelEmail.setNpenotifytime(nextCheckTime);
-			notifyPersonnelEmail.setNpestyle(2);
-			sendCheckUserService.insertCopySendEmail(notifyPersonnelEmail);
-			return CommonUtil.constructResponse(EnumUtil.OK, "添加设备校验时间成功！",null);
+		}else{
+			return CommonUtil.constructResponse(0, "您不是设备负责人，不能确认检测！",null);
 		}
 	}
 	

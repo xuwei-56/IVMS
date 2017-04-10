@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.IVMS.model.User;
 
 
-@WebFilter({ "/AdminLoginFilter", "/html/admin" })
+@WebFilter({ "/AdminLoginFilter", "/admin_index","/admin_tools","/admin_utils"})
 public class AdminLoginFilter implements Filter {
 
     public AdminLoginFilter() {
@@ -26,17 +26,20 @@ public class AdminLoginFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
+		HttpServletResponse httpResponse=(HttpServletResponse) response;
+		httpResponse.setContentType("text/html;charset=utf-8");
 		User user = (User) req.getSession().getAttribute("user");
+		String itemName=request.getServletContext().getContextPath();
 		if(user == null) {
 			response.getWriter().print("您还没有登录!");
-			HttpServletResponse httpResponse=(HttpServletResponse) response;
-			httpResponse.sendRedirect("/login");
+			String path=itemName+"/login";
+			httpResponse.setHeader("Refresh", "2;URL="+path);
 			return;
 		}
 		if(!user.getPager().equals("2")) {
-			response.getWriter().print("您的等级不够！");
-			HttpServletResponse httpResponse=(HttpServletResponse) response;
-			httpResponse.sendRedirect("/user_index");
+			response.getWriter().print("您不是检测人员，不能查看检测人员页面！");
+			String path=itemName+"/user_index";
+			httpResponse.setHeader("Refresh", "2;URL="+path);
 			return;
 		}
 		chain.doFilter(request, response);
