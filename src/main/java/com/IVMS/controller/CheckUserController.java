@@ -762,18 +762,18 @@ public class CheckUserController {
 				if(index != -1) {
 					filename = filename.substring(index+1);
 				}
-				int hCode = filename.hashCode();
-				String hex = Integer.toHexString(hCode);
-				if(!hex.equals("0")){
-					File dirFile = new File(root, hex.charAt(0) + "/" + hex.charAt(1));
-					dirFile.mkdirs();
-					SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
-  	 	            String time=sdf.format(new Date());
-  	 	            filename=time+"_"+filename;
-					File destFile = new File(dirFile, filename);
+//				int hCode = filename.hashCode();
+//				String hex = Integer.toHexString(hCode);
+//				if(!hex.equals("0")){
+//					File dirFile = new File(root, hex.charAt(0) + "/" + hex.charAt(1));
+//					dirFile.mkdirs();
+//					SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
+//  	 	            String time=sdf.format(new Date());
+  	 	            filename=cfId+"_"+filename;
+					File destFile = new File(root, filename);
 					cfReportFile.transferTo(destFile);
-					path="/"+hex.charAt(0) + "/" + hex.charAt(1)+"/"+filename;//数据库存的路径
-				}
+					path=filename;//数据库存的路径
+//				}
 			}
 		}
 		
