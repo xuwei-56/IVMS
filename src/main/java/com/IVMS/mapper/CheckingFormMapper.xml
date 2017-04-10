@@ -167,7 +167,7 @@
    <select id="historyCheckingForm" resultMap="BaseResultMap1">
    SELECT CFId,CFTime,CName,CFComponentId,CFComponentName,CFStatus,CFMoveP
    FROM checkingform cf,classify cla
-   WHERE cf.ClaId=cla.ClaId AND CFStatus IN(3,4,5) 
+   WHERE cf.ClaId=cla.ClaId AND CFStatus IN(3,4,5)
    <if test="ClaId != null" >
          AND cf.ClaId=#{ClaId,jdbcType=INTEGER}
    </if>

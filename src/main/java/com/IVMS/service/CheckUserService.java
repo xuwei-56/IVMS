@@ -72,7 +72,8 @@ public interface CheckUserService {
     
     int insertCheckingToolsFile(Integer ctid,String ctfname);
     
-    int updateCheckingToolTimeAndReceiverByCtid(Integer ctid,String ctreceiver,Date ctusetime);
+    int updateCheckingToolTimeAndReceiverByCtid(Integer ctid,String ctreceiver,Date ctusetime,
+    		String ctuseitem,String ctuseline,String ctusestation);
     
     int updateCheckingToolStatusByCtid(Integer ctid);
     

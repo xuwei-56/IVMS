@@ -31,7 +31,8 @@ public interface CheckingToolsDao {
     int updateCheckingToolStatusByCtid(Integer ctid);
     
     int updateCheckingToolTimeAndReceiverByCtid(@Param("ctid")Integer ctid,@Param("ctreceiver")
-    String ctreceiver,@Param("ctusetime")Date ctusetime);
+    String ctreceiver,@Param("ctusetime")Date ctusetime,@Param("ctuseitem")String ctuseitem,
+    @Param("ctuseline")String ctuseline,@Param("ctusestation")String ctusestation);
 
     int updateByPrimaryKey(CheckingTools record);
     

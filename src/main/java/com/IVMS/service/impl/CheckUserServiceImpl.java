@@ -154,8 +154,8 @@ public class CheckUserServiceImpl implements CheckUserService{
 		return checkingToolsFileDao.insertCheckingToolsFile(ctid, ctfname);
 	}
 
-	public int updateCheckingToolTimeAndReceiverByCtid(Integer ctid, String ctreceiver, Date ctusetime) {
-		return checkingToolsDao.updateCheckingToolTimeAndReceiverByCtid(ctid, ctreceiver, ctusetime);
+	public int updateCheckingToolTimeAndReceiverByCtid(Integer ctid, String ctreceiver, Date ctusetime,String ctuseitem,String ctuseline,String ctusestation) {
+		return checkingToolsDao.updateCheckingToolTimeAndReceiverByCtid(ctid, ctreceiver, ctusetime,ctuseitem,ctuseline,ctusestation);
 	}
 
 	public int updateCheckingToolStatusByCtid(Integer ctid) {

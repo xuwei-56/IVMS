@@ -332,7 +332,7 @@ public class SendCheckUserController {
 	@RequestMapping("/myCheckingToolRecords")
 	@ResponseBody
 	public JSONObject myCheckingToolRecords(Integer ctid) throws Exception {
-		List<Map<String,Object>> myCheckingToolRecords=checkUserService.selectCheckingToolRecords(1);
+		List<Map<String,Object>> myCheckingToolRecords=checkUserService.selectCheckingToolRecords(ctid);
 		if(myCheckingToolRecords.isEmpty()){
 			return CommonUtil.constructResponse(0,"没有数据！",null);
 		}else{

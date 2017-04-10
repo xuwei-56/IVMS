@@ -378,7 +378,9 @@
     where CTId = #{ctid,jdbcType=INTEGER}
   </update>
   <update id="updateCheckingToolTimeAndReceiverByCtid" >
-    UPDATE checkingtools SET CTUseTime=#{ctusetime,jdbcType=DATE},CTReceiver=#{ctreceiver,jdbcType=VARCHAR}
+    UPDATE checkingtools SET CTUseTime=#{ctusetime,jdbcType=DATE},CTReceiver=#{ctreceiver,jdbcType=VARCHAR},
+    CTUseItem=#{ctuseitem,jdbcType=VARCHAR},CTUseLine=#{ctuseline,jdbcType=VARCHAR},
+    CTUseStation=#{ctusestation,jdbcType=VARCHAR}
     WHERE CTId=#{ctid,jdbcType=INTEGER};
   </update>
   <update id="updateCheckingToolStatusByCtid" parameterType="java.lang.Integer">
