@@ -685,10 +685,7 @@ public class CheckUserController {
 		}else{
 			Integer countEquipmentInfo=checkUserService.countEquipmentDetailInfo(cid, eworker, 
 					ename);
-			Map<String,Object> countMap=new HashMap<String,Object>();
-			countMap.put("countEquipmentInfo", countEquipmentInfo);
-			equipmentInfo.add(countMap);
-			return CommonUtil.constructResponse(EnumUtil.OK, "设备信息",equipmentInfo);
+			return CommonUtil.constructResponse(EnumUtil.OK,String.valueOf(countEquipmentInfo),equipmentInfo);
 		}
 	}
 	
