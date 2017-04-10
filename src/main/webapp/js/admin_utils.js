@@ -35,7 +35,7 @@ function getCheckingClassifyAdd(claid){
         }
         $('#checking_classify_table').html(CheckingClassify);
       }else{
-        alert(data.msg + " 1")
+        alert(data.msg)
         return false;
       }
     }
@@ -53,7 +53,7 @@ function getWarehouseAdd(claid){
       if (data.code == 1) {
         var warehouse = "<tr><th>ID</th><th>送检类型ID</th><th>库位</th><th>操作</th></tr>";
         for (var i = 0; i < data.data.length; i++) {
-          warehouse += "<tr><td>"+data.data[i].wid+"</td><td>"+ clid +"</td><td>"+data.data[i].wid+"</td><td><a href='#' class='inner_btn' id='deleteWarehouse'>删除</a></td></tr>";
+          warehouse += "<tr><td>"+data.data[i].wid+"</td><td>"+ claid +"</td><td>"+data.data[i].wid+"</td><td><a href='#' class='inner_btn' id='deleteWarehouse'>删除</a></td></tr>";
         }
         $('#warehouse_table').html(warehouse);
       }else{
