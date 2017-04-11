@@ -43,6 +43,7 @@
 <header>
  <h1><img src="images/admin_logo.png"/></h1>
  <ul class="rt_nav">
+ <li><a href="./index" class="website_icon">主页</a></li>
   <li id="login_li"><a href="#" class="admin_icon" id="login">登陆</a></li>
   <li id="logout_li" style="display: none;"><a href="" class="quit_icon" id="logout">安全退出</a></li>
  </ul>
@@ -99,7 +100,7 @@
             </li>
             <li>
               <dd class="item_dd_235">
-                <span class="item_name">设备初始日期：</span>
+                <span class="item_name "初始日期：</span>
                 <input type="text" class="textbox" id="edate" placeholder="日期格式2017-5-1" />
               </dd>
             </li>
@@ -154,15 +155,15 @@
             </li>
             <li>
               <dd class="item_dd_235">
-                <span class="item_name">设备初始日期：</span>
+                <span class="item_name">初始日期：</span>
                 <input type="text" class="textbox" id="edate_update" placeholder="日期格式2017-5-1" />
               </dd>
               <dd class="item_dd_235">
-                <span class="item_name">上次检测时间：</span>
+                <span class="item_name">上次检测：</span>
                 <input type="text" class="textbox" id="lasttime" placeholder="日期格式2017-5-1" disabled="true" />
               </dd>
               <dd class="item_dd_235">
-                <span class="item_name">下次检测时间：</span>
+                <span class="item_name">下次检测：</span>
                 <input type="text" class="textbox" id="nexttime" placeholder="日期格式2017-5-1" disabled="true" />
               </dd>
             </li>
@@ -217,7 +218,7 @@
            </li>
            <li>
              <dd class="item_dd_335">
-                <span class="item_name">确认检测时间：</span>
+                <span class="item_name">检测时间：</span>
                 <input type="text" class="textbox" id="time_confirm" placeholder="日期格式2017-5-1"/>
               </dd>
            </li>
@@ -245,14 +246,14 @@
         </select>
         <span class="item_name">单元：</span>
         <select class="select textbox_100" id="bycId">
-          <option>所有单元</option>
+          <option value="">所有单元</option>
         </select>
         <span class="item_name">负责人：</span>
         <select class="select textbox_100" id="bydepartmentName">
           <option>加载中</option>
         </select>
         <select class="select textbox_100" id="byuserName">
-          <option>所有</option>
+          <option value="">所有人</option>
         </select>
         <span class="item_name">设备名：</span>
         <input type="text" class="textbox textbox_225" id="byename" />
