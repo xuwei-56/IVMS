@@ -33,7 +33,7 @@
   AND e.EWorker=#{eworker,jdbcType=VARCHAR}
   </if>
   <if test='ename != "0"' >
-  AND e.EName=#{ename,jdbcType=VARCHAR}
+  AND e.EName LIKE '%${ename}%'
   </if>
   ORDER BY ECNextTime ASC 
   LIMIT #{startRow,jdbcType=INTEGER},#{numberOfPerPage,jdbcType=INTEGER};
@@ -49,7 +49,7 @@
   AND e.EWorker=#{eworker,jdbcType=VARCHAR}
   </if>
   <if test='ename != "0"' >
-  AND e.EName=#{ename,jdbcType=VARCHAR}
+  AND e.EName LIKE '%${ename}%'
   </if>
   </select>
   <delete id="deleteEquipmentByEid" parameterType="java.lang.Integer" >

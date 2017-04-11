@@ -517,11 +517,11 @@ public class CheckUserController {
 	public JSONObject getCheckingToolReceiver(Integer ctid)
 			throws Exception{
 		CheckingTools checkingTools=checkUserService.selectCheckingToolByCtid(ctid);
-		String receiver=null;
-		if(checkingTools!=null){
-			receiver=checkingTools.getCtreceiver();
+		if(checkingTools==null){
+			return CommonUtil.constructResponse(0,"没有数据",null);
+		}else{
+			return CommonUtil.constructResponse(EnumUtil.OK,"检具信息",checkingTools);
 		}
-		return CommonUtil.constructResponse(EnumUtil.OK,"检具领用人",receiver);
 	}
 	
 	@RequestMapping("/updateCheckingToolReceiver")
