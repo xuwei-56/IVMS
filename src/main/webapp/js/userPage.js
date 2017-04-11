@@ -71,9 +71,9 @@ $(document).ready(function(){
 	})
 
 	// 判断检具送检的零件号是否正确，正确添加检具名字到零件名称
-	$('#componentName').blur(function(){
+	$('#componentName').change(function(){
 		var claid = $('#claId').val();
-		var ctid = $('#componentName').val();
+		var ctid = $('#componentId').val();
 		if (claid == 6) {
 			$.ajax({
 		    url:'./user/judgeCtidAndGetCTName',

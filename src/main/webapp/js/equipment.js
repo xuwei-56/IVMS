@@ -157,7 +157,7 @@ $(document).ready(function(){
       $.ajax({
         url:"./user/login",
         type:"POST",
-        data:{"userId":userId,"password":password,"verifyCode":verifyCode},
+        data:{"username":userId,"password":password,"verifyCode":verifyCode},
         datatype:"json",
         success:function(data){
           data = JSON.parse(data);
@@ -514,9 +514,9 @@ $(document).ready(function(){
     }
     $('#lasttime').val(edate);
     $('#nexttime').val(nexttime);
-    $('#lid_update').val(lid);
-    $('#cid_update').val(cid);
-    $('#username_update').val(eworker);
+    $('#lid_update').html("<option value=''>"+lid+"</option>");
+    $('#cid_update').html("<option value=''>"+cid+"</option>");
+    $('#username_update').html("<option value=''>"+eworker+"</option>");
     $('#update_equipment_pop').fadeIn();
   })
   // 确认修改

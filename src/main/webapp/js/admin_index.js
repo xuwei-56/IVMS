@@ -269,7 +269,8 @@ $(document).ready(function(){
 						$('#cfreplyreport_detail').val(data.data.cfreplyreport)
 					}
 					if (data.data.cfreportfile != 0) {
-						('#cfreportfile_detail').html("<a href='./cfreportfile/"+data.data.cfreportfile+"' download>"+data.data.cfreportfile+"</a>"); 
+						var filename = data.data.cfreportfile.substr(data.data.cfreportfile.lastIndexOf('_')+1)//获取最后一个下滑线之后的字符串
+						$('#cfreportfile_detail').html("<a href='./cfreportfile/"+data.data.cfreportfile+"' download='"+filename+"'>"+filename+"</a>"); 
 					};
 					$('#pop_bg_user').fadeIn();
 				}else{
@@ -311,6 +312,9 @@ $(document).ready(function(){
   $('#cfnormal,#cfspecial').delegate('#endcheck','click',function(){
   	var cfid = $(this).parent().parent().find('td:first').text();
   	var cname = $(this).parent().parent().find('td:eq(2)').text();
+		var ctid = $(this).parent().parent().find('td:eq(4)').text();
+		var ctrmovep = $(this).parent().parent().find('td:eq(3)').text();
+		var ctrmovetime = $(this).parent().parent().find('td:eq(1)').text();
   	if (cname == "检具送检") {
   		$.ajax({
 	  		url:'./user/getSessionUser',
@@ -320,9 +324,6 @@ $(document).ready(function(){
 	  		success:function(data){
 	  			data = JSON.parse(data)
 	  			if (data.code == 1) {
-	  				var ctid = $(this).parent().parent().find('td:eq(4)').text();
-	  				var ctrmovep = $(this).parent().parent().find('td:eq(3)').text();
-	  				var ctrmovetime = $(this).parent().parent().find('td:eq(1)').text();
 	  				
 	  				$('#ctrcheckman').val(data.data.cn);
 	  				$('#cfid').val(cfid);
@@ -387,7 +388,6 @@ $(document).ready(function(){
 		var ctrmovep = $('#ctrmovep').val()
 		var ctrcheckman = $('#ctrcheckman').val()
 		var ctrmovetime = $.DateToUnix($('#ctrmovetime').val())
-		console.log(ctrmovetime)
 		var ctrcheckcontent = $('#ctrcheckcontent').val()
 		if (ctrcheckcontent == null || ctrcheckcontent == "") {
 			alert('请输入测量内容/技术规范')
@@ -405,10 +405,11 @@ $(document).ready(function(){
 		};
 		var ctrcheckresult = $('#ctrcheckresult').val()
 		var ctrremark = $('#ctrremark').val()
+		var ctstatus = ctrremark;
 		$.ajax({
   		url:'./user/addCheckingToolResult',
   		type:'POST',
-  		data:{"ctid":ctid,"ctrnum":cfid,"ctrmovecp":ctrmovep,"ctrcheckman":ctrcheckman,"ctrcheckcontent":ctrcheckcontent,"ctrchecktools":ctrchecktool,"ctrcheckresult":ctrcheckresult,"ctrmovetime":ctrmovetime,"ctrremark":ctrremark,"ctrcheckvalue":ctrcheckvalue},
+  		data:{"ctid":ctid,"ctrnum":cfid,"ctrmovecp":ctrmovep,"ctrcheckman":ctrcheckman,"ctrcheckcontent":ctrcheckcontent,"ctrchecktools":ctrchecktool,"ctrcheckresult":ctrcheckresult,"ctrmovetime":ctrmovetime,"ctrremark":ctrremark,"ctrcheckvalue":ctrcheckvalue,'ctStatus':ctstatus},
   		datatype:'json',
   		success:function(data){
   			data = JSON.parse(data)
@@ -482,7 +483,7 @@ $(document).ready(function(){
 	// 判断检具送检的零件号是否正确，正确添加检具名字到零件名称
 	$('#componentName').blur(function(){
 		var claid = $('#claId').val();
-		var ctid = $('#componentName').val();
+		var ctid = $('#componentId').val();
 		if (claid == 6) {
 			$.ajax({
 		    url:'./user/judgeCtidAndGetCTName',
