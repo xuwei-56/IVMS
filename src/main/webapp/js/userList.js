@@ -304,7 +304,8 @@ $(document).ready(function(){
 						$('#cfreplyreport').val(data.data.cfreplyreport)
 					}
 					if (data.data.cfreportfile != 0) {
-						('#cfreportfile').html("<a href='./cfreportfile/"+data.data.cfreportfile+"' download>"+data.data.cfreportfile+"</a>"); 
+						var filename = data.data.cfreportfile.substr(data.data.cfreportfile.lastIndexOf('_')+1)//获取最后一个下滑线之后的字符串
+						$('#cfreportfile').html("<a href='./cfreportfile/"+data.data.cfreportfile+"' download='"+filename+"'>"+filename+"</a>"); 
 					};
 					$('#pop_bg_user').fadeIn();
 				}else{

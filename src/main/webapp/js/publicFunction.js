@@ -149,7 +149,7 @@ function getClassify(){
       if (data.code == 1) {
         var Classify = "<option></option>";
         for (var i = 0; i < data.data.length; i++) {
-          Classify += "<option value="+data.data[i].claid+">"+data.data[i].cname+"</option>"
+          Classify += "<option value='"+data.data[i].claid+"'>"+data.data[i].cname+"</option>"
         }
         $('#claId').html(Classify)
         $('#byclaId').html(Classify)
@@ -171,7 +171,7 @@ function getProject(){
       if (data.code == 1) {
         var Projects = "<option></option>";
         for (var i = 0; i < data.data.length; i++) {
-          Projects += "<option value="+data.data[i].pid+">"+data.data[i].pname+"</option>";
+          Projects += "<option value='"+data.data[i].pid+"'>"+data.data[i].pname+"</option>";
         }
         $('#pId').html(Projects);
         $('#bypId').html(Projects);
@@ -194,7 +194,7 @@ function getDepartments(){
       if (data.code == 1) {
         var department = "<option></option>";
         for (var i = 0; i < data.data.length; i++) {
-          department += "<option value="+data.data[i]+">"+data.data[i]+"</option>"
+          department += "<option value='"+data.data[i]+"'>"+data.data[i]+"</option>"
         }
         $('#departmentName').html(department)
       }else{
@@ -216,7 +216,7 @@ function getLines(){
       if (data.code == 1) {
         var Lines = "<option></option>";
         for (var i = 0; i < data.data.length; i++) {
-          Lines += "<option value="+data.data[i].lid+">"+data.data[i].lname+"</option>"
+          Lines += "<option value='"+data.data[i].lid+"'>"+data.data[i].lname+"</option>"
         }
         $('#lId').html(Lines)
       }else{
@@ -271,7 +271,7 @@ function getUserInfoByDepartment(department){
         var user = "<option></option>";
         /*console.log(userData)*/
         for (var i = 0; i < data.data.length; i++) {
-          user += "<option value="+data.data[i].mail+">"+data.data[i].cn+"</option>";
+          user += "<option value='"+data.data[i].mail+"'>"+data.data[i].cn+"</option>";
         }
         $('#userName').html(user);
       }else{
@@ -294,11 +294,11 @@ function getCheckingClassify(claid){
       if (data.code == 1) {
         var CheckingClassify = "";
         for (var i = 0; i < data.data.length; i++) {
-          CheckingClassify += "<option value="+data.data[i].ccid+">"+data.data[i].ccname+"</option>";
+          CheckingClassify += "<option value='"+data.data[i].ccid+"'>"+data.data[i].ccname+"</option>";
         }
         $('#cCId').html(CheckingClassify);
       }else{
-        alert(data.msg + " 1")
+        $('#cCId').html("<option value='0'>默认类型</option>");
         //return false;
       }
     }
@@ -316,7 +316,7 @@ function getWarehouse(claid){
       if (data.code == 1) {
         var warehouse = "";
         for (var i = 0; i < data.data.length; i++) {
-          warehouse += "<option value="+data.data[i].wid+">"+data.data[i].wid+"</option>";
+          warehouse += "<option value='"+data.data[i].wid+"'>"+data.data[i].wid+"</option>";
         }
         $('#wId').html(warehouse);
       }else{
@@ -340,7 +340,7 @@ function getCellNames(lid){
       if (data.code == 1) {
         var CellNames = "";
         for (var i = 0; i < data.data.length; i++) {
-          CellNames += "<option value="+data.data[i].cid+">"+data.data[i].cname+"</option>";
+          CellNames += "<option value='"+data.data[i].cid+"'>"+data.data[i].cname+"</option>";
         }
         $('#cId').html(CellNames);
       }else{

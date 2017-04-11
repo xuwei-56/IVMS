@@ -34,7 +34,7 @@ $(document).ready(function(){
 				datatype:"json",
 				success:function(data){
 					data = JSON.parse(data);
-					if(data.code == 102){
+					if(data.code > 102){
 						location.href="./user_index";
 					}else if (data.code == 101) {
 						location.href="./admin_index";

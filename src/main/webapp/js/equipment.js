@@ -87,7 +87,7 @@ function getCellEM(lid,ui){
   })
 }
 var isroot = -1;  // 未登录
-$(document).load(function(){
+window.onload = function(){
   // 验证是否登录
   $.ajax({
     url:"./user/getSessionUser",
@@ -124,7 +124,7 @@ $(document).load(function(){
     // 未登录取消部分按钮功能
     $('#my_equipment_a,#add_equipment_a,#update_equipment_btn,#delete_equipment_btn,#confirm_equipment_btn').unbind()
   }
-})
+}
 $(document).ready(function(){
   //验证码
   createCode();
@@ -157,7 +157,7 @@ $(document).ready(function(){
       $.ajax({
         url:"./user/login",
         type:"POST",
-        data:{"userId":userId,"password":password,"verifyCode":verifyCode},
+        data:{"username":userId,"password":password,"verifyCode":verifyCode},
         datatype:"json",
         success:function(data){
           data = JSON.parse(data);
@@ -208,18 +208,18 @@ $(document).ready(function(){
               data = JSON.parse(data);
               if(data.code == 1){
                 Count = parseInt(data.msg);
-                var emdata = "<tr><th>设备号</th><th>设备名</th><th>负责人</th><th>所属产线</th><th>所属单元</th><th>上次检测时间</th><th>下次检测时间</th><th style='width: 250px'>操作</th></tr>"
+                var emdata = "<tr><th>设备号</th><th>设备名</th><th>负责人</th><th>所属产线</th><th>所属单元</th><th>检测周期</th><th>上次检测时间</th><th>下次检测时间</th><th style='width: 250px'>操作</th></tr>"
                 data.data.forEach(function(em){
-                  emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><a class='inner_btn' id='comfirm_check'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a><td></td></tr>"
+                  emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECheckCycle +"</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><td><a class='inner_btn' id='confirm_equipment'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a></td></tr>"
                 })
                 $('#emtable').html(emdata);
               }
             }
           })
         }});
-        var emdata = "<tr><th>设备号</th><th>设备名</th><th>负责人</th><th>所属产线</th><th>所属单元</th><th>上次检测时间</th><th>下次检测时间</th><th style='width: 250px'>操作</th></tr>"
+        var emdata = "<tr><th>设备号</th><th>设备名</th><th>负责人</th><th>所属产线</th><th>所属单元</th><th>检测周期</th><th>上次检测时间</th><th>下次检测时间</th><th style='width: 250px'>操作</th></tr>"
         data.data.forEach(function(em){
-          emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><a class='inner_btn' id='comfirm_check'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a><td></td></tr>"
+          emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECheckCycle +"</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><td><a class='inner_btn' id='confirm_equipment'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a></td></tr>"
         })
         $('#emtable').html(emdata);
       }else{
@@ -259,18 +259,18 @@ $(document).ready(function(){
                 data = JSON.parse(data);
                 if(data.code == 1){
                   Count = parseInt(data.msg);
-                  var emdata = "<tr><th>设备号</th><th>设备名</th><th>负责人</th><th>所属产线</th><th>所属单元</th><th>上次检测时间</th><th>下次检测时间</th><th style='width: 250px'>操作</th></tr>"
+                  var emdata = "<tr><th>设备号</th><th>设备名</th><th>负责人</th><th>所属产线</th><th>所属单元</th><th>检测周期</th><th>上次检测时间</th><th>下次检测时间</th><th style='width: 250px'>操作</th></tr>"
                   data.data.forEach(function(em){
-                    emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECTime +"</td><td>"+ em.ECNextTime +"</td><a class='inner_btn' id='comfirm_check'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a><td></td></tr>"
+                    emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECheckCycle +"</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><td><a class='inner_btn' id='confirm_equipment'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a></td></tr>"
                   })
                   $('#emtable').html(emdata);
                 }
               }
             })
           }});
-          var emdata = "<tr><th>设备号</th><th>设备名</th><th>负责人</th><th>所属产线</th><th>所属单元</th><th>上次检测时间</th><th>下次检测时间</th><th style='width: 250px'>操作</th></tr>"
+          var emdata = "<tr><th>设备号</th><th>设备名</th><th>负责人</th><th>所属产线</th><th>所属单元</th><th>检测周期</th><th>上次检测时间</th><th>下次检测时间</th><th style='width: 250px'>操作</th></tr>"
           data.data.forEach(function(em){
-            emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECTime +"</td><td>"+ em.ECNextTime +"</td><a class='inner_btn' id='comfirm_check'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a><td></td></tr>"
+            emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECheckCycle +"</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><td><a class='inner_btn' id='confirm_equipment'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a></td></tr>"
           })
           $('#emtable').html(emdata);
         }else{
@@ -292,9 +292,9 @@ $(document).ready(function(){
         if(data.code == 1){
           Count = parseInt(data.msg);
           $('#pageTool').html("");
-          var emdata = "<tr><th>设备号</th><th>设备名</th><th>负责人</th><th>所属产线</th><th>所属单元</th><th>上次检测时间</th><th>下次检测时间</th><th style='width: 250px'>操作</th></tr>"
+          var emdata = "<tr><th>设备号</th><th>设备名</th><th>负责人</th><th>所属产线</th><th>所属单元</th><th>检测周期</th><th>上次检测时间</th><th>下次检测时间</th><th style='width: 250px'>操作</th></tr>"
           data.data.forEach(function(em){
-            emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><a class='inner_btn' id='comfirm_check'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a><td></td></tr>"
+            emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECheckCycle +"</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><td><a class='inner_btn' id='confirm_equipment'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a></td></tr>"
           })
           $('#emtable').html(emdata);
         }else{
@@ -313,7 +313,7 @@ $(document).ready(function(){
     success:function(data){
       data = JSON.parse(data);
       if (data.code == 1) {
-        var Lines = "<option>所有产线</option>";
+        var Lines = "<option value=''>所有产线</option>";
         for (var i = 0; i < data.data.length; i++) {
           Lines += "<option value="+data.data[i].lid+">"+data.data[i].lname+"</option>"
         }
@@ -335,14 +335,14 @@ $(document).ready(function(){
     success:function(data){
       data = JSON.parse(data);
       if (data.code == 1) {
-        var department = "<option>全部部门</option>";
+        var department = "<option value=''>全部部门</option>";
         for (var i = 0; i < data.data.length; i++) {
           department += "<option value="+data.data[i]+">"+data.data[i]+"</option>"
         }
         $('#bydepartmentName').html(department)
       }else{
-        alert("获取部门信息失败！错误信息：" + data.msg)
-        //return false;
+        /*alert("获取部门信息失败！错误信息：" + data.msg)
+        //return false;*/
       }
     }
   })
@@ -407,7 +407,7 @@ $(document).ready(function(){
   })
   // 取消弹框
   $('.falseBtn').click(function(){
-    $('#add_equipment_pop').fadeOut(200);
+    $('.pop_bg').fadeOut(200);
   })
 
   // 提交增加设备
@@ -514,9 +514,9 @@ $(document).ready(function(){
     }
     $('#lasttime').val(edate);
     $('#nexttime').val(nexttime);
-    $('#lid_update').val(lid);
-    $('#cid_update').val(cid);
-    $('#username_update').val(eworker);
+    $('#lid_update').html("<option value=''>"+lid+"</option>");
+    $('#cid_update').html("<option value=''>"+cid+"</option>");
+    $('#username_update').html("<option value=''>"+eworker+"</option>");
     $('#update_equipment_pop').fadeIn();
   })
   // 确认修改
@@ -529,7 +529,7 @@ $(document).ready(function(){
     var eworker = $('#username_update').val();
     // 感觉 很恐怖的一个正则匹配
     var reg=/^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)$/; 
-    if(!s.match(reg)){
+    if(!edate.match(reg)){
       alert('时间格式不对！') 
       return false;
     }

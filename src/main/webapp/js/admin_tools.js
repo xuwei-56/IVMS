@@ -147,6 +147,9 @@ $(document).ready(function(){
 	$('#tooluseconfirm_btn').click(function(){
 		var ctid = $('#ctid_user').val();
 		var ctuser = $('#ctuser').find("option:selected").text()
+		var ctuseline = $('#ctuseline_user').find('option:selected').text();
+		var ctuseitem = $('#ctuseitem_user').val();
+		var ctusestation = $('#ctusestation_user').val();
 		if (ctuser == null || ctuser == "") {
 			alert("请输入领用人！")
 			return false
@@ -154,7 +157,7 @@ $(document).ready(function(){
 		$.ajax({
 			url:'./user/addCheckingToolReceiver',
 			type:'POST',
-			data:{'ctid':ctid,"ctreceiver":ctuser},
+			data:{'ctid':ctid,"ctreceiver":ctuser,'ctuseline':ctuseline,'ctuseitem':ctuseitem,'ctusestation':ctusestation},
 			datatype:'json',
 			success:function(data){
 				data = JSON.parse(data);
