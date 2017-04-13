@@ -428,7 +428,7 @@ $.extend({
         parseInt(t[0], 10) || null,
         parseInt(t[1], 10) || null,
         parseInt(t[2], 10) || null
-        )).getTime() / 1000;
+        )).getTime() ;
   },
   /**       
    * 时间戳转换日期       
@@ -439,11 +439,11 @@ $.extend({
     var time = new Date(unixTime + 8 * 60 * 60 * 1000);
     var ymdhis = "";
     ymdhis += time.getUTCFullYear() + "-";
-    ymdhis += (time.getUTCMonth()+1) + "-";
-    ymdhis += time.getUTCDate();
-    ymdhis += " " + time.getUTCHours() + ":";
-    ymdhis += time.getUTCMinutes() + ":";
-    ymdhis += time.getUTCSeconds();
+    ymdhis += ((time.getUTCMonth()+1)<10?"0"+(time.getUTCMonth()+1):(time.getUTCMonth()+1)) + "-";
+    ymdhis += (time.getUTCDate()<10?"0"+time.getUTCDate():time.getUTCDate());
+    ymdhis += " " + (time.getUTCHours()<10?"0"+time.getUTCHours():time.getUTCHours()) + ":";
+    ymdhis += (time.getUTCMinutes()<10?"0"+time.getUTCMinutes():time.getUTCMinutes()) + ":";
+    ymdhis += (time.getUTCSeconds()<10?"0"+time.getUTCSeconds():time.getUTCSeconds());
     return ymdhis;
   },
   /**       
@@ -455,8 +455,8 @@ $.extend({
     var time = new Date(unixTime + 8 * 60 * 60 * 1000);
     var ymdhis = "";
     ymdhis += time.getUTCFullYear() + "-";
-    ymdhis += (time.getUTCMonth()+1) + "-";
-    ymdhis += time.getUTCDate();
+    ymdhis += ((time.getUTCMonth()+1)<10?"0"+(time.getUTCMonth()+1):(time.getUTCMonth()+1)) + "-";
+    ymdhis += (time.getUTCDate()<10?"0"+time.getUTCDate():time.getUTCDate());
     return ymdhis;
   }
 });  

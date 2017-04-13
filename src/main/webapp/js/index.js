@@ -168,15 +168,15 @@ function prn_design(strNumber,strName,strTime) {
 function CreatePage(strNumber,strName,strTime){
 	LODOP.PRINT_INIT("打印插件_标签");
 	LODOP.SET_PRINT_PAGESIZE(1,400,300,"");    // 单位是0.1毫米
-	LODOP.ADD_PRINT_TEXT(30,51,90,24,strNumber);    // 单位是px
+	LODOP.ADD_PRINT_TEXT(20,40,105,35,strNumber);    // 单位是px
 	LODOP.SET_PRINT_STYLEA(1,"FontName","C39HrP24DlTt");
-	LODOP.SET_PRINT_STYLEA(1,"FontSize",16);
+	LODOP.SET_PRINT_STYLEA(1,"FontSize",15);
 	LODOP.SET_PRINT_STYLEA(1,"Alignment",2);
-	LODOP.ADD_PRINT_TEXT(65,48,94,24,strName);
-	LODOP.SET_PRINT_STYLEA(2,"FontSize",16);
+	LODOP.ADD_PRINT_TEXT(60,10,166,30,strName);
+	LODOP.SET_PRINT_STYLEA(2,"FontSize",9);
 	LODOP.SET_PRINT_STYLEA(2,"Alignment",2);
-	LODOP.ADD_PRINT_TEXT(95,13,166,24,strTime);
-	LODOP.SET_PRINT_STYLEA(3,"FontSize",16);
+	LODOP.ADD_PRINT_TEXT(95,10,166,24,strTime);
+	LODOP.SET_PRINT_STYLEA(3,"FontSize",9);
 	LODOP.SET_PRINT_STYLEA(3,"Alignment",2);
 };
 $(document).ready(function(){
@@ -323,11 +323,12 @@ $(document).ready(function(){
 	// LODOP打印
 	$('#cfzero').delegate('#print','click',function(){
 		var cfid = $(this).parent().parent().find('td:first').text();
-		cfid = cfid.substring(9);
+		cfid = cfid.substring(8);
 		var moveP = $(this).parent().parent().find('td:eq(3)').text();
 		var time = $(this).parent().parent().find('td:eq(1)').text();
-		prn_preview(cfid,moveP,time); // 打印预览
+		//prn_preview(cfid,moveP,time); // 打印预览
 		//prn_print(cfid,moveP,time);   // 直接打印
+		prn_design(cfid,moveP,time)
 		$.ajax({
 			url:'./updateCfstatus',
 			type:'POST',
@@ -368,7 +369,8 @@ $(document).ready(function(){
 					if (data.data.cfurgentstatus == 2 ) {
 						$('#urgentStatus').val("加急")
 						if (data.data.urgentFile != null ) {
-							$('#urgentfile').html("<a href='./urgentfile/"+data.data.urgentFile.ufname+"' download>"+data.data.urgentFile.ufname+"</a>")
+							var uffilename = data.data.urgentFile.ufname.substr(data.data.urgentFile.ufname.lastIndexOf('_')+1)//获取最后一个下滑线之后的字符串
+							$('#urgentfile').html("<a href='./urgentfile/"+data.data.urgentFile.ufname+"' download='"+uffilename+"'>"+uffilename+"</a>")
 						};
 					}else{
 						$('#urgentStatus').val("普通")
@@ -439,7 +441,7 @@ $(document).ready(function(){
 			data:{'requestPageNum':1,"claId":claid,'pid':pid,'cfid':cfid},
 			datatype:'json',
 			beforeSend:function(){
-				//$(".loading_area").fadeIn();
+				$(".loading_area").fadeIn();
 			},
 			success:function(data){
 				data = JSON.parse(data);
@@ -462,8 +464,10 @@ $(document).ready(function(){
 									var checkformdata = "<tr><th>检测单号</th><th>送检日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
 									data.data.forEach(function(checkform){
 										checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
-					  				})
-					  				$('#cffinished').html(checkformdata);
+									})
+									$('#cffinished').html(checkformdata);
+								}else if (data.code == 0) {
+									$('#cffinished').html("<div>没有数据</div>");
 								}
 							}
 						})
@@ -475,7 +479,7 @@ $(document).ready(function(){
 	  			$('#cffinished').html(checkformdata);
 	  			$(".loading_area").fadeOut();
 				}else if (data.code == 0) {
-					$('#mycheckform').html("<div>没有数据</div>");
+					$('#cffinished').html("<div>没有数据</div>");
 				}
 				else{
 					alert("请先登录")
