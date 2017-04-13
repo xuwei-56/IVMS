@@ -334,7 +334,13 @@ public class CheckUserController {
 				Integer checkingToolCycle=checkUserService.selectCycleByCtid(ctid);//拿到检具校验周期
 				Calendar calendar=Calendar.getInstance();
 				calendar.setTime(new Date());
-				calendar.add(Calendar.MONTH,checkingToolCycle);
+				if(checkingToolCycle==1){
+					calendar.add(Calendar.MONTH,3);
+				}else if(checkingToolCycle==2){
+					calendar.add(Calendar.MONTH,6);
+				}else if(checkingToolCycle==3){
+					calendar.add(Calendar.MONTH,12);
+				}
 				Date nextCheckTime=calendar.getTime();
 				checkingToolsRecord.setCtrchecknexttime(nextCheckTime);//获得检具下次校验时间
 				CheckingTools checkingTools=checkUserService.selectCheckingToolByCtid(ctid);
@@ -392,7 +398,13 @@ public class CheckUserController {
 			Integer cycle=checkUserService.selectCycleByCtid(ctid);
 			Calendar calendar=Calendar.getInstance();
 			calendar.setTime(new Date());
-			calendar.add(Calendar.MONTH,cycle);
+			if(cycle==1){
+				calendar.add(Calendar.MONTH,3);
+			}else if(cycle==2){
+				calendar.add(Calendar.MONTH,6);
+			}else if(cycle==3){
+				calendar.add(Calendar.MONTH,12);
+			}
 			Date nextCheckTime=calendar.getTime();//得到检具下次检验时间
 			CheckingToolsRecord record=new CheckingToolsRecord();
 			record.setCtid(ctid);
@@ -444,7 +456,13 @@ public class CheckUserController {
 			Integer cycle=checkUserService.selectCycleByCtid(ctid);
 			Calendar calendar=Calendar.getInstance();
 			calendar.setTime(new Date());
-			calendar.add(Calendar.MONTH,cycle);
+			if(cycle==1){
+				calendar.add(Calendar.MONTH,3);
+			}else if(cycle==2){
+				calendar.add(Calendar.MONTH,6);
+			}else if(cycle==3){
+				calendar.add(Calendar.MONTH,12);
+			}
 			Date nextCheckTime=calendar.getTime();//得到检具下次检验时间
 			checkUserService.updateCTRCheckNextTimeByCtrNum(nextCheckTime, cfId);//更新检具下次校验时间
 			/**
@@ -517,11 +535,11 @@ public class CheckUserController {
 	public JSONObject getCheckingToolReceiver(Integer ctid)
 			throws Exception{
 		CheckingTools checkingTools=checkUserService.selectCheckingToolByCtid(ctid);
-		String receiver=null;
-		if(checkingTools!=null){
-			receiver=checkingTools.getCtreceiver();
+		if(checkingTools==null){
+			return CommonUtil.constructResponse(0,"没有数据",null);
+		}else{
+			return CommonUtil.constructResponse(EnumUtil.OK,"检具信息",checkingTools);
 		}
-		return CommonUtil.constructResponse(EnumUtil.OK,"检具领用人",receiver);
 	}
 	
 	@RequestMapping("/updateCheckingToolReceiver")
