@@ -618,7 +618,8 @@ public class CheckUserController {
 	
 	@RequestMapping("/addEquipment")
 	@ResponseBody
-	public JSONObject addEquipMent(HttpSession session,Equipment equipment,Date date)
+	public JSONObject addEquipMent(HttpSession session,Equipment equipment,
+			@DateTimeFormat(pattern="yyyy-MM-dd") Date date)
 			throws Exception{
 		User user = (User)session.getAttribute("user");
 		if(user.getPager().equals("1")){//设备负责人
