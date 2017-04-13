@@ -10,7 +10,7 @@ function getDepartments(){
       if (data.code == 1) {
         var department = "<option value=''>请选择部门</option>";
         for (var i = 0; i < data.data.length; i++) {
-          department += "<option value="+data.data[i]+">"+data.data[i]+"</option>"
+          department += "<option value='"+data.data[i]+"'>"+data.data[i]+"</option>"
         }
         $('#departmentName').html(department)
       }else{
@@ -32,7 +32,7 @@ function getUserByDepartment(department,ui){
       if (data.code == 1) {
         var user = "";
         for (var i = 0; i < data.data.length; i++) {
-          user += "<option value="+data.data[i].mail+">"+data.data[i].cn+"</option>";
+          user += "<option value='"+data.data[i].cn+"'>"+data.data[i].cn+"</option>";
         }
         $("#"+ ui +"").html(user);
       }else{
@@ -54,7 +54,7 @@ function getLinesEM(){
       if (data.code == 1) {
         var Lines = "<option value=''>请选择产线</option>";
         for (var i = 0; i < data.data.length; i++) {
-          Lines += "<option value="+data.data[i].lid+">"+data.data[i].lname+"</option>"
+          Lines += "<option value='"+data.data[i].lid+"'>"+data.data[i].lname+"</option>"
         }
         $('#lId').html(Lines)
       }else{
@@ -76,11 +76,11 @@ function getCellEM(lid,ui){
       if (data.code == 1) {
         var CellNames = "";
         for (var i = 0; i < data.data.length; i++) {
-          CellNames += "<option value="+data.data[i].cid+">"+data.data[i].cname+"</option>";
+          CellNames += "<option value='"+data.data[i].cid+"'>"+data.data[i].cname+"</option>";
         }
         $("#"+ ui +"").html(CellNames);
       }else{
-        alert(data.msg)
+        $("#"+ ui +"").html("<option value=''>所有单元</option>");
         //return false;
       }
     }
@@ -105,16 +105,29 @@ window.onload = function(){
         $('#equipment_login').fadeOut();
         $('#login_li').hide();
         $('#logout_li').show();
-        if (isroot < 2) {
+        if (isroot != 1) {
           $('#update_equipment_btn').hide();
           $('#delete_equipment_btn').hide();
           $('#update_equipment_pop input').attr('disabled');
         }
+        if (isroot == -1) {
+          // 未登录取消部分按钮功能
+          $('#my_equipment_a,#add_equipment_a,#update_equipment_btn,#delete_equipment_btn,#confirm_equipment_btn').unbind()
+        }
       }else{
-        alert(data.msg)
+        /*alert(data.msg)*/
       }
     }
   });
+  
+}
+$(document).ready(function(){
+  //验证码
+  createCode();
+  //前端验证验证码
+  $('#Vcode').blur(function(){
+    validate ();
+  })
   if (isroot < 2) {
     $('#update_equipment_btn').hide();
     $('#delete_equipment_btn').hide();
@@ -124,15 +137,6 @@ window.onload = function(){
     // 未登录取消部分按钮功能
     $('#my_equipment_a,#add_equipment_a,#update_equipment_btn,#delete_equipment_btn,#confirm_equipment_btn').unbind()
   }
-}
-$(document).ready(function(){
-  //验证码
-  createCode();
-  //前端验证验证码
-  $('#Vcode').blur(function(){
-    validate ();
-  })
-
   //检测登录
   $('#button_login').click(function() {
 
@@ -210,7 +214,7 @@ $(document).ready(function(){
                 Count = parseInt(data.msg);
                 var emdata = "<tr><th>设备号</th><th>设备名</th><th>负责人</th><th>所属产线</th><th>所属单元</th><th>检测周期</th><th>上次检测时间</th><th>下次检测时间</th><th style='width: 250px'>操作</th></tr>"
                 data.data.forEach(function(em){
-                  emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECheckCycle +"</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><td><a class='inner_btn' id='confirm_equipment'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a></td></tr>"
+                  emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECheckCycle +"天</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><td><a class='inner_btn' id='confirm_equipment'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a></td></tr>"
                 })
                 $('#emtable').html(emdata);
               }
@@ -219,7 +223,7 @@ $(document).ready(function(){
         }});
         var emdata = "<tr><th>设备号</th><th>设备名</th><th>负责人</th><th>所属产线</th><th>所属单元</th><th>检测周期</th><th>上次检测时间</th><th>下次检测时间</th><th style='width: 250px'>操作</th></tr>"
         data.data.forEach(function(em){
-          emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECheckCycle +"</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><td><a class='inner_btn' id='confirm_equipment'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a></td></tr>"
+          emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECheckCycle +"天</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><td><a class='inner_btn' id='confirm_equipment'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a></td></tr>"
         })
         $('#emtable').html(emdata);
       }else{
@@ -261,7 +265,7 @@ $(document).ready(function(){
                   Count = parseInt(data.msg);
                   var emdata = "<tr><th>设备号</th><th>设备名</th><th>负责人</th><th>所属产线</th><th>所属单元</th><th>检测周期</th><th>上次检测时间</th><th>下次检测时间</th><th style='width: 250px'>操作</th></tr>"
                   data.data.forEach(function(em){
-                    emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECheckCycle +"</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><td><a class='inner_btn' id='confirm_equipment'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a></td></tr>"
+                    emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECheckCycle +"天</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><td><a class='inner_btn' id='confirm_equipment'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a></td></tr>"
                   })
                   $('#emtable').html(emdata);
                 }
@@ -270,7 +274,7 @@ $(document).ready(function(){
           }});
           var emdata = "<tr><th>设备号</th><th>设备名</th><th>负责人</th><th>所属产线</th><th>所属单元</th><th>检测周期</th><th>上次检测时间</th><th>下次检测时间</th><th style='width: 250px'>操作</th></tr>"
           data.data.forEach(function(em){
-            emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECheckCycle +"</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><td><a class='inner_btn' id='confirm_equipment'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a></td></tr>"
+            emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECheckCycle +"天</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><td><a class='inner_btn' id='confirm_equipment'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a></td></tr>"
           })
           $('#emtable').html(emdata);
         }else{
@@ -294,7 +298,7 @@ $(document).ready(function(){
           $('#pageTool').html("");
           var emdata = "<tr><th>设备号</th><th>设备名</th><th>负责人</th><th>所属产线</th><th>所属单元</th><th>检测周期</th><th>上次检测时间</th><th>下次检测时间</th><th style='width: 250px'>操作</th></tr>"
           data.data.forEach(function(em){
-            emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECheckCycle +"</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><td><a class='inner_btn' id='confirm_equipment'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a></td></tr>"
+            emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECheckCycle +"天</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><td><a class='inner_btn' id='confirm_equipment'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a></td></tr>"
           })
           $('#emtable').html(emdata);
         }else{
@@ -315,9 +319,10 @@ $(document).ready(function(){
       if (data.code == 1) {
         var Lines = "<option value=''>所有产线</option>";
         for (var i = 0; i < data.data.length; i++) {
-          Lines += "<option value="+data.data[i].lid+">"+data.data[i].lname+"</option>"
+          Lines += "<option value='"+data.data[i].lid+"'>"+data.data[i].lname+"</option>"
         }
         $('#bylId').html(Lines)
+        $('#lid').html(Lines)
       }else{
         alert("获取产线失败！错误信息：" + data.msg)
         //return false;
@@ -337,9 +342,10 @@ $(document).ready(function(){
       if (data.code == 1) {
         var department = "<option value=''>全部部门</option>";
         for (var i = 0; i < data.data.length; i++) {
-          department += "<option value="+data.data[i]+">"+data.data[i]+"</option>"
+          department += "<option value='"+data.data[i]+"'>"+data.data[i]+"</option>"
         }
         $('#bydepartmentName').html(department)
+        $('#departmentname').html(department)
       }else{
         /*alert("获取部门信息失败！错误信息：" + data.msg)
         //return false;*/
@@ -353,10 +359,26 @@ $(document).ready(function(){
     if (lid == null) { return false }
     getCellEM(lid,ui);
   })
+  // 获取对应产线下的单元
+  $('#lid').change(function(){
+    var lid = $('#lid').val();
+    var ui = "cid"
+    if (lid == null) { return false }
+    getCellEM(lid,ui);
+  })
   // 得到部门下的所有员工
   $('#bydepartmentName').change(function(){
     var department = $('#bydepartmentName').val();
     var ui = "byuserName"
+    if (department == null || department == "") {
+      return false;
+    }
+    getUserByDepartment(department,ui);
+  })
+  // 得到部门下的所有员工
+  $('#departmentname').change(function(){
+    var department = $('#departmentame').val();
+    var ui = "username"
     if (department == null || department == "") {
       return false;
     }
@@ -389,7 +411,7 @@ $(document).ready(function(){
     getLinesEM();
     getDepartments();
   })
-  // 设备添加产线
+  /*// 设备添加产线
   $('#lid').change(function(){
      var lid = $('#lid').val();
      var ui = "cid";
@@ -404,7 +426,7 @@ $(document).ready(function(){
       return false;
     }
     getUserByDepartment(department,ui);
-  })
+  })*/
   // 取消弹框
   $('.falseBtn').click(function(){
     $('.pop_bg').fadeOut(200);
@@ -458,11 +480,10 @@ $(document).ready(function(){
       alert('时间格式不对！') 
       return false;
     }
-
     $.ajax({
       url:'./user/addEquipmentTime',
       type:'POST',
-      data:{'eid':eid,'ectime':$.DateToUnix(time_confirm)},
+      data:{'eid':eid_confirm,'ectime':time_confirm},
       datatype:'json',
       success:function(data){
         data = JSON.parse(data);
@@ -533,7 +554,6 @@ $(document).ready(function(){
       alert('时间格式不对！') 
       return false;
     }
-    edate=$.DateToUnix(edate);
     $.ajax({
       url:'./user/updateEquipment',
       type:'POST',

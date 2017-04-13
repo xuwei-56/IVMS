@@ -50,7 +50,7 @@ $(document).ready(function(){
 										checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatusButton(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
 									}
 								})
-				  				$('#cffinished').html(checkformdata);
+				  				$('#cttable').html(checkformdata);
 							}
 						}
 					})
@@ -102,14 +102,36 @@ $(document).ready(function(){
 		$('#ctname_user').val(ctname)
 		$('#pop_bg_confirmuser').fadeIn();
 		$.ajax({
-			url:'./user/getCheckigToolReceiver',
+			url:'./user/getCheckingToolReceiver',
 			type:'POST',
 			data:{'ctid':ctid},
 			datatype:'json',
 			success:function(data){
 				data = JSON.parse(data);
 				if (data.code == 1) {
-					$('#ctuser').html("<option>"+data.data+"</option")
+					$('#ctuser').html("<option value='"+data.data.ctreceiver+"'>"+data.data.ctreceiver+"</option>")
+					$('#ctuseitem_user').val(data.data.ctuseitem)
+					// 获取产线
+				  $.ajax({
+				    url:'./user/getLines',
+				    type:'POST',
+				    data:{},
+				    datatype:'json',
+				    success:function(data){
+				      data = JSON.parse(data);
+				      if (data.code == 1) {
+				        var Lines = "<option value='"+data.data.ctuseline+"'>"+data.data.ctuseline+"</option>";
+				        for (var i = 0; i < data.data.length; i++) {
+				          Lines += "<option value='"+data.data[i].lname+"'>"+data.data[i].lname+"</option>"
+				        }
+				      }else{
+				        console.log("获取产线失败！错误信息：" + data.msg)
+				        //return false;
+				      }
+				        $('#ctuseline_user').html(Lines)
+				    }
+				  })
+				  $('#ctusestation_user').val(data.data.ctusestation)
 				}else{
 					alert(data.msg)
 					return false;
@@ -235,7 +257,7 @@ $(document).ready(function(){
 											checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatusButton(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
 										}
 									})
-					  				$('#cffinished').html(checkformdata);
+					  				$('#cttable').html(checkformdata);
 								}
 							}
 						})
@@ -250,9 +272,9 @@ $(document).ready(function(){
 							checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatusButton(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
 						}
 					})
-					$('#cffinished').html(mychecktooldata);
+					$('#cttable').html(checktooldata);
 				}else if (data.code == 0) {
-					$('#cffinished').html("<div>没有数据</div>");
+					$('#cttable').html("<div>没有数据</div>");
 				}else{
 					alert("获取量检具失败！错误信息："+data.msg)
 					return false;
@@ -304,7 +326,7 @@ $(document).ready(function(){
 					$('#ctmsa_update').val(data.data.CTMSA)
 					$('#ctnorms_update').val(data.data.CTNorms)
 					$('#ctprocision_update').val(data.data.CTProcision)
-					$('#ctoriginalnum_update').val(data.data.cCTOriginalNum)
+					$('#ctoriginalnum_update').val(data.data.CTOriginalNum)
 					$('#ctassetnum_update').val(data.data.CTAssetNum)
 					$('#ctsize_update').val(data.data.CTSize)
 					$('#ctresolation_update').val(data.data.CTResolation)
@@ -412,8 +434,11 @@ $(document).ready(function(){
 		}
 		var ctremark = $('#ctremark_update').val()
 		ctremark = stripscript(ctremark);
-		var ctfile = $('#ctfile_update')[0];
+		var ctfile = $('#ctfile_update')[0].files;
 		var formdata = new FormData();
+		for (var i = 0; i < ctfile.length; i++) {
+			formdata.append('checkingToolFiles',ctfile[i])
+		};
 		formdata.append('ctid',ctid)
 		formdata.append('ctname',ctname)
 		formdata.append('ctproducer',ctproducer)
@@ -431,7 +456,6 @@ $(document).ready(function(){
 		formdata.append('ctremark',ctremark)
 		formdata.append('ctchecktemperature',ctchecktemperature)
 		formdata.append('ctcheckhumidiry',ctcheckhumidiry)
-		formdata.append('checkingToolFiles',ctfile)
 		$.ajax({
 			url:'./user/updateCheckingTool',
 			type:'POST',

@@ -233,7 +233,8 @@ $(document).ready(function(){
 					if (data.data.cfurgentstatus == 2 ) {
 						$('#urgentStatus_detail').val("加急")
 						if (data.data.urgentFile != null ) {
-							$('#urgentfile_detail').html("<a href='./urgentfile/"+data.data.urgentFile.ufname+"' download>"+data.data.urgentFile.ufname+"</a>")
+							var uffilename = data.data.urgentFile.ufname.substr(data.data.urgentFile.ufname.lastIndexOf('_')+1)//获取最后一个下滑线之后的字符串
+							$('#urgentfile').html("<a href='./urgentfile/"+data.data.urgentFile.ufname+"' download='"+uffilename+"'>"+uffilename+"</a>")
 						};
 					}else{
 						$('#urgentStatus_detail').val("普通")
@@ -387,7 +388,7 @@ $(document).ready(function(){
 		var cfid = $('#cfid').val()
 		var ctrmovep = $('#ctrmovep').val()
 		var ctrcheckman = $('#ctrcheckman').val()
-		var ctrmovetime = $.DateToUnix($('#ctrmovetime').val())
+		var ctrmovetime = $('#ctrmovetime').val()
 		var ctrcheckcontent = $('#ctrcheckcontent').val()
 		if (ctrcheckcontent == null || ctrcheckcontent == "") {
 			alert('请输入测量内容/技术规范')
