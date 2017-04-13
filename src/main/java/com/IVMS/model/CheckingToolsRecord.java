@@ -14,7 +14,7 @@ public class CheckingToolsRecord {
     
     private String ctrmovecp;
 
-    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date ctrmovetime;
 
     private Date ctrchecktime;
