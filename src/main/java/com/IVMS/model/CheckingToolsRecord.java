@@ -3,15 +3,18 @@ package com.IVMS.model;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class CheckingToolsRecord {
     private Integer ctrid;
 
     private Integer ctid;
 
     private String ctrnum;
-
+    
     private String ctrmovecp;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date ctrmovetime;
 
     private Date ctrchecktime;
