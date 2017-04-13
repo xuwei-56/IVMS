@@ -102,7 +102,7 @@ $(document).ready(function(){
 		$('#ctname_user').val(ctname)
 		$('#pop_bg_confirmuser').fadeIn();
 		$.ajax({
-			url:'./user/getCheckingToolReceiver',
+			url:'./user/getCheckigToolReceiver',
 			type:'POST',
 			data:{'ctid':ctid},
 			datatype:'json',
