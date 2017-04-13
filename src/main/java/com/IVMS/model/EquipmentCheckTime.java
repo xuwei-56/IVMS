@@ -2,6 +2,8 @@ package com.IVMS.model;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class EquipmentCheckTime {
     private Integer ectid;
 

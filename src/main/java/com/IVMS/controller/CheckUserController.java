@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -709,8 +710,8 @@ public class CheckUserController {
 	
 	@RequestMapping("/addEquipmentTime")
 	@ResponseBody
-	public JSONObject addEquipmentTime(HttpSession session,Integer eid,Date ectime)
-			throws Exception{
+	public JSONObject addEquipmentTime(HttpSession session,Integer eid,
+			@DateTimeFormat(pattern="yyyy-MM-dd") Date ectime) throws Exception{
 		Equipment equipment=checkUserService.selectEquipmentByEid(eid);
 		Integer equipmentCycle=equipment.getEcheckcycle();
 		String worker=equipment.getEworker();//得到设备负责人
