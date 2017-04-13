@@ -105,17 +105,18 @@ window.onload = function(){
         $('#equipment_login').fadeOut();
         $('#login_li').hide();
         $('#logout_li').show();
-        if (isroot != 1) {
-          $('#update_equipment_btn').hide();
-          $('#delete_equipment_btn').hide();
-          $('#update_equipment_pop input').attr('disabled');
-        }
-        if (isroot == -1) {
-          // 未登录取消部分按钮功能
-          $('#my_equipment_a,#add_equipment_a,#update_equipment_btn,#delete_equipment_btn,#confirm_equipment_btn').unbind()
-        }
+        
       }else{
         /*alert(data.msg)*/
+      }
+      if (isroot != 1) {
+        $('#update_equipment_btn').hide();
+        $('#delete_equipment_btn').hide();
+        $('#update_equipment_pop input').attr('disabled');
+      }
+      if (isroot == -1) {
+        // 未登录取消部分按钮功能
+        $('#my_equipment_a,#add_equipment_a,#update_equipment_btn,#delete_equipment_btn,#confirm_equipment_btn').unbind()
       }
     }
   });
@@ -128,15 +129,19 @@ $(document).ready(function(){
   $('#Vcode').blur(function(){
     validate ();
   })
-  if (isroot < 2) {
-    $('#update_equipment_btn').hide();
-    $('#delete_equipment_btn').hide();
-    $('#update_equipment_pop input').attr('disabled');
-  }
-  if (isroot == -1) {
-    // 未登录取消部分按钮功能
-    $('#my_equipment_a,#add_equipment_a,#update_equipment_btn,#delete_equipment_btn,#confirm_equipment_btn').unbind()
-  }
+  /*$(function(){
+    console.log(isroot)
+    if (isroot != 1) {
+      $('#update_equipment_btn').hide();
+      $('#delete_equipment_btn').hide();
+      $('#update_equipment_pop input').attr('disabled');
+    }
+    if (isroot == -1) {
+      // 未登录取消部分按钮功能
+      $('#my_equipment_a,#add_equipment_a,#update_equipment_btn,#delete_equipment_btn,#confirm_equipment_btn').unbind()
+    }
+  })*/
+  
   //检测登录
   $('#button_login').click(function() {
 
@@ -375,16 +380,15 @@ $(document).ready(function(){
     }
     getUserByDepartment(department,ui);
   })
-  // 得到部门下的所有员工
+  // 设备添加得到部门下的所有员工
   $('#departmentname').change(function(){
-    var department = $('#departmentame').val();
+    var department = $('#departmentname').val();
     var ui = "username"
     if (department == null || department == "") {
       return false;
     }
     getUserByDepartment(department,ui);
   })
-
   // 退出登录
   $('#logout').click(function(){
     $.ajax({
@@ -417,16 +421,8 @@ $(document).ready(function(){
      var ui = "cid";
     if (lid == null) { return false }
     getCellEM(lid,cid);
-  })
-  // 设备添加得到部门下的所有员工
-  $('#departmentname').change(function(){
-    var department = $('#departmentname').val();
-    var ui = "username"
-    if (department == null || department == "") {
-      return false;
-    }
-    getUserByDepartment(department,ui);
   })*/
+  
   // 取消弹框
   $('.falseBtn').click(function(){
     $('.pop_bg').fadeOut(200);
@@ -442,7 +438,7 @@ $(document).ready(function(){
     $.ajax({
       url:'./user/addEquipment',
       type:'POST',
-      data:{'ename':addename,'echeckcycle':addecheckcycle,'cid':addcid,'eworker':addeworker},
+      data:{'ename':addename,'echeckcycle':addecheckcycle,'cid':addcid,'eworker':addeworker,'date':edate},
       datatype:'json',
       success:function(data){
         data = JSON.parse(data);

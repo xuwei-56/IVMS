@@ -170,10 +170,10 @@ function CreatePage(strNumber,strName,strTime){
 	LODOP.SET_PRINT_PAGESIZE(1,400,300,"");    // 单位是0.1毫米
 	LODOP.ADD_PRINT_TEXT(20,40,105,35,strNumber);    // 单位是px
 	LODOP.SET_PRINT_STYLEA(1,"FontName","C39HrP24DlTt");
-	LODOP.SET_PRINT_STYLEA(1,"FontSize",15);
+	LODOP.SET_PRINT_STYLEA(1,"FontSize",20);
 	LODOP.SET_PRINT_STYLEA(1,"Alignment",2);
 	LODOP.ADD_PRINT_TEXT(60,10,166,30,strName);
-	LODOP.SET_PRINT_STYLEA(2,"FontSize",9);
+	LODOP.SET_PRINT_STYLEA(2,"FontSize",10);
 	LODOP.SET_PRINT_STYLEA(2,"Alignment",2);
 	LODOP.ADD_PRINT_TEXT(95,10,166,24,strTime);
 	LODOP.SET_PRINT_STYLEA(3,"FontSize",9);
@@ -326,9 +326,9 @@ $(document).ready(function(){
 		cfid = cfid.substring(8);
 		var moveP = $(this).parent().parent().find('td:eq(3)').text();
 		var time = $(this).parent().parent().find('td:eq(1)').text();
-		//prn_preview(cfid,moveP,time); // 打印预览
+		prn_preview(cfid,moveP,time); // 打印预览
 		//prn_print(cfid,moveP,time);   // 直接打印
-		prn_design(cfid,moveP,time)
+		//prn_design(cfid,moveP,time)
 		$.ajax({
 			url:'./updateCfstatus',
 			type:'POST',
