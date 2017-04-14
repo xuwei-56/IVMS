@@ -375,8 +375,8 @@ $(document).ready(function(){
   			data = JSON.parse(data)
   			if (data.code == 1) {
   				alert("提交成功")
-  				$("#pop_bg_normal").fadeOut();
   				getothersCheckingForm1();
+  				$("#pop_bg_normal").fadeOut(200);
   			}
   		}
   	})
@@ -415,7 +415,8 @@ $(document).ready(function(){
   			data = JSON.parse(data)
   			if (data.code == 1) {
   				alert("添加成功")
-  				('#pop_bg_tool').fadeIn();
+  				getothersCheckingForm1();
+  				('#pop_bg_tool').fadeIn(200);
   			}
   		}
   	})
