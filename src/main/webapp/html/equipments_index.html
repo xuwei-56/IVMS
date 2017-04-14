@@ -95,13 +95,13 @@
               </dd>
               <dd class="item_dd_235">
                 <span class="item_name">检测周期：</span>
-                <input type="text" class="textbox" id="checkcycle" placeholder="请输入整数" />
+                <input type="text" class="textbox" id="checkcycle" placeholder="请输入整数" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
               </dd>
             </li>
             <li>
               <dd class="item_dd_235">
                 <span class="item_name">初始日期：</span>
-                <input type="text" class="textbox" id="edate" placeholder="日期格式2017-5-1" />
+                <input type="text" class="textbox" id="edate" placeholder="日期格式2017-05-01" />
               </dd>
             </li>
             <li>
@@ -156,15 +156,15 @@
             <li>
               <dd class="item_dd_235">
                 <span class="item_name">初始日期：</span>
-                <input type="text" class="textbox" id="edate_update" placeholder="日期格式2017-5-1" />
+                <input type="text" class="textbox" id="edate_update" placeholder="日期格式2017-05-01" />
               </dd>
               <dd class="item_dd_235">
                 <span class="item_name">上次检测：</span>
-                <input type="text" class="textbox" id="lasttime" placeholder="日期格式2017-5-1" disabled="true" />
+                <input type="text" class="textbox" id="lasttime" placeholder="日期格式2017-05-01" disabled="true" />
               </dd>
               <dd class="item_dd_235">
                 <span class="item_name">下次检测：</span>
-                <input type="text" class="textbox" id="nexttime" placeholder="日期格式2017-5-1" disabled="true" />
+                <input type="text" class="textbox" id="nexttime" placeholder="日期格式2017-05-01" disabled="true" />
               </dd>
             </li>
             <li>
@@ -219,7 +219,7 @@
            <li>
              <dd class="item_dd_335">
                 <span class="item_name">检测时间：</span>
-                <input type="text" class="textbox" id="time_confirm" placeholder="日期格式2017-5-1"/>
+                <input type="text" class="textbox" id="time_confirm" placeholder="日期格式2017-05-01"/>
               </dd>
            </li>
          </ul>

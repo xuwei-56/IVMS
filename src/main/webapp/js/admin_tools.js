@@ -299,7 +299,7 @@ $(document).ready(function(){
 					var filename  = "";
 					data.data.forEach(function(file){
 						filename = file.ctfname.substr(file.ctfname.lastIndexOf('_')+1)//获取最后一个下滑线之后的字符串
-						filedata += "<li><span style='display:none;'>"+file.cifid+"</span><span>"+ filename +"</span><a id='deletefile'>删除</a></li>"
+						filedata += "<li><span style='display:none;'>"+file.ctfid+"</span><span>"+ filename +"</span><a id='deletefile'>删除</a></li>"
 					})
 					$('#upload_file').html(filedata);
 				}else if(data.code == 0){
@@ -467,6 +467,7 @@ $(document).ready(function(){
 				data = JSON.parse(data);
 				if (data.code == 1) {
 					alert("更改成功");
+					myrefresh();
 				}else{
 					alert(data.msg)
 					return false;
@@ -486,6 +487,7 @@ $(document).ready(function(){
 				data = JSON.parse(data);
 				if (data.code == 1) {
 					alert("删除成功");
+					myrefresh();
 				}else{
 					alert(data.msg)
 					return false;
@@ -614,6 +616,7 @@ $(document).ready(function(){
 				data = JSON.parse(data);
 				if (data.code == 1) {
 					alert("添加成功");
+					myrefresh();
 				}else{
 					alert(data.msg)
 					return false;

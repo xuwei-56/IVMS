@@ -1,6 +1,5 @@
 
 $(document).ready(function(){
-	var userData = new Array();   //保存当前部门下所有人员
 	var notifyMailData = new Array(); //保存抄送人邮箱
 	//得到当前登录员工信息
 	notifyMailData = getSessionUser();
@@ -12,8 +11,7 @@ $(document).ready(function(){
 		if (department == null) {
 			return false;
 		}
-		userData = getUserInfoByDepartment(department);
-		/*console.log(userData)*/
+		getUserInfoByDepartment(department);
 	})
 	//将选中抄送人，加入文本框，且存入notifyMailData数组
 	$('#userName').change(function(){

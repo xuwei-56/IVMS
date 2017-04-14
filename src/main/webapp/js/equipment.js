@@ -113,6 +113,7 @@ window.onload = function(){
         $('#update_equipment_btn').hide();
         $('#delete_equipment_btn').hide();
         $('#update_equipment_pop input').attr('disabled');
+        $('#add_equipment_a,#update_equipment_btn,#delete_equipment_btn,#confirm_equipment_btn').unbind()
       }
       if (isroot == -1) {
         // 未登录取消部分按钮功能

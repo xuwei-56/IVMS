@@ -46,7 +46,6 @@ function getothersCheckingForm1(){
 }
 
 $(document).ready(function(){
-	var userData = new Array();   //保存当前部门下所有人员
 	var notifyMailData = new Array(); //保存抄送人邮箱
 	$(function(){
 		//得到正常过程送检送检单
@@ -416,11 +415,11 @@ $(document).ready(function(){
   			data = JSON.parse(data)
   			if (data.code == 1) {
   				alert("添加成功")
-  				s('#pop_bg_tool').fadeIn();
+  				('#pop_bg_tool').fadeIn();
   			}
   		}
   	})
-})
+	})
 	
 
 	// 根据部门获取员工信息
@@ -429,14 +428,13 @@ $(document).ready(function(){
 		if (department == null) {
 			return false;
 		}
-		userData = getUserInfoByDepartment(department);
+		getUserInfoByDepartment(department);
 	})
-
 	//将选中抄送人，加入文本框，且存入notifyMailData数组
 	$('#userName').change(function(){
 		var mail = $('#userName').val()
 		var cn = $('#userName').find("option:selected").text()
-		if (num ==  null) {
+		if (mail ==  null) {
 			return false;
 		}
 		var notifyNum = $('#userNameList span').size(); // 获取当前抄送人数
@@ -456,8 +454,9 @@ $(document).ready(function(){
 		var claid = $('#claId').val();
 		if (claid == null) { return false }
 		getCheckingClassify(claid);
+
 		// 获取库位信息
-		getWareHouse(claid);
+		getWarehouse(claid);
 
 		if (claid == 2) {
 			$('#checkNum').removeAttr("disabled","true");
@@ -473,7 +472,12 @@ $(document).ready(function(){
 			$('#cfreplyreport').val("0");
 			$('#wId').html("<option value='0'>默认</option>")
 		}
+		if (claid > 1) {
+			$('#lId').html("<option value='0'>默认</option>")
+			$('#cId').html("<option value='0'>默认</option>")
+		};
 	})
+
 	// 获取对应产线下的单元
 	$('#lId').change(function(){
 		var lid = $('#lId').val();
@@ -482,7 +486,7 @@ $(document).ready(function(){
 	})
 
 	// 判断检具送检的零件号是否正确，正确添加检具名字到零件名称
-	$('#componentName').blur(function(){
+	$('#componentName').change(function(){
 		var claid = $('#claId').val();
 		var ctid = $('#componentId').val();
 		if (claid == 6) {

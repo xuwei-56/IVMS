@@ -275,7 +275,7 @@
          <li>
           <h2><strong style="color:#d10529;">量仪基础信息：</strong></h2>
           <dd class="item_dd_335"><span class="item_name" style="width:120px;">管理编号：</span>
-          <input type="text" class="textbox" id="ctid" placeholder="请输入数字" /></dd>
+          <input type="text" class="textbox" id="ctid" placeholder="请输入数字" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/></dd>
           <dd class="item_dd_335"><span class="item_name" style="width:100px;">名称：</span>
           <input type="text" class="textbox" id="ctname" /></dd>
          </li>

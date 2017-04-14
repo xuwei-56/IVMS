@@ -39,7 +39,7 @@ $(document).ready(function(){
 				$('#ctsize').text(data.data.CTSize)
 				$('#ctresolation').text(data.data.CTResolation)
 				$('#ctcheckTH').text(data.data.CTCheckTemperature +"℃/"+ data.data.CTCheckHumidiry)
-				$('#ctstatus').text(data.data.CTStatus)
+				$('#ctstatus').text(getCTStatus(data.data.CTStatus))
 				$('#ctremark').text(data.data.CTRemark)
 				$('#ctchecknexttime').text($.UnixToDate(data.data.CTRCheckNextTime));
 				

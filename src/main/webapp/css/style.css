@@ -240,3 +240,5 @@ header .rt_nav li .quit_icon:before{content:"Q";}
 .utils_ul .utils_display{margin-left: 15px}
 .utils_ul .utils_display h2{font-weight: bold;color: #d10529;font-size: 15px;;width: 500px;text-align: center;padding-bottom: 2px}
 .utils_ul .utils_table{width: 500px;text-align: center;}
+#upload_file span{margin-left: 10px}
+#upload_file a{display: inline-block;float: right;margin-right: 20px}
