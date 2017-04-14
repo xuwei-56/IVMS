@@ -31,6 +31,10 @@
     delete from notifypersonnelemail
     where CFId = #{CFId,jdbcType=VARCHAR}
   </delete>
+  <delete id="deleteCopyEmailsByCfidAndStyle" parameterType="java.lang.String" >
+    delete from notifypersonnelemail
+    where CFId = #{CFId,jdbcType=VARCHAR} AND NPEStyle=2;
+  </delete>
   <insert id="insert" parameterType="com.IVMS.model.NotifyPersonnelEmail" >
     insert into notifypersonnelemail (NPEId, CFId, NPENotifyEmail, 
       NPENotifyTime,NPEStyle)
@@ -74,23 +78,17 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.IVMS.model.NotifyPersonnelEmail" >
+  <update id="updateNotifyPersonalEmailByCfid" parameterType="com.IVMS.model.NotifyPersonnelEmail" >
     update notifypersonnelemail
-    <set >
-      <if test="cfid != null" >
-        CFId = #{cfid,jdbcType=VARCHAR},
-      </if>
+    <set>
       <if test="npenotifyemail != null" >
         NPENotifyEmail = #{npenotifyemail,jdbcType=VARCHAR},
       </if>
       <if test="npenotifytime != null" >
         NPENotifyTime = #{npenotifytime,jdbcType=DATE},
       </if>
-      <if test="npestyle != null" >
-        NPEStyle = #{npestyle,jdbcType=INTEGER},
-      </if>
     </set>
-    where NPEId = #{npeid,jdbcType=INTEGER}
+    where CFId = #{cfid,jdbcType=VARCHAR} AND NPEStyle = #{npestyle,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.IVMS.model.NotifyPersonnelEmail" >
     update notifypersonnelemail

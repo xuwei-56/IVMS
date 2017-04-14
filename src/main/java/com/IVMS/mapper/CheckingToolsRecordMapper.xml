@@ -234,4 +234,9 @@
   UPDATE checkingtoolsrecord SET CTRCheckNextTime=#{ctrchecknexttime,jdbcType=DATE}
   WHERE CTRNum=#{ctrnum,jdbcType=VARCHAR};
   </update>
+  <update id="updateCTRCheckNextTimeAndCheckTimeByCtid" >
+  UPDATE checkingtoolsrecord SET 
+  CTRCheckTIme=#{ctrchecktime,jdbcType=DATE},CTRCheckNextTime=#{ctrchecknexttime,jdbcType=DATE}
+  WHERE CTId=#{ctid,jdbcType=INTEGER};
+  </update>
 </mapper>

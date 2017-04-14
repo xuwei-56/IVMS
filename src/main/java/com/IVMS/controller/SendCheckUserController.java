@@ -309,7 +309,7 @@ public class SendCheckUserController {
 	
 	@RequestMapping("/myCheckingToolsDetails")
 	@ResponseBody
-	public JSONObject myCheckingToolsDetails(Integer ctid) throws Exception {
+	public JSONObject myCheckingToolsDetails(Integer ctid) throws Exception {		
 		Map<String,Object> myCheckingToolsDetails=sendCheckUserService.myCheckingToolsDetails(ctid);
 		if(myCheckingToolsDetails==null){
 			return CommonUtil.constructResponse(0,"没有数据！",null);

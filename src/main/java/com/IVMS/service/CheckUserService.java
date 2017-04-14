@@ -140,6 +140,8 @@ public interface CheckUserService {
     
     int updateEquipmentCheckTimeByEid(Date ectime,Date ecnexttime,Integer eid);
     
+    int updateEquipmentLastCheckTime(Date ectime,Date ecnexttime,Integer eid);
+    
     List<Map<String,Object>> myEquipment(String eworker);
     
     int updateCheckingToolReceiverByCtid(String ctreceiver,Integer ctid);
@@ -157,4 +159,16 @@ public interface CheckUserService {
     Integer selectMaxCtrIdByCtid(Integer ctid);
     
     CheckingToolsRecord selectCheckingToolRecordByCtrid(Integer ctrid);
+    
+    int updateCTRCheckNextTimeAndCheckTimeByCtid(Date ctrchecktime,Date ctrchecknexttime,Integer ctid);
+    
+    int updateNotifyPersonalEmailByCfid(NotifyPersonnelEmail notifyPersonnelEmail);
+    
+    Integer selectMaxEid();
+    
+    int selectEctidByEid(Integer eid);
+    
+    EquipmentCheckTime selectEquipmentCheckTimeByEctid(Integer ectid);
+    
+    int deleteCopyEmailsByCfidAndStyle(String cfid);
 }

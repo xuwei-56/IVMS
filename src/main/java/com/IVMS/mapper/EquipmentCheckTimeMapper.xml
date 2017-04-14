@@ -16,6 +16,17 @@
     from equipmentchecktime
     where EId = #{eid,jdbcType=INTEGER}
   </select>
+  <select id="selectEquipmentCheckTimeByEctid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from equipmentchecktime
+    where ECTId = #{ectid,jdbcType=INTEGER}
+  </select>
+  <select id="selectEctidByEid" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+    SELECT ect.ECTId 
+	FROM equipmentchecktime ect,(SELECT MAX(ECTId) ectid FROM equipmentchecktime GROUP BY EId) ti
+	WHERE EId=#{eid,jdbcType=INTEGER} AND ect.ectid=ti.ectid;
+  </select>
   <delete id="deleteEquipmentCheckTimeByEid" parameterType="java.lang.Integer" >
     delete from equipmentchecktime
     where EId = #{eid,jdbcType=INTEGER}
@@ -76,5 +87,10 @@
   UPDATE equipmentchecktime 
   SET ECTime=#{ectime,jdbcType=DATE},ECNextTime=#{ecnexttime,jdbcType=DATE} 
   WHERE EId=#{eid,jdbcType=INTEGER};
+  </update>
+  <update id="updateEquipmentLastCheckTime" >
+  UPDATE equipmentchecktime ect,(SELECT MAX(ECTId) ectid FROM equipmentchecktime GROUP BY EId) ti
+  SET ECTime=#{ectime,jdbcType=DATE},ECNextTime=#{ecnexttime,jdbcType=DATE} 
+  WHERE ect.ECTId=ti.ectid AND ect.EId=#{eid,jdbcType=INTEGER};
   </update>
 </mapper>

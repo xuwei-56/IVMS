@@ -329,5 +329,33 @@ public class CheckUserServiceImpl implements CheckUserService{
 	public CheckingToolsRecord selectCheckingToolRecordByCtrid(Integer ctrid) {
 		return checkingToolsRecordDao.selectCheckingToolRecordByCtrid(ctrid);
 	}
+
+	public int updateCTRCheckNextTimeAndCheckTimeByCtid(Date ctrchecktime, Date ctrchecknexttime, Integer ctid) {
+		return checkingToolsRecordDao.updateCTRCheckNextTimeAndCheckTimeByCtid(ctrchecktime, ctrchecknexttime, ctid);
+	}
+
+	public int updateNotifyPersonalEmailByCfid(NotifyPersonnelEmail notifyPersonnelEmail) {
+		return notifyPersonnelEmailDao.updateNotifyPersonalEmailByCfid(notifyPersonnelEmail);
+	}
+
+	public Integer selectMaxEid() {
+		return equipmentDao.selectMaxEid();
+	}
+
+	public int updateEquipmentLastCheckTime(Date ectime, Date ecnexttime, Integer eid) {
+		return equipmentCheckTimeDao.updateEquipmentLastCheckTime(ectime, ecnexttime, eid);
+	}
+
+	public int selectEctidByEid(Integer eid) {
+		return equipmentCheckTimeDao.selectEctidByEid(eid);
+	}
+
+	public EquipmentCheckTime selectEquipmentCheckTimeByEctid(Integer ectid) {
+		return equipmentCheckTimeDao.selectEquipmentCheckTimeByEctid(ectid);
+	}
+
+	public int deleteCopyEmailsByCfidAndStyle(String cfid) {
+		return notifyPersonnelEmailDao.deleteCopyEmailsByCfidAndStyle(cfid);
+	}
 	
 }

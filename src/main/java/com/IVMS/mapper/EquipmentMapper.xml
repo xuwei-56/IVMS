@@ -17,6 +17,9 @@
     from equipment
     where EId = #{eid,jdbcType=INTEGER}
   </select>
+  <select id="selectMaxEid" resultType="java.lang.Integer" >
+  SELECT MAX(EId) FROM equipment;
+  </select>
   <select id="myEquipment" resultType="hashmap" parameterType="java.lang.String" >
    SELECT e.EId,e.EName,CName,e.EWorker,e.ECheckCycle,ect.ECTime,ect.ECNextTime,l.LName
   FROM equipment e,equipmentchecktime ect,cell c,Line l,(SELECT MAX(ECTId) ectid FROM equipmentchecktime GROUP BY EId) ti

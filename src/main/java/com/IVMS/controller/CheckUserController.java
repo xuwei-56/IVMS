@@ -192,35 +192,40 @@ public class CheckUserController {
 			CheckingForm checkingForm=sendCheckUserService.selectByPrimaryKey(cfid);
 			Integer ClaId=checkingForm.getClaid();
 			Integer claId=sendCheckUserService.selectClaIdByCheckingTool();//得到检具送检类型的主键
-			if(ClaId==claId){
+			if(ClaId==claId){//检具送检
 				CheckingTools checkingTools=checkUserService.selectCheckingToolByCtid(
 						Integer.parseInt(SCFComponentId));
 				String ctreceiver=checkingTools.getCtreceiver();
+				System.out.println("ctreceiver:"+ctreceiver);
 				String username=(String) session.getAttribute("username");
 				String password=(String) session.getAttribute("password");
 				chekingToolsEmail=checkUserService.getEmailByCn(username, password,ctreceiver);//得到领用人邮箱
-				if(chekingToolsEmail!=null&&!chekingToolsEmail.isEmpty()){
+				if(chekingToolsEmail!=null&&!chekingToolsEmail.isEmpty()&&!chekingToolsEmail.equals("0")){
 					Mail mail=new Mail(chekingToolsEmail,"公司内部邮件","你的送检已开始检测",null);
 					MailSender.sendMail(mail);
 				}
 			}else{
 				List<NotifyPersonnelEmail>emails=checkUserService.selectNotifyEmailByCfid(cfid);
-				String[]Ccs=new String[emails.size()-1];
-				int i=-1;
-				String receiveEmail=null;
-				for(NotifyPersonnelEmail notifyPersonnelEmail:emails){
-					String email=notifyPersonnelEmail.getNpenotifyemail();
-					if(i==-1){
-						receiveEmail=email;
+				if(!emails.isEmpty()){
+					String[]Ccs=new String[emails.size()-1];
+					int i=-1;
+					String receiveEmail=null;
+					for(NotifyPersonnelEmail notifyPersonnelEmail:emails){
+						String email=notifyPersonnelEmail.getNpenotifyemail();
+						if(i==-1){
+							receiveEmail=email;
+						}
+						if(i!=-1){
+							Ccs[i]=email;
+						}
+						i++;
 					}
-					if(i!=-1){
-						Ccs[i]=email;
+					if(receiveEmail!=null){
+//						String[]Ccs={"allstarpeng@126.com"};
+						Mail mail=new Mail(receiveEmail,"公司内部邮件","你的送检已开始检测",Ccs);
+						MailSender.sendMail(mail);
 					}
-					i++;
 				}
-//				String[]Ccs={"allstarpeng@126.com"};
-				Mail mail=new Mail(receiveEmail,"公司内部邮件","你的送检已开始检测",Ccs);
-				MailSender.sendMail(mail);
 			}
 			return CommonUtil.constructResponse(EnumUtil.OK, "更新状态成功！",null);
 		}
@@ -290,6 +295,10 @@ public class CheckUserController {
 			if(resultOfAddCheckingToolInfo<=0){
 				return CommonUtil.constructResponse(0,"添加检具信息失败！",null);
 			}else{
+				NotifyPersonnelEmail personnelEmail=new NotifyPersonnelEmail();
+            	personnelEmail.setCfid(String.valueOf(ctid));
+            	personnelEmail.setNpestyle(1);
+            	sendCheckUserService.insertCopySendEmail(personnelEmail);
 				/**
 				 * 保存检具附件并把路径添加到数据库
 				 */
@@ -353,10 +362,10 @@ public class CheckUserController {
 				if(email!=null){
 					notifyPersonnelEmail.setNpenotifyemail(email);
 				}
-				notifyPersonnelEmail.setCfid(cfid);
+				notifyPersonnelEmail.setCfid(String.valueOf(ctid));
 				notifyPersonnelEmail.setNpenotifytime(nextCheckTime);
 				notifyPersonnelEmail.setNpestyle(1);
-				sendCheckUserService.insertCopySendEmail(notifyPersonnelEmail);
+				checkUserService.updateNotifyPersonalEmailByCfid(notifyPersonnelEmail);
 				checkUserService.updateCfStatusToCheckOver(cfid);
 				emailInfo="正常";
 				checkUserService.updateCheckingToolStatusByCtidAndCtStatus(6, ctid);//确认签字
@@ -415,13 +424,15 @@ public class CheckUserController {
 			String username=(String) session.getAttribute("username");
 			String password=(String) session.getAttribute("password");
 			String email=checkUserService.getEmailByCn(username, password,ctreceiver);//得到领用人邮箱
+			
 			NotifyPersonnelEmail notifyPersonnelEmail=new NotifyPersonnelEmail();
 			if(email!=null){
 				notifyPersonnelEmail.setNpenotifyemail(email);
 			}
 			notifyPersonnelEmail.setNpenotifytime(nextCheckTime);
 			notifyPersonnelEmail.setNpestyle(1);
-			sendCheckUserService.insertCopySendEmail(notifyPersonnelEmail);
+			notifyPersonnelEmail.setCfid(String.valueOf(ctid));
+			checkUserService.updateNotifyPersonalEmailByCfid(notifyPersonnelEmail);
 			return CommonUtil.constructResponse(EnumUtil.OK, "更新检具领用人成功！",null);
 		}
 	}
@@ -478,10 +489,13 @@ public class CheckUserController {
 			if(email!=null){
 				notifyPersonnelEmail.setNpenotifyemail(email);
 			}
-			notifyPersonnelEmail.setCfid(cfId);
+			/**
+			 * 更新定时发送邮箱的邮箱和时间
+			 */
+			notifyPersonnelEmail.setCfid(String.valueOf(ctid));
 			notifyPersonnelEmail.setNpenotifytime(nextCheckTime);
 			notifyPersonnelEmail.setNpestyle(1);
-			sendCheckUserService.insertCopySendEmail(notifyPersonnelEmail);
+			checkUserService.updateNotifyPersonalEmailByCfid(notifyPersonnelEmail);
 			checkUserService.updateCheckingToolStatusByCtidAndCtStatus(6, ctid);//确认签字
 		}else{
 			if(ctStatus==3){
@@ -512,10 +526,37 @@ public class CheckUserController {
 			@RequestParam("checkingToolFiles") MultipartFile[] checkingToolFiles)
 			throws Exception{
 		Integer ctid=checkingTools.getCtid();
+		Integer ctrid=checkUserService.selectMaxCtrIdByCtid(ctid);
 		Integer resultOfUpdateCheckingTool=checkUserService.updateCheckingToolByCtid(checkingTools);
 		if(resultOfUpdateCheckingTool<=0){
 			return CommonUtil.constructResponse(0,"更新检具信息失败！",null);
 		}else{
+			CheckingToolsRecord checkingToolsRecord=new CheckingToolsRecord();
+			checkingToolsRecord=checkUserService.selectCheckingToolRecordByCtrid(ctrid);
+			Date checkTime=checkingToolsRecord.getCtrchecktime();
+			Integer cycle=checkingTools.getCtcheckcycle();
+			Calendar calendar=Calendar.getInstance();
+			calendar.setTime(checkTime);
+			if(cycle==1){
+				calendar.add(Calendar.MONTH,3);
+			}else if(cycle==2){
+				calendar.add(Calendar.MONTH,6);
+			}else if(cycle==3){
+				calendar.add(Calendar.MONTH,12);
+			}
+			Date nextCheckTime=calendar.getTime();//得到检具下次检验时间
+			checkingToolsRecord.setCtrid(ctrid);
+			checkingToolsRecord.setCtrchecknexttime(nextCheckTime);
+			checkUserService.updateCheckingToolResultByCtrid(checkingToolsRecord);
+			/**
+			 * 更新定时发送邮箱
+			 */
+			NotifyPersonnelEmail notifyPersonnelEmail=new NotifyPersonnelEmail();
+			notifyPersonnelEmail.setNpenotifytime(nextCheckTime);
+			notifyPersonnelEmail.setNpestyle(1);
+			notifyPersonnelEmail.setCfid(String.valueOf(ctid));
+			checkUserService.updateNotifyPersonalEmailByCfid(notifyPersonnelEmail);
+			
 			/**
 			 * 保存检具附件并把路径添加到数据库
 			 */
@@ -634,7 +675,9 @@ public class CheckUserController {
 				calendar.add(Calendar.DATE,equipmentCycle);
 				Date nextCheckTime=calendar.getTime();//得到设备下次检验时间
 				EquipmentCheckTime equipmentCheckTime=new EquipmentCheckTime();
-				equipmentCheckTime.setEid(equipment.getEid());
+				//得到eid
+				Integer eid=checkUserService.selectMaxEid();
+				equipmentCheckTime.setEid(eid);
 				equipmentCheckTime.setEcnexttime(nextCheckTime);
 				equipmentCheckTime.setEctime(date);
 				checkUserService.insertEquipmentCheckTime(equipmentCheckTime);
@@ -650,6 +693,7 @@ public class CheckUserController {
 				}
 				notifyPersonnelEmail.setNpenotifytime(nextCheckTime);
 				notifyPersonnelEmail.setNpestyle(2);
+				notifyPersonnelEmail.setCfid(String.valueOf(eid));
 				sendCheckUserService.insertCopySendEmail(notifyPersonnelEmail);
 				return CommonUtil.constructResponse(EnumUtil.OK, "添加设备信息成功！", null);
 			}
@@ -660,14 +704,47 @@ public class CheckUserController {
 	
 	@RequestMapping("/updateEquipment")
 	@ResponseBody
-	public JSONObject updateEquipment(HttpSession session,Equipment equipment)
+	public JSONObject updateEquipment(HttpSession session,Equipment equipment,
+			@DateTimeFormat(pattern="yyyy-MM-dd") Date date)
 			throws Exception{
+		Integer eid=equipment.getEid();
+		Integer cycle=equipment.getEcheckcycle();//天数
+		String worker=equipment.getEworker();//负责人
+		Integer ectid=checkUserService.selectEctidByEid(eid);//得到最新ectid
 		User user = (User)session.getAttribute("user");
 		if(user.getPager().equals("1")){//设备负责人
 			int resultOfUpdateEquipment=checkUserService.updateEquipment(equipment);
 			if(resultOfUpdateEquipment<=0){
 				return CommonUtil.constructResponse(0,"更新设备信息失败！",null);
 			}else{
+				EquipmentCheckTime equipmentCheckTime=checkUserService.selectEquipmentCheckTimeByEctid(ectid);
+				Date lastCheckTime=equipmentCheckTime.getEctime();
+				Calendar calendar=Calendar.getInstance();
+				calendar.setTime(lastCheckTime);
+				calendar.add(Calendar.DATE,cycle);
+				Date nextCheckTime=calendar.getTime();//得到设备下次检验时间
+				/**
+				 * 修改上一次校验时间和下一次校验时间，修改定时发送邮箱的邮箱和时间
+				 */
+				if(date!=null){
+					calendar=Calendar.getInstance();
+					calendar.setTime(date);
+					calendar.add(Calendar.DATE,cycle);
+					nextCheckTime=calendar.getTime();//得到设备下次检验时间
+				}
+				//根据修改的周期更改最新校验时间
+				checkUserService.updateEquipmentLastCheckTime(lastCheckTime, nextCheckTime, eid);
+				String username=(String) session.getAttribute("username");
+				String password=(String) session.getAttribute("password");
+				String email=checkUserService.getEmailByCn(username, password,worker);//得到领用人邮箱
+				NotifyPersonnelEmail notifyPersonnelEmail=new NotifyPersonnelEmail();
+				if(email!=null){
+					notifyPersonnelEmail.setNpenotifyemail(email);
+				}
+				notifyPersonnelEmail.setNpenotifytime(nextCheckTime);
+				notifyPersonnelEmail.setNpestyle(2);
+				notifyPersonnelEmail.setCfid(String.valueOf(eid));
+				checkUserService.updateNotifyPersonalEmailByCfid(notifyPersonnelEmail);
 				return CommonUtil.constructResponse(EnumUtil.OK, "更新设备信息成功！", null);
 			}
 		}else{
@@ -686,6 +763,7 @@ public class CheckUserController {
 				return CommonUtil.constructResponse(0,"删除设备信息失败！",null);
 			}else{
 				checkUserService.deleteEquipmentCheckTimeByEid(eid);
+				checkUserService.deleteCopyEmailsByCfidAndStyle(String.valueOf(eid));
 				return CommonUtil.constructResponse(EnumUtil.OK, "删除设备信息成功！", null);
 			}	
 		}else{
@@ -740,7 +818,8 @@ public class CheckUserController {
 				}
 				notifyPersonnelEmail.setNpenotifytime(nextCheckTime);
 				notifyPersonnelEmail.setNpestyle(2);
-				sendCheckUserService.insertCopySendEmail(notifyPersonnelEmail);
+				notifyPersonnelEmail.setCfid(String.valueOf(eid));
+				checkUserService.updateNotifyPersonalEmailByCfid(notifyPersonnelEmail);
 				return CommonUtil.constructResponse(EnumUtil.OK, "添加设备校验时间成功！",null);
 			}
 		}else{

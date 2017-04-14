@@ -14,9 +14,16 @@ public interface EquipmentCheckTimeDao {
     int insertEquipmentCheckTime(EquipmentCheckTime equipmentCheckTime);
 
     EquipmentCheckTime selectEquipmentCheckTimeByEid(Integer eid);
+    
+    EquipmentCheckTime selectEquipmentCheckTimeByEctid(Integer ectid);
 
     int updateByPrimaryKeySelective(EquipmentCheckTime record);
 
     int updateEquipmentCheckTimeByEid(@Param("ectime")Date ectime,@Param("ecnexttime")Date ecnexttime,
     		@Param("eid")Integer eid);
+    
+    int updateEquipmentLastCheckTime(@Param("ectime")Date ectime,@Param("ecnexttime")Date ecnexttime,
+    		@Param("eid")Integer eid);
+    
+    int selectEctidByEid(Integer eid);
 }
