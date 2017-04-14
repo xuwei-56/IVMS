@@ -94,7 +94,8 @@
     FROM checkingtools 
     <where>
       <if test='CTUseItem != "0"' >
-      and CTUseItem like '%${CTUseItem,jdbcType=VARCHAR}%'
+      <!-- 不能加参数类型 -->
+      and CTUseItem like '%${CTUseItem}%'
       </if>
       <if test="CTStatus != null" >
       and CTStatus=#{CTStatus,jdbcType=INTEGER}

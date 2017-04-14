@@ -431,7 +431,7 @@ public class SendCheckUserController {
 	  	        	 String filename = urgentfile.getOriginalFilename();  
 	  	 	        if(filename!=null && !filename.isEmpty() && urgentstatu == 2){
 	  	 	        	UrgentFile urgentFile=null;
-	  	 	        	String root =request.getSession().getServletContext().getRealPath("/urgentFile/");
+	  	 	        	String root =request.getSession().getServletContext().getRealPath("/urgentfile/");
 	  	 	        	int index = filename.lastIndexOf("\\");
 	  	 	    		if(index != -1) {
 	  	 	    			filename = filename.substring(index+1);
@@ -480,7 +480,7 @@ public class SendCheckUserController {
 			  	        	 String filename = urgentfile.getOriginalFilename();  
 			  	 	        if(filename!=null && !filename.isEmpty() && urgentstatu == 2){
 			  	 	        	UrgentFile urgentFile=null;
-			  	 	        	String root =request.getSession().getServletContext().getRealPath("/urgentFile/");
+			  	 	        	String root =request.getSession().getServletContext().getRealPath("/urgentfile/");
 			  	 	        	int index = filename.lastIndexOf("\\");
 			  	 	    		if(index != -1) {
 			  	 	    			filename = filename.substring(index+1);
