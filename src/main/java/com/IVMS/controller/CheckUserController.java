@@ -370,6 +370,7 @@ public class CheckUserController {
 				emailInfo="正常";
 				checkUserService.updateCheckingToolStatusByCtidAndCtStatus(6, ctid);//确认签字
 			}else{
+				checkUserService.updateCfStatusToCheckOver(cfid);
 				emailInfo="维修中";
 				checkUserService.updateCheckingToolStatusByCtidAndCtStatus(ctStatus, ctid);//维修
 			}
@@ -533,30 +534,31 @@ public class CheckUserController {
 		}else{
 			CheckingToolsRecord checkingToolsRecord=new CheckingToolsRecord();
 			checkingToolsRecord=checkUserService.selectCheckingToolRecordByCtrid(ctrid);
-			Date checkTime=checkingToolsRecord.getCtrchecktime();
-			Integer cycle=checkingTools.getCtcheckcycle();
-			Calendar calendar=Calendar.getInstance();
-			calendar.setTime(checkTime);
-			if(cycle==1){
-				calendar.add(Calendar.MONTH,3);
-			}else if(cycle==2){
-				calendar.add(Calendar.MONTH,6);
-			}else if(cycle==3){
-				calendar.add(Calendar.MONTH,12);
+			if(checkingToolsRecord!=null){
+				Date checkTime=checkingToolsRecord.getCtrchecktime();
+				Integer cycle=checkingTools.getCtcheckcycle();
+				Calendar calendar=Calendar.getInstance();
+				calendar.setTime(checkTime);
+				if(cycle==1){
+					calendar.add(Calendar.MONTH,3);
+				}else if(cycle==2){
+					calendar.add(Calendar.MONTH,6);
+				}else if(cycle==3){
+					calendar.add(Calendar.MONTH,12);
+				}
+				Date nextCheckTime=calendar.getTime();//得到检具下次检验时间
+				checkingToolsRecord.setCtrid(ctrid);
+				checkingToolsRecord.setCtrchecknexttime(nextCheckTime);
+				checkUserService.updateCheckingToolResultByCtrid(checkingToolsRecord);
+				/**
+				 * 更新定时发送邮箱
+				 */
+				NotifyPersonnelEmail notifyPersonnelEmail=new NotifyPersonnelEmail();
+				notifyPersonnelEmail.setNpenotifytime(nextCheckTime);
+				notifyPersonnelEmail.setNpestyle(1);
+				notifyPersonnelEmail.setCfid(String.valueOf(ctid));
+				checkUserService.updateNotifyPersonalEmailByCfid(notifyPersonnelEmail);
 			}
-			Date nextCheckTime=calendar.getTime();//得到检具下次检验时间
-			checkingToolsRecord.setCtrid(ctrid);
-			checkingToolsRecord.setCtrchecknexttime(nextCheckTime);
-			checkUserService.updateCheckingToolResultByCtrid(checkingToolsRecord);
-			/**
-			 * 更新定时发送邮箱
-			 */
-			NotifyPersonnelEmail notifyPersonnelEmail=new NotifyPersonnelEmail();
-			notifyPersonnelEmail.setNpenotifytime(nextCheckTime);
-			notifyPersonnelEmail.setNpestyle(1);
-			notifyPersonnelEmail.setCfid(String.valueOf(ctid));
-			checkUserService.updateNotifyPersonalEmailByCfid(notifyPersonnelEmail);
-			
 			/**
 			 * 保存检具附件并把路径添加到数据库
 			 */

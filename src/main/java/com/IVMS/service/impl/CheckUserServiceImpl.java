@@ -32,7 +32,6 @@ import com.IVMS.model.Warehouse;
 import com.IVMS.service.CheckUserService;
 import com.IVMS.util.LdapUtil;
 
-@Service("CheckUserServiceImpl")
 public class CheckUserServiceImpl implements CheckUserService{
 
 	@Resource

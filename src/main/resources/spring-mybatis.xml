@@ -46,6 +46,8 @@
 		<property name="mapperLocations" value="classpath:com/IVMS/mapper/*.xml"></property>
 	</bean>
 
+	<bean id="CheckUserService" class="com.IVMS.service.impl.CheckUserServiceImpl"/>
+	
 	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.IVMS.dao" />
@@ -79,29 +81,37 @@
 <!-- 		<property name="javaMailSender" ref="javaMailSender"></property> -->
 <!-- 	</bean> -->
 
-
+    <!-- 方式二：使用MethodInvokingJobDetailFactoryBean，任务类可以不实现Job接口，通过targetMethod指定调用方法-->
 	<!-- 添加定时任务 -->
 	<bean id="DailyTaskQtzJobMethod1"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
- 
-		<!-- 指定任务类 -->
+
+       <!--指定任务类 -->
 		<property name="targetObject">
 			<bean class="com.IVMS.util.SpringQtz" />
 		</property>
 		<property name="targetMethod">  
-			<!-- 要执行的方法名称 -->
+       <!--要执行的方法名称 -->
 			<value>executeSource</value>
 		</property>
 	</bean>
 
-
+<!--方式一：使用JobDetailBean，任务类必须实现Job接口 -->
+<!--   <bean id="DailyTaskQtzJobMethod1" class="org.springframework.scheduling.quartz.JobDetailBean"> -->
+<!--     <property name="jobClass" value="com.IVMS.util.SpringQtz"></property> -->
+<!--     <property name="jobDataAsMap"> -->
+<!--     <map> -->
+<!--       <entry key="service"><value>simple is the beat</value></entry> -->
+<!--     </map> -->
+<!--     </property> -->
+<!--   </bean> -->
 
 	<!-- ======================== 调度触发器 ======================== -->
 	<!-- cronExpression 中0 0/20 * * * ? 代表 秒，分，时，日，月，周几，年 -->
 	<bean id="DailyTaskCronTriggerBean1"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="DailyTaskQtzJobMethod1"></property>
-		<property name="cronExpression" value="0 0 12 * * ?"></property>
+		<property name="cronExpression" value="* * 6 * * ?"></property>
 	</bean>
 	
 <!-- 	启动工作 -->

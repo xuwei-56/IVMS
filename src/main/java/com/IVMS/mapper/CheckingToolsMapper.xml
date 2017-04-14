@@ -94,7 +94,7 @@
     FROM checkingtools 
     <where>
       <if test='CTUseItem != "0"' >
-      and CTUseItem=#{CTUseItem,jdbcType=VARCHAR}
+      and CTUseItem like '%${CTUseItem,jdbcType=VARCHAR}%'
       </if>
       <if test="CTStatus != null" >
       and CTStatus=#{CTStatus,jdbcType=INTEGER}
