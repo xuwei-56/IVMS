@@ -13,6 +13,8 @@
 
 	<!-- 自动扫描 -->
 	<context:component-scan base-package="com.IVMS" />
+	
+<!-- 	<bean id="CheckUserService" class="com.IVMS.service.impl.CheckUserServiceImpl"/> -->
 
 	<!-- 访问静态资源(不拦截该资源) -->
 	<mvc:resources location="/js/" mapping="/js/**" />

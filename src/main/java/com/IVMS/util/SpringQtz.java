@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
@@ -21,36 +23,36 @@ import com.IVMS.service.CheckUserService;
  * @author gr
  *
  */
-@Transactional(readOnly = true)
 @Component
 public class SpringQtz {
-//	@Autowired
-//	private CheckUserService checkUserService;
+	@Resource
+	private CheckUserService checkUserService;
 	/*
     * 测试定时
     * */
-	@DependsOn("checkUserService") 
 	protected void executeSource(){
 		System.out.println("测试定时");
-//		List<Map<String,Object>> noticeEmailAndTime=checkUserService.selectNotifyEmailAndTime();
-//		System.out.println(noticeEmailAndTime);
-//		Date currentTime=new Date();
-//		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
-//        String time=sdf.format(currentTime);
-//        if(noticeEmailAndTime!=null&&!noticeEmailAndTime.isEmpty()){
-//    		for(Map<String, Object> timeAndEmail:noticeEmailAndTime){
-//    			Date ctrCheckNextTime=(Date) timeAndEmail.get("NPENotifyTime");
-//    			System.out.println(ctrCheckNextTime);
-//    	        sdf=new SimpleDateFormat("yyyyMMdd");
-//    	        String nextTime=sdf.format(ctrCheckNextTime);
-//    			if(time.equals(nextTime)){
-//    				String email=(String) timeAndEmail.get("NPENotifyEmail");
-//    				System.out.println(email);
-//    				String[]ccs=new String[0];
-//    				Mail mail=new Mail(email,"公司内部邮件","你的检具或设备下次校验时间已到，请尽快对其进行检测！",ccs);
-//    			    MailSender.sendMail(mail);
-//    			}
-//    		}
-//        }
+		List<Map<String,Object>> noticeEmailAndTime=checkUserService.selectNotifyEmailAndTime();
+		System.out.println(noticeEmailAndTime);
+		Date currentTime=new Date();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
+        String time=sdf.format(currentTime);
+        if(noticeEmailAndTime!=null&&!noticeEmailAndTime.isEmpty()){
+    		for(Map<String, Object> timeAndEmail:noticeEmailAndTime){
+    			Date ctrCheckNextTime=(Date) timeAndEmail.get("NPENotifyTime");
+    			System.out.println(ctrCheckNextTime);
+    	        sdf=new SimpleDateFormat("yyyyMMdd");
+    	        String nextTime=sdf.format(ctrCheckNextTime);
+    			if(time.equals(nextTime)){
+    				String email=(String) timeAndEmail.get("NPENotifyEmail");
+    				System.out.println(email);
+    				if(email!=null&&!email.equals("0")){
+    					String[]ccs=new String[0];
+        				Mail mail=new Mail(email,"公司内部邮件","你的检具或设备下次校验时间已到，请尽快对其进行检测！",ccs);
+        			    MailSender.sendMail(mail);
+    				}
+    			}
+    		}
+        }
 	}
 }
