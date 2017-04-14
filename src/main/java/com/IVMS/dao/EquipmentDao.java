@@ -28,4 +28,6 @@ public interface EquipmentDao {
     int updateByPrimaryKey(Equipment record);
     
     List<Map<String,Object>> myEquipment(String eworker);
+    
+    Integer selectMaxEid();
 }

@@ -28,6 +28,9 @@ public interface CheckingToolsRecordDao {
     int updateAcceptAndAgreeByCtrid(@Param("ctrid")Integer ctrid,@Param("ctrcheckresult")
     Integer ctrcheckresult,@Param("ctisagree")Integer ctisagree);
     
+    int updateCTRCheckNextTimeAndCheckTimeByCtid(@Param("ctrchecktime")Date ctrchecktime,
+    		@Param("ctrchecknexttime")Date ctrchecknexttime,@Param("ctid")Integer ctid);
+    
     List<Map<String,Object>> selectEmailAndCheckNextTime();
     
     List<Map<String,Object>> selectCheckingToolRecords(Integer ctid);

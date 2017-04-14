@@ -14,11 +14,13 @@ public interface NotifyPersonnelEmailDao {
 
     NotifyPersonnelEmail selectByPrimaryKey(Integer npeid);
 
-    int updateByPrimaryKeySelective(NotifyPersonnelEmail record);
+    int updateNotifyPersonalEmailByCfid(NotifyPersonnelEmail notifyPersonnelEmail);
 
     int updateByPrimaryKey(NotifyPersonnelEmail record);
     
     int deleteCopyEmailsByCfid(String cfid);
+    
+    int deleteCopyEmailsByCfidAndStyle(String cfid);
     
     List<NotifyPersonnelEmail> selectNotifyEmailByCfid(String cfid);
     
