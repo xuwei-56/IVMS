@@ -213,7 +213,7 @@ $(document).ready(function(){
 		if (CTStatus == null && CTUseItem == null && CTUseItem == "") {
 			return false;
 		}
-		if (CTUseItem == "" && CTUseItem == null ) {
+		if (CTUseItem == "" || CTUseItem == null ) {
 			CTUseItem = 0;
 		};
 		$.ajax({

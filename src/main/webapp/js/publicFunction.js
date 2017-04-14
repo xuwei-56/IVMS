@@ -98,7 +98,28 @@ function getCTCycle(ctcheckcycle){
 function myrefresh() 
 { 
   window.location.reload(); 
-} 
+}
+// 判断检具送检的零件号是否正确，正确添加检具名字到零件名称 
+function getCTNameIsTrueByCtid(ctid){
+  var claid = $('#claId').val();
+  console.log(claid);
+  if (claid == 6) {
+    $.ajax({
+      url:'./user/judgeCtidAndGetCTName',
+      type:'POST',
+      data:{'ctid':ctid},
+      datatype:'json',
+      success:function(data){
+        data = JSON.parse(data);
+        if (data.code == 1) {
+          $('#componentName').val(data.data);
+        }else{
+          alert(data.msg)
+        }
+      }
+    })
+  }
+}
 function getnormalCheckingForm(){
   //得到正常过程送检送检单
   $.ajax({

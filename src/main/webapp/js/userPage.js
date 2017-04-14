@@ -59,6 +59,11 @@ $(document).ready(function(){
 			$('#lId').html("<option value='0'>默认</option>")
 			$('#cId').html("<option value='0'>默认</option>")
 		};
+		if (claid == 6) {
+			$('#componentName').attr('disabled',"true");
+		}else{
+			$('#componentName').removeAttr("disabled","true");
+		}
 	})
 
 	// 获取对应产线下的单元
@@ -66,28 +71,6 @@ $(document).ready(function(){
 		var lid = $('#lId').val();
 		if (lid == null) { return false }
 		getCellNames(lid);
-	})
-
-	// 判断检具送检的零件号是否正确，正确添加检具名字到零件名称
-	$('#componentName').change(function(){
-		var claid = $('#claId').val();
-		var ctid = $('#componentId').val();
-		if (claid == 6) {
-			$.ajax({
-		    url:'./user/judgeCtidAndGetCTName',
-		    type:'POST',
-		    data:{'ctid':ctid},
-		    datatype:'json',
-		    success:function(data){
-		      data = JSON.parse(data);
-		      if (data.code == 1) {
-		        $('#componentName').val(data.data);
-		      }else{
-		        alert(data.msg)
-		      }
-		    }
-		  })
-		}
 	})
 
 	// 提交

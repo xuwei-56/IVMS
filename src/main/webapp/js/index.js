@@ -51,6 +51,8 @@ function getnotPrintCheckingForm(){
 					checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='print'>打印</a><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
   				})
   				$('#cfzero').html(""+checkformdata);
+			}if (data.code == 0) {
+				$('#cfzero').html("没有未打印的送检单！");
 			}
 		}
 	})
@@ -166,16 +168,16 @@ function prn_design(strNumber,strName,strTime) {
 	LODOP.PRINT_design(); 	
 };	
 function CreatePage(strNumber,strName,strTime){
-	LODOP.PRINT_INIT("打印插件_标签");
+	LODOP.PRINT_INIT("打印预览");
 	LODOP.SET_PRINT_PAGESIZE(1,400,300,"");    // 单位是0.1毫米
-	LODOP.ADD_PRINT_TEXT(20,40,105,35,strNumber);    // 单位是px
+	LODOP.ADD_PRINT_TEXT(20,36,105,35,strNumber);    // 单位是px
 	LODOP.SET_PRINT_STYLEA(1,"FontName","C39HrP24DlTt");
 	LODOP.SET_PRINT_STYLEA(1,"FontSize",20);
 	LODOP.SET_PRINT_STYLEA(1,"Alignment",2);
-	LODOP.ADD_PRINT_TEXT(60,10,166,30,strName);
+	LODOP.ADD_PRINT_TEXT(60,8,166,30,strName);
 	LODOP.SET_PRINT_STYLEA(2,"FontSize",10);
 	LODOP.SET_PRINT_STYLEA(2,"Alignment",2);
-	LODOP.ADD_PRINT_TEXT(95,10,166,24,strTime);
+	LODOP.ADD_PRINT_TEXT(95,8,166,24,strTime);
 	LODOP.SET_PRINT_STYLEA(3,"FontSize",9);
 	LODOP.SET_PRINT_STYLEA(3,"Alignment",2);
 };
@@ -270,9 +272,6 @@ $(document).ready(function(){
 			$(".loading_area").fadeOut();
 		}
 	})
-	
-	/*// 获取我的量检具
-	getcheckingToolsInfo(1,null,null);*/
 	// 获取量检具
 	var toolsCount;
 	$.ajax({
@@ -323,12 +322,10 @@ $(document).ready(function(){
 	// LODOP打印
 	$('#cfzero').delegate('#print','click',function(){
 		var cfid = $(this).parent().parent().find('td:first').text();
-		cfid = cfid.substring(8);
+		var cfidtemp = cfid.substring(8);
 		var moveP = $(this).parent().parent().find('td:eq(3)').text();
 		var time = $(this).parent().parent().find('td:eq(1)').text();
-		prn_preview(cfid,moveP,time); // 打印预览
-		//prn_print(cfid,moveP,time);   // 直接打印
-		//prn_design(cfid,moveP,time)
+		
 		$.ajax({
 			url:'./updateCfstatus',
 			type:'POST',
@@ -343,6 +340,9 @@ $(document).ready(function(){
 				}
 			}
 		})
+		prn_preview(cfidtemp,moveP,time); // 打印预览
+		//prn_print(cfidtemp,moveP,time);   // 直接打印
+		//prn_design(cfidtemp,moveP,time)
 	})
 
 	
@@ -497,7 +497,7 @@ $(document).ready(function(){
 		if (CTStatus == null && CTUseItem == null && CTUseItem == "") {
 			return false;
 		}
-		if (CTUseItem == "" && CTUseItem == null ) {
+		if (CTUseItem == "" || CTUseItem == null ) {
 			CTUseItem = 0;
 		};
 		$.ajax({

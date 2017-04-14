@@ -398,8 +398,8 @@
             </select>
             <span class="item_name" style="width:120px;">紧急程度：</span>
             <select class="select textbox_100" id="urgentStatus">
-             <option value="1">&nbsp;&nbsp;&nbsp;正常</option>
-             <option value="2">&nbsp;&nbsp;&nbsp;加急</option>
+             <option value="1">正常</option>
+             <option value="2">加急</option>
             </select>
            </li>
            <li>
@@ -422,7 +422,7 @@
            </li>
            <li>
             <span class="item_name" style="width:120px;">零件编号：</span>
-            <input type="text" class="textbox textbox_225"/ id="componentId">
+            <input type="text" class="textbox textbox_225"/ id="componentId" onblur="getCTNameIsTrueByCtid(this.value)">
             <span class="item_name" style="width:120px;">零件名称：</span>
             <input type="text" class="textbox textbox_225" id="componentName" />
             <span class="item_name" style="width:120px;">零件数量：</span>

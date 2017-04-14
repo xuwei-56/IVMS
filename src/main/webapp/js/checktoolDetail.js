@@ -84,7 +84,7 @@ $(document).ready(function(){
 				var filename  = "";
 				data.data.forEach(function(file){
 					filename = file.ctfname.substr(file.ctfname.lastIndexOf('_')+1)//获取最后一个下滑线之后的字符串
-					filedata += "<li><a href='./checkingtoolfile/"+file.ctfname+"' id='fileUrlA' download='"+filename+"'</a>"+filename+"</li>"
+					filedata += "<li><a href='./checkingtoolfile/"+file.ctfname+"' id='fileUrlA' download='"+filename+"'>"+filename+"</a></li>"
 				})
 				$('#CTFileList_ul').html(filedata);
 			}else if(data.code == 0){
