@@ -317,16 +317,40 @@ $(document).ready(function(){
 		})
 	})
 
+	//删除送检单
+	$('#mycheckform').delegate('#deleteform','click',function(){
+		var cfid = $(this).parent().parent().find('td:first').text(); 
+		if (window.confirm("你确定删除吗？")) {
+			$.ajax({
+				url:'./user/deleteMyCheckingForm',
+				type:'POST',
+				data:{'cfid':cfid},
+				datatype:'json',
+				success:function(data){
+					data = JSON.parse(data);
+					if (data.code == 1) {
+						window.location.reload();
+					}else{
+						alert(data.msg)
+						return false;
+					}
+				}
+			})
+		}else{
+			return false;
+		}
+	})
+
 	// 关闭弹框
     $(".falseBtn").click(function(){
       $(".pop_bg").fadeOut();
     });
 	
-	//回车提交事件
+	/*//回车提交事件
 	$("body").keydown(function() {
 	    if (event.keyCode == "13") {//keyCode=13是回车键
 	        $('#button_searchByCfid').click();
 	    }
-	});
+	});*/
 	//--------回车提交事件完毕---------------------//
 })

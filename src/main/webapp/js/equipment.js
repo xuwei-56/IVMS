@@ -496,23 +496,26 @@ $(document).ready(function(){
   // 删除设备
   $('#delete_equipment_btn').click(function(){
     var eid =$('#eid').val();
-    $.ajax({
-      url:'./user/deleteEquipment',
-      type:'POST',
-      data:{'eid':eid},
-      datatype:'json',
-      success:function(data){
-        data = JSON.parse(data);
-        if (data.code == 1) {
-          alert('删除成功！')
-          window.location.reload()
-        }else{
-          if (data.code < 0) {
-            alert(data.msg)
+    if (window.confirm("你确认要删除吗？")) {
+      $.ajax({
+        url:'./user/deleteEquipment',
+        type:'POST',
+        data:{'eid':eid},
+        datatype:'json',
+        success:function(data){
+          data = JSON.parse(data);
+          if (data.code == 1) {
+            window.location.reload()
+          }else{
+            if (data.code < 0) {
+              alert(data.msg)
+            }
           }
         }
-      }
-    })
+      })
+    }else{
+      return false;
+    }
   })
   //查看详情
   $('#emtable').delegate('#updete_equipment','click',function(){

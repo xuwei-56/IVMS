@@ -335,23 +335,28 @@ $(document).ready(function(){
 	// 删除附件
 	$('#pop_bg_updateTool').delegate('#upload_file','click',function(){
 		var ctfid = $(this).parent().find("span:eq(0)").text();
-		$.ajax({
-			url:'./user/deleteCheckingToolFile',
-			type:'POST',
-			cache:false,
-			data:{'ctfid':ctfid},
-			datatype:'json',
-			success:function(data){
-				data = JSON.parse(data);
-				if (data.code == 1) {
-					alert("删除附件成功！");
-					$(this).parent().remove();
-					
-				}else if(data.code == 0){
-					$('#upload_file').html(data.msg);
+		if (window.confirm("你确认要删除吗？")) {
+			$.ajax({
+				url:'./user/deleteCheckingToolFile',
+				type:'POST',
+				cache:false,
+				data:{'ctfid':ctfid},
+				datatype:'json',
+				success:function(data){
+					data = JSON.parse(data);
+					if (data.code == 1) {
+						alert("删除附件成功！");
+						$(this).parent().remove();
+						
+					}else if(data.code == 0){
+						$('#upload_file').html(data.msg);
+					}
 				}
-			}
-		})
+			})
+		}else{
+			return flase;
+		}
+		
 	})
   // 提交修改
   $('#updatetool_btn').click(function(){
