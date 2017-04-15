@@ -67,8 +67,9 @@ function getCTStatus(str){
 function getIsAgree(str){
   var status = "";
   switch(str){
-    case 0:status = "同意";break;
-    case 1:status = "不同意";break;
+    case 0:status = "未确认";break;
+    case 1:status = "同意";break;
+    case 2:status = "不同意";break;
     default:status = "未确认";break;
   }
   return status;
@@ -77,9 +78,10 @@ function getIsAgree(str){
 function getAccept(str){
   var status = "";
   switch(str){
-    case 0:status = "接受";break;
-    case 1:status = "不接受";break;
-    default:status = "未确认";break;
+    case 0:status = "未确认";break;
+    case 1:status = "接受";break;
+    case 2;status = "不接受";break;
+    default:status = "未知状态";break;
   }
   return status;
 }

@@ -375,7 +375,7 @@ $(document).ready(function(){
   			data = JSON.parse(data)
   			if (data.code == 1) {
   				alert("提交成功")
-  				getothersCheckingForm1();
+  				getnormalCheckingForm1()
   				$("#pop_bg_normal").fadeOut(200);
   			}
   		}

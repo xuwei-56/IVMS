@@ -334,7 +334,7 @@ $(document).ready(function(){
   })
 	// 删除附件
 	$('#pop_bg_updateTool').delegate('#upload_file','click',function(){
-		var ctfid = $(this).parent().find("span:eq(0)").text();
+		var ctfid = $(this).parent().find("span:eq(1)").text();
 		if (window.confirm("你确认要删除吗？")) {
 			$.ajax({
 				url:'./user/deleteCheckingToolFile',
