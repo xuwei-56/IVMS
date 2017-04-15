@@ -80,7 +80,7 @@ function getAccept(str){
   switch(str){
     case 0:status = "未确认";break;
     case 1:status = "接受";break;
-    case 2;status = "不接受";break;
+    case 2:status = "不接受";break;
     default:status = "未知状态";break;
   }
   return status;
