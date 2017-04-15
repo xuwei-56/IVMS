@@ -34,8 +34,11 @@ public class MailSender {
 			e1.printStackTrace();
 		}
 		Properties mailProps = new Properties();
+		mailProps.put("mail.smtp.user", props.getProperty("mailSender"));
 		mailProps.setProperty("mail.host", props.getProperty("host"));
 		mailProps.setProperty("mail.smtp.auth",props.getProperty("auth"));
+		mailProps.setProperty("mail.smtp.port",props.getProperty("port"));
+		mailProps.put("mail.smtp.starttls.enable", "true");
 		
 		Authenticator auth = new Authenticator() {
 			@Override
