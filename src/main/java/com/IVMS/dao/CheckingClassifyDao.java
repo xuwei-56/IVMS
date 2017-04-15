@@ -10,6 +10,8 @@ public interface CheckingClassifyDao {
     int deleteByCCid(Integer ccid);
     
     int deleteCheckingClassifyByClaid(Integer claid);
+    
+    int deleteCheckingClassifyByClaidAndCCname(Integer claid);
 
     int insert(CheckingClassify record);
     

@@ -74,7 +74,6 @@ public class CheckUserController {
 	public JSONObject addLine(String lName){
 		int resultOfAddLine=checkUserService.insertLine(lName);
 		int maxLid=checkUserService.selectMaxLid();
-		checkUserService.insertCell(maxLid, "默认");
 		if(resultOfAddLine<=0){
 			return CommonUtil.constructResponse(0,"插入生产线信息失败！",null);
 		}else{
@@ -101,6 +100,7 @@ public class CheckUserController {
 		if(resultOfAddCheckingClassify<=0){
 			return CommonUtil.constructResponse(0,"插入检测类型失败！",null);
 		}else{
+			sendCheckUserService.deleteCheckingClassifyByClaidAndCCname(claId);
 			return CommonUtil.constructResponse(EnumUtil.OK, "插入检测类型成功！", null);
 		}
 	}
@@ -239,7 +239,6 @@ public class CheckUserController {
 		if(resultOfDeleteCheckingTool<=0){
 			return CommonUtil.constructResponse(0,"删除检具信息失败！",null);
 		}else{
-			checkUserService.deleteCheckingToolsFileByCtid(ctid);
 			/**
 			 * 真正删除检具附件
 			 */
@@ -252,6 +251,7 @@ public class CheckUserController {
 				File fileOfCheckingTool=new File(root+ctfName);
 				fileOfCheckingTool.delete();//删除检具附件
 			}
+			checkUserService.deleteCheckingToolsFileByCtid(ctid);
 			return CommonUtil.constructResponse(EnumUtil.OK, "删除检具信息成功！",null);
 		}
 	}
@@ -259,15 +259,17 @@ public class CheckUserController {
 	@RequestMapping("/deleteCheckingToolFile")
 	@ResponseBody
 	public JSONObject deleteCheckingToolFile(Integer ctfid,HttpServletRequest request){
+		String path=checkUserService.selectCTFNameByCTFId(ctfid);
+		System.out.println("ctfname:"+path);
+		String root=request.getSession().getServletContext().getRealPath("/checkingtoolfile/");
+		root=root.replace("\\","/");//  \\对\转义，把\换成/
+		File checkingToolFile=new File(root+path);
+		System.out.println("checkingToolFile:"+checkingToolFile);
+		checkingToolFile.delete();//删除检具附件
 		Integer resultOfDeleteCheckingToolFile=checkUserService.deleteCheckingToolsFileByCtfid(ctfid);
 		if(resultOfDeleteCheckingToolFile<=0){
 			return CommonUtil.constructResponse(0,"删除检具附件失败！",null);
 		}else{
-			String path=checkUserService.selectCTFNameByCTFId(ctfid);
-			String root=request.getSession().getServletContext().getRealPath("/checkingtoolfile/");
-			root=root.replace("\\","/");//  \\对\转义，把\换成/
-			File checkingToolFile=new File(root+path);
-			checkingToolFile.delete();//删除检具附件
 			return CommonUtil.constructResponse(EnumUtil.OK, "删除检具附件成功！",null);
 		}
 	}

@@ -66,6 +66,8 @@ public interface SendCheckUserService {
 	
 	int deleteUrgentFileByCfid(String cfid);
 	
+	int deleteCheckingClassifyByClaidAndCCname(Integer claid);
+	
 	int deleteCheckingFormByPrimaryKey(String cfid);
 	
 	int deleteCopyEmailsByCfid(String cfid);

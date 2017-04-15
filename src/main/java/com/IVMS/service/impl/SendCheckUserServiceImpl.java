@@ -218,4 +218,8 @@ public class SendCheckUserServiceImpl implements SendCheckUserService{
 		return checkingFormDao.insertCheckingToolsRecord(cfid, cfmovep, cfcomponentid, cftime);
 	}
 
+	public int deleteCheckingClassifyByClaidAndCCname(Integer claid) {
+		return checkingClassifyDao.deleteCheckingClassifyByClaidAndCCname(claid);
+	}
+
 }

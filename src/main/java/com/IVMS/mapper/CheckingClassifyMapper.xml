@@ -22,6 +22,9 @@
     delete from checkingclassify
     where CCId = #{ccid,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteCheckingClassifyByClaidAndCCname" parameterType="java.lang.Integer" >
+    DELETE FROM checkingclassify WHERE ClaId=#{ClaId,jdbcType=INTEGER} AND CCName='默认';
+  </delete>
   <delete id="deleteCheckingClassifyByClaid" parameterType="java.lang.Integer" >
    DELETE FROM checkingclassify WHERE ClaId=#{claid,jdbcType=INTEGER}
   </delete>
