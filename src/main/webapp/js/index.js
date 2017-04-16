@@ -11,8 +11,10 @@ function getnormalCheckingForm(){
 				var checkformdata = "<tr><th>检测单号</th><th>送检日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
 				data.data.forEach(function(checkform){
 					checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
-  				})
-  				$('#cfnormal').html(""+checkformdata);
+				})
+				$('#cfnormal').html(""+checkformdata);
+			}if (data.code == 0) {
+				$('#cfnormal').html("没有未打印的送检单！");
 			}
 		}
 	})
@@ -30,8 +32,10 @@ function getothersCheckingForm(){
 				var checkformdata = "<tr><th>检测单号</th><th>送检日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
 				data.data.forEach(function(checkform){
 					checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
-  				})
-  				$('#cfspecial').html(""+checkformdata);
+				})
+				$('#cfspecial').html(""+checkformdata);
+			}if (data.code == 0) {
+				$('#cfspecial').html("没有未打印的送检单！");
 			}
 		}
 	})
@@ -60,7 +64,7 @@ function getnotPrintCheckingForm(){
 function gethistoryCheckingForm(){
 
 }
-function getClassify(){
+function getClassify1(){
 	// 获取送检类型
 	$.ajax({
 		url:'./user/getClassify',
@@ -254,16 +258,16 @@ $(document).ready(function(){
 				}});
 				var checkformdata = "<tr><th>检测单号</th><th>送检日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
 				data.data.forEach(function(checkform){
-					checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
-  				})
-  				$('#cffinished').html(checkformdata);
-  				$(".loading_area").fadeOut();
-  				//送检类型
-  				getClassify();
-  				//获取项目
-  				getProject();
+				checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
+				})
+				$('#cffinished').html(checkformdata);
+				$(".loading_area").fadeOut();
+				//送检类型
+				getClassify1();
+				//获取项目
+				getProject();
 			}else if (data.code == 0) {
-				$('#mycheckform').html("<div>没有数据</div>");
+				$('#cffinished').html("<div>没有数据</div>");
 			}
 			else{
 				alert("请先登录")
@@ -300,7 +304,7 @@ $(document).ready(function(){
 								data.data.forEach(function(checktool){
 									checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
 								})
-				  				$('#cffinished').html(checkformdata);
+				  				$('#checktools').html(checkformdata);
 							}
 						}
 					})
