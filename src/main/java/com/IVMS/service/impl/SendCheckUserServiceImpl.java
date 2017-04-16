@@ -222,4 +222,8 @@ public class SendCheckUserServiceImpl implements SendCheckUserService{
 		return checkingClassifyDao.deleteCheckingClassifyByClaidAndCCname(claid);
 	}
 
+	public Classify selectClassifyNameByClaid(Integer claid) {
+		return classifyDao.selectClassifyNameByClaid(claid);
+	}
+
 }

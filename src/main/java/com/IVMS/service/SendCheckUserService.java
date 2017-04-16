@@ -88,4 +88,6 @@ public interface SendCheckUserService {
 	
 	int insertCheckingToolsRecord(String cfid,String cfmovep,Integer cfcomponentid,Date cftime);
 	
+	Classify selectClassifyNameByClaid(Integer claid);
+	
 }

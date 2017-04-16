@@ -17,7 +17,7 @@ public interface CellDao {
     
     int insertCell(@Param("lid")Integer lid,@Param("cname")String cname);
 
-    Cell selectByPrimaryKey(Integer cid);
+    Cell selectCNameByCid(Integer cid);
 
     int updateByPrimaryKeySelective(Cell record);
 

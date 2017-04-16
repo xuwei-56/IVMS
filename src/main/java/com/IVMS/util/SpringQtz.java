@@ -9,11 +9,11 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.IVMS.model.Cell;
+import com.IVMS.model.CheckingTools;
+import com.IVMS.model.Equipment;
 import com.IVMS.model.Mail;
 import com.IVMS.service.CheckUserService;
 
@@ -45,11 +45,43 @@ public class SpringQtz {
     	        String nextTime=sdf.format(ctrCheckNextTime);
     			if(time.equals(nextTime)){
     				String email=(String) timeAndEmail.get("NPENotifyEmail");
-    				System.out.println(email);
+    				String cfid=(String) timeAndEmail.get("CFId");
+    				Integer style=(Integer) timeAndEmail.get("NPEStyle");
+    				System.out.println("emai:"+email+",cfid"+cfid);
     				if(email!=null&&!email.equals("0")){
     					String[]ccs=new String[0];
-        				Mail mail=new Mail(email,"公司内部邮件","你的检具或设备下次校验时间已到，请尽快对其进行检测！",ccs);
-        			    MailSender.sendMail(mail);
+    					if(style==1){//检具
+    						CheckingTools checkingtool=checkUserService.selectCheckingToolByCtid(Integer.valueOf(cfid));
+    						String ctName=checkingtool.getCtname();
+    						String ctUseLine=checkingtool.getCtuseline();//领用工线
+    						String ctUseStation=checkingtool.getCtusestation();//领用工位
+    						String ctUseItem=checkingtool.getCtuseitem();//使用项目
+    						Integer cycle=checkingtool.getCtcheckcycle();//校验周期
+    						String cycleInfo=null;
+    						if(cycle==1){
+    							cycleInfo="三个月";
+    						}else if(cycle==2){
+    							cycleInfo="半年";
+    						}else{
+    							cycleInfo="一年";
+    						}
+    						String emailInfo="你的检具下次校验时间已到，请尽快送检！"+"   检具编号："+cfid+"，检具名称："+
+    								ctName+"，领用工线："+ctUseLine+"，领用工位："+ctUseStation+"，使用项目："+
+    								ctUseItem+"，校验周期："+cycleInfo+"。";
+    						System.out.println("emailInfo:"+emailInfo);
+    						Mail mail=new Mail(email,"公司内部邮件",emailInfo,ccs);
+    					    MailSender.sendMail(mail);
+    					}else if(style==2){//设备
+    						Equipment equipment=checkUserService.selectEquipmentByEid(Integer.valueOf(cfid));
+    						String ename=equipment.getEname();
+    						Integer cid=equipment.getCid();
+    						Cell cell=checkUserService.selectCNameByCid(cid);
+    						String cName=cell.getCname();//装配线名称
+    						Integer cycle=equipment.getEcheckcycle();
+    						String emailInfo="你设备下次校验时间已到，请尽快对其进行检测！"+"   设备编号："+cfid+"，设备名称："+ename+"，装配线："+cName+"，检查周期："+cycle+"天。";
+    						Mail mail=new Mail(email,"公司内部邮件",emailInfo,ccs);
+    					    MailSender.sendMail(mail);
+    					}
     				}
     			}
     		}

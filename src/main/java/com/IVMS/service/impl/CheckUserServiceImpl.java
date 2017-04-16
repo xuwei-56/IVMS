@@ -22,6 +22,7 @@ import com.IVMS.dao.LineDao;
 import com.IVMS.dao.NotifyPersonnelEmailDao;
 import com.IVMS.dao.ProjectDao;
 import com.IVMS.dao.WarehouseDao;
+import com.IVMS.model.Cell;
 import com.IVMS.model.CheckingTools;
 import com.IVMS.model.CheckingToolsFile;
 import com.IVMS.model.CheckingToolsRecord;
@@ -355,6 +356,10 @@ public class CheckUserServiceImpl implements CheckUserService{
 
 	public int deleteCopyEmailsByCfidAndStyle(String cfid) {
 		return notifyPersonnelEmailDao.deleteCopyEmailsByCfidAndStyle(cfid);
+	}
+
+	public Cell selectCNameByCid(Integer cid) {
+		return cellDao.selectCNameByCid(cid);
 	}
 	
 }

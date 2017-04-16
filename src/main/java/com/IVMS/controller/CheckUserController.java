@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.IVMS.model.CheckingForm;
 import com.IVMS.model.CheckingTools;
 import com.IVMS.model.CheckingToolsRecord;
+import com.IVMS.model.Classify;
 import com.IVMS.model.Equipment;
 import com.IVMS.model.EquipmentCheckTime;
 import com.IVMS.model.Mail;
@@ -187,11 +188,16 @@ public class CheckUserController {
 			return CommonUtil.constructResponse(0,"更新状态失败！",null);
 		}else{
 			User user=(User) session.getAttribute("user");
-			String userName=user.getCn();//拿到检测人
+			String userName=user.getCn();//拿到检测人			
 			checkUserService.updateCfCheckManByCfid(userName, cfid);//更新送检单的检测人
 			CheckingForm checkingForm=sendCheckUserService.selectByPrimaryKey(cfid);
 			Integer ClaId=checkingForm.getClaid();
 			Integer claId=sendCheckUserService.selectClaIdByCheckingTool();//得到检具送检类型的主键
+			Date sendCheckTime=checkingForm.getCftime();//获得送检时间
+			Date currentTime=new Date();
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        String time=sdf.format(currentTime);
+	        String cftime=sdf.format(sendCheckTime);
 			if(ClaId==claId){//检具送检
 				CheckingTools checkingTools=checkUserService.selectCheckingToolByCtid(
 						Integer.parseInt(SCFComponentId));
@@ -201,10 +207,14 @@ public class CheckUserController {
 				String password=(String) session.getAttribute("password");
 				chekingToolsEmail=checkUserService.getEmailByCn(username, password,ctreceiver);//得到领用人邮箱
 				if(chekingToolsEmail!=null&&!chekingToolsEmail.isEmpty()&&!chekingToolsEmail.equals("0")){
-					Mail mail=new Mail(chekingToolsEmail,"公司内部邮件","你的送检已开始检测",null);
+					String mailContent="你的检具送检已开始检测，送检单号："+cfid+"，检具编号："+SCFComponentId+"，送检时间："+cftime+"，检测人:"+userName+
+							"，检测时间："+time+"。";
+					Mail mail=new Mail(chekingToolsEmail,"公司内部邮件",mailContent,null);
 					MailSender.sendMail(mail);
 				}
 			}else{
+				Classify classify=sendCheckUserService.selectClassifyNameByClaid(ClaId);
+				String classifyName=classify.getCname();//得到送检类型
 				List<NotifyPersonnelEmail>emails=checkUserService.selectNotifyEmailByCfid(cfid);
 				if(!emails.isEmpty()){
 					String[]Ccs=new String[emails.size()-1];
@@ -222,7 +232,9 @@ public class CheckUserController {
 					}
 					if(receiveEmail!=null){
 //						String[]Ccs={"allstarpeng@126.com"};
-						Mail mail=new Mail(receiveEmail,"公司内部邮件","你的送检已开始检测",Ccs);
+						String mailContent="你的送检已开始检测，送检单号："+cfid+"，送检类型："+classifyName+"，零件编号："+SCFComponentId+"，送检时间："+cftime+"，检测人:"+userName+
+								"，检测时间："+time+"。";
+						Mail mail=new Mail(receiveEmail,"公司内部邮件",mailContent,Ccs);
 						MailSender.sendMail(mail);
 					}
 				}
@@ -323,10 +335,18 @@ public class CheckUserController {
 	@ResponseBody
 	public JSONObject addCheckingToolResult(HttpServletRequest request,HttpSession session,
 			CheckingToolsRecord checkingToolsRecord,Integer ctStatus)throws Exception{	
+		User user=(User) session.getAttribute("user");
+		String userName=user.getCn();//拿到检测人
 		String cfid=checkingToolsRecord.getCtrnum();//送检单号
+		CheckingForm checkingForm=sendCheckUserService.selectByPrimaryKey(cfid);
+		Date sendCheckTime=checkingForm.getCftime();
 		Integer ctid=checkingToolsRecord.getCtid();//检具编号
 		checkingToolsRecord.setCtrchecktime(new Date());//设置检具校验时间
-		String emailInfo=null,email=null;
+		Date currentTime=new Date();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time=sdf.format(currentTime);//得到检具校验时间
+        String cftime=sdf.format(sendCheckTime);//得到检具送检时间
+		String emailInfo=null,email=null,toolNextCheckInfo=null;
 		if(ctStatus==3||ctStatus==4){
 			/**
 			 * 检具封存或报废，没有下次校验时间,修改送检单状态
@@ -337,6 +357,7 @@ public class CheckUserController {
 			}else{
 				emailInfo="报废";
 			}
+			toolNextCheckInfo="";
 			checkUserService.updateCheckingToolStatusByCtidAndCtStatus(6, ctid);//确认签字
 		}else{
 			/*
@@ -354,6 +375,8 @@ public class CheckUserController {
 					calendar.add(Calendar.MONTH,12);
 				}
 				Date nextCheckTime=calendar.getTime();
+				sdf=new SimpleDateFormat("yyyy-MM-dd");
+				String nextCheckTimeFormat=sdf.format(nextCheckTime);
 				checkingToolsRecord.setCtrchecknexttime(nextCheckTime);//获得检具下次校验时间
 				CheckingTools checkingTools=checkUserService.selectCheckingToolByCtid(ctid);
 				String ctreceiver=checkingTools.getCtreceiver();
@@ -371,10 +394,12 @@ public class CheckUserController {
 				checkUserService.updateCfStatusToCheckOver(cfid);
 				emailInfo="正常";
 				checkUserService.updateCheckingToolStatusByCtidAndCtStatus(6, ctid);//确认签字
+				toolNextCheckInfo=",检具下次校验时间："+nextCheckTimeFormat;
 			}else{
 				checkUserService.updateCfStatusToCheckOver(cfid);
 				emailInfo="维修中";
 				checkUserService.updateCheckingToolStatusByCtidAndCtStatus(ctStatus, ctid);//维修
+				toolNextCheckInfo="";
 			}
 		}
 		checkingToolsRecord.setCtrremark(ctStatus);	
@@ -387,7 +412,9 @@ public class CheckUserController {
 			 * 发送邮箱
 			 */
 			if(email!=null&&!email.isEmpty()){
-				Mail mail=new Mail(email,"公司内部邮件","你的检具送检已检测完成,检测状态："+emailInfo,null);
+				String emailContent="你的检具送检已检测完成,送检单号："+cfid+"，检具编号："+ctid+"，送检时间："+cftime+"，检测人:"+userName+
+								"，录入检具校验结果时间："+time+"，检测状态："+emailInfo+toolNextCheckInfo+"。";
+				Mail mail=new Mail(email,"公司内部邮件",emailContent,null);
 				MailSender.sendMail(mail);
 			}
 			return CommonUtil.constructResponse(EnumUtil.OK, "添加检具检测记录成功！",null);
@@ -465,8 +492,17 @@ public class CheckUserController {
 	@RequestMapping("/updateCheckingToolStatus")
 	@ResponseBody
 	public JSONObject updateCheckingToolStatus(Integer ctid,HttpSession session,Integer ctStatus) throws Exception{
+		User user=(User) session.getAttribute("user");
+		String userName=user.getCn();//拿到检测人
 		String cfId=checkUserService.selectCfIdByCtid(ctid);//拿到最新订单号
-		String email=null,emailInfo=null;
+		CheckingForm checkingForm=sendCheckUserService.selectByPrimaryKey(cfId);
+		Date sendCheckTime=checkingForm.getCftime();//得到送检时间
+		Date currentTime=new Date();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time=sdf.format(currentTime);//得到检具校验时间
+        String cftime=sdf.format(sendCheckTime);//得到检具送检时间
+        
+		String email=null,emailInfo=null,toolNextCheckInfo=null;
 		if(ctStatus==5){//正常
 			Integer cycle=checkUserService.selectCycleByCtid(ctid);
 			Calendar calendar=Calendar.getInstance();
@@ -479,12 +515,14 @@ public class CheckUserController {
 				calendar.add(Calendar.MONTH,12);
 			}
 			Date nextCheckTime=calendar.getTime();//得到检具下次检验时间
+			sdf=new SimpleDateFormat("yyyy-MM-dd");
+			String nextCheckTimeFormat=sdf.format(nextCheckTime);
 			checkUserService.updateCTRCheckNextTimeByCtrNum(nextCheckTime, cfId);//更新检具下次校验时间
 			/**
 			 * 拿到检具领用人邮箱
 			 */
 			CheckingTools checkingTools=checkUserService.selectCheckingToolByCtid(ctid);
-			String ctreceiver=checkingTools.getCtreceiver();
+			String ctreceiver=checkingTools.getCtreceiver();//检具领用人
 			String username=(String) session.getAttribute("username");
 			String password=(String) session.getAttribute("password");
 			email=checkUserService.getEmailByCn(username, password,ctreceiver);//得到领用人邮箱
@@ -500,6 +538,7 @@ public class CheckUserController {
 			notifyPersonnelEmail.setNpestyle(1);
 			checkUserService.updateNotifyPersonalEmailByCfid(notifyPersonnelEmail);
 			checkUserService.updateCheckingToolStatusByCtidAndCtStatus(6, ctid);//确认签字
+			toolNextCheckInfo=",检具下次校验时间："+nextCheckTimeFormat;
 		}else{
 			if(ctStatus==3){
 				emailInfo="封存";
@@ -508,6 +547,7 @@ public class CheckUserController {
 				emailInfo="报废";
 				checkUserService.updateCheckingToolStatusByCtidAndCtStatus(6, ctid);//确认签字
 			}
+			toolNextCheckInfo="";
 		}
 		Integer resultOfUpdateCheckingToolStatus=checkUserService.
 				updateCheckingToolStatusByCtidAndCtStatus(ctStatus, ctid);
@@ -516,7 +556,9 @@ public class CheckUserController {
 			return CommonUtil.constructResponse(0,"更新检具状态失败！",null);
 		}else{
 			if(email!=null&&!email.isEmpty()){
-				Mail mail=new Mail(email,"公司内部邮件","你的检具送检经过维修后,检测状态为："+emailInfo,null);
+				String mailContent="你的检具送检经过维修后,检测状态为："+emailInfo+"。       送检单号："+cfId+"，检具编号："+ctid+"，送检时间："+cftime+"，检测人:"+userName+
+					"，检具修改为正常状态的时间："+time+toolNextCheckInfo+"。";
+				Mail mail=new Mail(email,"公司内部邮件",mailContent,null);
 				MailSender.sendMail(mail);
 			}
 			return CommonUtil.constructResponse(EnumUtil.OK, "更新检具状态成功！",null);
@@ -896,7 +938,28 @@ public class CheckUserController {
 						}
 						i++;
 					}
-					Mail mail=new Mail(receiveEmail,"公司内部邮件","你的送检已检测完成",Ccs);
+					CheckingForm checkingForm=sendCheckUserService.selectByPrimaryKey(cfId);
+					Date sendCheckTime=checkingForm.getCftime();//得到送检时间
+					String cfComponentId=checkingForm.getCfcomponentid();
+					String userName=checkingForm.getCfcheckman();
+					Integer claid=checkingForm.getClaid();//得到送检类型
+					Classify classify=sendCheckUserService.selectClassifyNameByClaid(claid);
+					String classifyName=classify.getCname();//得到送检类型名称
+					Date currentTime=new Date();
+					SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					String time=sdf.format(currentTime);
+			        String cftime=sdf.format(sendCheckTime);
+			        String emailInfo=null;
+			        if(cfStatus==3){
+			        	emailInfo="通过";
+			        }else if(cfStatus==4){
+			        	emailInfo="部分通过";
+			        }else{
+			        	emailInfo="未通过";
+			        }
+					String mailContent="你的送检已送检完成，送检单号："+cfId+"，送检类型："+classifyName+"，零件编号："+cfComponentId+"，送检时间："+cftime+"，检测状态："+emailInfo+"，检测人:"+userName+
+							"，检测结果录入时间："+time+"。";
+					Mail mail=new Mail(receiveEmail,"公司内部邮件",mailContent,Ccs);
 					MailSender.sendMail(mail);
 				}
 				return CommonUtil.constructResponse(EnumUtil.OK, "更新检测结果成功！",null);

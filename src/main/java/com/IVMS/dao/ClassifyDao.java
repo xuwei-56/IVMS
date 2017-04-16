@@ -13,7 +13,7 @@ public interface ClassifyDao {
 
     int insertSelective(Classify record);
 
-    Classify selectByPrimaryKey(Integer claid);
+    Classify selectClassifyNameByClaid(Integer claid);
     
     int selectMaxClaId();
     

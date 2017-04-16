@@ -9,6 +9,7 @@ import javax.naming.ldap.LdapContext;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.IVMS.model.Cell;
 import com.IVMS.model.CheckingForm;
 import com.IVMS.model.CheckingTools;
 import com.IVMS.model.CheckingToolsFile;
@@ -171,4 +172,6 @@ public interface CheckUserService {
     EquipmentCheckTime selectEquipmentCheckTimeByEctid(Integer ectid);
     
     int deleteCopyEmailsByCfidAndStyle(String cfid);
+    
+    Cell selectCNameByCid(Integer cid);
 }
