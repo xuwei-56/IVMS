@@ -75,18 +75,22 @@ public class SendCheckUserController {
 				session.setAttribute("username", username);
 				session.setAttribute("password", password);
 				session.setAttribute("user", user); //存入session保持登录信息
-				String pager=user.getPager();//1为设备负责人，2为送检单校验人
+				String pager= null;
+				pager = user.getPager();//1为设备负责人，2为送检单校验人
+				if (pager == null) {
+					pager = "-1";
+				}
 				if(pager.equals("2")){
-					return CommonUtil.constructResponse(EnumUtil.ADMIN_LOGIN, "登录用户信息", user);
+					return CommonUtil.constructResponse(EnumUtil.ADMIN_LOGIN, "检测用户信息", user);
 				}else if(pager.equals("1")){
-					return CommonUtil.constructResponse(EnumUtil.EQUIPMENT_LOGIN, "登录用户信息", user);
+					return CommonUtil.constructResponse(EnumUtil.EQUIPMENT_LOGIN, "设备管理用户信息", user);
 				}else{
 					return CommonUtil.constructResponse(EnumUtil.USER_LOGIN, "登录用户信息", user);
 				}
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-			logger.info(e.getMessage());
+			logger.error(e.getMessage());
 			return CommonUtil.constructExceptionJSON(EnumUtil.UNKOWN_ERROR, "未知错误，请联系管理员", null);
 		}
 	}
