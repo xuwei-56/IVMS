@@ -19,9 +19,11 @@ function getnormalCheckingForm1(){
         var checkformdata = "<tr><th>检测单号</th><th>检测日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
         data.data.forEach(function(checkform){
           checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatusButton(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
-          })
-          $('#cfnormal').html(checkformdata);
-      }
+        })
+        $('#cfnormal').html(checkformdata);
+      }if (data.code == 0) {
+				$('#cfnormal').html("没有未打印的送检单！");
+			}
     }
   })
 }
@@ -38,9 +40,11 @@ function getothersCheckingForm1(){
         var checkformdata = "<tr><th>检测单号</th><th>检测日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
         data.data.forEach(function(checkform){
           checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatusButton(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
-          })
-          $('#cfspecial').html(checkformdata);
-      }
+        })
+        $('#cfspecial').html(checkformdata);
+      }if (data.code == 0) {
+				$('#cfspecial').html("没有未打印的送检单！");
+			}
     }
   })
 }
@@ -135,7 +139,7 @@ $(document).ready(function(){
   				//获取项目
   				getProject();
 			}else if (data.code == 0) {
-				$('#mycheckform').html("<div>没有数据</div>");
+				$('#cffinished').html("<div>没有数据</div>");
 			}
 			else{
 				alert("请先登录")
@@ -199,7 +203,7 @@ $(document).ready(function(){
 	  			$('#cffinished').html(checkformdata);
 	  			$(".loading_area").fadeOut();
 				}else if (data.code == 0) {
-					$('#mycheckform').html("<div>没有数据</div>");
+					$('#cffinished').html("<div>没有数据</div>");
 				}
 				else{
 					alert("请先登录")
