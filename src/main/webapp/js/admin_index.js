@@ -64,9 +64,11 @@ $(document).ready(function(){
 	        var checkformdata = "<tr><th>检测单号</th><th>检测日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
 	        data.data.forEach(function(checkform){
 	          checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatusButton(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
-	          })
-	          $('#cfnormal').html(checkformdata);
-	      }
+          })
+          $('#cfnormal').html(checkformdata);
+	      }if (data.code == 0) {
+					$('#cfnormal').html("没有未打印的送检单！");
+				}
 	    }
 	  })
 	})
@@ -375,9 +377,13 @@ $(document).ready(function(){
 			processData:false,
 			contentType:false,
   		datatype:'json',
+  		beforeSend:function(){
+				$(".loading_area").fadeIn();
+			},
   		success:function(data){
   			data = JSON.parse(data)
   			if (data.code == 1) {
+  				$(".loading_area").fadeOut()
   				alert("提交成功")
   				getnormalCheckingForm1()
   				$("#pop_bg_normal").fadeOut(200);
@@ -415,12 +421,16 @@ $(document).ready(function(){
   		type:'POST',
   		data:{"ctid":ctid,"ctrnum":cfid,"ctrmovecp":ctrmovep,"ctrcheckman":ctrcheckman,"ctrcheckcontent":ctrcheckcontent,"ctrchecktools":ctrchecktool,"ctrcheckresult":ctrcheckresult,"ctrmovetime":ctrmovetime,"ctrremark":ctrremark,"ctrcheckvalue":ctrcheckvalue,'ctStatus':ctstatus},
   		datatype:'json',
+  		beforeSend:function(){
+				$(".loading_area").fadeIn();
+			},
   		success:function(data){
   			data = JSON.parse(data)
   			if (data.code == 1) {
+  				$(".loading_area").fadeOut()
   				alert("添加成功")
   				getothersCheckingForm1();
-  				('#pop_bg_tool').fadeIn(200);
+  				('#pop_bg_tool').fadeOut(200);
   			}
   		}
   	})
@@ -494,28 +504,6 @@ $(document).ready(function(){
 		if (lid == null) { return false }
 		getCellNames(lid);
 	})
-
-	/*// 判断检具送检的零件号是否正确，正确添加检具名字到零件名称
-	$('#componentName').change(function(){
-		var claid = $('#claId').val();
-		var ctid = $('#componentId').val();
-		if (claid == 6) {
-			$.ajax({
-		    url:'./user/judgeCtidAndGetCTName',
-		    type:'POST',
-		    data:{'ctid':ctid},
-		    datatype:'json',
-		    success:function(data){
-		      data = JSON.parse(data);
-		      if (data.code == 1) {
-		        $('#componentName').val(data.data);
-		      }else{
-		        alert(data.msg)
-		      }
-		    }
-		  })
-		}
-	})*/
 	// 提交
 	$('#userCheckformInput').click(function(){
 		var cfmovep = $('#moveP').val();  // 送检人
