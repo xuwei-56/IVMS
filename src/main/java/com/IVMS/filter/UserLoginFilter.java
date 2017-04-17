@@ -37,6 +37,9 @@ public class UserLoginFilter implements Filter {
 			httpResponse.setHeader("Refresh", "2;URL="+path);
 			return;
 		}
+		if(user.getPager()==null){
+			chain.doFilter(request, response);
+		}
 		if(user.getPager().equals("2")){
 			response.getWriter().print("您不是送检人员，不能查看送检界面!");
 			String path=itemName+"/admin_index";

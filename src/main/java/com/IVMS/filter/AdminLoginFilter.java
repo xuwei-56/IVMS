@@ -36,7 +36,7 @@ public class AdminLoginFilter implements Filter {
 			httpResponse.setHeader("Refresh", "2;URL="+path);
 			return;
 		}
-		if(!user.getPager().equals("2")) {
+		if(user.getPager()==null||!user.getPager().equals("2")){
 			response.getWriter().print("您不是检测人员，不能查看检测人员页面！");
 			String path=itemName+"/user_index";
 			httpResponse.setHeader("Refresh", "2;URL="+path);

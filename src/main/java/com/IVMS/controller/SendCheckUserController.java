@@ -411,6 +411,8 @@ public class SendCheckUserController {
 	        checkingForm.setCftime(new Date());
 	        CheckingForm isAlreadyInsert=sendCheckUserService.selectByPrimaryKey(sendCheckId);
 	        int result=0;
+	        Integer ClaId=checkingForm.getClaid();
+			Integer claId=sendCheckUserService.selectClaIdByCheckingTool();//得到检具送检类型的主键
 	        if(isAlreadyInsert==null){
 		        checkingForm.setCfid(sendCheckId);
 	        	result=sendCheckUserService.insertCheckingForm(checkingForm);
@@ -420,6 +422,9 @@ public class SendCheckUserController {
 	        	  if(copySendEmails!=null){//有抄送邮箱就添加进数据库，没有就不加
 	  	        	for(String email:copySendEmails){
 	  	            	personnelEmail=new NotifyPersonnelEmail();
+	  	            	if(ClaId==claId){
+	  	            		personnelEmail.setNpestyle(1);
+	  	            	}
 	  	            	personnelEmail.setCfid(sendCheckId);
 	  	            	personnelEmail.setNpenotifyemail(email);
 	  	            	int result1=sendCheckUserService.insertCopySendEmail(personnelEmail);
@@ -471,6 +476,9 @@ public class SendCheckUserController {
 		        	 */
 		        	  if(copySendEmails!=null){//有抄送邮箱就添加进数据库，没有就不加
 		  	        	for(String email:copySendEmails){
+		  	        		if(ClaId==claId){//检具送检
+		  	            		personnelEmail.setNpestyle(1);
+		  	            	}
 		  	            	personnelEmail=new NotifyPersonnelEmail();
 		  	            	personnelEmail.setCfid(sendCheckId);
 		  	            	personnelEmail.setNpenotifyemail(email);

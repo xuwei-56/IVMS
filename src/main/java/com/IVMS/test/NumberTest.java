@@ -40,15 +40,19 @@ public class NumberTest {
 //		for(String str:list1){
 //			System.out.println(str);
 //		}
-		Calendar calendar=Calendar.getInstance();
-		calendar.setTime(new Date());
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
-        String time=sdf.format(new Date());
-		System.out.println(time);
-		calendar.add(Calendar.MONTH,9);
-		Date nextCheckTime=calendar.getTime();//得到设备下次检验时间
-		sdf=new SimpleDateFormat("yyyyMMdd");
-        time=sdf.format(nextCheckTime);
-		System.out.println(time);
+//		Calendar calendar=Calendar.getInstance();
+//		calendar.setTime(new Date());
+//		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
+//        String time=sdf.format(new Date());
+//		System.out.println(time);
+//		calendar.add(Calendar.MONTH,9);
+//		Date nextCheckTime=calendar.getTime();//得到设备下次检验时间
+//		sdf=new SimpleDateFormat("yyyyMMdd");
+//        time=sdf.format(nextCheckTime);
+//		System.out.println(time);\
+		Integer cfid=1;
+		Integer SCFComponentId=2;
+		String str="你的检具送检已开始检测。"+"\r\n送检单号："+cfid+"\r\n检具编号："+SCFComponentId;
+		System.out.println(str);
 	}
 }
