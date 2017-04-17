@@ -57,7 +57,7 @@ public class MailSender {
 			msg.setFrom(new InternetAddress(props.getProperty("mailSender")));//设置发件人
 			msg.setRecipients(RecipientType.TO,mail.getToMail());//设置收件人
 			msg.setSubject(mail.getMailTitle());
-			msg.setContent(mail.getMailContent(), "text/html;charset=utf-8");
+			msg.setText(mail.getMailContent());
 			/*
 			 * 设置多人抄送
 			 */

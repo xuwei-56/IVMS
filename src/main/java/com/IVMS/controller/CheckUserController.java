@@ -188,7 +188,7 @@ public class CheckUserController {
 			return CommonUtil.constructResponse(0,"更新状态失败！",null);
 		}else{
 			User user=(User) session.getAttribute("user");
-			String userName=user.getCn();//拿到检测人				
+			String userName=user.getCn();//拿到检测人	
 			checkUserService.updateCfCheckManByCfid(userName, cfid);//更新送检单的检测人
 			CheckingForm checkingForm=sendCheckUserService.selectByPrimaryKey(cfid);
 			Integer ClaId=checkingForm.getClaid();
@@ -207,7 +207,7 @@ public class CheckUserController {
 				String password=(String) session.getAttribute("password");
 				chekingToolsEmail=checkUserService.getEmailByCn(username, password,ctreceiver);//得到领用人邮箱				
 				if(chekingToolsEmail!=null&&!chekingToolsEmail.isEmpty()&&!chekingToolsEmail.equals("0")){
-					String mailContent="你的检具送检已开始检测"+"\r\n送检单号："+cfid+"\r\n检具编号："+SCFComponentId+"\r\n送检时间："+cftime+"\r\n检测人:"+userName+
+					String mailContent="你的检具送检已开始检测！"+"\r\n\r\n送检单号："+cfid+"\r\n检具编号："+SCFComponentId+"\r\n送检时间："+cftime+"\r\n检测人:"+userName+
 							"\r\n检测时间："+time;
 					Mail mail=new Mail(chekingToolsEmail,"公司内部邮件",mailContent,null);
 					MailSender.sendMail(mail);
@@ -235,7 +235,7 @@ public class CheckUserController {
 				}
 				if(receiveEmail!=null){
 //						String[]Ccs={"allstarpeng@126.com"};
-					String mailContent="你的送检已开始检测"+"\r\n送检单号："+cfid+"\r\n送检类型："+classifyName+"\r\n零件编号："+SCFComponentId+"\r\n送检时间："+cftime+"\r\n检测人:"+userName+
+					String mailContent="你的送检已开始检测！"+"\r\n\r\n送检单号："+cfid+"\r\n送检类型："+classifyName+"\r\n零件编号："+SCFComponentId+"\r\n送检时间："+cftime+"\r\n检测人:"+userName+
 							"\r\n检测时间："+time;
 					Mail mail=new Mail(receiveEmail,"公司内部邮件",mailContent,Ccs);
 					MailSender.sendMail(mail);
@@ -415,7 +415,7 @@ public class CheckUserController {
 			 * 发送邮箱
 			 */
 			if(email!=null&&!email.isEmpty()){
-				String emailContent="你的检具送检已检测完成"+"\r\n送检单号："+cfid+"\r\n检具编号："+ctid+"\r\n送检时间："+cftime+"\r\n检测人:"+userName+
+				String emailContent="你的检具送检已检测完成！"+"\r\n\r\n送检单号："+cfid+"\r\n检具编号："+ctid+"\r\n送检时间："+cftime+"\r\n检测人:"+userName+
 								"\r\n录入检具校验结果时间："+time+"\r\n检测状态："+emailInfo+toolNextCheckInfo;
 				Mail mail=new Mail(email,"公司内部邮件",emailContent,null);
 				MailSender.sendMail(mail);
@@ -438,7 +438,7 @@ public class CheckUserController {
 					i++;
 				}
 				if(receiveEmail!=null){
-					String emailContent="你的检具送检已检测完成"+"\r\n送检单号："+cfid+"\r\n检具编号："+ctid+"\r\n送检时间："+cftime+"\r\n检测人:"+userName+
+					String emailContent="你的检具送检已检测完成！"+"\r\n\r\n送检单号："+cfid+"\r\n检具编号："+ctid+"\r\n送检时间："+cftime+"\r\n检测人:"+userName+
 							"\r\n录入检具校验结果时间："+time+"\r\n检测状态："+emailInfo+toolNextCheckInfo;
 					Mail mail=new Mail(receiveEmail,"公司内部邮件",emailContent,Ccs);
 					MailSender.sendMail(mail);
@@ -584,7 +584,7 @@ public class CheckUserController {
 			return CommonUtil.constructResponse(0,"更新检具状态失败！",null);
 		}else{
 			if(email!=null&&!email.isEmpty()){
-				String mailContent="你的检具送检经过维修后,检测状态为："+emailInfo+"\r\n送检单号："+cfId+"\r\n检具编号："+ctid+"\r\n送检时间："+cftime+"\r\n检测人:"+userName+
+				String mailContent="你的检具送检经过维修后,检测状态为："+emailInfo+"！\r\n\r\n送检单号："+cfId+"\r\n检具编号："+ctid+"\r\n送检时间："+cftime+"\r\n检测人:"+userName+
 					"\r\n检具修改为正常状态的时间："+time+toolNextCheckInfo;
 				Mail mail=new Mail(email,"公司内部邮件",mailContent,null);
 				MailSender.sendMail(mail);
@@ -607,7 +607,7 @@ public class CheckUserController {
 					i++;
 				}
 				if(receiveEmail!=null){
-					String mailContent="你的检具送检经过维修后,检测状态为："+emailInfo+"\r\n送检单号："+cfId+"\r\n检具编号："+ctid+"\r\n送检时间："+cftime+"\r\n检测人:"+userName+
+					String mailContent="你的检具送检经过维修后,检测状态为："+emailInfo+"！\r\n\r\n送检单号："+cfId+"\r\n检具编号："+ctid+"\r\n送检时间："+cftime+"\r\n检测人:"+userName+
 							"\r\n检具修改为正常状态的时间："+time+toolNextCheckInfo;
 					Mail mail=new Mail(receiveEmail,"公司内部邮件",mailContent,Ccs);
 					MailSender.sendMail(mail);
@@ -1009,7 +1009,7 @@ public class CheckUserController {
 			        }else{
 			        	emailInfo="未通过";
 			        }
-					String mailContent="你的送检已送检完成"+"\r\n送检单号："+cfId+"\r\n送检类型："+classifyName+"\r\n零件编号："+cfComponentId+"\r\n送检时间："+cftime+"\r\n检测状态："+emailInfo+"\r\n检测人:"+userName+
+					String mailContent="你的送检已送检完成！"+"\r\n\r\n送检单号："+cfId+"\r\n送检类型："+classifyName+"\r\n零件编号："+cfComponentId+"\r\n送检时间："+cftime+"\r\n检测状态："+emailInfo+"\r\n检测人:"+userName+
 							"\r\n检测结果录入时间："+time;
 					Mail mail=new Mail(receiveEmail,"公司内部邮件",mailContent,Ccs);
 					MailSender.sendMail(mail);

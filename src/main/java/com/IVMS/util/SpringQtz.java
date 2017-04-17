@@ -65,7 +65,7 @@ public class SpringQtz {
     						}else{
     							cycleInfo="一年";
     						}
-    						String emailInfo="你的检具下次校验时间已到，请尽快送检！"+"\r\n检具编号："+cfid+"\r\n检具名称："+
+    						String emailInfo="你的检具下次校验时间已到，请尽快送检！"+"\r\n\r\n检具编号："+cfid+"\r\n检具名称："+
     								ctName+"\r\n领用工线："+ctUseLine+"\r\n领用工位："+ctUseStation+"\r\n使用项目："+
     								ctUseItem+"\r\n校验周期："+cycleInfo;
     						System.out.println("emailInfo:"+emailInfo);
@@ -78,7 +78,7 @@ public class SpringQtz {
     						Cell cell=checkUserService.selectCNameByCid(cid);
     						String cName=cell.getCname();//装配线名称
     						Integer cycle=equipment.getEcheckcycle();
-    						String emailInfo="你设备下次校验时间已到，请尽快对其进行检测！"+"\r\n设备编号："+cfid+"\r\n设备名称："+ename+"\r\n装配线："+cName+"\r\n检查周期："+cycle+"天";
+    						String emailInfo="你设备下次校验时间已到，请尽快对其进行检测！"+"\r\n\r\n设备编号："+cfid+"\r\n设备名称："+ename+"\r\n装配线："+cName+"\r\n检查周期："+cycle+"天";
     						Mail mail=new Mail(email,"公司内部邮件",emailInfo,ccs);
     					    MailSender.sendMail(mail);
     					}
