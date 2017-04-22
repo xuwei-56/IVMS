@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.IVMS.model.CheckingForm;
 import com.IVMS.model.CheckingFormCustom;
 import com.IVMS.model.CheckingTools;
 
@@ -30,4 +31,6 @@ public interface HomePageService {
     int countCheckingToolsInfo(String CTUseItem,Integer CTStatus);
     
     int updateCfstatuByCfid(String cfid);
+    
+    int updateCheckingFormByCfid(CheckingForm record);
 }

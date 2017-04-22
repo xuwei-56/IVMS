@@ -134,11 +134,11 @@ public class CheckUserServiceImpl implements CheckUserService{
 		return checkingFormDao.submitCfReport(cfStatus, cfRemark, isHaveReportFile,cfId);
 	}
 
-	public int deleteCheckingToolsByCtidAndCtStatus(Integer ctid) {
+	public int deleteCheckingToolsByCtidAndCtStatus(String ctid) {
 		return checkingToolsDao.deleteCheckingToolsByCtidAndCtStatus(ctid);
 	}
 
-	public int deleteCheckingToolsFileByCtid(Integer ctid) {
+	public int deleteCheckingToolsFileByCtid(String ctid) {
 		return checkingToolsFileDao.deleteCheckingToolsFileByCtid(ctid);
 	}
 
@@ -150,15 +150,15 @@ public class CheckUserServiceImpl implements CheckUserService{
 		return checkingToolsDao.insertCheckingTools(checkingTools);
 	}
 
-	public int insertCheckingToolsFile(Integer ctid, String ctfname) {
+	public int insertCheckingToolsFile(String ctid, String ctfname) {
 		return checkingToolsFileDao.insertCheckingToolsFile(ctid, ctfname);
 	}
 
-	public int updateCheckingToolTimeAndReceiverByCtid(Integer ctid, String ctreceiver, Date ctusetime,String ctuseitem,String ctuseline,String ctusestation) {
+	public int updateCheckingToolTimeAndReceiverByCtid(String ctid, String ctreceiver, Date ctusetime,String ctuseitem,String ctuseline,String ctusestation) {
 		return checkingToolsDao.updateCheckingToolTimeAndReceiverByCtid(ctid, ctreceiver, ctusetime,ctuseitem,ctuseline,ctusestation);
 	}
 
-	public int updateCheckingToolStatusByCtid(Integer ctid) {
+	public int updateCheckingToolStatusByCtid(String ctid) {
 		return checkingToolsDao.updateCheckingToolStatusByCtid(ctid);
 	}
 
@@ -166,7 +166,7 @@ public class CheckUserServiceImpl implements CheckUserService{
 		return checkingToolsRecordDao.updateCheckingToolResultByCtrid(checkingToolsRecord);
 	}
 
-	public int updateCheckingToolStatusByCtidAndCtStatus(Integer ctstatus,Integer ctid) {
+	public int updateCheckingToolStatusByCtidAndCtStatus(Integer ctstatus,String ctid) {
 		return checkingToolsDao.updateCheckingToolStatusByCtidAndCtStatus(ctstatus, ctid);
 	}
 
@@ -178,15 +178,15 @@ public class CheckUserServiceImpl implements CheckUserService{
 		return checkingToolsRecordDao.updateAcceptAndAgreeByCtrid(ctrid, ctrcheckresult, ctisagree);
 	}
 
-	public int insertCheckingToolRecordByCtUseTime(Integer ctid, String ctrmovecp,Date ctrchecktime, Date ctrchecknexttime) {
+	public int insertCheckingToolRecordByCtUseTime(String ctid, String ctrmovecp,Date ctrchecktime, Date ctrchecknexttime) {
 		return checkingToolsRecordDao.insertCheckingToolRecordByCtUseTime(ctid,ctrmovecp, ctrchecktime, ctrchecknexttime);
 	}
 
-	public int selectCycleByCtid(Integer ctid) {
+	public int selectCycleByCtid(String ctid) {
 		return checkingToolsDao.selectCycleByCtid(ctid);
 	}
 
-	public CheckingTools selectCheckingToolByCtid(Integer ctid) {
+	public CheckingTools selectCheckingToolByCtid(String ctid) {
 		return checkingToolsDao.selectCheckingToolByCtid(ctid);
 	}
 
@@ -202,7 +202,7 @@ public class CheckUserServiceImpl implements CheckUserService{
 		return checkingFormDao.updateCfCheckManByCfid(cfcheckman, cfid);
 	}
 
-	public CheckingTools judgeCtidIsAlreadyExist(Integer ctid) {
+	public CheckingTools judgeCtidIsAlreadyExist(String ctid) {
 		return checkingToolsDao.judgeCtidIsAlreadyExist(ctid);
 	}
 
@@ -247,7 +247,7 @@ public class CheckUserServiceImpl implements CheckUserService{
 		return checkingToolsRecordDao.updateCTRCheckNextTimeByCtrNum(ctrchecknexttime, ctrnum);
 	}
 
-	public List<Map<String, Object>> selectCheckingToolRecords(Integer ctid) {
+	public List<Map<String, Object>> selectCheckingToolRecords(String ctid) {
 		return checkingToolsRecordDao.selectCheckingToolRecords(ctid);
 	}
 
@@ -255,7 +255,7 @@ public class CheckUserServiceImpl implements CheckUserService{
 		return notifyPersonnelEmailDao.selectNotifyEmailAndTime();
 	}
 
-	public List<Map<String,Object>> selectCTFNameByCTId(Integer ctid) {
+	public List<Map<String,Object>> selectCTFNameByCTId(String ctid) {
 		return checkingToolsFileDao.selectCTFNameByCTId(ctid);
 	}
 
@@ -298,7 +298,7 @@ public class CheckUserServiceImpl implements CheckUserService{
 		return equipmentDao.myEquipment(eworker);
 	}
 
-	public int updateCheckingToolReceiverByCtid(String ctreceiver, Integer ctid) {
+	public int updateCheckingToolReceiverByCtid(String ctreceiver, String ctid) {
 		return checkingToolsDao.updateCheckingToolReceiverByCtid(ctreceiver, ctid);
 	}
 
@@ -310,19 +310,19 @@ public class CheckUserServiceImpl implements CheckUserService{
 		return equipmentCheckTimeDao.deleteEquipmentCheckTimeByEid(eid);
 	}
 
-	public int countCTFNameByCTId(Integer ctid) {
+	public int countCTFNameByCTId(String ctid) {
 		return checkingToolsFileDao.countCTFNameByCTId(ctid);
 	}
 
-	public String selectCfIdByCtid(Integer ctid) {
+	public String selectCfIdByCtid(String ctid) {
 		return checkingToolsRecordDao.selectCfIdByCtid(ctid);
 	}
 
-	public List<CheckingToolsFile> selectCtFilesByCtid(Integer ctid) {
+	public List<CheckingToolsFile> selectCtFilesByCtid(String ctid) {
 		return checkingToolsFileDao.selectCtFilesByCtid(ctid);
 	}
 
-	public Integer selectMaxCtrIdByCtid(Integer ctid) {
+	public Integer selectMaxCtrIdByCtid(String ctid) {
 		return checkingToolsRecordDao.selectMaxCtrIdByCtid(ctid);
 	}
 
@@ -330,7 +330,7 @@ public class CheckUserServiceImpl implements CheckUserService{
 		return checkingToolsRecordDao.selectCheckingToolRecordByCtrid(ctrid);
 	}
 
-	public int updateCTRCheckNextTimeAndCheckTimeByCtid(Date ctrchecktime, Date ctrchecknexttime, Integer ctid) {
+	public int updateCTRCheckNextTimeAndCheckTimeByCtid(Date ctrchecktime, Date ctrchecknexttime, String ctid) {
 		return checkingToolsRecordDao.updateCTRCheckNextTimeAndCheckTimeByCtid(ctrchecktime, ctrchecknexttime, ctid);
 	}
 
@@ -360,6 +360,10 @@ public class CheckUserServiceImpl implements CheckUserService{
 
 	public Cell selectCNameByCid(Integer cid) {
 		return cellDao.selectCNameByCid(cid);
+	}
+
+	public String selectLNameByCid(Integer cid) {
+		return lineDao.selectLNameByCid(cid);
 	}
 	
 }

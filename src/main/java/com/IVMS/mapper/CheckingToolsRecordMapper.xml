@@ -3,7 +3,7 @@
 <mapper namespace="com.IVMS.dao.CheckingToolsRecordDao" >
   <resultMap id="BaseResultMap" type="com.IVMS.model.CheckingToolsRecord" >
     <id column="CTRId" property="ctrid" jdbcType="INTEGER" />
-    <result column="CTId" property="ctid" jdbcType="INTEGER" />
+    <result column="CTId" property="ctid" jdbcType="VARCHAR" />
     <result column="CTRNum" property="ctrnum" jdbcType="VARCHAR" />
     <result column="CTRMoveCP" property="ctrmovecp" jdbcType="VARCHAR" />
     <result column="CTRMoveTime" property="ctrmovetime" jdbcType="DATE" />
@@ -42,18 +42,18 @@
   FROM checkingtoolsrecord ctr,notifypersonnelemail npe,(SELECT MAX(CTRId) ctrid FROM checkingtoolsrecord GROUP BY CTId) ti
   WHERE npe.CFId=ctr.CTRNum AND ctr.CTRId=ti.ctrid;
   </select>
-  <select id="selectCheckingToolRecords" resultType="hashmap" parameterType="java.lang.Integer">
-  SELECT * FROM checkingtoolsrecord WHERE CTId=#{ctid,jdbcType=INTEGER} ORDER BY CTRCheckTime DESC ; 
+  <select id="selectCheckingToolRecords" resultType="hashmap" parameterType="java.lang.String">
+  SELECT * FROM checkingtoolsrecord WHERE CTId=#{ctid,jdbcType=VARCHAR} ORDER BY CTRCheckTime DESC ; 
   </select>
-  <select id="selectCfIdByCtid" resultType="java.lang.String" parameterType="java.lang.Integer">
+  <select id="selectCfIdByCtid" resultType="java.lang.String" parameterType="java.lang.String">
     SELECT CTRNum 
 	FROM checkingtoolsrecord ctr,(SELECT MAX(CTRId) ctrid FROM checkingtoolsrecord GROUP BY CTId) ti
-	WHERE CTId=#{ctid,jdbcType=INTEGER} AND ctr.CTRId=ti.ctrid;
+	WHERE CTId=#{ctid,jdbcType=VARCHAR} AND ctr.CTRId=ti.ctrid;
   </select>
-  <select id="selectMaxCtrIdByCtid" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+  <select id="selectMaxCtrIdByCtid" resultType="java.lang.Integer" parameterType="java.lang.String">
 	SELECT ti.ctrid
 	FROM (SELECT CTId,MAX(CTRId) ctrid FROM checkingtoolsrecord GROUP BY CTId) ti
-	WHERE ti.CTId=#{ctid,jdbcType=INTEGER};
+	WHERE ti.CTId=#{ctid,jdbcType=VARCHAR};
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from checkingtoolsrecord
@@ -61,7 +61,7 @@
   </delete>
   <insert id="insertCheckingToolRecordByCtUseTime" >
   INSERT INTO checkingtoolsrecord(CTId,CTRMoveCP,CTRCheckTIme,CTRCheckNextTime) VALUES
-  (#{ctid,jdbcType=INTEGER},#{ctrmovecp,jdbcType=VARCHAR},#{ctrchecktime,jdbcType=DATE},#{ctrchecknexttime,jdbcType=DATE});
+  (#{ctid,jdbcType=VARCHAR},#{ctrmovecp,jdbcType=VARCHAR},#{ctrchecktime,jdbcType=DATE},#{ctrchecknexttime,jdbcType=DATE});
   </insert>
   <insert id="insertCheckingToolsRecord" parameterType="com.IVMS.model.CheckingToolsRecord" >
     insert into checkingtoolsrecord
@@ -117,7 +117,7 @@
         #{ctrid,jdbcType=INTEGER},
       </if>
       <if test="ctid != null" >
-        #{ctid,jdbcType=INTEGER},
+        #{ctid,jdbcType=VARCHAR},
       </if>
       <if test="ctrnum != null" >
         #{ctrnum,jdbcType=VARCHAR},
@@ -164,7 +164,7 @@
     update checkingtoolsrecord
     <set >
       <if test="ctid != null" >
-        CTId = #{ctid,jdbcType=INTEGER},
+        CTId = #{ctid,jdbcType=VARCHAR},
       </if>
       <if test="ctrnum != null" >
         CTRNum = #{ctrnum,jdbcType=VARCHAR},
@@ -210,7 +210,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.IVMS.model.CheckingToolsRecord" >
     update checkingtoolsrecord
-    set CTId = #{ctid,jdbcType=INTEGER},
+    set CTId = #{ctid,jdbcType=VARCHAR},
       CTRNum = #{ctrnum,jdbcType=VARCHAR},
       CTRMoveCP = #{ctrmovecp,jdbcType=VARCHAR},
       CTRMoveTime = #{ctrmovetime,jdbcType=DATE},
@@ -237,6 +237,6 @@
   <update id="updateCTRCheckNextTimeAndCheckTimeByCtid" >
   UPDATE checkingtoolsrecord SET 
   CTRCheckTIme=#{ctrchecktime,jdbcType=DATE},CTRCheckNextTime=#{ctrchecknexttime,jdbcType=DATE}
-  WHERE CTId=#{ctid,jdbcType=INTEGER};
+  WHERE CTId=#{ctid,jdbcType=VARCHAR};
   </update>
 </mapper>

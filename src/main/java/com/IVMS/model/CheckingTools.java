@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class CheckingTools {
-    private Integer ctid;
+    private String ctid;
 
     private String ctuseitem;
 
@@ -51,13 +51,13 @@ public class CheckingTools {
     private Integer ctstatus;
     
     private List<CheckingToolsRecord> checkingToolsRecord;
-    
+  
 
-	public Integer getCtid() {
+	public String getCtid() {
 		return ctid;
 	}
 
-	public void setCtid(Integer ctid) {
+	public void setCtid(String ctid) {
 		this.ctid = ctid;
 	}
 
@@ -244,6 +244,4 @@ public class CheckingTools {
 	public void setCheckingToolsRecord(List<CheckingToolsRecord> checkingToolsRecord) {
 		this.checkingToolsRecord = checkingToolsRecord;
 	}
-    
-    
 }

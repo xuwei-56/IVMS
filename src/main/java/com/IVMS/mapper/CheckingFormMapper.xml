@@ -390,7 +390,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.IVMS.model.CheckingForm" >
+  <update id="updateCheckingFormByCfid" parameterType="com.IVMS.model.CheckingForm" >
     update checkingform
     <set >
       <if test="lid != null" >

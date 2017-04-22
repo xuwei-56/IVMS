@@ -63,34 +63,34 @@ public interface CheckUserService {
 	
 	int submitCfReport(Integer cfStatus,String cfRemark,String isHaveReportFile,String cfId);
 	
-    int deleteCheckingToolsByCtidAndCtStatus(Integer ctid);
+    int deleteCheckingToolsByCtidAndCtStatus(String ctid);
     
-    int deleteCheckingToolsFileByCtid(Integer ctid);
+    int deleteCheckingToolsFileByCtid(String ctid);
     
     int deleteCheckingToolsFileByCtfid(Integer ctfid);
     
     int insertCheckingTools(CheckingTools checkingTools);
     
-    int insertCheckingToolsFile(Integer ctid,String ctfname);
+    int insertCheckingToolsFile(String ctid,String ctfname);
     
-    int updateCheckingToolTimeAndReceiverByCtid(Integer ctid,String ctreceiver,Date ctusetime,
+    int updateCheckingToolTimeAndReceiverByCtid(String ctid,String ctreceiver,Date ctusetime,
     		String ctuseitem,String ctuseline,String ctusestation);
     
-    int updateCheckingToolStatusByCtid(Integer ctid);
+    int updateCheckingToolStatusByCtid(String ctid);
     
     int updateCheckingToolResultByCtrid(CheckingToolsRecord checkingToolsRecord);
     
-    int updateCheckingToolStatusByCtidAndCtStatus(Integer ctstatus,Integer ctid);
+    int updateCheckingToolStatusByCtidAndCtStatus(Integer ctstatus,String ctid);
     
     int selectCheckingToolCycleByCtid(Integer ctrid);
     
     int updateAcceptAndAgreeByCtrid(Integer ctrid,Integer ctrcheckresult,Integer ctisagree);
     
-    int insertCheckingToolRecordByCtUseTime(Integer ctid,String ctrmovecp,Date ctrchecktime,Date ctrchecknexttime);
+    int insertCheckingToolRecordByCtUseTime(String ctid,String ctrmovecp,Date ctrchecktime,Date ctrchecknexttime);
     
-    int selectCycleByCtid(Integer ctid);
+    int selectCycleByCtid(String ctid);
     
-    CheckingTools selectCheckingToolByCtid(Integer ctid);
+    CheckingTools selectCheckingToolByCtid(String ctid);
 	
     List<Map<String,Object>> selectEmailAndCheckNextTime();
     
@@ -98,7 +98,7 @@ public interface CheckUserService {
     
     int updateCfCheckManByCfid(String cfcheckman,String cfid);
     
-    CheckingTools judgeCtidIsAlreadyExist(Integer ctid);
+    CheckingTools judgeCtidIsAlreadyExist(String ctid);
     
     int updateCheckingToolByCtid(CheckingTools checkingTools);
     
@@ -118,11 +118,11 @@ public interface CheckUserService {
 	 
 	int updateCTRCheckNextTimeByCtrNum(Date ctrchecknexttime,String ctrnum);
 	
-	List<Map<String,Object>> selectCheckingToolRecords(Integer ctid);
+	List<Map<String,Object>> selectCheckingToolRecords(String ctid);
 	
 	List<Map<String,Object>> selectNotifyEmailAndTime();
 	
-	List<Map<String,Object>> selectCTFNameByCTId(Integer ctid);
+	List<Map<String,Object>> selectCTFNameByCTId(String ctid);
 	
 	int insertEquipment(Equipment equipment);
 	
@@ -145,23 +145,23 @@ public interface CheckUserService {
     
     List<Map<String,Object>> myEquipment(String eworker);
     
-    int updateCheckingToolReceiverByCtid(String ctreceiver,Integer ctid);
+    int updateCheckingToolReceiverByCtid(String ctreceiver,String ctid);
     
     int deleteEquipmentByEid(Integer eid);
     
     int deleteEquipmentCheckTimeByEid(Integer eid);
     
-    int countCTFNameByCTId(Integer ctid);
+    int countCTFNameByCTId(String ctid);
     
-    String selectCfIdByCtid(Integer ctid);
+    String selectCfIdByCtid(String ctid);
     
-    List<CheckingToolsFile> selectCtFilesByCtid(Integer ctid);
+    List<CheckingToolsFile> selectCtFilesByCtid(String ctid);
     
-    Integer selectMaxCtrIdByCtid(Integer ctid);
+    Integer selectMaxCtrIdByCtid(String ctid);
     
     CheckingToolsRecord selectCheckingToolRecordByCtrid(Integer ctrid);
     
-    int updateCTRCheckNextTimeAndCheckTimeByCtid(Date ctrchecktime,Date ctrchecknexttime,Integer ctid);
+    int updateCTRCheckNextTimeAndCheckTimeByCtid(Date ctrchecktime,Date ctrchecknexttime,String ctid);
     
     int updateNotifyPersonalEmailByCfid(NotifyPersonnelEmail notifyPersonnelEmail);
     
@@ -174,4 +174,6 @@ public interface CheckUserService {
     int deleteCopyEmailsByCfidAndStyle(String cfid);
     
     Cell selectCNameByCid(Integer cid);
+    
+    String selectLNameByCid(Integer cid);
 }
