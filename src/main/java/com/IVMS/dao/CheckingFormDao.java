@@ -25,7 +25,7 @@ public interface CheckingFormDao {
     
     CheckingForm selectWidAndUrgentStatusByCfid(String cfid);
 
-    int updateByPrimaryKeySelective(CheckingForm record);
+    int updateCheckingFormByCfid(CheckingForm record);
 
     int updateByPrimaryKey(CheckingForm record);
     

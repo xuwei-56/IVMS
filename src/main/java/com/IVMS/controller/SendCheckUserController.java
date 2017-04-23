@@ -313,7 +313,7 @@ public class SendCheckUserController {
 	
 	@RequestMapping("/myCheckingToolsDetails")
 	@ResponseBody
-	public JSONObject myCheckingToolsDetails(Integer ctid) throws Exception {		
+	public JSONObject myCheckingToolsDetails(String ctid) throws Exception {		
 		Map<String,Object> myCheckingToolsDetails=sendCheckUserService.myCheckingToolsDetails(ctid);
 		if(myCheckingToolsDetails==null){
 			return CommonUtil.constructResponse(0,"没有数据！",null);
@@ -324,7 +324,7 @@ public class SendCheckUserController {
 	
 	@RequestMapping("/myCheckingToolsFiles")
 	@ResponseBody
-	public JSONObject myCheckingToolsFiles(Integer ctid) throws Exception {
+	public JSONObject myCheckingToolsFiles(String ctid) throws Exception {
 		List<CheckingToolsFile> myCheckingToolsFiles=checkUserService.selectCtFilesByCtid(ctid);
 		if(myCheckingToolsFiles.isEmpty()){
 			return CommonUtil.constructResponse(0,"没有附件！",null);
@@ -335,7 +335,7 @@ public class SendCheckUserController {
 	
 	@RequestMapping("/myCheckingToolRecords")
 	@ResponseBody
-	public JSONObject myCheckingToolRecords(Integer ctid) throws Exception {
+	public JSONObject myCheckingToolRecords(String ctid) throws Exception {
 		List<Map<String,Object>> myCheckingToolRecords=checkUserService.selectCheckingToolRecords(ctid);
 		if(myCheckingToolRecords.isEmpty()){
 			return CommonUtil.constructResponse(0,"没有数据！",null);
@@ -360,7 +360,7 @@ public class SendCheckUserController {
 	
 	@RequestMapping("/judgeCtidAndGetCTName")
 	@ResponseBody
-	public JSONObject judgeCtid(Integer ctid,HttpServletRequest request){
+	public JSONObject judgeCtid(String ctid,HttpServletRequest request){
 		CheckingTools checkingtools=checkUserService.judgeCtidIsAlreadyExist(ctid);//判断检具是否已经存在
 		if(checkingtools==null){
 			return CommonUtil.constructResponse(0,"此检具号不存在，请重新输入",null);

@@ -13,7 +13,9 @@ import org.springframework.stereotype.Component;
 
 import com.IVMS.model.Cell;
 import com.IVMS.model.CheckingTools;
+import com.IVMS.model.CheckingToolsRecord;
 import com.IVMS.model.Equipment;
+import com.IVMS.model.EquipmentCheckTime;
 import com.IVMS.model.Mail;
 import com.IVMS.service.CheckUserService;
 
@@ -51,7 +53,12 @@ public class SpringQtz {
     				if(email!=null&&!email.equals("0")){
     					String[]ccs=new String[0];
     					if(style==1){//检具
-    						CheckingTools checkingtool=checkUserService.selectCheckingToolByCtid(Integer.valueOf(cfid));
+    						CheckingTools checkingtool=checkUserService.selectCheckingToolByCtid(cfid);
+    						Integer ctrid=checkUserService.selectMaxCtrIdByCtid(cfid);
+    						CheckingToolsRecord checkingToolsRecord=checkUserService.selectCheckingToolRecordByCtrid(ctrid);
+    						Date lastctrchecktime=checkingToolsRecord.getCtrchecktime();//检具上次校验时间
+    						sdf=new SimpleDateFormat("yyyy-MM-dd");
+    		    	        String lastCheckingToolchecktime=sdf.format(lastctrchecktime);
     						String ctName=checkingtool.getCtname();
     						String ctUseLine=checkingtool.getCtuseline();//领用工线
     						String ctUseStation=checkingtool.getCtusestation();//领用工位
@@ -65,9 +72,9 @@ public class SpringQtz {
     						}else{
     							cycleInfo="一年";
     						}
-    						String emailInfo="你的检具下次校验时间已到，请尽快送检！"+"\r\n检具编号："+cfid+"\r\n检具名称："+
+    						String emailInfo="你的检具下次校验时间已到，请尽快送检！"+"\r\n\r\n检具编号："+cfid+"\r\n检具名称："+
     								ctName+"\r\n领用工线："+ctUseLine+"\r\n领用工位："+ctUseStation+"\r\n使用项目："+
-    								ctUseItem+"\r\n校验周期："+cycleInfo;
+    								ctUseItem+"\r\n校验周期："+cycleInfo+"\r\n检具上次校验时间："+lastCheckingToolchecktime;
     						System.out.println("emailInfo:"+emailInfo);
     						Mail mail=new Mail(email,"公司内部邮件",emailInfo,ccs);
     					    MailSender.sendMail(mail);
@@ -75,10 +82,19 @@ public class SpringQtz {
     						Equipment equipment=checkUserService.selectEquipmentByEid(Integer.valueOf(cfid));
     						String ename=equipment.getEname();
     						Integer cid=equipment.getCid();
+    						String lName=checkUserService.selectLNameByCid(cid);
     						Cell cell=checkUserService.selectCNameByCid(cid);
     						String cName=cell.getCname();//装配线名称
     						Integer cycle=equipment.getEcheckcycle();
-    						String emailInfo="你设备下次校验时间已到，请尽快对其进行检测！"+"\r\n设备编号："+cfid+"\r\n设备名称："+ename+"\r\n装配线："+cName+"\r\n检查周期："+cycle+"天";
+    						String eWorker=equipment.getEworker();
+    						Integer ectid=checkUserService.selectEctidByEid(Integer.valueOf(cfid));//得到最新ectid
+    						EquipmentCheckTime equipmentCheckTime=checkUserService.selectEquipmentCheckTimeByEctid(ectid);
+    						Date lastCheckTime=equipmentCheckTime.getEctime();//设备上次校验时间
+    						sdf=new SimpleDateFormat("yyyy-MM-dd");
+    		    	        String lastEquipmentCheckTime=sdf.format(lastCheckTime);
+    						String emailInfo="你的设备下次校验时间已到，请尽快对其进行检测！"+"\r\n\r\n设备编号："+cfid+"\r\n设备名称："+
+    						ename+"\r\n生产线："+lName+"\r\n装配线："+cName+"\r\n检查周期："+cycle+"天"+"\r\n设备负责人："+eWorker
+    						+"\r\n设备上次校验时间："+lastEquipmentCheckTime;
     						Mail mail=new Mail(email,"公司内部邮件",emailInfo,ccs);
     					    MailSender.sendMail(mail);
     					}

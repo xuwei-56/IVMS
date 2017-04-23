@@ -3,35 +3,35 @@
 <mapper namespace="com.IVMS.dao.CheckingToolsFileDao" >
   <resultMap id="BaseResultMap" type="com.IVMS.model.CheckingToolsFile" >
     <id column="CTFId" property="ctfid" jdbcType="INTEGER" />
-    <result column="CTId" property="ctid" jdbcType="INTEGER" />
+    <result column="CTId" property="ctid" jdbcType="VARCHAR" />
     <result column="CTFName" property="ctfname" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     CTFId, CTId, CTFName
   </sql>
-  <select id="selectCtFilesByCtid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectCtFilesByCtid" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from checkingtoolsfile
-    where CTId = #{ctid,jdbcType=INTEGER}
+    where CTId = #{ctid,jdbcType=VARCHAR}
   </select>
   <select id="selectCTFNameByCTFId" resultType="java.lang.String" parameterType="java.lang.Integer" >
   SELECT CTFName FROM checkingtoolsfile WHERE CTFId=#{ctfid,jdbcType=INTEGER};
   </select>
-  <select id="selectCTFNameByCTId" resultType="hashmap" parameterType="java.lang.Integer" >
-  SELECT CTFName FROM checkingtoolsfile WHERE CTId=#{ctid,jdbcType=INTEGER};
+  <select id="selectCTFNameByCTId" resultType="hashmap" parameterType="java.lang.String" >
+  SELECT CTFName FROM checkingtoolsfile WHERE CTId=#{ctid,jdbcType=VARCHAR};
   </select>
-  <select id="countCTFNameByCTId" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
-  SELECT count(*) FROM checkingtoolsfile WHERE CTId=#{ctid,jdbcType=INTEGER};
+  <select id="countCTFNameByCTId" resultType="java.lang.Integer" parameterType="java.lang.String" >
+  SELECT count(*) FROM checkingtoolsfile WHERE CTId=#{ctid,jdbcType=VARCHAR};
   </select>
-  <select id="selectByCtid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByCtid" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from checkingtoolsfile
-    where CTId = #{ctid,jdbcType=INTEGER}
+    where CTId = #{ctid,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteCheckingToolsFileByCtid" parameterType="java.lang.Integer" >
-  DELETE FROM checkingtoolsfile WHERE CTId=#{ctid,jdbcType=INTEGER};
+  <delete id="deleteCheckingToolsFileByCtid" parameterType="java.lang.String" >
+  DELETE FROM checkingtoolsfile WHERE CTId=#{ctid,jdbcType=VARCHAR};
   </delete>
   <delete id="deleteCheckingToolsFileByCtfid" parameterType="java.lang.Integer" >
   DELETE FROM checkingtoolsfile WHERE CTFId=#{ctfid,jdbcType=INTEGER};
@@ -39,11 +39,11 @@
   <insert id="insert" parameterType="com.IVMS.model.CheckingToolsFile" >
     insert into checkingtoolsfile (CTFId, CTId, CTFName
       )
-    values (#{ctfid,jdbcType=INTEGER}, #{ctid,jdbcType=INTEGER}, #{ctfname,jdbcType=VARCHAR}
+    values (#{ctfid,jdbcType=INTEGER}, #{ctid,jdbcType=VARCHAR}, #{ctfname,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertCheckingToolsFile" >
-    INSERT checkingtoolsfile(CTId,CTFName) VALUES(#{ctid,jdbcType=INTEGER},#{ctfname,jdbcType=VARCHAR});
+    INSERT checkingtoolsfile(CTId,CTFName) VALUES(#{ctid,jdbcType=VARCHAR},#{ctfname,jdbcType=VARCHAR});
   </insert>
   <insert id="insertSelective" parameterType="com.IVMS.model.CheckingToolsFile" >
     insert into checkingtoolsfile
@@ -63,7 +63,7 @@
         #{ctfid,jdbcType=INTEGER},
       </if>
       <if test="ctid != null" >
-        #{ctid,jdbcType=INTEGER},
+        #{ctid,jdbcType=VARCHAR},
       </if>
       <if test="ctfname != null" >
         #{ctfname,jdbcType=VARCHAR},
@@ -74,7 +74,7 @@
     update checkingtoolsfile
     <set >
       <if test="ctid != null" >
-        CTId = #{ctid,jdbcType=INTEGER},
+        CTId = #{ctid,jdbcType=VARCHAR},
       </if>
       <if test="ctfname != null" >
         CTFName = #{ctfname,jdbcType=VARCHAR},
@@ -84,7 +84,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.IVMS.model.CheckingToolsFile" >
     update checkingtoolsfile
-    set CTId = #{ctid,jdbcType=INTEGER},
+    set CTId = #{ctid,jdbcType=VARCHAR},
       CTFName = #{ctfname,jdbcType=VARCHAR}
     where CTFId = #{ctfid,jdbcType=INTEGER}
   </update>

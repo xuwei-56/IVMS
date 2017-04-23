@@ -198,11 +198,11 @@ public class SendCheckUserServiceImpl implements SendCheckUserService{
 		return checkingFormDao.mySendCheckDetails(cfid);
 	}
 
-	public List<CheckingToolsFile> selectByCtid(Integer ctid) {
+	public List<CheckingToolsFile> selectByCtid(String ctid) {
 		return checkingToolsFileDao.selectByCtid(ctid);
 	}
 
-	public Map<String,Object> myCheckingToolsDetails(Integer ctid){
+	public Map<String,Object> myCheckingToolsDetails(String ctid){
 		return checkingToolsDao.myCheckingToolsDetails(ctid);
 	}
 

@@ -1,13 +1,14 @@
 package com.IVMS.controller;
 
+import java.util.Date;
 import java.util.List;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.IVMS.model.CheckingForm;
 import com.IVMS.model.CheckingFormCustom;
 import com.IVMS.model.CheckingTools;
 import com.IVMS.service.HomePageService;
@@ -96,9 +97,14 @@ public class HomePageController {
 	@ResponseBody
 	public JSONObject updateCfstatus(String cfid) throws Exception {
 		int updateResult=homePageService.updateCfstatuByCfid(cfid);
+		Date cfTime=new Date();//拿到送检时间
+		CheckingForm checkingForm=new CheckingForm();
+		checkingForm.setCftime(cfTime);
+		checkingForm.setCfid(cfid);
 		if(updateResult<=0){
 			return CommonUtil.constructResponse(0,"更新状态失败！",null);
 		}else{
+			homePageService.updateCheckingFormByCfid(checkingForm);//打印的时候更新送检单送检时间
 			return CommonUtil.constructResponse(EnumUtil.OK,"更新状态成功！",null);
 		}
 	}

@@ -78,9 +78,9 @@ public interface SendCheckUserService {
 	
 	CheckingForm mySendCheckDetails(String cfid);
 	
-	List<CheckingToolsFile>selectByCtid(Integer ctid);
+	List<CheckingToolsFile>selectByCtid(String ctid);
 	
-	Map<String,Object> myCheckingToolsDetails(Integer ctid);
+	Map<String,Object> myCheckingToolsDetails(String ctid);
 	
 	int updateWStatusByWidAndClaid(String wid,Integer claid);
 	

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.IVMS.dao.CheckingFormDao;
 import com.IVMS.dao.CheckingToolsDao;
+import com.IVMS.model.CheckingForm;
 import com.IVMS.model.CheckingFormCustom;
 import com.IVMS.model.CheckingTools;
 import com.IVMS.service.HomePageService;
@@ -72,6 +73,11 @@ public class HomePageServiceImpl implements HomePageService {
 
 	public int updateCfstatuByCfid(String cfid) {
 		return checkingFormDao.updateCfstatuByCfid(cfid);
+	}
+
+
+	public int updateCheckingFormByCfid(CheckingForm record) {
+		return checkingFormDao.updateCheckingFormByCfid(record);
 	}
 
 }

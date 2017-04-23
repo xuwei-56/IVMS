@@ -11,7 +11,7 @@ import com.IVMS.model.CheckingToolsRecord;
 public interface CheckingToolsRecordDao {
     int deleteByPrimaryKey(Integer ctrid);
 
-    int insertCheckingToolRecordByCtUseTime(@Param("ctid")Integer ctid,@Param("ctrmovecp")String ctrmovecp,
+    int insertCheckingToolRecordByCtUseTime(@Param("ctid")String ctid,@Param("ctrmovecp")String ctrmovecp,
     		@Param("ctrchecktime")Date ctrchecktime,@Param("ctrchecknexttime")Date ctrchecknexttime);
 
     int insertCheckingToolsRecord(CheckingToolsRecord record);
@@ -29,13 +29,13 @@ public interface CheckingToolsRecordDao {
     Integer ctrcheckresult,@Param("ctisagree")Integer ctisagree);
     
     int updateCTRCheckNextTimeAndCheckTimeByCtid(@Param("ctrchecktime")Date ctrchecktime,
-    		@Param("ctrchecknexttime")Date ctrchecknexttime,@Param("ctid")Integer ctid);
+    		@Param("ctrchecknexttime")Date ctrchecknexttime,@Param("ctid")String ctid);
     
     List<Map<String,Object>> selectEmailAndCheckNextTime();
     
-    List<Map<String,Object>> selectCheckingToolRecords(Integer ctid);
+    List<Map<String,Object>> selectCheckingToolRecords(String ctid);
     
-    String selectCfIdByCtid(Integer ctid);
+    String selectCfIdByCtid(String ctid);
     
-    Integer selectMaxCtrIdByCtid(Integer ctid);
+    Integer selectMaxCtrIdByCtid(String ctid);
 }

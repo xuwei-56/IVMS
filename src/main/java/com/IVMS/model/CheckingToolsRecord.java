@@ -8,7 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class CheckingToolsRecord {
     private Integer ctrid;
 
-    private Integer ctid;
+    private String ctid;
 
     private String ctrnum;
     
@@ -38,6 +38,7 @@ public class CheckingToolsRecord {
     private List<NotifyPersonnelEmail> notifyPersonnelEmails;
     
     private Integer ctisagree;
+    
 
 	public Integer getCtrid() {
 		return ctrid;
@@ -47,11 +48,11 @@ public class CheckingToolsRecord {
 		this.ctrid = ctrid;
 	}
 
-	public Integer getCtid() {
+	public String getCtid() {
 		return ctid;
 	}
 
-	public void setCtid(Integer ctid) {
+	public void setCtid(String ctid) {
 		this.ctid = ctid;
 	}
 
@@ -167,11 +168,4 @@ public class CheckingToolsRecord {
 		this.ctisagree = ctisagree;
 	}
 
-	public String toString() {
-		return "CheckingToolsRecord [ctrchecknexttime="
-				+ ctrchecknexttime + ", getNotifyPersonnelEmails()=" + getNotifyPersonnelEmails()
-				+ "]";
-	}
-    
-	
 }

@@ -9,28 +9,28 @@ import org.apache.ibatis.annotations.Param;
 import com.IVMS.model.CheckingTools;
 
 public interface CheckingToolsDao {
-    int deleteCheckingToolsByCtidAndCtStatus(Integer ctid);
+    int deleteCheckingToolsByCtidAndCtStatus(String ctid);
 
     int insert(CheckingTools record);
 
     int insertCheckingTools(CheckingTools checkingTools);
 
-    CheckingTools selectCheckingToolByCtid(Integer ctid);
+    CheckingTools selectCheckingToolByCtid(String ctid);
     
-    CheckingTools judgeCtidIsAlreadyExist(Integer ctid);
+    CheckingTools judgeCtidIsAlreadyExist(String ctid);
     
     int selectCheckingToolCycleByCtid(Integer ctrid);
     
-    int selectCycleByCtid(Integer ctid);
+    int selectCycleByCtid(String ctid);
 
     int updateCheckingToolByCtid(CheckingTools checkingTools);
     
     int updateCheckingToolStatusByCtidAndCtStatus(@Param("ctstatus")Integer ctstatus,
-    		@Param("ctid")Integer ctid);
+    		@Param("ctid")String ctid);
     
-    int updateCheckingToolStatusByCtid(Integer ctid);
+    int updateCheckingToolStatusByCtid(String ctid);
     
-    int updateCheckingToolTimeAndReceiverByCtid(@Param("ctid")Integer ctid,@Param("ctreceiver")
+    int updateCheckingToolTimeAndReceiverByCtid(@Param("ctid")String ctid,@Param("ctreceiver")
     String ctreceiver,@Param("ctusetime")Date ctusetime,@Param("ctuseitem")String ctuseitem,
     @Param("ctuseline")String ctuseline,@Param("ctusestation")String ctusestation);
 
@@ -38,7 +38,7 @@ public interface CheckingToolsDao {
     
     List<CheckingTools> selectByReceiver(String receiver);
     
-    Map<String,Object> myCheckingToolsDetails(@Param("ctid")Integer ctid);
+    Map<String,Object> myCheckingToolsDetails(@Param("ctid")String ctid);
     
     List<CheckingTools> checkingToolsInfo(@Param("CTUseItem")String CTUseItem,@Param("CTStatus")Integer CTStatus,
     		@Param("startRow")Integer startRow,@Param("numberOfPerPage")Integer numberOfPerPage);
@@ -46,6 +46,6 @@ public interface CheckingToolsDao {
     int countCheckingToolsInfo(@Param("CTUseItem")String CTUseItem,@Param("CTStatus")Integer CTStatus);
     
     int updateCheckingToolReceiverByCtid(@Param("ctreceiver")String ctreceiver,
-    		@Param("ctid")Integer ctid);
+    		@Param("ctid")String ctid);
     
 }

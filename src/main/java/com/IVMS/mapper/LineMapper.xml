@@ -14,6 +14,9 @@
     from line
     where LId = #{lid,jdbcType=INTEGER}
   </select>
+  <select id="selectLNameByCid" resultType="java.lang.String" parameterType="java.lang.Integer" >
+  select LName from line where LId=(select LId from cell where CId=#{cid,jdbcType=INTEGER}); 
+  </select>
   <select id="selectLines" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />

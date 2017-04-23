@@ -15,6 +15,7 @@ public interface LineDao {
 
     Line selectByPrimaryKey(Integer lid);
     
+    String selectLNameByCid(Integer cid);
     
     Integer selectMaxLid();
 

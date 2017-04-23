@@ -182,13 +182,14 @@ public class CheckUserController {
 		/**
 		 * 更新检测状态为检测中，发送邮箱（开始检测）
 		 */
+		long l=System.currentTimeMillis();
 		String chekingToolsEmail=null;
 		Integer resultOfUpdate=checkUserService.updateCfStatusToOnCheck(cfid);
 		if(resultOfUpdate<=0){
 			return CommonUtil.constructResponse(0,"更新状态失败！",null);
 		}else{
 			User user=(User) session.getAttribute("user");
-			String userName=user.getCn();//拿到检测人				
+			String userName=user.getCn();//拿到检测人	
 			checkUserService.updateCfCheckManByCfid(userName, cfid);//更新送检单的检测人
 			CheckingForm checkingForm=sendCheckUserService.selectByPrimaryKey(cfid);
 			Integer ClaId=checkingForm.getClaid();
@@ -199,56 +200,75 @@ public class CheckUserController {
 	        String time=sdf.format(currentTime);
 	        String cftime=sdf.format(sendCheckTime);
 			if(ClaId==claId){//检具送检
-				CheckingTools checkingTools=checkUserService.selectCheckingToolByCtid(
-						Integer.parseInt(SCFComponentId));
+				CheckingTools checkingTools=checkUserService.selectCheckingToolByCtid(SCFComponentId);
 				String ctreceiver=checkingTools.getCtreceiver();
 				System.out.println("ctreceiver:"+ctreceiver);
 				String username=(String) session.getAttribute("username");
 				String password=(String) session.getAttribute("password");
-				chekingToolsEmail=checkUserService.getEmailByCn(username, password,ctreceiver);//得到领用人邮箱				
+				chekingToolsEmail=checkUserService.getEmailByCn(username, password,ctreceiver);//得到领用人邮箱
 				if(chekingToolsEmail!=null&&!chekingToolsEmail.isEmpty()&&!chekingToolsEmail.equals("0")){
-					String mailContent="你的检具送检已开始检测"+"\r\n送检单号："+cfid+"\r\n检具编号："+SCFComponentId+"\r\n送检时间："+cftime+"\r\n检测人:"+userName+
+					String mailContent="你的检具送检已开始检测！"+"\r\n\r\n送检单号："+cfid+"\r\n检具编号："+SCFComponentId+"\r\n送检时间："+cftime+"\r\n检测人:"+userName+
 							"\r\n检测时间："+time;
-					Mail mail=new Mail(chekingToolsEmail,"公司内部邮件",mailContent,null);
-					MailSender.sendMail(mail);
+					/**
+					 * 给送检单邮箱抄送人发送邮箱
+					 */
+					List<NotifyPersonnelEmail>emails=checkUserService.selectNotifyEmailByCfid(cfid);
+					if(!emails.isEmpty()){
+						String[]Ccs=new String[emails.size()];
+						int i=0;
+						for(NotifyPersonnelEmail notifyPersonnelEmail:emails){
+							String email=notifyPersonnelEmail.getNpenotifyemail();
+						    Ccs[i]=email;
+							i++;
+						}
+						if(chekingToolsEmail!=null){
+							Mail mail=new Mail(chekingToolsEmail,"公司内部邮件",mailContent,Ccs);
+							long ll=System.currentTimeMillis();
+							System.out.println((double)(ll-l));
+							MailSender.sendMail(mail);
+							long lll=System.currentTimeMillis();
+							System.out.println((double)(lll-ll));
+						}
+					}
+				}
+			}else{
+				/**
+				 * 给送检单邮箱抄送人发送邮箱
+				 */
+				Classify classify=sendCheckUserService.selectClassifyNameByClaid(ClaId);
+				String classifyName=classify.getCname();//得到送检类型
+				List<NotifyPersonnelEmail>emails=checkUserService.selectNotifyEmailByCfid(cfid);
+				if(!emails.isEmpty()){
+					String[]Ccs=new String[emails.size()-1];
+					int i=-1;
+					String receiveEmail=null;
+					for(NotifyPersonnelEmail notifyPersonnelEmail:emails){
+						String email=notifyPersonnelEmail.getNpenotifyemail();
+						if(i==-1){
+							receiveEmail=email;
+						}
+						if(i!=-1){
+							Ccs[i]=email;
+						}
+						i++;
+					}
+					if(receiveEmail!=null){
+//							String[]Ccs={"allstarpeng@126.com"};
+						String mailContent="你的送检已开始检测！"+"\r\n\r\n送检单号："+cfid+"\r\n送检类型："+classifyName+"\r\n零件编号："+SCFComponentId+"\r\n送检时间："+cftime+"\r\n检测人:"+userName+
+								"\r\n检测时间："+time;
+						Mail mail=new Mail(receiveEmail,"公司内部邮件",mailContent,Ccs);
+						MailSender.sendMail(mail);
+					}
 				}
 			}
-			/**
-			 * 给送检单邮箱抄送人发送邮箱
-			 */
-			Classify classify=sendCheckUserService.selectClassifyNameByClaid(ClaId);
-			String classifyName=classify.getCname();//得到送检类型
-			List<NotifyPersonnelEmail>emails=checkUserService.selectNotifyEmailByCfid(cfid);
-			if(!emails.isEmpty()){
-				String[]Ccs=new String[emails.size()-1];
-				int i=-1;
-				String receiveEmail=null;
-				for(NotifyPersonnelEmail notifyPersonnelEmail:emails){
-					String email=notifyPersonnelEmail.getNpenotifyemail();
-					if(i==-1){
-						receiveEmail=email;
-					}
-					if(i!=-1){
-						Ccs[i]=email;
-					}
-					i++;
-				}
-				if(receiveEmail!=null){
-//						String[]Ccs={"allstarpeng@126.com"};
-					String mailContent="你的送检已开始检测"+"\r\n送检单号："+cfid+"\r\n送检类型："+classifyName+"\r\n零件编号："+SCFComponentId+"\r\n送检时间："+cftime+"\r\n检测人:"+userName+
-							"\r\n检测时间："+time;
-					Mail mail=new Mail(receiveEmail,"公司内部邮件",mailContent,Ccs);
-					MailSender.sendMail(mail);
-				}
-			}
-			return CommonUtil.constructResponse(EnumUtil.OK, "更新状态成功！",null);
+				return CommonUtil.constructResponse(EnumUtil.OK, "更新状态成功！",null);	
 		}
 	}
 	
 	
 	@RequestMapping("/deleteCheckingTool")
 	@ResponseBody
-	public JSONObject deleteCheckingTool(Integer ctid,HttpServletRequest request){
+	public JSONObject deleteCheckingTool(String ctid,HttpServletRequest request){
 		Integer resultOfDeleteCheckingTool=checkUserService.deleteCheckingToolsByCtidAndCtStatus(ctid);
 		if(resultOfDeleteCheckingTool<=0){
 			return CommonUtil.constructResponse(0,"删除检具信息失败！",null);
@@ -290,7 +310,7 @@ public class CheckUserController {
 	
 	@RequestMapping("/judgeCtid")
 	@ResponseBody
-	public JSONObject judgeCtid(Integer ctid,HttpServletRequest request){
+	public JSONObject judgeCtid(String ctid,HttpServletRequest request){
 		CheckingTools checkingtools=checkUserService.judgeCtidIsAlreadyExist(ctid);//判断检具是否已经存在
 		if(checkingtools==null){
 			return CommonUtil.constructResponse(EnumUtil.OK,"此检具可以添加",null);
@@ -304,7 +324,7 @@ public class CheckUserController {
 	public JSONObject addCheckingToolInfo(HttpServletRequest request,CheckingTools checkingTools,
 			@RequestParam(value = "checkingToolFiles", required = false) MultipartFile[] checkingToolFiles)
 			throws Exception{
-		Integer ctid=checkingTools.getCtid();
+		String ctid=checkingTools.getCtid();
 		CheckingTools checkingtools=checkUserService.judgeCtidIsAlreadyExist(ctid);//判断检具是否已经存在
 		if(checkingtools==null){//添加的检具不存在
 			Integer resultOfAddCheckingToolInfo=checkUserService.insertCheckingTools(checkingTools);//添加检具基本信息
@@ -312,7 +332,7 @@ public class CheckUserController {
 				return CommonUtil.constructResponse(0,"添加检具信息失败！",null);
 			}else{
 				NotifyPersonnelEmail personnelEmail=new NotifyPersonnelEmail();
-            	personnelEmail.setCfid(String.valueOf(ctid));
+            	personnelEmail.setCfid(ctid);
             	personnelEmail.setNpestyle(1);
             	sendCheckUserService.insertCopySendEmail(personnelEmail);
 				/**
@@ -337,13 +357,14 @@ public class CheckUserController {
 	@ResponseBody
 	public JSONObject addCheckingToolResult(HttpServletRequest request,HttpSession session,
 			CheckingToolsRecord checkingToolsRecord,Integer ctStatus)throws Exception{	
-		User user=(User) session.getAttribute("user");
-		String userName=user.getCn();//拿到检测人
+//		User user=(User) session.getAttribute("user");
+//		String userName=user.getCn();//拿到检测人
+		String userName="唐天鹏";
 		String cfid=checkingToolsRecord.getCtrnum();//送检单号
 		CheckingForm checkingForm=sendCheckUserService.selectByPrimaryKey(cfid);
 		Integer ClaId=checkingForm.getClaid();
 		Date sendCheckTime=checkingForm.getCftime();
-		Integer ctid=checkingToolsRecord.getCtid();//检具编号
+		String ctid=checkingToolsRecord.getCtid();//检具编号
 		checkingToolsRecord.setCtrchecktime(new Date());//设置检具校验时间
 		Date currentTime=new Date();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -390,7 +411,7 @@ public class CheckUserController {
 				if(email!=null){
 					notifyPersonnelEmail.setNpenotifyemail(email);
 				}
-				notifyPersonnelEmail.setCfid(String.valueOf(ctid));
+				notifyPersonnelEmail.setCfid(ctid);
 				notifyPersonnelEmail.setNpenotifytime(nextCheckTime);
 				notifyPersonnelEmail.setNpestyle(1);
 				checkUserService.updateNotifyPersonalEmailByCfid(notifyPersonnelEmail);
@@ -415,32 +436,18 @@ public class CheckUserController {
 			 * 发送邮箱
 			 */
 			if(email!=null&&!email.isEmpty()){
-				String emailContent="你的检具送检已检测完成"+"\r\n送检单号："+cfid+"\r\n检具编号："+ctid+"\r\n送检时间："+cftime+"\r\n检测人:"+userName+
+				String emailContent="你的检具送检已检测完成！"+"\r\n\r\n送检单号："+cfid+"\r\n检具编号："+ctid+"\r\n送检时间："+cftime+"\r\n检测人:"+userName+
 								"\r\n录入检具校验结果时间："+time+"\r\n检测状态："+emailInfo+toolNextCheckInfo;
-				Mail mail=new Mail(email,"公司内部邮件",emailContent,null);
-				MailSender.sendMail(mail);
-			}
-			Classify classify=sendCheckUserService.selectClassifyNameByClaid(ClaId);
-			String classifyName=classify.getCname();//得到送检类型
-			List<NotifyPersonnelEmail>emails=checkUserService.selectNotifyEmailByCfid(cfid);
-			if(!emails.isEmpty()){
-				String[]Ccs=new String[emails.size()-1];
-				int i=-1;
-				String receiveEmail=null;
-				for(NotifyPersonnelEmail notifyPersonnelEmail:emails){
-					String notifyEmail=notifyPersonnelEmail.getNpenotifyemail();
-					if(i==-1){
-						receiveEmail=notifyEmail;
+				List<NotifyPersonnelEmail>emails=checkUserService.selectNotifyEmailByCfid(cfid);
+				if(!emails.isEmpty()){
+					String[]Ccs=new String[emails.size()];
+					int i=0;
+					for(NotifyPersonnelEmail notifyPersonnelEmail:emails){
+						String notifyEmail=notifyPersonnelEmail.getNpenotifyemail();
+							Ccs[i]=notifyEmail;
+							i++;
 					}
-					if(i!=-1){
-						Ccs[i]=notifyEmail;
-					}
-					i++;
-				}
-				if(receiveEmail!=null){
-					String emailContent="你的检具送检已检测完成"+"\r\n送检单号："+cfid+"\r\n检具编号："+ctid+"\r\n送检时间："+cftime+"\r\n检测人:"+userName+
-							"\r\n录入检具校验结果时间："+time+"\r\n检测状态："+emailInfo+toolNextCheckInfo;
-					Mail mail=new Mail(receiveEmail,"公司内部邮件",emailContent,Ccs);
+					Mail mail=new Mail(email,"公司内部邮件",emailContent,Ccs);
 					MailSender.sendMail(mail);
 				}
 			}
@@ -450,7 +457,7 @@ public class CheckUserController {
 	
 	@RequestMapping("/addCheckingToolReceiver")
 	@ResponseBody
-	public JSONObject addCheckingToolReceiver(HttpSession session,Integer ctid,String ctreceiver,
+	public JSONObject addCheckingToolReceiver(HttpSession session,String ctid,String ctreceiver,
 			String ctuseitem,String ctuseline,String ctusestation)
 			throws Exception{
 		Integer resultOfAddCheckingToolReceiver=checkUserService.updateCheckingToolTimeAndReceiverByCtid
@@ -488,7 +495,7 @@ public class CheckUserController {
 			}
 			notifyPersonnelEmail.setNpenotifytime(nextCheckTime);
 			notifyPersonnelEmail.setNpestyle(1);
-			notifyPersonnelEmail.setCfid(String.valueOf(ctid));
+			notifyPersonnelEmail.setCfid(ctid);
 			checkUserService.updateNotifyPersonalEmailByCfid(notifyPersonnelEmail);
 			return CommonUtil.constructResponse(EnumUtil.OK, "更新检具领用人成功！",null);
 		}
@@ -496,7 +503,7 @@ public class CheckUserController {
 	
 	@RequestMapping("/updateAgreeAndAccept")
 	@ResponseBody
-	public JSONObject updateAgreeAndAccept(Integer ctid, Integer ctracceptresult, Integer ctisagree)
+	public JSONObject updateAgreeAndAccept(String ctid, Integer ctracceptresult, Integer ctisagree)
 			throws Exception{
 		Integer ctrid=checkUserService.selectMaxCtrIdByCtid(ctid);
 		Integer resultOfUpdateAgreeAndAccept=checkUserService.updateAcceptAndAgreeByCtrid
@@ -518,7 +525,7 @@ public class CheckUserController {
 	
 	@RequestMapping("/updateCheckingToolStatus")
 	@ResponseBody
-	public JSONObject updateCheckingToolStatus(Integer ctid,HttpSession session,Integer ctStatus) throws Exception{
+	public JSONObject updateCheckingToolStatus(String ctid,HttpSession session,Integer ctStatus) throws Exception{
 		User user=(User) session.getAttribute("user");
 		String userName=user.getCn();//拿到检测人
 		String cfId=checkUserService.selectCfIdByCtid(ctid);//拿到最新订单号
@@ -561,7 +568,7 @@ public class CheckUserController {
 			/**
 			 * 更新定时发送邮箱的邮箱和时间
 			 */
-			notifyPersonnelEmail.setCfid(String.valueOf(ctid));
+			notifyPersonnelEmail.setCfid(ctid);
 			notifyPersonnelEmail.setNpenotifytime(nextCheckTime);
 			notifyPersonnelEmail.setNpestyle(1);
 			checkUserService.updateNotifyPersonalEmailByCfid(notifyPersonnelEmail);
@@ -584,32 +591,18 @@ public class CheckUserController {
 			return CommonUtil.constructResponse(0,"更新检具状态失败！",null);
 		}else{
 			if(email!=null&&!email.isEmpty()){
-				String mailContent="你的检具送检经过维修后,检测状态为："+emailInfo+"\r\n送检单号："+cfId+"\r\n检具编号："+ctid+"\r\n送检时间："+cftime+"\r\n检测人:"+userName+
+				String mailContent="你的检具送检经过维修后,检测状态为："+emailInfo+"！\r\n\r\n送检单号："+cfId+"\r\n检具编号："+ctid+"\r\n送检时间："+cftime+"\r\n检测人:"+userName+
 					"\r\n检具修改为正常状态的时间："+time+toolNextCheckInfo;
-				Mail mail=new Mail(email,"公司内部邮件",mailContent,null);
-				MailSender.sendMail(mail);
-			}
-			Classify classify=sendCheckUserService.selectClassifyNameByClaid(ClaId);
-			String classifyName=classify.getCname();//得到送检类型
-			List<NotifyPersonnelEmail>emails=checkUserService.selectNotifyEmailByCfid(cfId);
-			if(!emails.isEmpty()){
-				String[]Ccs=new String[emails.size()-1];
-				int i=-1;
-				String receiveEmail=null;
-				for(NotifyPersonnelEmail notifyPersonnelEmail:emails){
-					String notifyEmail=notifyPersonnelEmail.getNpenotifyemail();
-					if(i==-1){
-						receiveEmail=notifyEmail;
+				List<NotifyPersonnelEmail>emails=checkUserService.selectNotifyEmailByCfid(cfId);
+				if(!emails.isEmpty()){
+					String[]Ccs=new String[emails.size()];
+					int i=0;
+					for(NotifyPersonnelEmail notifyPersonnelEmail:emails){
+						String notifyEmail=notifyPersonnelEmail.getNpenotifyemail();
+							Ccs[i]=notifyEmail;
+							i++;
 					}
-					if(i!=-1){
-						Ccs[i]=notifyEmail;
-					}
-					i++;
-				}
-				if(receiveEmail!=null){
-					String mailContent="你的检具送检经过维修后,检测状态为："+emailInfo+"\r\n送检单号："+cfId+"\r\n检具编号："+ctid+"\r\n送检时间："+cftime+"\r\n检测人:"+userName+
-							"\r\n检具修改为正常状态的时间："+time+toolNextCheckInfo;
-					Mail mail=new Mail(receiveEmail,"公司内部邮件",mailContent,Ccs);
+					Mail mail=new Mail(email,"公司内部邮件",mailContent,Ccs);
 					MailSender.sendMail(mail);
 				}
 			}
@@ -622,7 +615,7 @@ public class CheckUserController {
 	public JSONObject updateCheckingTool(CheckingTools checkingTools,HttpServletRequest request,
 			@RequestParam("checkingToolFiles") MultipartFile[] checkingToolFiles)
 			throws Exception{
-		Integer ctid=checkingTools.getCtid();
+		String ctid=checkingTools.getCtid();
 		Integer ctrid=checkUserService.selectMaxCtrIdByCtid(ctid);
 		Integer resultOfUpdateCheckingTool=checkUserService.updateCheckingToolByCtid(checkingTools);
 		if(resultOfUpdateCheckingTool<=0){
@@ -652,7 +645,7 @@ public class CheckUserController {
 				NotifyPersonnelEmail notifyPersonnelEmail=new NotifyPersonnelEmail();
 				notifyPersonnelEmail.setNpenotifytime(nextCheckTime);
 				notifyPersonnelEmail.setNpestyle(1);
-				notifyPersonnelEmail.setCfid(String.valueOf(ctid));
+				notifyPersonnelEmail.setCfid(ctid);
 				checkUserService.updateNotifyPersonalEmailByCfid(notifyPersonnelEmail);
 			}
 			/**
@@ -672,7 +665,7 @@ public class CheckUserController {
 	
 	@RequestMapping("/getCheckingToolReceiver")
 	@ResponseBody
-	public JSONObject getCheckingToolReceiver(Integer ctid)
+	public JSONObject getCheckingToolReceiver(String ctid)
 			throws Exception{
 		CheckingTools checkingTools=checkUserService.selectCheckingToolByCtid(ctid);
 		if(checkingTools==null){
@@ -684,7 +677,7 @@ public class CheckUserController {
 	
 	@RequestMapping("/updateCheckingToolReceiver")
 	@ResponseBody
-	public JSONObject updateCheckingToolReceiver(Integer ctid,String ctreceiver)
+	public JSONObject updateCheckingToolReceiver(String ctid,String ctreceiver)
 			throws Exception{
 		Integer resultOfUpdateCheckingToolReceiver=checkUserService.updateCheckingToolReceiverByCtid(ctreceiver, ctid);
 		if(resultOfUpdateCheckingToolReceiver<=0){
@@ -816,17 +809,17 @@ public class CheckUserController {
 				return CommonUtil.constructResponse(0,"更新设备信息失败！",null);
 			}else{
 				EquipmentCheckTime equipmentCheckTime=checkUserService.selectEquipmentCheckTimeByEctid(ectid);
-				Date lastCheckTime=equipmentCheckTime.getEctime();
+				Date lastCheckTime=equipmentCheckTime.getEctime();//上次设备校验时间
 				Calendar calendar=Calendar.getInstance();
 				calendar.setTime(lastCheckTime);
 				calendar.add(Calendar.DATE,cycle);
 				Date nextCheckTime=calendar.getTime();//得到设备下次检验时间
 				/**
-				 * 修改上一次校验时间和下一次校验时间，修改定时发送邮箱的邮箱和时间
+				 * 修改下一次校验时间，修改定时发送邮箱的邮箱和时间
 				 */
 				if(date!=null){
 					calendar=Calendar.getInstance();
-					calendar.setTime(date);
+					calendar.setTime(date);//上一次校验时间
 					calendar.add(Calendar.DATE,cycle);
 					nextCheckTime=calendar.getTime();//得到设备下次检验时间
 				}
@@ -965,12 +958,13 @@ public class CheckUserController {
 //  	 	            String time=sdf.format(new Date());
   	 	            filename=cfId+"_"+filename;
 					File destFile = new File(root, filename);
+					destFile.mkdirs();
 					cfReportFile.transferTo(destFile);
 					path=filename;//数据库存的路径
 //				}
 			}
 		}
-		
+		long ll=System.currentTimeMillis();
 			int resultOfUpdateCfReport=checkUserService.submitCfReport(cfStatus, cfRemark, path,cfId);
 			if(resultOfUpdateCfReport<=0){
 				return CommonUtil.constructResponse(0,"更新检测结果失败！",null);
@@ -1009,11 +1003,13 @@ public class CheckUserController {
 			        }else{
 			        	emailInfo="未通过";
 			        }
-					String mailContent="你的送检已送检完成"+"\r\n送检单号："+cfId+"\r\n送检类型："+classifyName+"\r\n零件编号："+cfComponentId+"\r\n送检时间："+cftime+"\r\n检测状态："+emailInfo+"\r\n检测人:"+userName+
+					String mailContent="你的送检已送检完成！"+"\r\n\r\n送检单号："+cfId+"\r\n送检类型："+classifyName+"\r\n零件编号："+cfComponentId+"\r\n送检时间："+cftime+"\r\n检测状态："+emailInfo+"\r\n备注信息："+cfRemark+"\r\n检测人:"+userName+
 							"\r\n检测结果录入时间："+time;
 					Mail mail=new Mail(receiveEmail,"公司内部邮件",mailContent,Ccs);
 					MailSender.sendMail(mail);
 				}
+				long l=System.currentTimeMillis();
+				System.out.println((double)(l-ll)/1000);
 				return CommonUtil.constructResponse(EnumUtil.OK, "更新检测结果成功！",null);
 			}
 	}

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.IVMS.dao.CheckingToolsDao" >
   <resultMap id="BaseResultMap" type="com.IVMS.model.CheckingTools" >
-    <id column="CTId" property="ctid" jdbcType="INTEGER" />
+    <id column="CTId" property="ctid" jdbcType="VARCHAR" />
     <result column="CTUseItem" property="ctuseitem" jdbcType="VARCHAR" />
     <result column="CTCheckProgram" property="ctcheckprogram" jdbcType="VARCHAR" />
     <result column="CTName" property="ctname" jdbcType="VARCHAR" />
@@ -31,7 +31,7 @@
     extends="BaseResultMap" >
     <collection property="checkingToolsRecord" ofType="com.IVMS.model.CheckingToolsRecord">
     <id column="CTRId" property="ctrid" jdbcType="INTEGER" />
-    <result column="CTId" property="ctid" jdbcType="INTEGER" />
+    <result column="CTId" property="ctid" jdbcType="VARCHAR" />
     <result column="CTRNum" property="ctrnum" jdbcType="INTEGER" />
     <result column="CTRMoveCP" property="ctrmovecp" jdbcType="VARCHAR" />
     <result column="CTRMoveTime" property="ctrmovetime" jdbcType="DATE" />
@@ -46,7 +46,7 @@
     <result column="CTRCheckMan" property="ctrcheckman" jdbcType="VARCHAR" />
     <collection property="checkingToolsFile" ofType="com.IVMS.model.CheckingToolsFile">
 	<id column="CTFId" property="ctfid" jdbcType="INTEGER" />
-    <result column="CTId" property="ctid" jdbcType="INTEGER" />
+    <result column="CTId" property="ctid" jdbcType="VARCHAR" />
     <result column="CTFName" property="ctfname" jdbcType="VARCHAR" />
     </collection>
     </collection>
@@ -56,19 +56,19 @@
     CTResolation, CTAssetNum, CTUseLine, CTUseStation, CTUseTime, CTCheckWay, CTCheckCycle, 
     CTMSA, CTOriginalNum, CTSize, CTCheckTemperature, CTCheckHumidiry,CTReceiver,CTRemark,CTStatus
   </sql>
-  <select id="selectCheckingToolByCtid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectCheckingToolByCtid" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from checkingtools
-    where CTId = #{ctid,jdbcType=INTEGER}
+    where CTId = #{ctid,jdbcType=VARCHAR}
   </select>
   <select id="selectCheckingToolCycleByCtid" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
    SELECT CTCheckCycle FROM checkingtools 
    WHERE CTId=(SELECT CTId FROM checkingtoolsrecord WHERE CTRId=#{ctrid,jdbcType=INTEGER});
   </select>
-  <select id="selectCycleByCtid" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+  <select id="selectCycleByCtid" resultType="java.lang.Integer" parameterType="java.lang.String" >
    SELECT CTCheckCycle FROM checkingtools 
-   WHERE CTId=#{ctid,jdbcType=INTEGER};
+   WHERE CTId=#{ctid,jdbcType=VARCHAR};
   </select>
   <select id="myCheckingToolsDetails" resultType="hashmap" >
     SELECT 
@@ -76,7 +76,7 @@
 	FROM 
 	checkingtools ct
 	LEFT JOIN checkingtoolsrecord  ctr ON ct.CTId=ctr.CTId 
-	WHERE ct.CTId=#{ctid,jdbcType=INTEGER}
+	WHERE ct.CTId=#{ctid,jdbcType=VARCHAR}
 	ORDER BY CTRCheckNextTime DESC LIMIT 1;
   </select>
   <select id="selectByReceiver" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -85,8 +85,8 @@
     from checkingtools
     where CTReceiver = #{CTReceiver,jdbcType=VARCHAR} ORDER BY CTUseTime DESC;
   </select>
-  <select id="judgeCtidIsAlreadyExist" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-  SELECT * FROM checkingtools WHERE CTId=#{ctid,jdbcType=INTEGER};
+  <select id="judgeCtidIsAlreadyExist" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  SELECT * FROM checkingtools WHERE CTId=#{ctid,jdbcType=VARCHAR};
   </select>
   <select id="checkingToolsInfo" resultMap="BaseResultMap" >
     select 
@@ -114,9 +114,9 @@
       </if>
     </where>
   </select>
-  <delete id="deleteCheckingToolsByCtidAndCtStatus" parameterType="java.lang.Integer" >
+  <delete id="deleteCheckingToolsByCtidAndCtStatus" parameterType="java.lang.String" >
   DELETE FROM checkingtools 
-  WHERE CTStatus=0 AND CTId=#{CTId,jdbcType=INTEGER};
+  WHERE CTStatus=0 AND CTId=#{CTId,jdbcType=VARCHAR};
   </delete>
   <insert id="insert" parameterType="com.IVMS.model.CheckingTools" >
     insert into checkingtools (CTId, CTUseItem, CTCheckProgram, 
@@ -126,7 +126,7 @@
       CTUseTime, CTCheckWay, CTCheckCycle, 
       CTMSA, CTOriginalNum, CTSize, 
       CTCheckTemperature, CTCheckHumidiry, CTReceiver,CTRemark,CTStatus)
-    values (#{ctid,jdbcType=INTEGER}, #{ctuseitem,jdbcType=VARCHAR}, #{ctcheckprogram,jdbcType=VARCHAR}, 
+    values (#{ctid,jdbcType=VARCHAR}, #{ctuseitem,jdbcType=VARCHAR}, #{ctcheckprogram,jdbcType=VARCHAR}, 
       #{ctname,jdbcType=VARCHAR}, #{ctproducer,jdbcType=VARCHAR}, #{ctproductionnum,jdbcType=VARCHAR}, 
       #{ctnorms,jdbcType=VARCHAR}, #{ctprocision,jdbcType=VARCHAR}, #{ctresolation,jdbcType=VARCHAR}, 
       #{ctassetnum,jdbcType=VARCHAR}, #{ctuseline,jdbcType=VARCHAR}, #{ctusestation,jdbcType=VARCHAR}, 
@@ -210,7 +210,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="ctid != null" >
-        #{ctid,jdbcType=INTEGER},
+        #{ctid,jdbcType=VARCHAR},
       </if>
       <if test="ctuseitem != null" >
         #{ctuseitem,jdbcType=VARCHAR},
@@ -350,7 +350,7 @@
         CTStatus = #{ctstatus,jdbcType=INTEGER},
       </if>
     </set>
-    where CTId = #{ctid,jdbcType=INTEGER}
+    where CTId = #{ctid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.IVMS.model.CheckingTools" >
     update checkingtools
@@ -376,22 +376,22 @@
       CTReceiver = #{ctreceiver,jdbcType=VARCHAR}
       CTRemark = #{ctremark,jdbcType=VARCHAR}
       CTStatus = #{ctstatus,jdbcType=INTEGER}
-    where CTId = #{ctid,jdbcType=INTEGER}
+    where CTId = #{ctid,jdbcType=VARCHAR}
   </update>
   <update id="updateCheckingToolTimeAndReceiverByCtid" >
     UPDATE checkingtools SET CTUseTime=#{ctusetime,jdbcType=DATE},CTReceiver=#{ctreceiver,jdbcType=VARCHAR},
     CTUseItem=#{ctuseitem,jdbcType=VARCHAR},CTUseLine=#{ctuseline,jdbcType=VARCHAR},
     CTUseStation=#{ctusestation,jdbcType=VARCHAR}
-    WHERE CTId=#{ctid,jdbcType=INTEGER};
+    WHERE CTId=#{ctid,jdbcType=VARCHAR};
   </update>
-  <update id="updateCheckingToolStatusByCtid" parameterType="java.lang.Integer">
-  UPDATE checkingtools SET CTStatus=1 WHERE CTId=#{ctid,jdbcType=INTEGER};
+  <update id="updateCheckingToolStatusByCtid" parameterType="java.lang.String">
+  UPDATE checkingtools SET CTStatus=1 WHERE CTId=#{ctid,jdbcType=VARCHAR};
   </update>
   <update id="updateCheckingToolStatusByCtidAndCtStatus" >
    UPDATE checkingtools SET CTStatus=#{ctstatus,jdbcType=INTEGER} 
-   WHERE CTId=#{ctid,jdbcType=INTEGER};
+   WHERE CTId=#{ctid,jdbcType=VARCHAR};
   </update>
   <update id="updateCheckingToolReceiverByCtid" >
-  UPDATE checkingtools SET CTReceiver=#{ctreceiver,jdbcType=VARCHAR} WHERE CTId=#{ctid,jdbcType=INTEGER};
+  UPDATE checkingtools SET CTReceiver=#{ctreceiver,jdbcType=VARCHAR} WHERE CTId=#{ctid,jdbcType=VARCHAR};
   </update>
 </mapper>
