@@ -279,11 +279,11 @@ public class CheckUserServiceImpl implements CheckUserService{
 		return equipmentCheckTimeDao.insertEquipmentCheckTime(equipmentCheckTime);
 	}
 
-	public List<Map<String, Object>> selectEquipmentDetailInfo(Integer cid, String eworker,
+	public List<Map<String, Object>> selectEquipmentDetailInfo(Integer cid,Integer lid,String eworker,
 			String ename,Integer requestPageNum) {
 		int startRow=(requestPageNum-1)*10;
 		int numberOfPerPage=20;
-		return equipmentDao.selectEquipmentDetailInfo(cid, eworker, ename, startRow, numberOfPerPage);
+		return equipmentDao.selectEquipmentDetailInfo(cid,lid, eworker, ename, startRow, numberOfPerPage);
 	}
 
 	public int countEquipmentDetailInfo(Integer cid, String eworker, String ename) {

@@ -134,7 +134,7 @@ public interface CheckUserService {
 	
 	int insertEquipmentCheckTime(EquipmentCheckTime equipmentCheckTime);
 	
-	List<Map<String,Object>> selectEquipmentDetailInfo(Integer cid,String eworker,String ename,
+	List<Map<String,Object>> selectEquipmentDetailInfo(Integer cid,Integer lid,String eworker,String ename,
 			Integer requestPageNum);
 	
     int countEquipmentDetailInfo(Integer cid,String eworker,String ename);
