@@ -87,6 +87,7 @@ function getCellEM(lid,ui){
   })
 }
 var isroot = -1;  // 未登录
+var loginusername = -1;
 window.onload = function(){
   // 验证是否登录
   $.ajax({
@@ -102,6 +103,7 @@ window.onload = function(){
         }else{
           isroot = data.data.pager
         }
+        loginusername = data.data.cn;
         $('#equipment_login').fadeOut();
         $('#login_li').hide();
         $('#logout_li').show();
@@ -113,7 +115,7 @@ window.onload = function(){
         $('#update_equipment_btn').hide();
         $('#delete_equipment_btn').hide();
         $('#update_equipment_pop input').attr('disabled');
-        $('#add_equipment_a,#update_equipment_btn,#delete_equipment_btn,#confirm_equipment_btn').unbind()
+        $('#add_equipment_a,#update_equipment_btn,#delete_equipment_btn').unbind()
       }
       if (isroot == -1) {
         // 未登录取消部分按钮功能
@@ -124,25 +126,23 @@ window.onload = function(){
   
 }
 $(document).ready(function(){
-  //验证码
-  createCode();
-  //前端验证验证码
-  $('#Vcode').blur(function(){
-    validate ();
-  })
-  /*$(function(){
-    console.log(isroot)
-    if (isroot != 1) {
-      $('#update_equipment_btn').hide();
-      $('#delete_equipment_btn').hide();
-      $('#update_equipment_pop input').attr('disabled');
-    }
-    if (isroot == -1) {
-      // 未登录取消部分按钮功能
-      $('#my_equipment_a,#add_equipment_a,#update_equipment_btn,#delete_equipment_btn,#confirm_equipment_btn').unbind()
-    }
-  })*/
-  
+  //日历插件
+  laydate({
+    elem: '#edate',
+    min:'2000-01-01'
+  });
+  laydate({
+    elem: '#edate_update',
+    min:'2000-01-01'
+  });
+  laydate({
+    elem: '#time_confirm',
+    min:'2000-01-01'
+  });
+
+  $(function () {
+    $('#emtable').stickySort({ sortable: true });
+  });
   //检测登录
   $('#button_login').click(function() {
 
@@ -193,6 +193,8 @@ $(document).ready(function(){
   })
   // 登录弹框
   $('#login').click(function(){
+    //验证码
+    createCode();
     $('#equipment_login').fadeIn();
   })
 
@@ -218,20 +220,20 @@ $(document).ready(function(){
               data = JSON.parse(data);
               if(data.code == 1){
                 Count = parseInt(data.msg);
-                var emdata = "<tr><th>设备号</th><th>设备名</th><th>负责人</th><th>所属产线</th><th>所属单元</th><th>检测周期</th><th>上次检测时间</th><th>下次检测时间</th><th style='width: 250px'>操作</th></tr>"
+                var emdata = ""
                 data.data.forEach(function(em){
                   emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECheckCycle +"</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><td><a class='inner_btn' id='confirm_equipment'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a></td></tr>"
                 })
-                $('#emtable').html(emdata);
+                $('#emtabletbody').html(emdata);
               }
             }
           })
         }});
-        var emdata = "<tr><th>设备号</th><th>设备名</th><th>负责人</th><th>所属产线</th><th>所属单元</th><th>检测周期</th><th>上次检测时间</th><th>下次检测时间</th><th style='width: 250px'>操作</th></tr>"
+        var emdata = ""
         data.data.forEach(function(em){
           emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECheckCycle +"</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><td><a class='inner_btn' id='confirm_equipment'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a></td></tr>"
         })
-        $('#emtable').html(emdata);
+        $('#emtabletbody').html(emdata);
       }else{
         alert(data.msg)
       }
@@ -269,20 +271,20 @@ $(document).ready(function(){
                 data = JSON.parse(data);
                 if(data.code == 1){
                   Count = parseInt(data.msg);
-                  var emdata = "<tr><th>设备号</th><th>设备名</th><th>负责人</th><th>所属产线</th><th>所属单元</th><th>检测周期</th><th>上次检测时间</th><th>下次检测时间</th><th style='width: 250px'>操作</th></tr>"
+                  var emdata = ""
                   data.data.forEach(function(em){
                     emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECheckCycle +"</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><td><a class='inner_btn' id='confirm_equipment'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a></td></tr>"
                   })
-                  $('#emtable').html(emdata);
+                $('#emtabletbody').html(emdata);
                 }
               }
             })
           }});
-          var emdata = "<tr><th>设备号</th><th>设备名</th><th>负责人</th><th>所属产线</th><th>所属单元</th><th>检测周期</th><th>上次检测时间</th><th>下次检测时间</th><th style='width: 250px'>操作</th></tr>"
+          var emdata = ""
           data.data.forEach(function(em){
             emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECheckCycle +"</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><td><a class='inner_btn' id='confirm_equipment'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a></td></tr>"
           })
-          $('#emtable').html(emdata);
+          $('#emtabletbody').html(emdata);
         }else{
           alert(data.msg)
         }
@@ -302,11 +304,11 @@ $(document).ready(function(){
         if(data.code == 1){
           Count = parseInt(data.msg);
           $('#pageTool').html("");
-          var emdata = "<tr><th>设备号</th><th>设备名</th><th>负责人</th><th>所属产线</th><th>所属单元</th><th>检测周期</th><th>上次检测时间</th><th>下次检测时间</th><th style='width: 250px'>操作</th></tr>"
+          var emdata = ""
           data.data.forEach(function(em){
             emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECheckCycle +"</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><td><a class='inner_btn' id='confirm_equipment'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a></td></tr>"
           })
-          $('#emtable').html(emdata);
+          $('#emtabletbody').html(emdata);
         }else{
           alert(data.msg)
         }
@@ -445,6 +447,7 @@ $(document).ready(function(){
         data = JSON.parse(data);
         if (data.code == 1) {
           alert('添加成功！')
+          $('.pop_bg').fadeOut(200);
           window.location.reload()
         }else{
           if (data.code < 0) {
@@ -457,14 +460,18 @@ $(document).ready(function(){
   })
   //  确认检测
   $('#emtable').delegate('#confirm_equipment','click',function(){
-     
-     var time_confirm = $(this).parent().parent().find('td:eq(7)').text();
-     $('#time_confirm').val(time_confirm);
-     var ename_confirm = $(this).parent().parent().find('td:eq(1)').text();
-     $('#ename_confirm').val(ename_confirm);
-     var eid_confirm = $(this).parent().parent().find('td:eq(0)').text();
-     $('#eid_confirm').val(eid_confirm);
-     $('#confirm_equipment_pop').fadeIn();
+    var eworker = $(this).parent().parent().find('td:eq(2)').text();
+    if (isroot == -1 || eworker != loginusername) {
+      alert("没有权限确认检测！")
+      return false;
+    }
+    var time_confirm = $(this).parent().parent().find('td:eq(7)').text();
+    $('#time_confirm').val(time_confirm);
+    var ename_confirm = $(this).parent().parent().find('td:eq(1)').text();
+    $('#ename_confirm').val(ename_confirm);
+    var eid_confirm = $(this).parent().parent().find('td:eq(0)').text();
+    $('#eid_confirm').val(eid_confirm);
+    $('#confirm_equipment_pop').fadeIn();
 
   })
   $('#confirm_equipment_btn').click(function(){
@@ -530,9 +537,7 @@ $(document).ready(function(){
     $('#eid').val(eid);
     $('#ename_update').val(ename);
     $('#echeckcycle_update').val(echeckcycle);
-    if (nexttime == "" || nexttime == null) {
-      $('#edate_update').val(edate);
-    }
+    $('#edate_update').val(edate);
     $('#lasttime').val(edate);
     $('#nexttime').val(nexttime);
     // 获取产线

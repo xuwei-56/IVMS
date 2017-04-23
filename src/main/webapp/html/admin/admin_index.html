@@ -4,10 +4,14 @@
 <meta charset="utf-8"/>
 <title>检测校验管理系统</title>
 <link rel="stylesheet" type="text/css" href="./css/style.css" />
+<link rel="icon" href="./images/favicon.ico"/>
 <!--[if lt IE 9]>
 <script src="js/html5.js"></script>
 <![endif]-->
+<link type="text/css" href="./css/stickysort.css" media="all" rel="stylesheet" />
 <script src="./js/jquery.js"></script>
+<script src="./js/jquery.ba-throttle-debounce.min.js"></script>
+<script type="text/javascript" src="./js/jquery.stickysort.js"></script>
 <script src="./js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script type="text/javascript" src="./js/publicFunction.js"></script>
 <script type="text/javascript" src="./js/query.js"></script>
@@ -255,8 +259,7 @@
      </section>
      <section>
       <div class="page_title">
-             <!-- <h2 class="fl">例如产品详情标题</h2>
-             <a class="fr top_rt_btn">右侧按钮</a> --> 
+        <h2 class="wait_num" id="wait_num">当前有<p style="color: red;"></p>排队！</h2>
       </div>
       <ul class="admin_tab">
        <li><a class="active">正常物料检测</a></li>
@@ -267,58 +270,103 @@
       <!-- 正常物料送检 -->
       <div class="admin_tab_cont" style="display: block;">
         <table class="table" id="cfnormal">
-         <tr>
-          <th>检测单号</th>
-          <th>送检日期</th>
-          <th>送检类型</th>
-          <th>送检人</th>
-          <th>零件号</th>
-          <th>零件名称</th>
-          <th>检测状态</th>
-          <th style="width:150px;">操作</th>
-         </tr>
-         <tr>
-            <td>正常物料送检</td>
-            <td>内容二</td>
-            <td>内容三</td>
-            <td>内容四</td>
-            <td>内容五</td>
-            <td>内容六</td>
-            <td>
-              <a href='#' class='inner_btn' id='checkformdetail'>开始检测</a>
-              <a href='#' class='inner_btn' id='checkformdetail'>结束检测</a>
-            </td>
-            <td>
-             <a href='#' class='inner_btn' id='checkformdetail'>详情</a>
-            </td>
-           </tr>
+          <thead>
+            <tr>
+              <th>检测单号</th>
+              <th>送检日期</th>
+              <th>送检类型</th>
+              <th>送检人</th>
+              <th>零件号</th>
+              <th>零件名称</th>
+              <th>检测状态</th>
+              <th style="width:200px;">操作</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th>检测单号</th>
+              <th>送检日期</th>
+              <th>送检类型</th>
+              <th>送检人</th>
+              <th>零件号</th>
+              <th>零件名称</th>
+              <th>检测状态</th>
+              <th style="width:200px;">操作</th>
+            </tr>
+          </tfoot>
+          <tbody id="cfnormalbody">
+            <!-- <tr>
+              <td>正常物料送检</td>
+              <td>内容二</td>
+              <td>内容三</td>
+              <td>内容四</td>
+              <td>内容五</td>
+              <td>内容六</td>
+              <td>
+                <a href='#' class='inner_btn' id='checkformdetail'>开始检测</a><a href='#' class='inner_btn' id='checkformdetail'>结束检测</a>
+              </td>
+              <td>
+               <a href='#' class='inner_btn' id='checkformdetail'>详情</a>
+              </td>
+            </tr> -->
+            <tr>
+              <td>其他检测</td>
+              <td>内容二</td>
+              <td>内容三</td>
+              <td>内容四</td>
+              <td>内容五</td>
+              <td>内容六</td>
+              <td>内容七</td>
+              <td>
+               <a href='#' class='inner_btn' id='checkformdetail'>详情</a>
+              </td>
+            </tr>
+          </tbody>
+         
         </table>
       </div>
       <!-- 其他检测 -->
       <div class="admin_tab_cont">   
         <table class="table" id="cfspecial">
-         <tr>
-          <th>检测单号</th>
-          <th>送检日期</th>
-          <th>送检类型</th>
-          <th>送检人</th>
-          <th>零件号</th>
-          <th>零件名称</th>
-          <th>检测状态</th>
-          <th style="width:150px;">操作</th>
-         </tr>
-         <tr>
-          <td>其他检测</td>
-          <td>内容二</td>
-          <td>内容三</td>
-          <td>内容四</td>
-          <td>内容五</td>
-          <td>内容六</td>
-          <td>内容七</td>
-          <td>
-           <a href='#' class='inner_btn' id='checkformdetail'>详情</a>
-          </td>
-         </tr>
+          <thead>
+            <tr>
+              <th>检测单号</th>
+              <th>送检日期</th>
+              <th>送检类型</th>
+              <th>送检人</th>
+              <th>零件号</th>
+              <th>零件名称</th>
+              <th>检测状态</th>
+              <th style="width:200px;">操作</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th>检测单号</th>
+              <th>送检日期</th>
+              <th>送检类型</th>
+              <th>送检人</th>
+              <th>零件号</th>
+              <th>零件名称</th>
+              <th>检测状态</th>
+              <th style="width:200px;">操作</th>
+            </tr>
+          </tfoot>
+          <tbody id="cfspecialbody">
+            <tr>
+              <td>其他检测</td>
+              <td>内容二</td>
+              <td>内容三</td>
+              <td>内容四</td>
+              <td>内容五</td>
+              <td>内容六</td>
+              <td>内容七</td>
+              <td>
+               <a href='#' class='inner_btn' id='checkformdetail'>详情</a>
+              </td>
+            </tr>
+          </tbody>
+         
         </table>
       </div>
       <!-- 检测报告 -->

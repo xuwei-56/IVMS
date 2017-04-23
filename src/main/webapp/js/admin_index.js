@@ -16,13 +16,14 @@ function getnormalCheckingForm1(){
     success:function(data){
       data = JSON.parse(data);
       if(data.code == 1){
-        var checkformdata = "<tr><th>检测单号</th><th>检测日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
+        $('#wait_num').html("当前正常物料检测有 <p>"+ data.data.length +"</p> 人排队！")
+        var checkformdata = "";
         data.data.forEach(function(checkform){
           checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatusButton(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
         })
-        $('#cfnormal').html(checkformdata);
+        $('#cfnormalbody').html(checkformdata);
       }if (data.code == 0) {
-				$('#cfnormal').html("没有未打印的送检单！");
+				$('#cfnormalbody').html("没有未打印的送检单！");
 			}
     }
   })
@@ -37,13 +38,14 @@ function getothersCheckingForm1(){
     success:function(data){
       data = JSON.parse(data);
       if(data.code == 1){
-        var checkformdata = "<tr><th>检测单号</th><th>检测日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
+        $('#wait_num').html("当前其他分类检测有 <p>"+ data.data.length +"</p> 人排队！")
+        var checkformdata = "";
         data.data.forEach(function(checkform){
           checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatusButton(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
         })
-        $('#cfspecial').html(checkformdata);
+        $('#cfspecialbody').html(checkformdata);
       }if (data.code == 0) {
-				$('#cfspecial').html("没有未打印的送检单！");
+				$('#cfspecialbody').html("没有未打印的送检单！");
 			}
     }
   })
@@ -61,18 +63,25 @@ $(document).ready(function(){
 	    success:function(data){
 	      data = JSON.parse(data);
 	      if(data.code == 1){
-	        var checkformdata = "<tr><th>检测单号</th><th>检测日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
+          $('#wait_num').html("当前正常物料检测有 <p>"+ data.data.length+"</p> 人排队！")
+	        var checkformdata = "";
 	        data.data.forEach(function(checkform){
 	          checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatusButton(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
           })
-          $('#cfnormal').html(checkformdata);
+          $('#cfnormalbody').html(checkformdata);
 	      }if (data.code == 0) {
-					$('#cfnormal').html("没有未打印的送检单！");
+					$('#cfnormalbody').html("没有未打印的送检单！");
 				}
 	    }
 	  })
 	})
-
+	//表格排序插件
+	$(function () {
+    $('#cfnormal').stickySort({ sortable: true });
+  });
+  $(function () {
+    $('#cfspecial').stickySort({ sortable: true });
+  });
 	$(".admin_tab li a").click(function(){
 		var liindex = $(".admin_tab li a").index(this);
 		$(this).addClass("active").parent().siblings().find("a").removeClass("active");
@@ -87,6 +96,12 @@ $(document).ready(function(){
 		}
 		if (liindex == 3) {
 			notifyMailData = getSessionUser();
+		}
+		if (liindex >1 ) {
+			$('#wait_num').hide();
+		}
+		if (liindex <= 1) {
+			$('#wait_num').show();
 		}
 	});
 
@@ -124,8 +139,8 @@ $(document).ready(function(){
 								var checkformdata = "<tr><th>检测单号</th><th>送检日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
 								data.data.forEach(function(checkform){
 									checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
-				  				})
-				  				$('#cffinished').html(checkformdata);
+			  				})
+			  				$('#cffinished').html(checkformdata);
 							}
 						}
 					})
@@ -133,13 +148,13 @@ $(document).ready(function(){
 				var checkformdata = "<tr><th>检测单号</th><th>送检日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
 				data.data.forEach(function(checkform){
 					checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
-  				})
-  				$('#cffinished').html(checkformdata);
-  				$(".loading_area").fadeOut();
-  				//送检类型
-  				getClassify();
-  				//获取项目
-  				getProject();
+				})
+				$('#cffinished').html(checkformdata);
+				$(".loading_area").fadeOut();
+				//送检类型
+				getClassify();
+				//获取项目
+				getProject();
 			}else if (data.code == 0) {
 				$('#cffinished').html("<div>没有数据</div>");
 			}
@@ -192,8 +207,8 @@ $(document).ready(function(){
 									var checkformdata = "<tr><th>检测单号</th><th>送检日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
 									data.data.forEach(function(checkform){
 										checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
-					  				})
-					  				$('#cffinished').html(checkformdata);
+				  				})
+				  				$('#cffinished').html(checkformdata);
 								}
 							}
 						})
@@ -336,7 +351,7 @@ $(document).ready(function(){
 	  				$('#ctid').val(ctid);
 	  				$('#ctrmovep').val(ctrmovep);
 	  				$('#ctrmovetime').val(ctrmovetime)
-
+	  				$('#normalreportfile').val()
   					$('#pop_bg_tool').fadeIn()
 	  			}
 	  		}

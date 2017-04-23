@@ -1,0 +1,32 @@
+重庆市九龙坡区石板镇黄家堰村
+巴滨路
+
+密码是liu147258369
+119.29.192.229
+
+
+csxwzhang@foxmail.com 
+
+AppID(应用ID)wx1cf86f102fe7d078
+AppSecret(应用密钥)9d1689820dd3fd7bed360f1d09961c27
+
+获取code 请求 /authorize
+
+
+AppID(应用ID)wx4554acd518708e91
+AppSecret(应用密钥)2f6a8b4d66400b1f229a866ca7b4cb5e 
+
+
+http://microstore.lcl.deadsoul.net/index.php/home/view/index.html#rd
+
+
+http%3a%2f%2fwww.gmngu.top%2fauthorize
+
+
+https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4554acd518708e91&redirect_uri=http%3a%2f%2fwww.gmngu.top%2fauthorize&response_type=code&scope=snsapi_userinfo&state=234#wechat_redirect
+
+
+${user_name}，您管理的设备${device_ip}，监控数据${code}低于阀值，设备数据如下：脉冲电流（${pulse_current} uA）、累计脉冲数（${pulse_accumulation}）、电压（${voltage} V）、阻性电流（${resistance_current} mA）
+
+
+<link rel="icon" href="favicon.ico"/>

@@ -4,15 +4,20 @@
 <meta charset="utf-8"/>
 <title>检测校验管理系统</title>
 <link rel="stylesheet" type="text/css" href="./css/style.css" />
+<link rel="icon" href="./images/favicon.ico"/>
 <!--[if lt IE 9]>
 <script src="js/html5.js"></script>
 <![endif]-->
+<link type="text/css" href="./css/stickysort.css" media="all" rel="stylesheet" />
 <script src="./js/jquery.js"></script>
+<script src="./js/jquery.ba-throttle-debounce.min.js"></script>
+<script type="text/javascript" src="./js/jquery.stickysort.js"></script>
 <script src="./js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script type="text/javascript" src="./js/publicFunction.js"></script>
 <script type="text/javascript" src="./js/query.js"></script>
 <script type="text/javascript" src="./js/paging.js"></script>
-<script src="./js/verificationNumbers.js"></script>
+<script type="text/javascript" src="./js/laydate.dev.js"></script>
+<script type="text/javascript" src="./js/verificationNumbers.js"></script>
 <script type="text/javascript" src="./js/equipment.js"></script>
 
 <script>
@@ -66,10 +71,9 @@
        </dd>
        <dd class="val_icon">
         <div class="checkcode">
-          <input type="text" id="Vcode" placeholder="验证码" maxlength="4" class="login_txtbx" >
-          <canvas class="J_codeimg" id="myCanvas" onclick="createCode()">对不起，您的浏览器不支持canvas，请下载最新版浏览器!</canvas>
-        </div><!-- 
-        <input type="button" value="验证码核验" class="ver_btn" onClick="validate();"> -->
+          <input type="text" id="Vcode" onblur="validate()" placeholder="验证码" maxlength="4" class="login_txtbx" >
+          <canvas class="J_codeimg" id="myCanvas" onclick="createCode()"></canvas>
+        </div>
        </dd>
        <dd>
         <input type="button" value="立即登陆" class="submit_btn" id="button_login" />
@@ -155,7 +159,7 @@
             </li>
             <li>
               <dd class="item_dd_235">
-                <span class="item_name">初始日期：</span>
+                <span class="item_name">延期日期：</span>
                 <input type="text" class="textbox" id="edate_update" placeholder="日期格式2017-05-01" />
               </dd>
               <dd class="item_dd_235">
@@ -261,32 +265,50 @@
       </div>
       
       <table class="table" id="emtable">
-        <tr>
-          <th>设备号</th>
-          <th>设备名</th>
-          <th>负责人</th>
-          <th>所属产线</th>
-          <th>所属单元</th>
-          <th>检测周期</th>
-          <th>上次检测时间</th>
-          <th>下次检测时间</th>
-          <th style="width: 250px">操作</th>
-        </tr>
-        <tr>
-          <td>11</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>
-            <a class='inner_btn' id='comfirm_check'>确认检测</a>
-            <a class='inner_btn' id='updete_equipment'>详情</a>
-            <a class='inner_btn' id='delete_equipment'>删除</a>
-          </td>
-        </tr>
+        <thead>
+          <tr>
+            <th>设备号</th>
+            <th>设备名</th>
+            <th>负责人</th>
+            <th>所属产线</th>
+            <th>所属单元</th>
+            <th>检测周期(/天)</th>
+            <th>上次检测时间</th>
+            <th>下次检测时间</th>
+            <th style="width: 250px">操作</th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            <th>设备号</th>
+            <th>设备名</th>
+            <th>负责人</th>
+            <th>所属产线</th>
+            <th>所属单元</th>
+            <th>检测周期(/天)</th>
+            <th>上次检测时间</th>
+            <th>下次检测时间</th>
+            <th style="width: 250px">操作</th>
+          </tr>
+        </tfoot>
+        <tbody id="emtabletbody">
+          <tr>
+            <td>11</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+              <a class='inner_btn' id='comfirm_check'>确认检测</a>
+              <a class='inner_btn' id='updete_equipment'>详情</a>
+              <a class='inner_btn' id='delete_equipment'>删除</a>
+            </td>
+          </tr>
+        </tbody>
+        
       </table>
       <aside class="paging" id="pageTool">
      

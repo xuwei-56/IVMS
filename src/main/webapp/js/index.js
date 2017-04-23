@@ -10,7 +10,7 @@ function getnormalCheckingForm(){
 			if(data.code == 1){
 				var checkformdata = "<tr><th>检测单号</th><th>送检日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
 				data.data.forEach(function(checkform){
-					checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
+					checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='print'>打印</a><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
 				})
 				$('#cfnormal').html(""+checkformdata);
 			}if (data.code == 0) {
@@ -31,7 +31,7 @@ function getothersCheckingForm(){
 			if(data.code == 1){
 				var checkformdata = "<tr><th>检测单号</th><th>送检日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
 				data.data.forEach(function(checkform){
-					checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
+					checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='print'>打印</a><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
 				})
 				$('#cfspecial').html(""+checkformdata);
 			}if (data.code == 0) {
@@ -155,51 +155,41 @@ function getcheckingToolsInfo(requestPageNum,CTUseItem,CTStatus){
 	})
 }
 // LODOP 打印插件   
-function prn_print(strNumber,strName,strTime){
-	CreatePage(strNumber,strName,strTime);
+function prn_print(strNumber,strName,strTime,strCName){
+	CreatePage(strNumber,strName,strTime,strCName);
 	LODOP.PRINT();
 }
-function prn_preview(strNumber,strName,strTime) {	
-	CreatePage(strNumber,strName,strTime);	
+function prn_preview(strNumber,strName,strTime,strCName) {	
+	CreatePage(strNumber,strName,strTime,strCName);	
 	LODOP.PREVIEW();	
 };
-function prn_setup(strNumber,strName,strTime) {		
-	CreatePage(strNumber,strName,strTime);
+function prn_setup(strNumber,strName,strTime,strCName) {		
+	CreatePage(strNumber,strName,strTime,strCName);
 	LODOP.PRINT_setup();	
 };
-function prn_design(strNumber,strName,strTime) {		
-	CreatePage(strNumber,strName,strTime);
-	LODOP.PRINT_design(); 	
+function prn_design(strNumber,strName,strTime,strCName) {		
+	CreatePage(strNumber,strName,strTime,strCName);
+	LODOP.PRINT_DESIGN(); 	
 };	
-function CreatePage(strNumber,strName,strTime){
-	LODOP.PRINT_INIT("打印预览");
-	LODOP.SET_PRINT_PAGESIZE(1,400,300,"");    // 单位是0.1毫米
-	LODOP.ADD_PRINT_TEXT(20,36,105,35,strNumber);    // 单位是px
-	LODOP.SET_PRINT_STYLEA(1,"FontName","C39HrP24DlTt");
-	LODOP.SET_PRINT_STYLEA(1,"FontSize",20);
-	LODOP.SET_PRINT_STYLEA(1,"Alignment",2);
-	LODOP.ADD_PRINT_TEXT(60,8,166,30,strName);
-	LODOP.SET_PRINT_STYLEA(2,"FontSize",10);
-	LODOP.SET_PRINT_STYLEA(2,"Alignment",2);
-	LODOP.ADD_PRINT_TEXT(95,8,166,24,strTime);
-	LODOP.SET_PRINT_STYLEA(3,"FontSize",9);
-	LODOP.SET_PRINT_STYLEA(3,"Alignment",2);
+
+function CreatePage(strNumber,strName,strTime,strCName) {
+	LODOP.PRINT_INIT("打印测试")
+	LODOP.SET_PRINT_PAGESIZE(0,"40mm","30mm","");
+	LODOP.ADD_PRINT_TEXT("4mm","5mm","30mm","7mm",strNumber);
+	LODOP.SET_PRINT_STYLEA(0,"FontSize",18);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+	LODOP.ADD_PRINT_TEXT("12mm","5mm","30mm","5mm",strCName);
+	LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+	LODOP.ADD_PRINT_TEXT("17.5mm","5mm","30mm","5mm",strName);
+	LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+	LODOP.ADD_PRINT_TEXT("23mm","2mm","36mm","4mm",strTime);
+	LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 };
 $(document).ready(function(){
-	//检测浏览器，至于IE能支持打印
-	$(function(){
-		var ie = 0;
-    var ua = navigator.userAgent.toLowerCase();
-    var s;
-    (s = ua.match(/rv:([\d.]+)\) like gecko/)) ? ie = s[1] : 0;
-    (s = ua.match(/msie ([\d.]+)/)) ? ie = s[1] : 0;
-    if (ie > 9) {
-    	/**/CheckLodop();
-    }/**/else{
-    	alert("浏览器不支持打印，请使用IE9以上的浏览器！")
-    }
-	})
-	//tab
+	
 	$(".admin_tab li a").click(function(){
 		var liindex = $(".admin_tab li a").index(this);
 		$(this).addClass("active").parent().siblings().find("a").removeClass("active");
@@ -304,7 +294,7 @@ $(document).ready(function(){
 								data.data.forEach(function(checktool){
 									checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
 								})
-				  				$('#checktools').html(checkformdata);
+				  			$('#checktools').html(checkformdata);
 							}
 						}
 					})
@@ -324,12 +314,18 @@ $(document).ready(function(){
 	})
 
 	// LODOP打印
-	$('#cfzero').delegate('#print','click',function(){
+	$('#cfnormal,#cfspecial,#cfzero').delegate('#print','click',function(){
 		var cfid = $(this).parent().parent().find('td:first').text();
 		var cfidtemp = cfid.substring(8);
 		var moveP = $(this).parent().parent().find('td:eq(3)').text();
 		var time = $(this).parent().parent().find('td:eq(1)').text();
-		
+		var CName = $(this).parent().parent().find('td:eq(5)').text();
+		prn_preview(cfidtemp,moveP,time,CName); // 打印预览
+		//prn_print(cfidtemp,moveP,time,CName);   // 直接打印
+		//prn_design(cfidtemp,moveP,time,CName)
+	})
+	$('#cfzero').delegate('#print','click',function(){
+		var cfid = $(this).parent().parent().find('td:first').text();
 		$.ajax({
 			url:'./updateCfstatus',
 			type:'POST',
@@ -344,9 +340,6 @@ $(document).ready(function(){
 				}
 			}
 		})
-		prn_preview(cfidtemp,moveP,time); // 打印预览
-		//prn_print(cfidtemp,moveP,time);   // 直接打印
-		//prn_design(cfidtemp,moveP,time)
 	})
 
 	
