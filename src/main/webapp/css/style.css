@@ -160,7 +160,7 @@ header .rt_nav li .quit_icon:before{content:"Q";}
 .ulColumn2{overflow:hidden;}
 .ulColumn2 li{margin:15px 0;}
 .ulColumn2 li .item_name{text-align:right;display:inline-block;}
-.wait_num{width: 100%;text-align: center;}
+.wait_num{width: 100%;text-align: center;margin: 0}
 .wait_num p{color: red;display: inline;}
 /*TAB*/
 .admin_tab{background:#f8f8f8;overflow:hidden;border:1px #d2d2d2 solid;margin-bottom:8px;}

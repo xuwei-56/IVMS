@@ -172,14 +172,6 @@ $(document).ready(function(){
         success:function(data){
           data = JSON.parse(data);
           if(data.code > 100 && data.code < 104){
-            /*alert("登录成功！")
-            $('#equipment_login').fadeOut();
-            $('#login_li').hide();
-            $('#logout_li').show();
-            if (data.code == 103) {
-              $('#update_equipment_btn').hide();
-              $('#update_equipment_pop input').attr('disabled');
-            }*/
             window.location.reload();
           }else{
             alert(data.msg)
@@ -202,7 +194,7 @@ $(document).ready(function(){
   $.ajax({
     url:"./user/equipmentInfo",
     type:"POST",
-    data:{"cid":null,"eworker":0,"ename":0,'requestPageNum':1},
+    data:{"cid":null,"lid":null,"eworker":0,"ename":0,'requestPageNum':1},
     datatype:"json",
     success:function(data){
       data = JSON.parse(data);
@@ -214,7 +206,7 @@ $(document).ready(function(){
           $.ajax({
             url:"./user/equipmentInfo",
             type:"POST",
-            data:{"cid":null,"eworker":0,"ename":0,'requestPageNum':page},
+            data:{"cid":null,"lid":null,"eworker":0,"ename":0,'requestPageNum':page},
             datatype:"json",
             success:function(data){
               data = JSON.parse(data);
@@ -225,6 +217,8 @@ $(document).ready(function(){
                   emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECheckCycle +"</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><td><a class='inner_btn' id='confirm_equipment'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a></td></tr>"
                 })
                 $('#emtabletbody').html(emdata);
+              }else{
+                alert(data.msg)
               }
             }
           })
@@ -242,10 +236,12 @@ $(document).ready(function(){
 
   // 搜索
   var cid = null;
+  var lid = null;
   var eworker = 0;
   var ename = 0;
   $('#button_searchequipment').click(function(){
-    cid = $('#bycId').val()
+    lid = $('#bylId').val();
+    cid = $('#bycId').val();
     eworker = $('#byuserName').val()
     ename = $('#byename').val();
     if (eworker == "" || eworker == null) {eworker = 0}
@@ -253,7 +249,7 @@ $(document).ready(function(){
     $.ajax({
       url:"./user/equipmentInfo",
       type:"POST",
-      data:{"cid":cid,"eworker":eworker,"ename":ename,'requestPageNum':1},
+      data:{"cid":cid,"lid":lid,"eworker":eworker,"ename":ename,'requestPageNum':1},
       datatype:"json",
       success:function(data){
         data = JSON.parse(data);
@@ -265,7 +261,7 @@ $(document).ready(function(){
             $.ajax({
               url:"./user/equipmentInfo",
               type:"POST",
-              data:{"cid":null,"eworker":0,"ename":0,'requestPageNum':page},
+              data:{"cid":null,"lid":lid,"eworker":0,"ename":0,'requestPageNum':page},
               datatype:"json",
               success:function(data){
                 data = JSON.parse(data);
@@ -275,7 +271,9 @@ $(document).ready(function(){
                   data.data.forEach(function(em){
                     emdata += "<tr><td>"+ em.EId +"</td><td>"+ em.EName +"</td><td>"+ em.EWorker +"</td><td>"+ em.LName +"</td><td>"+ em.CName +"</td><td>"+ em.ECheckCycle +"</td><td>"+ $.UnixToDate(em.ECTime) +"</td><td>"+ $.UnixToDate(em.ECNextTime) +"</td><td><a class='inner_btn' id='confirm_equipment'>确认检测</a><a class='inner_btn' id='updete_equipment'>详情</a></td></tr>"
                   })
-                $('#emtabletbody').html(emdata);
+                  $('#emtabletbody').html(emdata);
+                }else{
+                  alert(data.msg)
                 }
               }
             })
@@ -363,9 +361,25 @@ $(document).ready(function(){
   // 获取对应产线下的单元
   $('#bylId').change(function(){
     var lid = $('#bylId').val();
-    var ui = "bycId"
     if (lid == null) { return false }
-    getCellEM(lid,ui);
+    $.ajax({
+      url:'./user/getCellNames',
+      type:'POST',
+      data:{'LineId':lid},
+      datatype:'json',
+      success:function(data){
+        data = JSON.parse(data);
+        if (data.code == 1) {
+          var CellNames = "<option value=''>全部产线</option>";
+          for (var i = 0; i < data.data.length; i++) {
+            CellNames += "<option value='"+data.data[i].cid+"'>"+data.data[i].cname+"</option>";
+          }
+          $("#bycId").html(CellNames);
+        }else{
+          $("#bycId").html("<option value=''>所有单元</option>");
+        }
+      }
+    })
   })
   // 获取对应产线下的单元
   $('#lid').change(function(){

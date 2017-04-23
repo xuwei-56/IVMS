@@ -12,7 +12,8 @@ function getnormalCheckingForm(){
 				data.data.forEach(function(checkform){
 					checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='print'>打印</a><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
 				})
-				$('#cfnormal').html(""+checkformdata);
+				$('#wait_num').html("当前正常物料检测有 <p>"+ data.data.length +"</p> 人排队！")
+        $('#cfnormal').html(""+checkformdata);
 			}if (data.code == 0) {
 				$('#cfnormal').html("没有未打印的送检单！");
 			}
@@ -33,7 +34,8 @@ function getothersCheckingForm(){
 				data.data.forEach(function(checkform){
 					checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='print'>打印</a><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
 				})
-				$('#cfspecial').html(""+checkformdata);
+				$('#wait_num').html("当前其他分类检测有 <p>"+ data.data.length +"</p> 人排队！")
+        $('#cfspecial').html(""+checkformdata);
 			}if (data.code == 0) {
 				$('#cfspecial').html("没有未打印的送检单！");
 			}
@@ -173,6 +175,7 @@ function prn_design(strNumber,strName,strTime,strCName) {
 };	
 
 function CreatePage(strNumber,strName,strTime,strCName) {
+	LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM')); 
 	LODOP.PRINT_INIT("打印测试")
 	LODOP.SET_PRINT_PAGESIZE(0,"40mm","30mm","");
 	LODOP.ADD_PRINT_TEXT("4mm","5mm","30mm","7mm",strNumber);
@@ -195,6 +198,10 @@ $(document).ready(function(){
 		$(this).addClass("active").parent().siblings().find("a").removeClass("active");
 		$(".admin_tab_cont").eq(liindex).fadeIn(150).siblings(".admin_tab_cont").hide();
 		/*console.log(liindex)*/
+		if (liindex == 0) {
+			//得到未打印的送检单
+			getnotPrintCheckingForm();
+		}
 		if (liindex == 1) {
 			//得到正常过程送检送检单
 			getnormalCheckingForm();
@@ -202,6 +209,12 @@ $(document).ready(function(){
 		if (liindex == 2) {
 			//得到其他分类的送检单
 			getothersCheckingForm();
+		}
+		if (liindex == 1 || liindex == 2) {
+			$('#wait_num').show();
+		}
+		if (liindex == 0 || liindex > 2) {
+			$('#wait_num').hide();
 		}
 	});
 	//得到未打印的送检单
@@ -320,8 +333,8 @@ $(document).ready(function(){
 		var moveP = $(this).parent().parent().find('td:eq(3)').text();
 		var time = $(this).parent().parent().find('td:eq(1)').text();
 		var CName = $(this).parent().parent().find('td:eq(5)').text();
-		prn_preview(cfidtemp,moveP,time,CName); // 打印预览
-		//prn_print(cfidtemp,moveP,time,CName);   // 直接打印
+		//prn_preview(cfidtemp,moveP,time,CName); // 打印预览
+		prn_print(cfidtemp,moveP,time,CName);   // 直接打印
 		//prn_design(cfidtemp,moveP,time,CName)
 	})
 	$('#cfzero').delegate('#print','click',function(){
