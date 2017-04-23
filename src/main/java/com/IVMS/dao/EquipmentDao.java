@@ -16,7 +16,7 @@ public interface EquipmentDao {
 
     Equipment selectEquipmentByEid(Integer eid);
     
-    List<Map<String,Object>> selectEquipmentDetailInfo(@Param("cid")Integer cid,
+    List<Map<String,Object>> selectEquipmentDetailInfo(@Param("cid")Integer cid,@Param("lid")Integer lid,
     		@Param("eworker")String eworker,@Param("ename")String ename,@Param("startRow")Integer startRow, 
     		@Param("numberOfPerPage")Integer numberOfPerPage);
     

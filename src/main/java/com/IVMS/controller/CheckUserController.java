@@ -864,11 +864,11 @@ public class CheckUserController {
 	
 	@RequestMapping("/equipmentInfo")
 	@ResponseBody
-	public JSONObject equipmentInfo(Integer cid,String eworker,String ename,Integer requestPageNum)
+	public JSONObject equipmentInfo(Integer cid,Integer lid,String eworker,String ename,Integer requestPageNum)
 			throws Exception{
 		List<Map<String,Object>>
 		equipmentInfo=checkUserService.selectEquipmentDetailInfo
-				(cid, eworker, ename, requestPageNum);
+				(cid,lid,eworker, ename, requestPageNum);
 		if(equipmentInfo.isEmpty()){
 			return CommonUtil.constructResponse(0,"没有数据！",null);
 		}else{

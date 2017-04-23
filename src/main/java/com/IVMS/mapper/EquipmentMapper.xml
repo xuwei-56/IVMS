@@ -38,6 +38,9 @@
   <if test='ename != "0"' >
   AND e.EName LIKE '%${ename}%'
   </if>
+  <if test="lid != null" >
+  AND l.LId=#{lid,jdbcType=INTEGER}
+  </if>
   ORDER BY ECNextTime ASC 
   LIMIT #{startRow,jdbcType=INTEGER},#{numberOfPerPage,jdbcType=INTEGER};
   </select>
