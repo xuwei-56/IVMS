@@ -3,6 +3,8 @@ package com.IVMS.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.IVMS.model.NotifyPersonnelEmail;
 
 public interface NotifyPersonnelEmailDao {
@@ -22,7 +24,11 @@ public interface NotifyPersonnelEmailDao {
     
     int deleteCopyEmailsByCfidAndStyle(String cfid);
     
+    int deleteCopyEmailsByCfidAndEmail(@Param("cfid")String cfid,@Param("npenotifyemail")String npenotifyemail);
+    
     List<NotifyPersonnelEmail> selectNotifyEmailByCfid(String cfid);
     
     List<Map<String,Object>> selectNotifyEmailAndTime();
+    
+    Integer selectStyleByCfidAndNotifyEmail(@Param("cfid")String cfid,@Param("npenotifyemail")String npenotifyemail);
 }

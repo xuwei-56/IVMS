@@ -365,5 +365,13 @@ public class CheckUserServiceImpl implements CheckUserService{
 	public String selectLNameByCid(Integer cid) {
 		return lineDao.selectLNameByCid(cid);
 	}
+
+	public int deleteCopyEmailsByCfidAndEmail(String cfid, String npenotifyemail) {
+		return notifyPersonnelEmailDao.deleteCopyEmailsByCfidAndEmail(cfid, npenotifyemail);
+	}
+
+	public Integer selectStyleByCfidAndNotifyEmail(String cfid, String npenotifyemail) {
+		return notifyPersonnelEmailDao.selectStyleByCfidAndNotifyEmail(cfid, npenotifyemail);
+	}
 	
 }

@@ -67,4 +67,23 @@ public class EquipmentController {
 			return CommonUtil.constructResponse(EnumUtil.OK, "插入抄送邮箱成功！",null);
 		}
 	}
+	
+	@RequestMapping("/deleteEquipmentNotifyEmail")
+	@ResponseBody
+	public JSONObject deleteEquipmentNotifyEmail(Integer eid,String email){
+		Integer style=checkUserService.
+				selectStyleByCfidAndNotifyEmail(String.valueOf(eid), email);
+		if(style==2){
+			return CommonUtil.constructResponse(EnumUtil.OK,"此邮箱为设备负责人邮箱，不能删除",null);
+		}else{
+			Integer resultOfDeleteEquipmentNotifyEmail=checkUserService.
+					deleteCopyEmailsByCfidAndEmail(String.valueOf(eid), email);
+			if(resultOfDeleteEquipmentNotifyEmail<=0){
+				return CommonUtil.constructResponse(0,"删除邮箱失败！",null);
+			}
+			else{
+				return CommonUtil.constructResponse(EnumUtil.OK,"删除邮箱成功！",null);
+			}
+		}
+	}
 }

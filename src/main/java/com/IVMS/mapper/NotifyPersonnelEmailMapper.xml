@@ -23,6 +23,10 @@
   <select id="selectNotifyEmailByCfid" resultMap="BaseResultMap" parameterType="java.lang.String" >
   SELECT NPENotifyEmail FROM notifypersonnelemail WHERE CFId=#{cfid,jdbcType=VARCHAR}
   </select>
+  <select id="selectStyleByCfidAndNotifyEmail" resultType="java.lang.Integer">
+  SELECT NPEStyle FROM notifypersonnelemail WHERE 
+  CFId=#{cfid,jdbcType=VARCHAR} AND NPENotifyEmail=#{npenotifyemail,jdbcType=VARCHAR};
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from notifypersonnelemail
     where NPEId = #{npeid,jdbcType=INTEGER}
@@ -34,6 +38,10 @@
   <delete id="deleteCopyEmailsByCfidAndStyle" parameterType="java.lang.String" >
     delete from notifypersonnelemail
     where CFId = #{CFId,jdbcType=VARCHAR} AND NPEStyle=2;
+  </delete>
+  <delete id="deleteCopyEmailsByCfidAndEmail">
+    delete from notifypersonnelemail
+    where CFId = #{cfid,jdbcType=VARCHAR} AND NPEStyle=3 AND NPENotifyEmail=#{npenotifyemail,jdbcType=VARCHAR};
   </delete>
   <insert id="insert" parameterType="com.IVMS.model.NotifyPersonnelEmail" >
     insert into notifypersonnelemail (NPEId, CFId, NPENotifyEmail, 
