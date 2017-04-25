@@ -299,7 +299,6 @@ function getUserInfoByDepartment(department){
         $('#userName').html(user);
       }else{
         alert(data.msg)
-        //return false;
       }
     }
   })

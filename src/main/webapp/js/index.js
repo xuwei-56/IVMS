@@ -10,7 +10,7 @@ function getnormalCheckingForm(){
 			if(data.code == 1){
 				var checkformdata = "<tr><th>检测单号</th><th>送检日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
 				data.data.forEach(function(checkform){
-					checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='print'>打印</a><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
+					checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn greenPrint' id='print'>再次打印</a><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
 				})
 				$('#wait_num').html("当前正常物料检测有 <p>"+ data.data.length +"</p> 人排队！")
         $('#cfnormal').html(""+checkformdata);
@@ -32,7 +32,7 @@ function getothersCheckingForm(){
 			if(data.code == 1){
 				var checkformdata = "<tr><th>检测单号</th><th>送检日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
 				data.data.forEach(function(checkform){
-					checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='print'>打印</a><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
+					checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn greenPrint' id='print'>再次打印</a><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
 				})
 				$('#wait_num').html("当前其他分类检测有 <p>"+ data.data.length +"</p> 人排队！")
         $('#cfspecial').html(""+checkformdata);

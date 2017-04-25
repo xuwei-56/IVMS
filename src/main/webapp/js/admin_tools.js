@@ -354,7 +354,7 @@ $(document).ready(function(){
 				}
 			})
 		}else{
-			return flase;
+			return false;
 		}
 		
 	})

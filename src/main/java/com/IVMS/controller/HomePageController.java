@@ -82,7 +82,6 @@ public class HomePageController {
 	@ResponseBody
 	public JSONObject checkingToolsInfo(Integer requestPageNum,String CTUseItem,Integer CTStatus) 
 			throws Exception {
-		System.out.println("requestPageNum:"+requestPageNum+"CTUseItem:"+CTUseItem+"CTStatus:"+CTStatus);
 		int allPageNum=homePageService.countCheckingToolsInfo(CTUseItem, CTStatus);
 		List<CheckingTools>checkingToolsInfo=homePageService.checkingToolsInfo(CTUseItem, 
 				CTStatus, requestPageNum);

@@ -133,6 +133,18 @@
                 </select>
               </dd>
             </li>
+            <li id="notifyLi">
+              <span class="item_name">通知邮箱：</span>
+              <select class="select textbox_150" id="departmentName" >
+                <option>加载中</option>
+              </select>
+              <select class="select textbox_150" id="userName">
+                <option>请先选择部门</option>
+              </select>
+              <div class="userNameList" id="userNameList" style="margin-left: 100px;">
+                <!-- <span class="userNameDel">默认<a href="" class="deleteMail">X</a></span> -->
+              </div>
+             </li>
           </ul>
           <div class="btm_btn">
             <input type="button" value="确认" class="input_btn trueBtn" id="add_equipment_btn" />
@@ -196,6 +208,22 @@
                 </select>
               </dd>
             </li>
+            <li>
+              <span class="item_name">通知抄送人：</span>
+              <dd class="item_dd_285" id="notifyMail" style="border: 1px #d2d2d2 solid;"><!-- <span>notifyMail</span> <a id='deleteMailByEid'>删除</a></br> --></dd>
+            </li>
+            <li id="notifyLi_update">
+              <span class="item_name">通知邮箱：</span>
+              <select class="select textbox_150" id="departmentName_update" >
+                <option>加载中</option>
+              </select>
+              <select class="select textbox_150" id="userName_update">
+                <option>请先选择部门</option>
+              </select>
+              <div class="userNameList" id="userNameList_update" style="margin-left: 100px;">
+                
+              </div>
+             </li>
           </ul>
           <div class="btm_btn">
             <input type="button" value="确认修改" class="input_btn trueBtn" id="update_equipment_btn" />
