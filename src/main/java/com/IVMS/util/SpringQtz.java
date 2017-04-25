@@ -78,7 +78,7 @@ public class SpringQtz {
     						System.out.println("emailInfo:"+emailInfo);
     						Mail mail=new Mail(email,"公司内部邮件",emailInfo,ccs);
     					    MailSender.sendMail(mail);
-    					}else if(style==2){//设备
+    					}else if(style==2||style==3){//设备
     						Equipment equipment=checkUserService.selectEquipmentByEid(Integer.valueOf(cfid));
     						String ename=equipment.getEname();
     						Integer cid=equipment.getCid();

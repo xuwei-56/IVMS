@@ -836,6 +836,9 @@ public class CheckUserController {
 				notifyPersonnelEmail.setNpestyle(2);
 				notifyPersonnelEmail.setCfid(String.valueOf(eid));
 				checkUserService.updateNotifyPersonalEmailByCfid(notifyPersonnelEmail);
+				notifyPersonnelEmail.setNpestyle(3);
+				notifyPersonnelEmail.setNpenotifyemail(null);
+				checkUserService.updateNotifyPersonalEmailByCfid(notifyPersonnelEmail);
 				return CommonUtil.constructResponse(EnumUtil.OK, "更新设备信息成功！", null);
 			}
 		}else{
@@ -910,6 +913,9 @@ public class CheckUserController {
 				notifyPersonnelEmail.setNpenotifytime(nextCheckTime);
 				notifyPersonnelEmail.setNpestyle(2);
 				notifyPersonnelEmail.setCfid(String.valueOf(eid));
+				checkUserService.updateNotifyPersonalEmailByCfid(notifyPersonnelEmail);
+				notifyPersonnelEmail.setNpestyle(3);
+				notifyPersonnelEmail.setNpenotifyemail(null);
 				checkUserService.updateNotifyPersonalEmailByCfid(notifyPersonnelEmail);
 				return CommonUtil.constructResponse(EnumUtil.OK, "添加设备校验时间成功！",null);
 			}

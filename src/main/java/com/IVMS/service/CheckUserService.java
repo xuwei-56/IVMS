@@ -176,4 +176,8 @@ public interface CheckUserService {
     Cell selectCNameByCid(Integer cid);
     
     String selectLNameByCid(Integer cid);
+    
+    int deleteCopyEmailsByCfidAndEmail(String cfid,String npenotifyemail);
+    
+    Integer selectStyleByCfidAndNotifyEmail(String cfid,String npenotifyemail);
 }
