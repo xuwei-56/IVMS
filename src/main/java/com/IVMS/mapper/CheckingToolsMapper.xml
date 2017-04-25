@@ -25,6 +25,7 @@
     <result column="CTReceiver" property="ctreceiver" jdbcType="VARCHAR" />
     <result column="CTRemark" property="ctremark" jdbcType="VARCHAR" />
     <result column="CTStatus" property="ctstatus" jdbcType="INTEGER" />
+    <result column="CTType" property="cttype" jdbcType="VARCHAR" />
     <!-- 我的检具详情resultmap -->
   </resultMap>
     <resultMap id="mycheckingtoolsdetailsMap" type="com.IVMS.model.CheckingTools"
@@ -54,7 +55,7 @@
   <sql id="Base_Column_List" >
     CTId, CTUseItem, CTCheckProgram, CTName, CTProducer, CTProductionNum, CTNorms, CTProcision, 
     CTResolation, CTAssetNum, CTUseLine, CTUseStation, CTUseTime, CTCheckWay, CTCheckCycle, 
-    CTMSA, CTOriginalNum, CTSize, CTCheckTemperature, CTCheckHumidiry,CTReceiver,CTRemark,CTStatus
+    CTMSA, CTOriginalNum, CTSize, CTCheckTemperature, CTCheckHumidiry,CTReceiver,CTRemark,CTStatus,CTType
   </sql>
   <select id="selectCheckingToolByCtid" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -100,6 +101,12 @@
       <if test="CTStatus != null" >
       and CTStatus=#{CTStatus,jdbcType=INTEGER}
       </if>
+      <if test='CTUseLine != "0"' >
+      and CTUseLine like '%${CTUseLine}%'
+      </if>
+      <if test='CTType != "0"' >
+      and CTType like '%${CTType}%'
+      </if>
     </where>
     LIMIT #{startRow,jdbcType=INTEGER},#{numberOfPerPage,jdbcType=INTEGER};
   </select>
@@ -111,6 +118,12 @@
       </if>
       <if test="CTStatus != null" >
       and CTStatus=#{CTStatus,jdbcType=INTEGER}
+      </if>
+      <if test='CTUseLine != "0"' >
+      and CTUseLine like '%${CTUseLine}%'
+      </if>
+      <if test='CTType != "0"' >
+      and CTType like '%${CTType}%'
       </if>
     </where>
   </select>
@@ -125,7 +138,7 @@
       CTAssetNum, CTUseLine, CTUseStation, 
       CTUseTime, CTCheckWay, CTCheckCycle, 
       CTMSA, CTOriginalNum, CTSize, 
-      CTCheckTemperature, CTCheckHumidiry, CTReceiver,CTRemark,CTStatus)
+      CTCheckTemperature, CTCheckHumidiry, CTReceiver,CTRemark,CTStatus,CTType)
     values (#{ctid,jdbcType=VARCHAR}, #{ctuseitem,jdbcType=VARCHAR}, #{ctcheckprogram,jdbcType=VARCHAR}, 
       #{ctname,jdbcType=VARCHAR}, #{ctproducer,jdbcType=VARCHAR}, #{ctproductionnum,jdbcType=VARCHAR}, 
       #{ctnorms,jdbcType=VARCHAR}, #{ctprocision,jdbcType=VARCHAR}, #{ctresolation,jdbcType=VARCHAR}, 
@@ -133,7 +146,7 @@
       #{ctusetime,jdbcType=DATE}, #{ctcheckway,jdbcType=INTEGER}, #{ctcheckcycle,jdbcType=INTEGER}, 
       #{ctmsa,jdbcType=INTEGER}, #{ctoriginalnum,jdbcType=VARCHAR}, #{ctsize,jdbcType=INTEGER}, 
       #{ctchecktemperature,jdbcType=VARCHAR}, #{ctcheckhumidiry,jdbcType=VARCHAR}, #{ctreceiver,jdbcType=VARCHAR},
-      #{ctremark,jdbcType=VARCHAR},#{ctstatus,jdbcType=INTEGER})
+      #{ctremark,jdbcType=VARCHAR},#{ctstatus,jdbcType=INTEGER},#{cttype,jdbcType=VARCHAR})
   </insert>
   <insert id="insertCheckingTools" parameterType="com.IVMS.model.CheckingTools" >
     insert into checkingtools
@@ -207,6 +220,9 @@
       <if test="ctstatus != null" >
         CTStatus,
       </if>
+      <if test="cttype != null" >
+        CTType,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="ctid != null" >
@@ -277,6 +293,9 @@
       </if>
       <if test="ctstatus != null" >
         #{ctstatus,jdbcType=INTEGER},
+      </if>
+      <if test="cttype != null" >
+        #{cttype,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -349,6 +368,9 @@
       <if test="ctstatus != null" >
         CTStatus = #{ctstatus,jdbcType=INTEGER},
       </if>
+      <if test="cttype != null" >
+        CTType = #{cttype,jdbcType=VARCHAR},
+      </if>
     </set>
     where CTId = #{ctid,jdbcType=VARCHAR}
   </update>
@@ -373,9 +395,10 @@
       CTSize = #{ctsize,jdbcType=INTEGER},
       CTCheckTemperature = #{ctchecktemperature,jdbcType=VARCHAR},
       CTCheckHumidiry = #{ctcheckhumidiry,jdbcType=VARCHAR},
-      CTReceiver = #{ctreceiver,jdbcType=VARCHAR}
-      CTRemark = #{ctremark,jdbcType=VARCHAR}
-      CTStatus = #{ctstatus,jdbcType=INTEGER}
+      CTReceiver = #{ctreceiver,jdbcType=VARCHAR},
+      CTRemark = #{ctremark,jdbcType=VARCHAR},
+      CTStatus = #{ctstatus,jdbcType=INTEGER},
+      CTType = #{cttype,jdbcType=VARCHAR}
     where CTId = #{ctid,jdbcType=VARCHAR}
   </update>
   <update id="updateCheckingToolTimeAndReceiverByCtid" >

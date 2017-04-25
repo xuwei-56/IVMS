@@ -50,8 +50,10 @@ public class CheckingTools {
     
     private Integer ctstatus;
     
+    private String cttype;
+    
     private List<CheckingToolsRecord> checkingToolsRecord;
-  
+    
 
 	public String getCtid() {
 		return ctid;
@@ -237,6 +239,14 @@ public class CheckingTools {
 		this.ctstatus = ctstatus;
 	}
 
+	public String getCttype() {
+		return cttype;
+	}
+
+	public void setCttype(String cttype) {
+		this.cttype = cttype;
+	}
+
 	public List<CheckingToolsRecord> getCheckingToolsRecord() {
 		return checkingToolsRecord;
 	}
@@ -244,4 +254,5 @@ public class CheckingTools {
 	public void setCheckingToolsRecord(List<CheckingToolsRecord> checkingToolsRecord) {
 		this.checkingToolsRecord = checkingToolsRecord;
 	}
+  
 }

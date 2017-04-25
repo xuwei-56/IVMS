@@ -54,5 +54,16 @@ public class NumberTest {
 //		Integer SCFComponentId=2;
 //		String str="你的检具送检已开始检测。"+"\r\n送检单号："+cfid+"\r\n检具编号："+SCFComponentId;
 //		System.out.println(str);
+		Date date=new Date();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
+        String time=sdf.format(date);
+		System.out.println(time);
+		Calendar calendar=Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.DATE,-3);
+		Date nextCheckTime=calendar.getTime();//得到设备下次检验时间
+		sdf=new SimpleDateFormat("yyyyMMdd");
+        String nextTime=sdf.format(nextCheckTime);
+		System.out.println(nextTime);
 	}
 }

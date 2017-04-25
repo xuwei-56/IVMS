@@ -3,6 +3,7 @@ package com.IVMS.util;
 
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -39,13 +40,28 @@ public class SpringQtz {
 		Date currentTime=new Date();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
         String time=sdf.format(currentTime);
+        String info=null;
         if(noticeEmailAndTime!=null&&!noticeEmailAndTime.isEmpty()){
     		for(Map<String, Object> timeAndEmail:noticeEmailAndTime){
-    			Date ctrCheckNextTime=(Date) timeAndEmail.get("NPENotifyTime");
+    			Date ctrCheckNextTime=(Date) timeAndEmail.get("NPENotifyTime");//获得数据库下次校验时间
     			System.out.println(ctrCheckNextTime);
     	        sdf=new SimpleDateFormat("yyyyMMdd");
-    	        String nextTime=sdf.format(ctrCheckNextTime);
-    			if(time.equals(nextTime)){
+    	        String nextTime=sdf.format(ctrCheckNextTime);//数据库的下次校验时间
+    	        /**获得现在的calendar时间
+    	         * 
+    	         */
+    	        Calendar calendar=Calendar.getInstance();
+    			calendar.setTime(currentTime);
+    			calendar.add(Calendar.DATE,3);
+    			Date current=calendar.getTime();//得到设备下次检验时间
+    			sdf=new SimpleDateFormat("yyyyMMdd");
+    	        String strCurrent=sdf.format(current);
+    			if(strCurrent.equals(nextTime)||time.equals(nextTime)){//下次校验时间到或者提前三天
+    				if(strCurrent.equals(nextTime)){
+    					info="为三天之后,";
+    				}else{
+    					info="已到,";
+    				}
     				String email=(String) timeAndEmail.get("NPENotifyEmail");
     				String cfid=(String) timeAndEmail.get("CFId");
     				Integer style=(Integer) timeAndEmail.get("NPEStyle");
@@ -72,7 +88,7 @@ public class SpringQtz {
     						}else{
     							cycleInfo="一年";
     						}
-    						String emailInfo="你的检具下次校验时间已到，请尽快送检！"+"\r\n\r\n检具编号："+cfid+"\r\n检具名称："+
+    						String emailInfo="你的检具下次校验时间"+info+"请做好送检准备！"+"\r\n\r\n检具编号："+cfid+"\r\n检具名称："+
     								ctName+"\r\n领用工线："+ctUseLine+"\r\n领用工位："+ctUseStation+"\r\n使用项目："+
     								ctUseItem+"\r\n校验周期："+cycleInfo+"\r\n检具上次校验时间："+lastCheckingToolchecktime;
     						System.out.println("emailInfo:"+emailInfo);
@@ -92,7 +108,7 @@ public class SpringQtz {
     						Date lastCheckTime=equipmentCheckTime.getEctime();//设备上次校验时间
     						sdf=new SimpleDateFormat("yyyy-MM-dd");
     		    	        String lastEquipmentCheckTime=sdf.format(lastCheckTime);
-    						String emailInfo="你的设备下次校验时间已到，请尽快对其进行检测！"+"\r\n\r\n设备编号："+cfid+"\r\n设备名称："+
+    						String emailInfo="你的设备下次校验时间"+info+"请做好检测准备！"+"\r\n\r\n设备编号："+cfid+"\r\n设备名称："+
     						ename+"\r\n生产线："+lName+"\r\n装配线："+cName+"\r\n检查周期："+cycle+"天"+"\r\n设备负责人："+eWorker
     						+"\r\n设备上次校验时间："+lastEquipmentCheckTime;
     						Mail mail=new Mail(email,"公司内部邮件",emailInfo,ccs);

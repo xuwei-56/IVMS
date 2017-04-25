@@ -41,9 +41,11 @@ public interface CheckingToolsDao {
     Map<String,Object> myCheckingToolsDetails(@Param("ctid")String ctid);
     
     List<CheckingTools> checkingToolsInfo(@Param("CTUseItem")String CTUseItem,@Param("CTStatus")Integer CTStatus,
+    		@Param("CTUseLine")String CTUseLine,@Param("CTType")String CTType,
     		@Param("startRow")Integer startRow,@Param("numberOfPerPage")Integer numberOfPerPage);
     
-    int countCheckingToolsInfo(@Param("CTUseItem")String CTUseItem,@Param("CTStatus")Integer CTStatus);
+    int countCheckingToolsInfo(@Param("CTUseItem")String CTUseItem,@Param("CTStatus")Integer CTStatus,
+    		@Param("CTUseLine")String CTUseLine,@Param("CTType")String CTType);
     
     int updateCheckingToolReceiverByCtid(@Param("ctreceiver")String ctreceiver,
     		@Param("ctid")String ctid);
