@@ -126,6 +126,8 @@ window.onload = function(){
   
 }
 $(document).ready(function(){
+  var notifyMailData = new Array(); //保存抄送人邮箱
+
   //日历插件
   laydate({
     elem: '#edate',
@@ -143,6 +145,8 @@ $(document).ready(function(){
   $(function () {
     $('#emtable').stickySort({ sortable: true });
   });
+  
+
   //检测登录
   $('#button_login').click(function() {
 
@@ -352,6 +356,7 @@ $(document).ready(function(){
         }
         $('#bydepartmentName').html(department)
         $('#departmentname').html(department)
+        $('#departmentName_update').html(department)
       }else{
         /*alert("获取部门信息失败！错误信息：" + data.msg)
         //return false;*/
@@ -428,6 +433,7 @@ $(document).ready(function(){
   })
   // 添加设备弹框
   $('#add_equipment_a').click(function(){
+    notifyMailData = new Array(); // 初始化
     $('#add_equipment_pop').fadeIn(200);
     getLinesEM();
     getDepartments();
@@ -445,6 +451,79 @@ $(document).ready(function(){
     $('.pop_bg').fadeOut(200);
   })
 
+  // 根据部门获取员工信息
+  $('#departmentName').change(function(){
+    var department = $('#departmentName').val();
+    if (department == null) {
+      return false;
+    }
+    getUserInfoByDepartment(department);
+  })
+  //将选中抄送人，加入文本框，且存入notifyMailData数组
+  $('#userName').change(function(){
+    var mail = $('#userName').val()
+    var cn = $('#userName').find("option:selected").text()
+    if (mail ==  null) {
+      return false;
+    }
+    var notifyNum = $('#userNameList span').size(); // 获取当前抄送人数
+    $('#userNameList').append("<span class='userNameDel'>"+cn+"<a href='#' class='deleteMail' id='deleteMail'>X</a></span>");
+    notifyMailData[notifyNum] = mail;
+
+  })
+  // 删除抄送人邮箱
+  $('#userNameList').delegate('#deleteMail','click',function(){
+    var num = $(this).parent().index();   // 得到删除的抄送人在数组中的位置
+    notifyMailData.splice(num,1);   // 删除此位置的邮箱
+    $(this).parent().remove();
+  })
+
+  // 更新设备
+  // 根据部门获取员工信息
+  $('#departmentName_update').change(function(){
+    var department = $('#departmentName_update').val();
+    if (department == null) {
+      return false;
+    }
+    $.ajax({
+      url:'./user/getUserInfoByDepartment',
+      type:'POST',
+      data:{'department':department},
+      datatype:'json',
+      success:function(data){
+        data = JSON.parse(data);
+        if (data.code == 1) {
+          var user = "<option></option>";
+          /*console.log(userData)*/
+          for (var i = 0; i < data.data.length; i++) {
+            user += "<option value='"+data.data[i].mail+"'>"+data.data[i].cn+"</option>";
+          }
+          $('#userName_update').html(user);
+        }else{
+          alert(data.msg)
+        }
+      }
+    })
+  })
+  //将选中抄送人，加入文本框，且存入notifyMailData数组
+  $('#userName_update').change(function(){
+    var mail = $('#userName_update').val()
+    var cn = $('#userName_update').find("option:selected").text()
+    if (mail ==  null) {
+      return false;
+    }
+    var notifyNum = $('#userNameList_update span').size(); // 获取当前抄送人数
+    $('#userNameList_update').append("<span class='userNameDel'>"+cn+"<a href='#' class='deleteMail' id='deleteMail'>X</a></span>");
+    notifyMailData[notifyNum] = mail;
+
+  })
+  // 删除抄送人邮箱
+  $('#userNameList_update').delegate('#deleteMail','click',function(){
+    var num = $(this).parent().index();   // 得到删除的抄送人在数组中的位置
+    notifyMailData.splice(num,1);   // 删除此位置的邮箱
+    $(this).parent().remove();
+  })
+
   // 提交增加设备
   $('#add_equipment_btn').click(function(){
     var addename = $('#ename').val()
@@ -455,7 +534,7 @@ $(document).ready(function(){
     $.ajax({
       url:'./user/addEquipment',
       type:'POST',
-      data:{'ename':addename,'echeckcycle':addecheckcycle,'cid':addcid,'eworker':addeworker,'date':edate},
+      data:{'ename':addename,'echeckcycle':addecheckcycle,'cid':addcid,'eworker':addeworker,'date':edate,'copySendEmail':notifyMailData},
       datatype:'json',
       success:function(data){
         data = JSON.parse(data);
@@ -467,7 +546,7 @@ $(document).ready(function(){
           if (data.code < 0) {
             alert(data.msg)
           }
-          //return false;
+          return false;
         }
       }
     })
@@ -540,6 +619,7 @@ $(document).ready(function(){
   })
   //查看详情
   $('#emtable').delegate('#updete_equipment','click',function(){
+    notifyMailData = new Array();  // 初始化
     var eid = $(this).parent().parent().find("td:eq(0)").text();
     var ename = $(this).parent().parent().find("td:eq(1)").text();
     var eworker = $(this).parent().parent().find("td:eq(2)").text();
@@ -551,7 +631,7 @@ $(document).ready(function(){
     $('#eid').val(eid);
     $('#ename_update').val(ename);
     $('#echeckcycle_update').val(echeckcycle);
-    $('#edate_update').val(edate);
+    $('#edate_update').val(nexttime);
     $('#lasttime').val(edate);
     $('#nexttime').val(nexttime);
     // 获取产线
@@ -597,7 +677,55 @@ $(document).ready(function(){
       }
     })
     $('#username_update').html("<option value=''>"+eworker+"</option>");
+    // 获取抄送邮箱
+    $.ajax({
+      url:'./user/getEquipmentNotifyEmail',
+      type:'POST',
+      data:{"eid":eid},
+      datatype:'json',
+      success:function(data){
+        data = JSON.parse(data);
+        if (data.code == 1) {
+          var mail = "";
+          data.data.forEach(function(mail){
+            mail = "<li><span style='display:none;'>"+eid+"</span><span>"+ mail.npenotifyemail +"</span><a id='deleteMailByEid'>删除</a></li>"
+          }) 
+          $('#notifyMail').html(mail)
+        }else{
+          alert("获取邮箱抄送人失败！错误信息：" + data.msg)
+          //return false;
+        }
+      }
+    })
     $('#update_equipment_pop').fadeIn();
+  })
+
+  // 删除邮件
+  $('#update_equipment_pop').delegate('#deleteMailByEid','click',function(){
+    var eid = $(this).parent().find("span:eq(1)").text();
+    var email = $(this).parent().find("span:eq(2)").text();
+    if (window.confirm("你确认要删除吗？")) {
+      $.ajax({
+        url:'./user/deleteEquipmentNotifyEmail',
+        type:'POST',
+        cache:false,
+        data:{"eid":eid,"email":email},
+        datatype:'json',
+        success:function(data){
+          data = JSON.parse(data);
+          if (data.code == 1) {
+            alert("删除附件成功！");
+            $(this).parent().remove();
+            
+          }else if(data.code == 0){
+            $('#upload_file').html(data.msg);
+          }
+        }
+      })
+    }else{
+      return false;
+    }
+ 
   })
   // 获取对应产线下的单元
   $('#lid_update').change(function(){
@@ -635,7 +763,7 @@ $(document).ready(function(){
     $.ajax({
       url:'./user/updateEquipment',
       type:'POST',
-      data:{'eid':eid,'ename':ename,'echeckcycle':echeckcycle,'cid':cid,'eworker':eworker,'date':edate},
+      data:{'eid':eid,'ename':ename,'echeckcycle':echeckcycle,'cid':cid,'eworker':eworker,'date':edate,'copySendEmail':notifyMailData},
       datatype:'json',
       success:function(data){
         data = JSON.parse(data);

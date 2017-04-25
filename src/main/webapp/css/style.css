@@ -107,6 +107,7 @@ header .rt_nav li .quit_icon:before{content:"Q";}
 .lt_aside_nav .btm_infor{height:35px;line-height:35px;width:100%;background:#efefef;border-top:1px #b6b6b6 solid;text-align:center;color:#aaa;}
 .user_index_li{height: 700px;border-right: 5px solid #cacaca}
 /*public:rtContent*/
+
 .rt_wrap{margin-left:218px;margin-right:10px;height:100%;position:relative;}
 .rt_wrap_index{margin-left:5%; }
 .rt_content{margin-bottom:80px;margin-right:8px;overflow:hidden;min-height: 800px;}
@@ -139,6 +140,8 @@ header .rt_nav li .quit_icon:before{content:"Q";}
 .table td .inner_btn{background:#d10529;color:white;padding:5px 8px;border-radius:2px;}
 .table td .inner_btn:hover{background:#ff002d;color:#f8f8f8;}
 .table td .cut_title{width:265px;}
+.table td .greenPrint{background: #13a159}
+.table td .greenPrint:hover{background: #00ff2b}
 .paging{margin:8px 0;overflow:hidden;text-align:right;}
 .paging a{background:#d10529;border:1px #d10529 solid;color:white;padding:5px 8px;display:inline-block;cursor:pointer;}
 .paging a:hover{background:#ff002d;border:1px #ff002d solid;}
@@ -154,6 +157,7 @@ header .rt_nav li .quit_icon:before{content:"Q";}
 .uploadImg span:hover{color:#d10429;}
 #endcheck{background: #13a159}
 #endcheck:hover{background: #00ff2b}
+
 /* .uploadImg span:before{content:"#";font-family:'adminthemesregular';display:block;font-size:40px;} */
 .userNameList{width: 500px;height: 50px;border: 1px solid #d10529;margin-left: 124px;margin-top: 15px}
 .userNameDel{border: 0.5px solid black;margin: 4px 4px;display: inline-block;padding: 2px}
