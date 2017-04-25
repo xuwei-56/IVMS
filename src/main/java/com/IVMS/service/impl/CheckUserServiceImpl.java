@@ -370,7 +370,7 @@ public class CheckUserServiceImpl implements CheckUserService{
 		return notifyPersonnelEmailDao.deleteCopyEmailsByCfidAndEmail(cfid, npenotifyemail);
 	}
 
-	public Integer selectStyleByCfidAndNotifyEmail(String cfid, String npenotifyemail) {
+	public List<NotifyPersonnelEmail> selectStyleByCfidAndNotifyEmail(String cfid, String npenotifyemail) {
 		return notifyPersonnelEmailDao.selectStyleByCfidAndNotifyEmail(cfid, npenotifyemail);
 	}
 	

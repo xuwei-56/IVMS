@@ -179,5 +179,5 @@ public interface CheckUserService {
     
     int deleteCopyEmailsByCfidAndEmail(String cfid,String npenotifyemail);
     
-    Integer selectStyleByCfidAndNotifyEmail(String cfid,String npenotifyemail);
+    List<NotifyPersonnelEmail> selectStyleByCfidAndNotifyEmail(String cfid,String npenotifyemail);
 }

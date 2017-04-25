@@ -30,5 +30,5 @@ public interface NotifyPersonnelEmailDao {
     
     List<Map<String,Object>> selectNotifyEmailAndTime();
     
-    Integer selectStyleByCfidAndNotifyEmail(@Param("cfid")String cfid,@Param("npenotifyemail")String npenotifyemail);
+    List<NotifyPersonnelEmail> selectStyleByCfidAndNotifyEmail(@Param("cfid")String cfid,@Param("npenotifyemail")String npenotifyemail);
 }

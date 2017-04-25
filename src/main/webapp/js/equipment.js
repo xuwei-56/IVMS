@@ -539,7 +539,7 @@ $(document).ready(function(){
     formdata.append("echeckcycle",addecheckcycle)
     formdata.append("cid",addcid)
     formdata.append("eworker",addeworker)
-    formdata.append("data",edate)
+    formdata.append("date",edate)
     formdata.append("copySendEmails",notifyMailData)
     $.ajax({
       url:'./user/addEquipment',
@@ -788,7 +788,7 @@ $(document).ready(function(){
     formdata.append("echeckcycle",echeckcycle)
     formdata.append("cid",cid)
     formdata.append("eworker",eworker)
-    formdata.append("data",edate)
+    formdata.append("date",edate)
     formdata.append("copySendEmails",notifyMailData)
 
     $.ajax({

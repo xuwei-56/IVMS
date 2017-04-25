@@ -23,7 +23,7 @@
   <select id="selectNotifyEmailByCfid" resultMap="BaseResultMap" parameterType="java.lang.String" >
   SELECT NPENotifyEmail FROM notifypersonnelemail WHERE CFId=#{cfid,jdbcType=VARCHAR}
   </select>
-  <select id="selectStyleByCfidAndNotifyEmail" resultType="java.lang.Integer">
+  <select id="selectStyleByCfidAndNotifyEmail" resultMap="BaseResultMap">
   SELECT NPEStyle FROM notifypersonnelemail WHERE 
   CFId=#{cfid,jdbcType=VARCHAR} AND NPENotifyEmail=#{npenotifyemail,jdbcType=VARCHAR};
   </select>

@@ -753,6 +753,7 @@ public class CheckUserController {
 	public JSONObject addEquipMent(HttpSession session,Equipment equipment,
 			@DateTimeFormat(pattern="yyyy-MM-dd") Date date,String[]copySendEmails)
 			throws Exception{
+		System.out.println("date:"+date);
 		User user = (User)session.getAttribute("user");
 		if(user.getPager().equals("1")){//设备负责人
 			int resultOfAddEquipment=checkUserService.insertEquipment(equipment);
@@ -789,33 +790,34 @@ public class CheckUserController {
 				/**
 				 * 添加设备抄送邮箱
 				 */
-				List<NotifyPersonnelEmail> emails=checkUserService.selectNotifyEmailByCfid(String.valueOf(eid));
-				Date notifyTime=nextCheckTime;//获得定时校验的下一次校验时间
-				boolean insertflag=true;
-				for(String strEmail:copySendEmails){
-					boolean flag=true;
-					for(NotifyPersonnelEmail notifyEmail:emails){
-						if(notifyEmail.getNpenotifyemail().equals(strEmail)){//相同则不做处理
-							flag=false;
+				if(copySendEmails!=null&&copySendEmails.length!=0){
+					List<NotifyPersonnelEmail> emails=checkUserService.selectNotifyEmailByCfid(String.valueOf(eid));
+					Date notifyTime=nextCheckTime;//获得定时校验的下一次校验时间
+					boolean insertflag=true;
+					for(String strEmail:copySendEmails){
+						boolean flag=true;
+						for(NotifyPersonnelEmail notifyEmail:emails){
+							if(notifyEmail.getNpenotifyemail().equals(strEmail)){//相同则不做处理
+								flag=false;
+							}
+						}
+						if(flag==true){//用户加的抄送和数据库的抄送邮箱不一样，往数据库里插入
+							notifyPersonnelEmail=new NotifyPersonnelEmail();
+							notifyPersonnelEmail.setCfid(String.valueOf(eid));
+							notifyPersonnelEmail.setNpenotifyemail(strEmail);
+							notifyPersonnelEmail.setNpestyle(3);
+							notifyPersonnelEmail.setNpenotifytime(notifyTime);
+							int resultOfInsertNotifyEmail=sendCheckUserService.insertCopySendEmail(notifyPersonnelEmail);
+							if(resultOfInsertNotifyEmail<=0){
+								insertflag=false;
+							}
 						}
 					}
-					if(flag==true){//用户加的抄送和数据库的抄送邮箱不一样，往数据库里插入
-						notifyPersonnelEmail=new NotifyPersonnelEmail();
-						notifyPersonnelEmail.setCfid(String.valueOf(eid));
-						notifyPersonnelEmail.setNpenotifyemail(strEmail);
-						notifyPersonnelEmail.setNpestyle(3);
-						notifyPersonnelEmail.setNpenotifytime(notifyTime);
-						int resultOfInsertNotifyEmail=sendCheckUserService.insertCopySendEmail(notifyPersonnelEmail);
-						if(resultOfInsertNotifyEmail<=0){
-							insertflag=false;
-						}
+					if(insertflag=false){
+						return CommonUtil.constructResponse(0,"插入抄送邮箱失败！",null);
 					}
 				}
-				if(insertflag=false){
-					return CommonUtil.constructResponse(0,"插入抄送邮箱失败！",null);
-				}else{
-					return CommonUtil.constructResponse(EnumUtil.OK, "添加设备信息成功！", null);
-				}
+				return CommonUtil.constructResponse(EnumUtil.OK, "添加设备信息成功！", null);
 			}
 		}else{
 			return CommonUtil.constructResponse(0,"你不是设备总负责人，不能对设备进行添加操作！",null);
@@ -827,6 +829,8 @@ public class CheckUserController {
 	public JSONObject updateEquipment(HttpSession session,Equipment equipment,
 			@DateTimeFormat(pattern="yyyy-MM-dd") Date date,String[]copySendEmails)
 			throws Exception{
+		System.out.println("date:"+date);
+		System.out.println("copySendEmails:"+copySendEmails);
 		Integer eid=equipment.getEid();
 		Integer cycle=equipment.getEcheckcycle();//天数
 		String worker=equipment.getEworker();//负责人
@@ -834,18 +838,19 @@ public class CheckUserController {
 		User user = (User)session.getAttribute("user");
 		Date nextCheckTime=null;
 		if(user.getPager().equals("1")){//设备负责人
-			int resultOfUpdateEquipment=checkUserService.updateEquipment(equipment);
-			if(resultOfUpdateEquipment<=0){
-				return CommonUtil.constructResponse(0,"更新设备信息失败！",null);
-			}else{
 				EquipmentCheckTime equipmentCheckTime=checkUserService.selectEquipmentCheckTimeByEctid(ectid);
 				Date lastCheckTime=equipmentCheckTime.getEctime();//上次设备校验时间
 				Date nextTime=equipmentCheckTime.getEcnexttime();//下次设备校验时间
+				Equipment equipment1=checkUserService.selectEquipmentByEid(eid);
+				Integer realCycle=equipment1.getEcheckcycle();
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
 		        String ntime=sdf.format(nextTime);//数据库里下次设备校验时间
 		        String time=sdf.format(date);//输入的延时时间
-		        if(ntime.equals(time)){
-		        	Calendar calendar=Calendar.getInstance();
+		        Calendar calendar=Calendar.getInstance();
+		        calendar.setTime(lastCheckTime);
+				calendar.add(Calendar.DATE,realCycle);
+		        if(ntime.equals(time)&&sdf.format(calendar.getTime()).equals(ntime)){
+		        	calendar=Calendar.getInstance();
 					calendar.setTime(lastCheckTime);
 					calendar.add(Calendar.DATE,cycle);
 					nextCheckTime=calendar.getTime();//得到设备下次检验时间
@@ -871,34 +876,43 @@ public class CheckUserController {
 				/**插入设备抄送邮箱
 				 * 
 				 */
-				List<NotifyPersonnelEmail> emails=checkUserService.selectNotifyEmailByCfid(String.valueOf(eid));
-				Date notifyTime=nextCheckTime;//获得定时校验的下一次校验时间
-				boolean insertflag=true;
-				for(String strEmail:copySendEmails){
-					boolean flag=true;
-					for(NotifyPersonnelEmail notifyEmail:emails){
-						if(notifyEmail.getNpenotifyemail().equals(strEmail)){//相同则不做处理
-							flag=false;
+				System.out.println("copySendEmail"+copySendEmails);
+				if(copySendEmails!=null&&copySendEmails.length!=0){
+					List<NotifyPersonnelEmail> emails=checkUserService.selectNotifyEmailByCfid(String.valueOf(eid));
+					Date notifyTime=nextCheckTime;//获得定时校验的下一次校验时间
+					boolean insertflag=true;
+					for(String strEmail:copySendEmails){
+						System.out.println("strEmail:"+strEmail);
+						boolean flag=true;
+						for(NotifyPersonnelEmail notifyEmail:emails){
+							if(notifyEmail.getNpenotifyemail().equals(strEmail)){//相同则不做处理
+								flag=false;
+							}
+						}
+						if(flag==true){//用户加的抄送和数据库的抄送邮箱不一样，往数据库里插入
+							System.out.println(00000000);
+							notifyPersonnelEmail=new NotifyPersonnelEmail();
+							notifyPersonnelEmail.setCfid(String.valueOf(eid));
+							notifyPersonnelEmail.setNpenotifyemail(strEmail);
+							notifyPersonnelEmail.setNpestyle(3);
+							notifyPersonnelEmail.setNpenotifytime(notifyTime);
+							int resultOfInsertNotifyEmail=sendCheckUserService.insertCopySendEmail(notifyPersonnelEmail);
+							if(resultOfInsertNotifyEmail<=0){
+								insertflag=false;
+							}
 						}
 					}
-					if(flag==true){//用户加的抄送和数据库的抄送邮箱不一样，往数据库里插入
-						notifyPersonnelEmail=new NotifyPersonnelEmail();
-						notifyPersonnelEmail.setCfid(String.valueOf(eid));
-						notifyPersonnelEmail.setNpenotifyemail(strEmail);
-						notifyPersonnelEmail.setNpestyle(3);
-						notifyPersonnelEmail.setNpenotifytime(notifyTime);
-						int resultOfInsertNotifyEmail=sendCheckUserService.insertCopySendEmail(notifyPersonnelEmail);
-						if(resultOfInsertNotifyEmail<=0){
-							insertflag=false;
-						}
+					if(insertflag=false){
+						return CommonUtil.constructResponse(0,"插入抄送邮箱失败！",null);
 					}
 				}
-				if(insertflag=false){
-					return CommonUtil.constructResponse(0,"插入抄送邮箱失败！",null);
+				int resultOfUpdateEquipment=checkUserService.updateEquipment(equipment);
+				System.out.println("resultOfUpdateEquipment:"+resultOfUpdateEquipment);
+				if(resultOfUpdateEquipment<=0){
+					return CommonUtil.constructResponse(0,"更新设备信息失败！",null);
 				}else{
 					return CommonUtil.constructResponse(EnumUtil.OK, "更新设备信息成功！", null);
-				}	
-			}
+				}
 		}else{
 			return CommonUtil.constructResponse(0,"你不是设备总负责人，不能对设备进行更改操作！",null);
 		}
