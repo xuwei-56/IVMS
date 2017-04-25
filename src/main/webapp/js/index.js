@@ -191,6 +191,23 @@ function CreatePage(strNumber,strName,strTime,strCName) {
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 };
+window.onload = function(){
+  // 验证是否登录
+  $.ajax({
+    url:"./user/getSessionUser",
+    type:"POST",
+    data:{},
+    datatype:"json",
+    success:function(data){
+      data = JSON.parse(data);
+      if(data.code == 1){
+        $('#login_li').hide();
+        $('#logout_li').show();
+      }
+    }     
+  })
+  
+}
 $(document).ready(function(){
 	
 	$(".admin_tab li a").click(function(){

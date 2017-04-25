@@ -14,8 +14,8 @@ function getDepartments(){
         }
         $('#departmentName').html(department)
       }else{
-        alert("获取部门信息失败！错误信息：" + data.msg)
-        //return false;
+        console.log("获取部门信息失败！错误信息：" + data.msg)
+        return false;
       }
     }
   })
@@ -114,7 +114,9 @@ window.onload = function(){
       if (isroot != 1) {
         $('#update_equipment_btn').hide();
         $('#delete_equipment_btn').hide();
-        $('#update_equipment_pop input').attr('disabled');
+        $('#update_equipment_pop input').attr('disabled',"true");
+        $('#update_equipment_pop select').attr('disabled',"true");
+        $('#update_equipment_pop .input_btn').removeAttr('disabled');
         $('#add_equipment_a,#update_equipment_btn,#delete_equipment_btn').unbind()
       }
       if (isroot == -1) {
@@ -358,8 +360,8 @@ $(document).ready(function(){
         $('#departmentname').html(department)
         $('#departmentName_update').html(department)
       }else{
-        /*alert("获取部门信息失败！错误信息：" + data.msg)
-        //return false;*/
+        console.log("获取部门信息失败！错误信息：" + data.msg)
+        return false;
       }
     }
   })
@@ -515,6 +517,7 @@ $(document).ready(function(){
     var notifyNum = $('#userNameList_update span').size(); // 获取当前抄送人数
     $('#userNameList_update').append("<span class='userNameDel'>"+cn+"<a href='#' class='deleteMail' id='deleteMail'>X</a></span>");
     notifyMailData[notifyNum] = mail;
+    console.log(notifyMailData)
 
   })
   // 删除抄送人邮箱
@@ -531,11 +534,20 @@ $(document).ready(function(){
     var addcid = $('#cid').val()
     var addeworker = $('#username').val()
     var edate = $('#edate').val();
+    var formdata = new FormData();
+    formdata.append("ename",addename)
+    formdata.append("echeckcycle",addecheckcycle)
+    formdata.append("cid",addcid)
+    formdata.append("eworker",addeworker)
+    formdata.append("data",edate)
+    formdata.append("copySendEmails",notifyMailData)
     $.ajax({
       url:'./user/addEquipment',
       type:'POST',
-      data:{'ename':addename,'echeckcycle':addecheckcycle,'cid':addcid,'eworker':addeworker,'date':edate,'copySendEmail':notifyMailData},
+      data:formdata,
       datatype:'json',
+      contentType:false,
+      processData:false,
       success:function(data){
         data = JSON.parse(data);
         if (data.code == 1) {
@@ -671,8 +683,8 @@ $(document).ready(function(){
           }
           $('#departmentname_update').html(department)
         }else{
-          alert("获取部门信息失败！错误信息：" + data.msg)
-          //return false;
+          console.log("获取部门信息失败！错误信息：" + data.msg)
+          return false;
         }
       }
     })
@@ -686,14 +698,21 @@ $(document).ready(function(){
       success:function(data){
         data = JSON.parse(data);
         if (data.code == 1) {
-          var mail = "";
-          data.data.forEach(function(mail){
-            mail = "<li><span style='display:none;'>"+eid+"</span><span>"+ mail.npenotifyemail +"</span><a id='deleteMailByEid'>删除</a></li>"
-          }) 
-          $('#notifyMail').html(mail)
+          var maildata = "";
+          if (isroot ==1) {
+            data.data.forEach(function(mail){
+              maildata += "<li><span style='display:none;'>"+eid+"</span><span>"+ mail.npenotifyemail +"</span><a id='deleteMailByEid'>删除</a></li>"
+            })
+          }else{
+            data.data.forEach(function(mail){
+              maildata += "<li><span style='display:none;'>"+eid+"</span><span>"+ mail.npenotifyemail +"</span></li>"
+            })
+          }
+          
+          $('#notifyMail').html(maildata)
         }else{
-          alert("获取邮箱抄送人失败！错误信息：" + data.msg)
-          //return false;
+          console.log("获取邮箱抄送人失败！错误信息：" + data.msg)
+          return false;
         }
       }
     })
@@ -702,8 +721,9 @@ $(document).ready(function(){
 
   // 删除邮件
   $('#update_equipment_pop').delegate('#deleteMailByEid','click',function(){
-    var eid = $(this).parent().find("span:eq(1)").text();
-    var email = $(this).parent().find("span:eq(2)").text();
+    var eid = $(this).parent().find("span:eq(0)").text();
+    var email = $(this).parent().find("span:eq(1)").text();
+    var thisa = $(this).parent();
     if (window.confirm("你确认要删除吗？")) {
       $.ajax({
         url:'./user/deleteEquipmentNotifyEmail',
@@ -715,7 +735,7 @@ $(document).ready(function(){
           data = JSON.parse(data);
           if (data.code == 1) {
             alert("删除附件成功！");
-            $(this).parent().remove();
+            thisa.remove();
             
           }else if(data.code == 0){
             $('#upload_file').html(data.msg);
@@ -751,6 +771,9 @@ $(document).ready(function(){
     var edate = $('#edate_update').val();
     var cid = $('#cid_update').val();
     var eworker = $('#username_update').val();
+    if (eworker == "" || eworker == null) {
+      eworker = $('#username_update').find("option:selected").text();
+    }
     // 感觉 很恐怖的一个正则匹配
     var reg=/^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)$/; 
     if (edate != "" || edate != null) {
@@ -759,12 +782,22 @@ $(document).ready(function(){
         return false;
       }
     }
-    
+    var formdata = new FormData();
+    formdata.append("eid",eid)
+    formdata.append("ename",ename)
+    formdata.append("echeckcycle",echeckcycle)
+    formdata.append("cid",cid)
+    formdata.append("eworker",eworker)
+    formdata.append("data",edate)
+    formdata.append("copySendEmails",notifyMailData)
+
     $.ajax({
       url:'./user/updateEquipment',
       type:'POST',
-      data:{'eid':eid,'ename':ename,'echeckcycle':echeckcycle,'cid':cid,'eworker':eworker,'date':edate,'copySendEmail':notifyMailData},
+      data:formdata,
       datatype:'json',
+      contentType:false,
+      processData:false,
       success:function(data){
         data = JSON.parse(data);
         if (data.code == 1) {
