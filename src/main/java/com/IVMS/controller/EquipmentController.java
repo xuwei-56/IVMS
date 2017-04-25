@@ -74,7 +74,7 @@ public class EquipmentController {
 		Integer style=checkUserService.
 				selectStyleByCfidAndNotifyEmail(String.valueOf(eid), email);
 		if(style==2){
-			return CommonUtil.constructResponse(EnumUtil.OK,"此邮箱为设备负责人邮箱，不能删除",null);
+			return CommonUtil.constructResponse(0,"此邮箱为设备负责人邮箱，不能删除",null);
 		}else{
 			Integer resultOfDeleteEquipmentNotifyEmail=checkUserService.
 					deleteCopyEmailsByCfidAndEmail(String.valueOf(eid), email);

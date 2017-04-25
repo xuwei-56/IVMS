@@ -832,6 +832,7 @@ public class CheckUserController {
 		String worker=equipment.getEworker();//负责人
 		Integer ectid=checkUserService.selectEctidByEid(eid);//得到最新ectid
 		User user = (User)session.getAttribute("user");
+		Date nextCheckTime=null;
 		if(user.getPager().equals("1")){//设备负责人
 			int resultOfUpdateEquipment=checkUserService.updateEquipment(equipment);
 			if(resultOfUpdateEquipment<=0){
@@ -839,19 +840,18 @@ public class CheckUserController {
 			}else{
 				EquipmentCheckTime equipmentCheckTime=checkUserService.selectEquipmentCheckTimeByEctid(ectid);
 				Date lastCheckTime=equipmentCheckTime.getEctime();//上次设备校验时间
-				Calendar calendar=Calendar.getInstance();
-				calendar.setTime(lastCheckTime);
-				calendar.add(Calendar.DATE,cycle);
-				Date nextCheckTime=calendar.getTime();//得到设备下次检验时间
-				/**
-				 * 修改下一次校验时间，修改定时发送邮箱的邮箱和时间
-				 */
-				if(date!=null){
-					calendar=Calendar.getInstance();
-					calendar.setTime(date);//上一次校验时间
+				Date nextTime=equipmentCheckTime.getEcnexttime();//下次设备校验时间
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
+		        String ntime=sdf.format(nextTime);//数据库里下次设备校验时间
+		        String time=sdf.format(date);//输入的延时时间
+		        if(ntime.equals(time)){
+		        	Calendar calendar=Calendar.getInstance();
+					calendar.setTime(lastCheckTime);
 					calendar.add(Calendar.DATE,cycle);
 					nextCheckTime=calendar.getTime();//得到设备下次检验时间
-				}
+		        }else{
+		        	nextCheckTime=date;//得到设备下次检验时间
+		        }
 				//根据修改的周期更改最新校验时间
 				checkUserService.updateEquipmentLastCheckTime(lastCheckTime, nextCheckTime, eid);
 				String username=(String) session.getAttribute("username");
