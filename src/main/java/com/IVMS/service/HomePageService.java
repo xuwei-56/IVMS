@@ -26,9 +26,10 @@ public interface HomePageService {
     
     int countMyHistoryCheck(Integer ClaId,Integer Pid,String CFId);
     
-    List<CheckingTools> checkingToolsInfo(String CTUseItem,Integer CTStatus,Integer requestPageNum);
+    List<CheckingTools> checkingToolsInfo(String CTUseItem,Integer CTStatus,String CTUseLine,
+    		String CTType,Integer requestPageNum);
     
-    int countCheckingToolsInfo(String CTUseItem,Integer CTStatus);
+    int countCheckingToolsInfo(String CTUseItem,Integer CTStatus,String CTUseLine,String CTType);
     
     int updateCfstatuByCfid(String cfid);
     

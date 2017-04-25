@@ -80,11 +80,12 @@ public class HomePageController {
 	
 	@RequestMapping("/checkingToolsInfo")
 	@ResponseBody
-	public JSONObject checkingToolsInfo(Integer requestPageNum,String CTUseItem,Integer CTStatus) 
+	public JSONObject checkingToolsInfo(Integer requestPageNum,String CTUseItem,Integer CTStatus,
+			String CTUseLine,String CTType) 
 			throws Exception {
-		int allPageNum=homePageService.countCheckingToolsInfo(CTUseItem, CTStatus);
+		int allPageNum=homePageService.countCheckingToolsInfo(CTUseItem, CTStatus,CTUseLine,CTType);
 		List<CheckingTools>checkingToolsInfo=homePageService.checkingToolsInfo(CTUseItem, 
-				CTStatus, requestPageNum);
+				CTStatus,CTUseLine,CTType,requestPageNum);
 		if(checkingToolsInfo.isEmpty()){
 			return CommonUtil.constructResponse(0,"没有数据！",null);
 		}else{

@@ -55,15 +55,17 @@ public class HomePageServiceImpl implements HomePageService {
 	}
 
 
-	public List<CheckingTools> checkingToolsInfo(String CTUseItem, Integer CTStatus,Integer requestPageNum) {
+	public List<CheckingTools> checkingToolsInfo(String CTUseItem, Integer CTStatus,String CTUseLine,
+    		String CTType,Integer requestPageNum) {
 		int startRow=(requestPageNum-1)*10;
 		int numberOfPerPage=20;
-		return checkingToolsDao.checkingToolsInfo(CTUseItem, CTStatus, startRow, numberOfPerPage);
+		return checkingToolsDao.checkingToolsInfo(CTUseItem, CTStatus,CTUseLine,CTType,startRow, numberOfPerPage);
 	}
 
 
-	public int countCheckingToolsInfo(String CTUseItem, Integer CTStatus) {
-		int count=checkingToolsDao.countCheckingToolsInfo(CTUseItem, CTStatus);
+	public int countCheckingToolsInfo(String CTUseItem, Integer CTStatus,String CTUseLine,
+			String CTType) {
+		int count=checkingToolsDao.countCheckingToolsInfo(CTUseItem, CTStatus,CTUseLine,CTType);
 //		System.out.println(count);
 //		int page=(int) Math.ceil(count*1.0/20);
 //		System.out.println(page);
