@@ -61,8 +61,10 @@ $(document).ready(function(){
 		};
 		if (claid == 6) {
 			$('#componentName').attr('disabled',"true");
+			$('#pId').attr('disabled',"true");
 		}else{
 			$('#componentName').removeAttr("disabled","true");
+			$('#pId').removeAttr('disabled',"true");
 		}
 	})
 

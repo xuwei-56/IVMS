@@ -138,6 +138,8 @@
             <input type="text" class="textbox" id="ctid_update" disabled="true" placeholder="限制长度为18" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[a-z][A-Z]\d/g,'')}else{this.value=this.value.replace(/[a-z][A-Z]\d/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[a-z][A-Z]\d/g,'')}else{this.value=this.value.replace(/[a-z][A-Z]\d/g,'')}" size="18" /></dd>
             <dd class="item_dd_285"><span class="item_name" style="width:100px;">名称：</span>
             <input type="text" class="textbox" id="ctname_update" /></dd>
+            <dd class="item_dd_285"><span class="item_name" style="width:100px;">类型：</span>
+            <input type="text" class="textbox" id="cttype_update" /></dd>
            </li>
            <li>
             <dd class="item_dd_285"><span class="item_name">生产商：</span>
@@ -239,7 +241,13 @@
           <option value="4">报废</option>
         </select>
         <span class="item_name">使用项目：</span>
-        <input type="text" class="textbox textbox_225" id="byCTUseItem" />
+        <input type="text" class="textbox textbox_100" id="byCTUseItem" />
+        <span class="item_name">领用工线：</span>
+        <select class="select textbox_100" id="byCTUseLine">
+          <option value="0">所有工线</option>
+        </select>
+        <span class="item_name">检具类型：</span>
+        <input type="text" class="textbox textbox_100" id="byCTType" />
         <input type="button" value="搜索" class="link_btn" id="button_searchCheckTools" />
       </section>
       <table class="table" id="cttable">
@@ -270,7 +278,7 @@
     </div>
     
     <div class="admin_tab_cont">
-      <!-- 送检登记 -->
+      <!-- 检具登记 -->
       <section>
        <ul class="ulColumn2">
          <li>
@@ -279,6 +287,8 @@
           <input type="text" class="textbox" id="ctid" placeholder="限制长度为18" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[a-z][A-Z]\d/g,'')}else{this.value=this.value.replace(/[a-z][A-Z]\d/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[a-z][A-Z]\d/g,'')}else{this.value=this.value.replace(/[a-z][A-Z]\d/g,'')}" size="18" /></dd>
           <dd class="item_dd_335"><span class="item_name" style="width:100px;">名称：</span>
           <input type="text" class="textbox" id="ctname" /></dd>
+          <dd class="item_dd_335"><span class="item_name" style="width:100px;">类型：</span>
+          <input type="text" class="textbox" id="cttype" /></dd>
          </li>
          <li>
           <dd class="item_dd_335"><span class="item_name" style="width:120px;">生产商：</span>

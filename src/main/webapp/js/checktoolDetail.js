@@ -19,6 +19,7 @@ $(document).ready(function(){
 			data = JSON.parse(data);
 			if (data.code == 1) {
 				$('#ctid').text(data.data.CTId);
+				$('#cttype').text(data.data.CTType);
 				$('#ctuseitem').text(data.data.CTUseItem)
 				$('#ctcheckprogram').text(data.data.CTCheckProgram)
 				$('#ctname').text(data.data.CTName)
@@ -27,7 +28,7 @@ $(document).ready(function(){
 				$('#ctproducer').text(data.data.CTProducer)
 				$('#ctusestation').text(data.data.CTUseStation)
 				var cycle = getCTCycle(data.data.CTCheckCycle);
-				$('#ctcheckcycle').text(cycle + "个月")
+				$('#ctcheckcycle').text(cycle)
 				$('#ctproductionnum').text(data.data.CTProductionNum)
 				$('#ctuser').text(data.data.CTReceiver)
 				$('#ctmsa').text(data.data.CTMSA)
@@ -65,7 +66,8 @@ $(document).ready(function(){
 				}
 				$('#CTRTable').html(CTRData);
 			}else{
-				alert(data.msg)
+				console.log(data.msg)
+				$('#CTRTable').html("没有数据");
 				return false;
 			}
 		}

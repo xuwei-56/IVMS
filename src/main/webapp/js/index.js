@@ -63,9 +63,6 @@ function getnotPrintCheckingForm(){
 		}
 	})
 }
-function gethistoryCheckingForm(){
-
-}
 function getClassify1(){
 	// 获取送检类型
 	$.ajax({
@@ -87,7 +84,7 @@ function getClassify1(){
 		}
 	})
 }
-function getProject(){
+function getProject1(){
 	// 获取项目	
 	$.ajax({
 		url:'./user/getProjects',
@@ -270,8 +267,8 @@ $(document).ready(function(){
 								var checkformdata = "<tr><th>检测单号</th><th>送检日期</th><th>送检类型</th><th>送检人</th><th>零件号</th><th>零件名称</th><th>检测状态</th><th style='width:200px;'>操作</th></tr>";
 								data.data.forEach(function(checkform){
 									checkformdata += "<tr><td>"+checkform.cfid+"</a></td><td>"+$.UnixToDateTime(checkform.cftime)+"</td><td>"+checkform.cname+"</td><td>"+checkform.cfmovep+"</td><td>"+checkform.cfcomponentid+"</td><td>"+checkform.cfcomponentname+"</td><td>"+getStatus(checkform.cfstatus)+"</td><td><a href='#' class='inner_btn' id='checkformdetail'>详情</a></td></tr>";
-				  				})
-				  				$('#cffinished').html(checkformdata);
+			  				})
+			  				$('#cffinished').html(checkformdata);
 							}
 						}
 					})
@@ -285,7 +282,7 @@ $(document).ready(function(){
 				//送检类型
 				getClassify1();
 				//获取项目
-				getProject();
+				getProject1();
 			}else if (data.code == 0) {
 				$('#cffinished').html("<div>没有数据</div>");
 			}
@@ -320,18 +317,18 @@ $(document).ready(function(){
 							if(data.code == 1){
 								//getPage(data.data[0].count,1,pageSize);
 								toolsCount = parseInt(data.msg);
-								var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪规格</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:150px;'>操作</th></tr>";
+								var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪类型</th><th>领用产线</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:150px;'>操作</th></tr>";
 								data.data.forEach(function(checktool){
-									checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
+									checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.cttype+"</td><td>"+checktool.ctuseline+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
 								})
 				  			$('#checktools').html(checkformdata);
 							}
 						}
 					})
 				}});
-				var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪规格</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:150px;'>操作</th></tr>";
+				var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪类型</th><th>领用产线</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:150px;'>操作</th></tr>";
 				data.data.forEach(function(checktool){
-					checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
+					checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.cttype+"</td><td>"+checktool.ctuseline+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
 				})
 				$('#checktools').html(checktooldata);
 			}else if (data.code == 0) {
@@ -516,21 +513,47 @@ $(document).ready(function(){
 			}
 		})
 	})
-	
+	// 获取产线
+  $.ajax({
+    url:'./user/getLines',
+    type:'POST',
+    data:{},
+    datatype:'json',
+    success:function(data){
+      data = JSON.parse(data);
+      if (data.code == 1) {
+        var Lines = "";
+        for (var i = 0; i < data.data.length; i++) {
+          Lines += "<option value='"+data.data[i].lname+"'>"+data.data[i].lname+"</option>"
+        }
+      }else{
+        console.log("获取产线失败！错误信息：" + data.msg)
+      }
+        $('#byCTUseLine').append(Lines)
+    }
+  })
 	// 查询检具
 	$('#button_searchCheckTools').click(function(){
 		var CTUseItem = $('#byCTUseItem').val();
 		var CTStatus = $('#byCTStatus').val();
-		if (CTStatus == null && CTUseItem == null && CTUseItem == "") {
+		var CTUseLine = $('#byCTUseLine').val();
+		var CTType = $('#byCTType').val();
+		if (CTStatus == null && CTUseItem == null && CTUseItem == "" && CTUseLine == "" && CTUseLine == null && CTType == "" && CTType == null) {
 			return false;
 		}
 		if (CTUseItem == "" || CTUseItem == null ) {
 			CTUseItem = 0;
 		};
+		if (CTUseLine == "" || CTUseLine == null) {
+			CTUseLine = 0;
+		}
+		if (CTType == "" || CTType == null ) {
+			CTType = 0;
+		}
 		$.ajax({
 			url:'./checkingToolsInfo',
 			type:'POST',
-			data:{'requestPageNum':1,'CTUseItem':CTUseItem,'CTStatus':CTStatus},
+			data:{'requestPageNum':1,'CTUseItem':CTUseItem,'CTStatus':CTStatus,'CTUseLine':CTUseLine,'CTType':CTType},
 			datatype:'json',
 			success:function(data){
 				data = JSON.parse(data);
@@ -542,25 +565,25 @@ $(document).ready(function(){
 						$.ajax({
 							url:'./checkingToolsInfo',
 							type:'POST',
-							data:{'requestPageNum':page,'CTUseItem':CTUseItem,'CTStatus':CTStatus},
+							data:{'requestPageNum':page,'CTUseItem':CTUseItem,'CTStatus':CTStatus,'CTUseLine':CTUseLine,'CTType':CTType},
 							datatype:'json',
 							success:function(data){
 								data = JSON.parse(data);
 								if(data.code == 1){
 									//getPage(data.data[0].count,1,pageSize);
 									toolsCount = parseInt(data.msg);
-									var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪规格</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:150px;'>操作</th></tr>";
+									var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪类型</th><th>领用产线</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:150px;'>操作</th></tr>";
 									data.data.forEach(function(checktool){
-										checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
+										checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.cttype+"</td><td>"+checktool.ctuseline+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
 									})
 					  				$('#checktools').html(checkformdata);
 								}
 							}
 						})
 					}});
-					var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪规格</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:150px;'>操作</th></tr>";
+					var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪类型</th><th>领用产线</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:150px;'>操作</th></tr>";
 					data.data.forEach(function(checktool){
-						checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
+						checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.cttype+"</td><td>"+checktool.ctuseline+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
 					})
 					$('#checktools').html(checktooldata);
 				}else if (data.code == 0) {

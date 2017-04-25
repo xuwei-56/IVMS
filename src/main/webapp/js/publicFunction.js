@@ -67,9 +67,8 @@ function getCTStatus(str){
 function getIsAgree(str){
   var status = "";
   switch(str){
-    case 0:status = "未确认";break;
-    case 1:status = "同意";break;
-    case 2:status = "不同意";break;
+    case 1:status = "拒绝";break;
+    case 0:status = "同意";break;
     default:status = "未确认";break;
   }
   return status;
@@ -78,10 +77,9 @@ function getIsAgree(str){
 function getAccept(str){
   var status = "";
   switch(str){
-    case 0:status = "未确认";break;
     case 1:status = "接受";break;
     case 2:status = "不接受";break;
-    default:status = "未知状态";break;
+    default:status = "未确认";break;
   }
   return status;
 }
@@ -90,9 +88,9 @@ function getCTCycle(ctcheckcycle){
   var cycle;
   switch(ctcheckcycle){
     case 0: cycle = "无";break;
-    case 1: cycle = 3;break;
-    case 2: cycle = 6;break;
-    case 3: cycle = 12;break;
+    case 1: cycle = "3个月";break;
+    case 2: cycle = "6个月";break;
+    case 3: cycle = "12个月";break;
   }
   return cycle;
 }
@@ -116,7 +114,7 @@ function getCTNameIsTrueByCtid(ctid){
         if (data.code == 1) {
           $('#componentName').val(data.data);
         }else{
-          alert(data.msg)
+          $('#componentName').val("QE或ME新做检具");
         }
       }
     })
@@ -192,7 +190,7 @@ function getProject(){
     success:function(data){
       data = JSON.parse(data);
       if (data.code == 1) {
-        var Projects = "<option></option>";
+        var Projects = "";
         for (var i = 0; i < data.data.length; i++) {
           Projects += "<option value='"+data.data[i].pid+"'>"+data.data[i].pname+"</option>";
         }

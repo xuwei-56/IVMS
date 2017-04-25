@@ -11,7 +11,7 @@ $(document).ready(function(){
 	$.ajax({
 		url:'./checkingToolsInfo',
 		type:'POST',
-		data:{'requestPageNum':1,'CTUseItem':0,'CTStatus':null},
+		data:{'requestPageNum':1,'CTUseItem':0,'CTStatus':null,'CTUseLine':0,'CTType':0},
 		datatype:'json',
 		success:function(data){
 			data = JSON.parse(data);
@@ -23,21 +23,21 @@ $(document).ready(function(){
 					$.ajax({
 						url:'./checkingToolsInfo',
 						type:'POST',
-						data:{'requestPageNum':page,'CTUseItem':0,'CTStatus':null},
+						data:{'requestPageNum':page,'CTUseItem':0,'CTStatus':null,'CTUseLine':0,'CTType':0},
 						datatype:'json',
 						success:function(data){
 							data = JSON.parse(data);
 							if(data.code == 1){
 								//getPage(data.data[0].count,1,pageSize);
 								toolsCount = parseInt(data.msg);
-								var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪规格</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:350px;'>操作</th></tr>";
+								var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪类型</th><th>领用产线</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:350px;'>操作</th></tr>";
 								data.data.forEach(function(checktool){
 									if (checktool.ctstatus == 0) {
-										checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a><a href='#' class='inner_btn' id='deleteTool'>删除</a></td></tr>";
+										checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.cttype+"</td><td>"+checktool.ctuseline+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a><a href='#' class='inner_btn' id='deleteTool'>删除</a></td></tr>";
 									}else if(checktool.ctstatus == 2){
-										checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a><a href='#' class='inner_btn' id='servicingOver'>维修完毕</a></td></tr>";
+										checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.cttype+"</td><td>"+checktool.ctuseline+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a><a href='#' class='inner_btn' id='servicingOver'>维修完毕</a></td></tr>";
 									}else{
-										checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
+										checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.cttype+"</td><td>"+checktool.ctuseline+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
 									}
 								})
 				  				$('#cttable').html(checkformdata);
@@ -45,14 +45,14 @@ $(document).ready(function(){
 						}
 					})
 				}});
-				var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪规格</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:350px;'>操作</th></tr>";
+				var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪类型</th><th>领用产线</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:350px;'>操作</th></tr>";
 				data.data.forEach(function(checktool){
 					if (checktool.ctstatus == 0) {
-						checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a><a href='#' class='inner_btn' id='deleteTool'>删除</a></td></tr>";
+						checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.cttype+"</td><td>"+checktool.ctuseline+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a><a href='#' class='inner_btn' id='deleteTool'>删除</a></td></tr>";
 					}else if(checktool.ctstatus == 2){
-						checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a><a href='#' class='inner_btn' id='servicingOver'>维修完毕</a></td></tr>";
+						checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.cttype+"</td><td>"+checktool.ctuseline+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a><a href='#' class='inner_btn' id='servicingOver'>维修完毕</a></td></tr>";
 					}else{
-						checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
+						checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.cttype+"</td><td>"+checktool.ctuseline+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
 					}
 				})
 				$('#cttable').html(checktooldata);
@@ -84,6 +84,7 @@ $(document).ready(function(){
       }
     }
   })
+  
 	// 确认认领人
 	$('#cttable').delegate('#confirmuser_btn','click',function(){
 		var ctid = $(this).parent().parent().find("td:eq(0)").text();
@@ -101,6 +102,7 @@ $(document).ready(function(){
 				if (data.code == 1) {
 					$('#ctuser').html("<option value='"+data.data.ctreceiver+"'>"+data.data.ctreceiver+"</option>")
 					$('#ctuseitem_user').val(data.data.ctuseitem)
+					var linetemp = data.data.ctuseline;
 					// 获取产线
 				  $.ajax({
 				    url:'./user/getLines',
@@ -110,7 +112,7 @@ $(document).ready(function(){
 				    success:function(data){
 				      data = JSON.parse(data);
 				      if (data.code == 1) {
-				        var Lines = "<option value='"+data.data.ctuseline+"'>"+data.data.ctuseline+"</option>";
+				        var Lines = "<option value='"+linetemp+"'>"+linetemp+"</option>";
 				        for (var i = 0; i < data.data.length; i++) {
 				          Lines += "<option value='"+data.data[i].lname+"'>"+data.data[i].lname+"</option>"
 				        }
@@ -163,7 +165,7 @@ $(document).ready(function(){
 		var ctuseitem = $('#ctuseitem_user').val();
 		var ctusestation = $('#ctusestation_user').val();
 		if (ctuser == null || ctuser == "") {
-			alert("请输入领用人！")
+			alert("请选择领用人！")
 			return false
 		}
 		$.ajax({
@@ -175,6 +177,7 @@ $(document).ready(function(){
 				data = JSON.parse(data);
 				if (data.code == 1) {
 					alert("添加成功！");
+					$(".pop_bg").fadeOut();
 				}else{
 					alert(data.msg)
 					return false;
@@ -206,20 +209,48 @@ $(document).ready(function(){
 			}
 		})
   })
+  // 获取产线
+  $.ajax({
+    url:'./user/getLines',
+    type:'POST',
+    data:{},
+    datatype:'json',
+    success:function(data){
+      data = JSON.parse(data);
+      if (data.code == 1) {
+        var Lines = "";
+        for (var i = 0; i < data.data.length; i++) {
+          Lines += "<option value='"+data.data[i].lname+"'>"+data.data[i].lname+"</option>"
+        }
+      }else{
+        console.log("获取产线失败！错误信息：" + data.msg)
+      }
+        $('#byCTUseLine').append(Lines)
+    }
+  })
+  
   // 查询检具
 	$('#button_searchCheckTools').click(function(){
 		var CTUseItem = $('#byCTUseItem').val();
 		var CTStatus = $('#byCTStatus').val();
-		if (CTStatus == null && CTUseItem == null && CTUseItem == "") {
+		var CTUseLine = $('#byCTUseLine').val();
+		var CTType = $('#byCTType').val();
+		if (CTStatus == null && CTUseItem == null && CTUseItem == "" && CTUseLine == "" && CTUseLine == null && CTType == "" && CTType == null) {
 			return false;
 		}
 		if (CTUseItem == "" || CTUseItem == null ) {
 			CTUseItem = 0;
 		};
+		if (CTUseLine == "" || CTUseLine == null) {
+			CTUseLine = 0;
+		}
+		if (CTType == "" || CTType == null ) {
+			CTType = 0;
+		}
 		$.ajax({
 			url:'./checkingToolsInfo',
 			type:'POST',
-			data:{'requestPageNum':1,'CTUseItem':CTUseItem,'CTStatus':CTStatus},
+			data:{'requestPageNum':1,'CTUseItem':CTUseItem,'CTStatus':CTStatus,'CTUseLine':CTUseLine,'CTType':CTType},
 			datatype:'json',
 			success:function(data){
 				data = JSON.parse(data);
@@ -231,36 +262,36 @@ $(document).ready(function(){
 						$.ajax({
 							url:'./checkingToolsInfo',
 							type:'POST',
-							data:{'requestPageNum':page,'CTUseItem':CTUseItem,'CTStatus':CTStatus},
+							data:{'requestPageNum':page,'CTUseItem':CTUseItem,'CTStatus':CTStatus,'CTUseLine':CTUseLine,'CTType':CTType},
 							datatype:'json',
 							success:function(data){
 								data = JSON.parse(data);
 								if(data.code == 1){
 									//getPage(data.data[0].count,1,pageSize);
 									toolsCount = parseInt(data.msg);
-									var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪规格</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:350px;'>操作</th></tr>";
+									var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪类型</th><th>领用产线</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:350px;'>操作</th></tr>";
 									data.data.forEach(function(checktool){
 										if (checktool.ctstatus == 0) {
-											checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a><a href='#' class='inner_btn' id='deleteTool'>删除</a></td></tr>";
+											checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.cttype+"</td><td>"+checktool.ctuseline+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a><a href='#' class='inner_btn' id='deleteTool'>删除</a></td></tr>";
 										}else if(checktool.ctstatus == 2){
-											checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a><a href='#' class='inner_btn' id='servicingOver'>维修完毕</a></td></tr>";
+											checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.cttype+"</td><td>"+checktool.ctuseline+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a><a href='#' class='inner_btn' id='servicingOver'>维修完毕</a></td></tr>";
 										}else{
-											checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
+											checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.cttype+"</td><td>"+checktool.ctuseline+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
 										}
 									})
-					  				$('#cttable').html(checkformdata);
+					  			$('#cttable').html(checkformdata);
 								}
 							}
 						})
 					}});
-					var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪规格</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:350px;'>操作</th></tr>";
+					var checktooldata = "<tr><th>量仪编号</th><th>量仪名称</th><th>量仪类型</th><th>领用产线</th><th>效验周期</th><th>使用项目</th><th>检具状态</th><th style='width:350px;'>操作</th></tr>";
 					data.data.forEach(function(checktool){
 						if (checktool.ctstatus == 0) {
-							checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a><a href='#' class='inner_btn' id='deleteTool'>删除</a></td></tr>";
+							checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.cttype+"</td><td>"+checktool.ctuseline+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a><a href='#' class='inner_btn' id='deleteTool'>删除</a></td></tr>";
 						}else if(checktool.ctstatus == 2){
-							checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a><a href='#' class='inner_btn' id='servicingOver'>维修完毕</a></td></tr>";
+							checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.cttype+"</td><td>"+checktool.ctuseline+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a><a href='#' class='inner_btn' id='servicingOver'>维修完毕</a></td></tr>";
 						}else{
-							checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.ctnorms+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
+							checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.cttype+"</td><td>"+checktool.ctuseline+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
 						}
 					})
 					$('#cttable').html(checktooldata);
@@ -309,6 +340,7 @@ $(document).ready(function(){
 				if (data.code == 1) {
 					$('#ctid_update').val(data.data.CTId);
 					$('#ctname_update').val(data.data.CTName)
+					$('#cttype_update').val(data.data.CTType)
 					$('#ctcheckprogram_update').val(data.data.CTCheckProgram)
 					$('#ctcheckway_update').val(data.data.CTCheckWay)
 					$('#ctproducer_update').val(data.data.CTProducer)
@@ -368,6 +400,11 @@ $(document).ready(function(){
 		var ctname = $('#ctname_update').val();
 		if (ctname == null || ctname == "") {
 			alert("请输入量仪名称！")
+			return false
+		}
+		var cttype = $('#cttype_update').val();
+		if (cttype == null || cttype == "") {
+			alert("请输入量仪类型！")
 			return false
 		}
 		var ctproducer = $('#ctproducer_update').val();
@@ -437,6 +474,7 @@ $(document).ready(function(){
 		};
 		formdata.append('ctid',ctid)
 		formdata.append('ctname',ctname)
+		formdata.append('cttype',cttype)
 		formdata.append('ctproducer',ctproducer)
 		formdata.append('ctproductionnum',ctproductionnum)
 		formdata.append('ctprocision',ctprocision)
@@ -508,12 +546,14 @@ $(document).ready(function(){
 			alert("请输入量仪管理编号！")
 			return false;
 		}
-		if (!isCheckingTool) {
-			return false;
-		}
 		var ctname = $('#ctname').val();
 		if (ctname == null || ctname == "") {
 			alert("请输入量仪名称！")
+			return false
+		}
+		var cttype = $('#cttype').val();
+		if (cttype == null || cttype == "") {
+			alert("请输入量仪类型！")
 			return false
 		}
 		var ctproducer = $('#ctproducer').val();
@@ -584,6 +624,7 @@ $(document).ready(function(){
 		};
 		formdata.append('ctid',ctid)
 		formdata.append('ctname',ctname)
+		formdata.append('cttype',cttype)
 		formdata.append('ctproducer',ctproducer)
 		formdata.append('ctproductionnum',ctproductionnum)
 		formdata.append('ctprocision',ctprocision)
