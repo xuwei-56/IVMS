@@ -24,25 +24,29 @@ $(document).ready(function(){
 				$('#ctcheckprogram').text(data.data.CTCheckProgram)
 				$('#ctname').text(data.data.CTName)
 				$('#ctuseline').text(data.data.CTUseLine)
-				$('#ctcheckway').text(data.data.CTCheckWay)
+				$('#ctcheckway').text(getCTCheckWay(data.data.CTCheckWay))
 				$('#ctproducer').text(data.data.CTProducer)
 				$('#ctusestation').text(data.data.CTUseStation)
 				var cycle = getCTCycle(data.data.CTCheckCycle);
 				$('#ctcheckcycle').text(cycle)
 				$('#ctproductionnum').text(data.data.CTProductionNum)
 				$('#ctuser').text(data.data.CTReceiver)
-				$('#ctmsa').text(data.data.CTMSA)
+				$('#ctmsa').text(getCTMSA(data.data.CTMSA))
 				$('#ctnorms').text(data.data.CTNorms)
 				$('#ctusetime').text($.UnixToDate(data.data.CTUseTime))
 				$('#ctoriginalnum').text(data.data.CTOriginalNum)
 				$('#ctprocision').text(data.data.CTProcision)
 				$('#ctassetnum').text(data.data.CTAssetNum)
-				$('#ctsize').text(data.data.CTSize)
+				$('#ctsize').text(getCTSize(data.data.CTSize))
 				$('#ctresolation').text(data.data.CTResolation)
 				$('#ctcheckTH').text(data.data.CTCheckTemperature +"℃/"+ data.data.CTCheckHumidiry)
 				$('#ctstatus').text(getCTStatus(data.data.CTStatus))
 				$('#ctremark').text(data.data.CTRemark)
-				$('#ctchecknexttime').text($.UnixToDate(data.data.CTRCheckNextTime));
+				var timetemp = data.data.CTRCheckNextTime;
+				if (timetemp != 0) {
+					$('#ctchecknexttime').text($.UnixToDate(timetemp));
+				}
+				
 				
 			}else{
 				alert(data.msg)
