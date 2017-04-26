@@ -313,11 +313,14 @@ public class SendCheckUserController {
 	
 	@RequestMapping("/myCheckingToolsDetails")
 	@ResponseBody
-	public JSONObject myCheckingToolsDetails(String ctid) throws Exception {		
+	public JSONObject myCheckingToolsDetails(String ctid) throws Exception {
 		Map<String,Object> myCheckingToolsDetails=sendCheckUserService.myCheckingToolsDetails(ctid);
 		if(myCheckingToolsDetails==null){
 			return CommonUtil.constructResponse(0,"没有数据！",null);
 		}else{
+			if(myCheckingToolsDetails.get("CTRCheckNextTime")==null){
+				myCheckingToolsDetails.put("CTRCheckNextTime", "0");
+			}
 			return CommonUtil.constructResponse(EnumUtil.OK,"我的检具详情",myCheckingToolsDetails);
 		}
 	}
