@@ -54,5 +54,4 @@ public class NotifyPersonnelEmail {
 		this.npestyle = npestyle;
 	}
 
-    
 }
