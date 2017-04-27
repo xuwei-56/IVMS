@@ -40,6 +40,8 @@ public interface CheckingToolsDao {
     
     Map<String,Object> myCheckingToolsDetails(@Param("ctid")String ctid);
     
+    List<CheckingTools>checkingToolsInfoByCtStatus(Integer CTStatus);
+    
     List<CheckingTools> checkingToolsInfo(@Param("CTUseItem")String CTUseItem,@Param("CTStatus")Integer CTStatus,
     		@Param("CTUseLine")String CTUseLine,@Param("CTType")String CTType,
     		@Param("startRow")Integer startRow,@Param("numberOfPerPage")Integer numberOfPerPage);

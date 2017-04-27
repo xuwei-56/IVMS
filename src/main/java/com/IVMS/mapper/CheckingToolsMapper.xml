@@ -98,17 +98,22 @@
       <!-- 不能加参数类型 -->
       and CTUseItem like '%${CTUseItem}%'
       </if>
-      <if test="CTStatus != null" >
-      and CTStatus=#{CTStatus,jdbcType=INTEGER}
-      </if>
       <if test='CTUseLine != "0"' >
       and CTUseLine like '%${CTUseLine}%'
       </if>
       <if test='CTType != "0"' >
       and CTType like '%${CTType}%'
       </if>
+      <if test="CTStatus != null" >
+       and CTStatus=#{CTStatus,jdbcType=INTEGER}
+      </if>
     </where>
     LIMIT #{startRow,jdbcType=INTEGER},#{numberOfPerPage,jdbcType=INTEGER};
+  </select>
+  <select id="checkingToolsInfoByCtStatus" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select 
+    <include refid="Base_Column_List" />
+    FROM checkingtools where CTStatus=#{CTStatus,jdbcType=INTEGER}
   </select>
   <select id="countCheckingToolsInfo" resultType="java.lang.Integer" >
     select count(*) FROM checkingtools 

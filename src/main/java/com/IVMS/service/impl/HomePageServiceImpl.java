@@ -57,9 +57,40 @@ public class HomePageServiceImpl implements HomePageService {
 
 	public List<CheckingTools> checkingToolsInfo(String CTUseItem, Integer CTStatus,String CTUseLine,
     		String CTType,Integer requestPageNum) {
-		int startRow=(requestPageNum-1)*10;
+		int startRow=(requestPageNum-1)*20;
 		int numberOfPerPage=20;
-		return checkingToolsDao.checkingToolsInfo(CTUseItem, CTStatus,CTUseLine,CTType,startRow, numberOfPerPage);
+		int endIndex=requestPageNum*20;
+		if(CTStatus==null&&CTUseItem.equals("0")&&CTUseLine.equals("0")&&CTType.equals("0")){
+			System.out.println("进来了");
+			List<CheckingTools>notSure=checkingToolsDao.checkingToolsInfoByCtStatus(6);
+			List<CheckingTools>normal=checkingToolsDao.checkingToolsInfoByCtStatus(5);
+			List<CheckingTools>fix=checkingToolsDao.checkingToolsInfoByCtStatus(2);
+			List<CheckingTools>possession=checkingToolsDao.checkingToolsInfoByCtStatus(1);
+			List<CheckingTools>notPossession=checkingToolsDao.checkingToolsInfoByCtStatus(0);
+			List<CheckingTools>safe=checkingToolsDao.checkingToolsInfoByCtStatus(3);
+			List<CheckingTools>notUse=checkingToolsDao.checkingToolsInfoByCtStatus(4);
+			safe.addAll(notUse);
+			notPossession.addAll(safe);
+			possession.addAll(notPossession);
+			fix.addAll(possession);
+			normal.addAll(fix);
+			notSure.addAll(normal);
+			
+			List<CheckingTools> indexOfAllResult=null;
+			int lengthOfAllResult=notSure.size();//得到集合长度
+			if(lengthOfAllResult>startRow){
+				if(endIndex<=lengthOfAllResult){
+					indexOfAllResult=normal.subList(startRow,endIndex);
+				}else{
+					indexOfAllResult=normal.subList(startRow,lengthOfAllResult);
+				}
+				return indexOfAllResult;
+			}else{
+				return indexOfAllResult;
+			}
+		}else{
+			return checkingToolsDao.checkingToolsInfo(CTUseItem, CTStatus,CTUseLine,CTType,startRow, numberOfPerPage);
+		}
 	}
 
 

@@ -34,4 +34,5 @@ public interface HomePageService {
     int updateCfstatuByCfid(String cfid);
     
     int updateCheckingFormByCfid(CheckingForm record);
+   
 }
