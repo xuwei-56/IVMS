@@ -157,7 +157,7 @@ public class SendCheckUserServiceImpl implements SendCheckUserService{
 
 	public List<CheckingFormCustom> selectByUserName(String CFMoveP,Integer requestPageNum,
 			Integer ClaId,Integer Pid,String cfid) {
-		int startRow=(requestPageNum-1)*10;
+		int startRow=(requestPageNum-1)*20;
 		int numberOfPerPage=20;
 		return checkingFormDao.selectByUserName(CFMoveP,startRow,numberOfPerPage,ClaId,Pid,cfid);
 	}

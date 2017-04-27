@@ -281,7 +281,7 @@ public class CheckUserServiceImpl implements CheckUserService{
 
 	public List<Map<String, Object>> selectEquipmentDetailInfo(Integer cid,Integer lid,String eworker,
 			String ename,Integer requestPageNum) {
-		int startRow=(requestPageNum-1)*10;
+		int startRow=(requestPageNum-1)*20;
 		int numberOfPerPage=20;
 		return equipmentDao.selectEquipmentDetailInfo(cid,lid, eworker, ename, startRow, numberOfPerPage);
 	}

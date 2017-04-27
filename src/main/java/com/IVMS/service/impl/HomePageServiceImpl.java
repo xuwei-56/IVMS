@@ -40,7 +40,7 @@ public class HomePageServiceImpl implements HomePageService {
 
 	public List<CheckingFormCustom> historyCheckingForm(Integer requestPageNum, 
 			Integer ClaId,Integer Pid, String CFId) {
-		int startRow=(requestPageNum-1)*10;
+		int startRow=(requestPageNum-1)*20;
 		int numberOfPerPage=20;
 		return checkingFormDao.historyCheckingForm(startRow, numberOfPerPage, ClaId, Pid, CFId);
 	}
