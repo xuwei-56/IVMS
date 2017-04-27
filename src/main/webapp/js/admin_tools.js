@@ -57,7 +57,7 @@ $(document).ready(function(){
 				})
 				$('#cttable').html(checktooldata);
 			}else if (data.code == 0) {
-				$('#cttable').html("<div>没有数据</div>");
+				$('#cttable').html("<div>没有量检具</div>");
 			}else{
 				alert("获取量检具失败！错误信息："+data.msg)
 				return false;
@@ -178,6 +178,7 @@ $(document).ready(function(){
 				if (data.code == 1) {
 					alert("添加成功！");
 					$(".pop_bg").fadeOut();
+					myrefresh();
 				}else{
 					alert(data.msg)
 					return false;
@@ -296,7 +297,7 @@ $(document).ready(function(){
 					})
 					$('#cttable').html(checktooldata);
 				}else if (data.code == 0) {
-					$('#cttable').html("<div>没有数据</div>");
+					$('#cttable').html("<div>没有查询到对应的量检具</div>");
 				}else{
 					alert("获取量检具失败！错误信息："+data.msg)
 					return false;

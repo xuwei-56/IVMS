@@ -67,8 +67,8 @@ function getCTStatus(str){
 function getIsAgree(str){
   var status = "";
   switch(str){
-    case 1:status = "拒绝";break;
-    case 0:status = "同意";break;
+    case 2:status = "拒绝";break;
+    case 1:status = "同意";break;
     default:status = "未确认";break;
   }
   return status;
@@ -93,6 +93,36 @@ function getCTCycle(ctcheckcycle){
     case 3: cycle = "12个月";break;
   }
   return cycle;
+}
+// 得到检具MSA类型
+function getCTMSA(str){
+  var MSA;
+  switch(str){
+    case 1: MSA = "小样法";break;
+    case 2: MSA = "GR&R";break;
+    case 3: MSA = "KAPPA";break;
+  }
+  return MSA;
+}
+// 检具校验方式
+function getCTCheckWay(str){
+  var way;
+  switch(str){
+    case 1:way = "内检"; break;
+    case 2:way = "外检"; break;
+    case 3:way = "免检"; break;
+    case 4:way = "检定"; break;
+  }
+  return way;
+}
+// 检具校验尺寸描述
+function getCTSize(str){
+  var size;
+  switch(str){
+    case 1:size = "OCI"; break;
+    case 2:size = "KPC"; break;
+  }
+  return size;
 }
 // 刷新页面
 function myrefresh() 
