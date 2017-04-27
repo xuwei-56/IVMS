@@ -23,7 +23,7 @@ function getnormalCheckingForm1(){
         })
         $('#cfnormalbody').html(checkformdata);
       }if (data.code == 0) {
-				$('#cfnormalbody').html("没有未打印的送检单！");
+				$('#cfnormalbody').html("<div>没有正在排队的送检单</div>");
 			}
     }
   })
@@ -45,7 +45,7 @@ function getothersCheckingForm1(){
         })
         $('#cfspecialbody').html(checkformdata);
       }if (data.code == 0) {
-				$('#cfspecialbody').html("没有未打印的送检单！");
+				$('#cfspecialbody').html("<div>没有正在排队的送检单</div>");
 			}
     }
   })
@@ -70,7 +70,7 @@ $(document).ready(function(){
           })
           $('#cfnormalbody').html(checkformdata);
 	      }if (data.code == 0) {
-					$('#cfnormalbody').html("没有未打印的送检单！");
+					$('#cfnormalbody').html("<div>没有正在排队的送检单</div>");
 				}
 	    }
 	  })
@@ -129,7 +129,7 @@ $(document).ready(function(){
 					$.ajax({
 						url:'./historyCheckingForm',
 						type:'POST',
-						data:{'requestPageNum':page,"claId":claid,'pid':pid,'cfid':cfid},
+						data:{'requestPageNum':page,"claId":null,'pid':null,'cfid':null},
 						datatype:'json',
 						success:function(data){
 							data = JSON.parse(data);
@@ -156,7 +156,7 @@ $(document).ready(function(){
 				//获取项目
 				getProject();
 			}else if (data.code == 0) {
-				$('#cffinished').html("<div>没有数据</div>");
+				$('#cffinished').html("<div>没有正在排队的送检单</div>");
 			}
 			else{
 				alert("请先登录")
@@ -197,7 +197,7 @@ $(document).ready(function(){
 						$.ajax({
 							url:'./historyCheckingForm',
 							type:'POST',
-							data:{'requestPageNum':page,"claId":null,'pid':null,'cfid':null},
+							data:{'requestPageNum':page,"claId":claid,'pid':pid,'cfid':cfid},
 							datatype:'json',
 							success:function(data){
 								data = JSON.parse(data);
@@ -220,7 +220,7 @@ $(document).ready(function(){
 	  			$('#cffinished').html(checkformdata);
 	  			$(".loading_area").fadeOut();
 				}else if (data.code == 0) {
-					$('#cffinished').html("<div>没有数据</div>");
+					$('#cffinished').html("<div>没有查询到相应的送检单</div>");
 				}
 				else{
 					alert("请先登录")

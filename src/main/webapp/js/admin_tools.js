@@ -40,7 +40,7 @@ $(document).ready(function(){
 										checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.cttype+"</td><td>"+checktool.ctuseline+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='#' class='inner_btn' id='confirmuser_btn'>登记</a><a href='#' class='inner_btn' id='updateTool'>修改</a><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
 									}
 								})
-				  				$('#cttable').html(checkformdata);
+				  				$('#cttable').html(checktooldata);
 							}
 						}
 					})
@@ -57,7 +57,7 @@ $(document).ready(function(){
 				})
 				$('#cttable').html(checktooldata);
 			}else if (data.code == 0) {
-				$('#cttable').html("<div>没有数据</div>");
+				$('#cttable').html("<div>没有量检具</div>");
 			}else{
 				alert("获取量检具失败！错误信息："+data.msg)
 				return false;
@@ -178,6 +178,7 @@ $(document).ready(function(){
 				if (data.code == 1) {
 					alert("添加成功！");
 					$(".pop_bg").fadeOut();
+					myrefresh();
 				}else{
 					alert(data.msg)
 					return false;
@@ -296,7 +297,7 @@ $(document).ready(function(){
 					})
 					$('#cttable').html(checktooldata);
 				}else if (data.code == 0) {
-					$('#cttable').html("<div>没有数据</div>");
+					$('#cttable').html("<div>没有查询到对应的量检具</div>");
 				}else{
 					alert("获取量检具失败！错误信息："+data.msg)
 					return false;

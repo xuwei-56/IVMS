@@ -15,7 +15,7 @@ function getnormalCheckingForm(){
 				$('#wait_num').html("当前正常物料检测有 <p>"+ data.data.length +"</p> 人排队！")
         $('#cfnormal').html(""+checkformdata);
 			}if (data.code == 0) {
-				$('#cfnormal').html("没有未打印的送检单！");
+				$('#cfnormal').html("<div>没有正在排队的送检单</div>");
 			}
 		}
 	})
@@ -37,7 +37,7 @@ function getothersCheckingForm(){
 				$('#wait_num').html("当前其他分类检测有 <p>"+ data.data.length +"</p> 人排队！")
         $('#cfspecial').html(""+checkformdata);
 			}if (data.code == 0) {
-				$('#cfspecial').html("没有未打印的送检单！");
+				$('#cfspecial').html("<div>没有正在排队的送检单</div>");
 			}
 		}
 	})
@@ -58,7 +58,7 @@ function getnotPrintCheckingForm(){
   				})
   				$('#cfzero').html(""+checkformdata);
 			}if (data.code == 0) {
-				$('#cfzero').html("没有未打印的送检单！");
+				$('#cfzero').html("<div>没有需要打印的送检单</div>");
 			}
 		}
 	})
@@ -284,7 +284,7 @@ $(document).ready(function(){
 				//获取项目
 				getProject1();
 			}else if (data.code == 0) {
-				$('#cffinished').html("<div>没有数据</div>");
+				$('#cffinished').html("<div>还没有完成的送检单</div>");
 			}
 			else{
 				alert("请先登录")
@@ -321,7 +321,7 @@ $(document).ready(function(){
 								data.data.forEach(function(checktool){
 									checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.cttype+"</td><td>"+checktool.ctuseline+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
 								})
-				  			$('#checktools').html(checkformdata);
+				  			$('#checktools').html(checktooldata);
 							}
 						}
 					})
@@ -332,7 +332,7 @@ $(document).ready(function(){
 				})
 				$('#checktools').html(checktooldata);
 			}else if (data.code == 0) {
-				$('#checktools').html("<div>没有数据</div>");
+				$('#checktools').html("<div>还没有量检具</div>");
 			}else{
 				alert("获取量检具失败！错误信息："+data.msg)
 				return false;
@@ -478,7 +478,7 @@ $(document).ready(function(){
 						$.ajax({
 							url:'./historyCheckingForm',
 							type:'POST',
-							data:{'requestPageNum':page,"claId":null,'pid':null,'cfid':null},
+							data:{'requestPageNum':page,"claId":claid,'pid':pid,'cfid':cfid},
 							datatype:'json',
 							success:function(data){
 								data = JSON.parse(data);
@@ -491,7 +491,7 @@ $(document).ready(function(){
 									})
 									$('#cffinished').html(checkformdata);
 								}else if (data.code == 0) {
-									$('#cffinished').html("<div>没有数据</div>");
+									$('#cffinished').html("<div>没有对应的送检单</div>");
 								}
 							}
 						})
@@ -503,7 +503,7 @@ $(document).ready(function(){
 	  			$('#cffinished').html(checkformdata);
 	  			$(".loading_area").fadeOut();
 				}else if (data.code == 0) {
-					$('#cffinished').html("<div>没有数据</div>");
+					$('#cffinished').html("<div>没有查询到对应的送检单</div>");
 				}
 				else{
 					alert("请先登录")
@@ -576,7 +576,7 @@ $(document).ready(function(){
 									data.data.forEach(function(checktool){
 										checktooldata += "<tr><td>"+checktool.ctid+"</a></td><td>"+checktool.ctname+"</td><td>"+checktool.cttype+"</td><td>"+checktool.ctuseline+"</td><td>"+getCTCycle(checktool.ctcheckcycle)+"</td><td>"+checktool.ctuseitem+"</td><td>"+getCTStatus(checktool.ctstatus)+"</td><td><a href='./checktoolDetail?ctid="+checktool.ctid+"' class='inner_btn' target='view_window'>查看详情</a></td></tr>";
 									})
-					  				$('#checktools').html(checkformdata);
+					  				$('#checktools').html(checktooldata);
 								}
 							}
 						})
@@ -587,7 +587,7 @@ $(document).ready(function(){
 					})
 					$('#checktools').html(checktooldata);
 				}else if (data.code == 0) {
-					$('#checktools').html("<div>没有数据</div>");
+					$('#checktools').html("<div>没有查询到对应的量检具</div>");
 				}else{
 					alert("获取量检具失败！错误信息："+data.msg)
 					return false;
