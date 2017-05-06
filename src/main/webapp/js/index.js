@@ -298,7 +298,7 @@ $(document).ready(function(){
 	$.ajax({
 		url:'./checkingToolsInfo',
 		type:'POST',
-		data:{'requestPageNum':1,'CTUseItem':0,'CTStatus':null},
+		data:{'requestPageNum':1,'CTUseItem':0,'CTStatus':null,'CTUseLine':0,'CTType':0},
 		datatype:'json',
 		success:function(data){
 			data = JSON.parse(data);
@@ -310,7 +310,7 @@ $(document).ready(function(){
 					$.ajax({
 						url:'./checkingToolsInfo',
 						type:'POST',
-						data:{'requestPageNum':page,'CTUseItem':0,'CTStatus':null},
+						data:{'requestPageNum':page,'CTUseItem':0,'CTStatus':null,'CTUseLine':0,'CTType':0},
 						datatype:'json',
 						success:function(data){
 							data = JSON.parse(data);
